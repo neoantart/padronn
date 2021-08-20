@@ -38,27 +38,7 @@
                             Ingresar y/o seleccionar el rango de fechas, de la siguiente forma:
                             <strong>01/02/2010  hasta  31/03/2013 </strong><br/>
                         </div>-->
-                    <!--<form:errors path="*" element="div" cssClass="alert alert-error"/>-->
-                    <div class="control-group" style="margin-bottom: 20px;">
-                        <label class="control-label" id="forCoUbigeo" title="requerido">Ubigeo: <!--<span title="requerido"
-                                                                                                      class="text-error required">*</span>--></label>
-
-                        <div class="controls">
-                            <div class="span6 clearfix">
-                                <c:choose>
-                                    <c:when test="${ubigeoReadOnly}">
-                                        ${deUbigeoReadOnly}
-                                        <form:hidden path="coUbigeo" value="${coUbigeoReadOnly}" id="coUbigeo" cssStyle="width: 400px;"/>
-                                        <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <form:input path="coUbigeo" id="coUbigeo" cssStyle="width: 400px;"/>
-                                        <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-                        </div>
-                    </div>
+                    <form:errors path="*" element="div" cssClass="alert alert-error"/>
 
                     <div class="control-group clearfix" style="margin-bottom: 20px;">
                         <label class="control-label" style="margin-top: 18px;">Periodo de envíos: <span
@@ -120,7 +100,7 @@
 
                     <div class="alert">
                         <!--<div>Número de registros encontrados: <strong>${filas}</strong></div>-->
-                        <p><strong>Descargar reporte en formato Excel : <a href="reporte/consula_padron_actas_todos_xls.do?coUbigeo=${coUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}"
+                        <p><strong>Descargar reporte en formato Excel : <a href="reporte/consula_padron_actas_todos_xls.do?feIni=${feIni}&amp;feFin=${feFin}"
                                 class="noAjax btn btn-success"><i class="icon-download icon-white"></i>&#160;Descargar</a></strong>&#160;&#160;
                             <c:if test="${filas gt 1}"><c:set value="s" var="plural"></c:set></c:if>
                             <span class="p_numRegFound">Se encontró <strong><span class="s_size14">${filas}</span></strong> Registro${plural}</span>
@@ -183,7 +163,7 @@
                                     <br/>
                                     <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                                                     urlAntesNuPagina="reporte/consulta_padron_actas_todos.do?nuPagina="
-                                                    urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}"></util:paginador>
+                                                    urlDespuesNuPagina="&amp;feIni=${feIni}&amp;feFin=${feFin}"></util:paginador>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="alert alert-info">No existen actas registradas en periodo seleccionado</div>
@@ -202,7 +182,6 @@
 
     </c:if>
 
-    <jsp:include page="padron_ubigeo_scripts.jspx"/>
     <jsp:include page="padron-actas-scripts.jspx"/>
     <jsp:include page="fechas_periodo_script.jspx"/>
 </jsp:root>

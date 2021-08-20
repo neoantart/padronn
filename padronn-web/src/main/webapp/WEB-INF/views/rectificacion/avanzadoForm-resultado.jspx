@@ -1,0 +1,158 @@
+<!--
+  Creado por: eduardo arango
+  earango@reniec.gob.pe
+  Date: 08/12/2019
+  Time: 02:47 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <c:set var="context" value="${pageContext.request.contextPath}" />    
+    <c:if test="${not empty mensaje}">
+        <div class="alert alert-warning">
+            <p><strong>${mensaje}</strong></p>
+        </div>
+    </c:if>
+    <div class="row-fluid">
+        <!--<div class="span12">
+            <div class="row">-->
+                <table id="tblData" class="table table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Origen</th>
+                            <th>Cód. Padron</th>
+                            <th>DNI</th>
+                            <th>CUI</th>
+                            <th>CNV</th>
+                            <th>Ap. Parteno</th>
+                            <th>Ap. Materno</th>
+                            <th>Nombres</th>
+                            <th>Ver detalle</th>
+                            <th>Opción</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${personas}"  var="persona" varStatus="status">
+                            <tr><td><c:out value="${status.index+1}"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${persona.baseDatosOrigen=='CNV'}">
+                                            <span class="label label-important">CNV</span>
+                                        </c:when>
+                                        <c:when test="${persona.baseDatosOrigen=='PN'}">
+                                            <span class="label label-info">Padrón Nominal</span>
+                                        </c:when>
+                                        <c:when test="${persona.baseDatosOrigen=='ANI'}">
+                                            <span class="label label-warning">RENIEC</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${persona.baseDatosOrigen}
+                                        </c:otherwise>
+                                    </c:choose>                                    
+                                </td>
+                                <td>${persona.codigoPadronNominal}</td>
+                                <td>${persona.dni}</td>
+                                <td>${persona.nuCui}</td>
+                                <td>${persona.cnv}</td>
+                                <td>${persona.primerApellido}</td>
+                                <td>${persona.segundoApellido}</td>
+                                <td>${persona.nombres}</td>
+                                <td>
+                                    <c:if test="${persona.baseDatosOrigen=='PN'}">
+                                        <button type='button' onclick='fninformacionmenor(${persona.codigoPadronNominal})' class='btn btn-info btn-lg' data-toggle='modal' data-target='#mdlInformacion'>Información</button>
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${persona.edad ge 6}">
+                                        <p class="text-left text-error">El niño/a tiene más de 6 años de edad.</p>
+                                    </c:if>
+                                    <c:if test="${persona.edad lt 6}">
+                                        <c:choose>
+                                            <c:when test="${persona.baseDatosOrigen=='PN'}">
+                                                <c:choose>
+                                                    <c:when test="${persona.esPadron=='1'}">
+                                                        <c:choose>
+                                                            <c:when test="${persona.ambito=='1'}">                                                        
+                                                                <p class="text-center">
+                                                                    <a href="rectificacion/datos_personales_padron.do?coPadronNominal=${persona.codigoPadronNominal}#modulo_rectificaccion" class="btn" data-toggle="modal" data-target="#mdlDatosPn">Rectificar</a>
+                                                                </p>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span>Solo puede actualizar al menor, que pertenece a su jurisdicción</span>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        Inactivo
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:when>                                         
+                                            <c:otherwise>                                                
+                                            </c:otherwise>
+                                        </c:choose> 
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+                </table>
+                <c:if test="${nuevoRegistro=='1'}">
+                   <!-- <p class="alert">¿Ningún resultado coincide con los datos del niño/a buscado?. <a class="btn" href="registromanual/formulario.do">Registrar al niño/a sin DNI en el padron nominal</a></p>-->
+                   Ningún resultado coincide con los datos del niño/a buscado
+                </c:if>
+            <!--</div>
+        </div>-->
+        <div class="span12" >
+            
+        
+        <div id="mdlInformacion"  class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg modal-megamenu">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="informacionMenor">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="span12">
+        
+    
+    <div id="mdlDatosPn" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-megamenu">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="modulo_rectificaccion">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</jsp:root>

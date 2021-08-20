@@ -60,7 +60,7 @@
             </div>
             &#160;
             <div class="control-group">
-                <label class="control-label" title="requerido" style="width:180px;padding-top: 0;margin-bottom: 10px;">Ultimo Establecimiento de Salud de Atención:</label>
+                <label class="control-label" title="requerido" style="width:180px;padding-top: 0;margin-bottom: 10px;">Establecimiento de salud de atención:</label>
                 <div class="controls">
                     <div class="span6 clearfix">
                         <form:input path="coEstSalud" id="coEstSalud" cssStyle="width: 450px;"/>
@@ -137,21 +137,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="control-group">
-                <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
-
-                <div class="controls">
-                    <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
-                    <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 20px;">
-                        <!--<form:option value="3" label="Todos" selected="selected" />-->
-                        <form:option value="1" label="Activos" />
-                        <form:option value="2" label="Activos-Observados" />
-                        <!--<form:option value="0" label="Inactivos"/>-->
-                    </form:select>
-                </div>
-            </div>
-
             <!--<div class="control-group">
                 <label class="control-label" style="margin-top: 18px; width:180px;">Edad en Meses:</label>
                 <div class="controls">
@@ -208,7 +193,7 @@
 
 <c:if test="${not empty coUbigeo}">
     <c:choose>
-        <c:when test="${not empty padronActivos and empty limitSize}">
+        <c:when test="${not empty padronActivos}">
             <h2 style="font-size: 19px;">Resultado de la consulta niños y niñas sin nombre - <code style="font-size: 17px">${deUbigeo}</code>
                 <c:if test="${not empty feIni and not empty feFin}"> del <code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code></c:if>
             </h2>
@@ -232,13 +217,16 @@
                 <tr>
                     <th>Ítem</th>
                     <th width="90px;">Cod. Padron</th>
+                    <th>CNV</th>
+                    <th>CUI</th>
+                    <th >DNI</th>
                     <th width="90px;">Ap. paterno</th>
                     <th width="90px;">Ap. materno</th>
                     <th>Nombres</th>
                     <th>Fe. Nac.</th>
                     <th>Edad</th>
                     <th>Ubigeo</th>
-                    <th>Ultimo Establecimiento de Salud de atención</th>
+                    <th>Establecimiento de Salud de atención</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -248,6 +236,9 @@
                         <td>${count}</td>
                         <c:set var="count" value="${count + 1}" scope="page"/>
                         <td>${padron.coPadronNominal}</td>
+                        <td>${padron.nuCnv}</td>
+                        <td>${padron.nuCui}</td>
+                        <td>${padron.nuDniMenor}</td>
                         <td>${padron.apPrimerMenor}</td>
                         <td>${padron.apSegundoMenor}</td>
                         <td>${padron.prenombreMenor}</td>
@@ -263,9 +254,6 @@
             <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                             urlAntesNuPagina="reporte/consulta_reporte_recien_nacidos.do?nuPagina="
                             urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;coEstSalud=${coEstSalud}&amp;nuSecuenciaLocal=${nuSecuenciaLocal}&amp;deEdad=${deEdad}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;deUbigeo=${deUbigeo}&amp;esPadron=${esPadron}&amp;tiRegistro=${tiRegistro}&amp;tiRegFecha=${tiRegFecha}"></util:paginador>
-        </c:when>
-        <c:when test="${not empty limitSize and empty padronActivos}">
-            <div class="alert alert-danger"><strong>${limitSize}</strong></div>
         </c:when>
         <c:otherwise>
             <div class="alert alert-danger"><strong>No existen registros</strong>  para la consulta realizada.<!--con el Ubigeo:

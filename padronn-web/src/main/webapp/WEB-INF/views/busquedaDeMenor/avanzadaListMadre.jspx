@@ -14,15 +14,15 @@
 	</script>
 	<fieldset>
 		<legend>Resultados de la búsqueda usando <strong>Datos de la Madre</strong></legend>
-		<c:if test="${empty personaList}">
+		<c:if test="${empty personas}">
 			<p class="alert">No se ha encontrado ninguna coincidencia</p>
 		</c:if>
-		<c:if test="${not empty personaList}">
+		<c:if test="${not empty personas}">
 			<blockquote>
 				<div>Cantidad de resultados: <em><strong>${cantidadResultados}</strong></em> registros en la base de datos de <strong class="text-warning">RENIEC</strong></div>
 				<div>Para obtener mejores resultados pruebe afinando los términos de búsqueda</div>
 			</blockquote>
-			<c:forEach var="persona" items="${personaList}">
+			<c:forEach var="persona" items="${personas}">
 				<div class="search-item">
 					<div>
 						<strong>${persona.primerApellido} ${persona.segundoApellido}</strong>, ${persona.nombres}
@@ -33,18 +33,31 @@
 							<div>DNI: <strong>${persona.dni}</strong></div>
 							<div>Fecha de Nacimiento: <strong>${persona.fechaNacimiento}</strong></div>
 						</div>
-						<div class="span9" id="busmen-ava-madredetalle-panel-${persona.dni}">
-							<a href="busquedademenor/informacionadicionalmadre.do?nuDni=${persona.dni}#busmen-ava-madredetalle-panel-${persona.dni}">Ver hijos registrados &#187;</a>
+						<div class="span9" id="busmen-ava-madredetalle-panel-${persona.dni}">                                                    
+                                                    <c:choose>
+                                        <c:when test="${opcionUrl=='R'}">
+                                            <a href="rectificacion/buscarDatosMenor.do?dniMadre=${persona.dni}#result_buscar_menor">Ver hijos registrados &#187;</a>
+                                        </c:when>
+                                        <c:when test="${opcionUrl=='M'}">
+                                            <a href="registromanual/buscarmenordatos.do?dniMadre=${persona.dni}#result_buscar_menor">Ver hijos registrados &#187;</a>
+                                        </c:when>
+                                        <c:when test="${opcionUrl=='A'}">
+                                            <a href="registromanual/buscarDatosMenorMan.do?dniMadre=${persona.dni}#result_buscar_menor">Ver hijos registrados &#187;</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span></span>
+                                        </c:otherwise>
+                                    </c:choose>      
+                                                    
 						</div>
 					</div>
 				</div>
 			</c:forEach>
             <br/>
             <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="busquedademenor/buscaravanzadamadre.do?nuPagina=" urlDespuesNuPagina="&amp;dni=${dni}&amp;apPrimer=${apPrimer}&amp;apSegundo=${apSegundo}&amp;prenombre=${prenombre}#busmen-ava-madre-panel"></util:paginador>
-
             <br/>
             <br/>
-			<p class="alert">¿Ningún resultado coincide con los datos del niño/a buscado?. <a class="btn" href="registromanual/formulario.do">Registrar al niño/a sin DNI en el padron nominal</a></p>
-		</c:if>
+		<p class="alert">¿Ningún resultado coincide con los datos del niño/a buscado?. <a class="btn" href="registromanual/formulario.do">Registrar al niño/a sin DNI en el padron nominal</a></p>
+            </c:if>
 	</fieldset>
 </jsp:root>

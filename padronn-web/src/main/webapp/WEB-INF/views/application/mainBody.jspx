@@ -4,21 +4,30 @@
     <jsp:output doctype-root-element="HTML" doctype-system=""/>
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <spring:eval expression="@applicationProps['application.timer-session']" var="timer_session"/>
-
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
     <div id="header">
-        <div class="container-narrow">
-            <div class="navbar">
-                <div id="logo" class="pull-left "><!----></div>
+        <div class="l-container-full">
+            <div class="l-flex content-header">
+                <div class="logo-header">
+                    <img src="${localResourcesURL}/img/logoRENIEC-0.png"/>
+                    <h1 class="title-header">Sistema del <br/><strong>Padron Nominal</strong></h1>
+                </div>
+                <div class="l-flex logos-min">
+                    <img src="${localResourcesURL}/img/logo-minSalud.jpg"/>
+                    <img src="${localResourcesURL}/img/logo-minEcon.jpg"/>
+                </div>
             </div>
         </div>
         <jsp:include page="${menu}"/>
     </div>
     <c:if test="${not empty usuario.login}">
-        <div class="container-narrow">
-            <div class="muni_nombre clearfix">
+        <div class="l-menu">
+            <div class="muni_nombre clearfix l-container-full">
                 <c:choose>
                     <c:when test="${not empty ubigeo.deDepartamento}">
-                        <span class="pull-right">${usuario.deEntidad} (${ubigeo.deDepartamento} / ${ubigeo.deProvincia} / ${ubigeo.deDistrito})</span>
+                        <span class="pull-right menu-ubigeo" >${usuario.deEntidad} (${ubigeo.deDepartamento} / ${ubigeo.deProvincia} / ${ubigeo.deDistrito})</span>
                     </c:when>
                     <c:otherwise>
                         <span>&#160;</span>
@@ -29,11 +38,18 @@
         </div>
     </c:if>
 
-    <div class="container-narrow">
+    <div class=" l-container-full l-body">
+        <!--<jsp:include page="${historicoNav}"/>-->
         <div id="main-content">
-            <!--<div id="main-content2">-->
+            <c:if test="${menu}">
+                <ul class="breadcrumb-base">
+                    <li class="breadcrumb-item"><a href="#">Registro en Línea</a> </li>
+                    <li class="breadcrumb-item"><a href="#">Registro/ Actualización del menor</a>  </li>
+                </ul>
+            </c:if>
+
             <jsp:include page="${mainContent}"/>
-            <!--</div>-->
+            <!--</div> -->
         </div>
     </div>
 

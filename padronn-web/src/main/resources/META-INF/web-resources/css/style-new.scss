@@ -1,0 +1,99 @@
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+html {
+  height: 100%;
+  font-size: 14px;
+  }
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; }
+
+a {
+  text-decoration: none;
+  cursor: pointer; }
+
+ul {
+  list-style: none; }
+
+code {
+  word-break: break-all; }
+
+//mixins
+@mixin mediaQ($breakpoint) {
+  @media screen and (min-width: $breakpoint){
+    @content;
+  }
+}
+$color-base:#004370;
+//botones
+.container-btns{
+  display: flex;
+  button{
+    margin-right: 8px;
+  }
+}
+%btn{
+  color: #FFFFFF;
+  border-radius: 5px;
+  text-transform: uppercase;
+  padding: 8px 2em;
+  font-size: 14px;
+  border:1px solid transparent;
+  line-height: 20px;
+  cursor: pointer;
+  transition: background-color .3s;
+  @include mediaQ(1367px){
+    padding: 10px 2em;
+  }
+  &:hover{
+    color: #fff;
+  }
+  &.full{
+    width: 100%;
+  }
+}
+.btn{
+  border: 1px solid transparent;
+  padding: 4px 12px;
+  border-radius: 3px!important;
+}
+.p-btn{
+  @extend %btn;
+  background-color: #757575;
+  &:hover, &:active{
+    background-color: darken(#757575, 5%);
+  }
+}
+.s-btn{
+  @extend %btn;
+  background-color: $color-base;
+  &:hover, &:active{
+    background-color: darken($color-base, 5%);
+  }
+
+}
+.line-btn{
+  @extend %btn;
+  background-color: transparent;
+  color: $color-base;
+  border:1px solid $color-base;
+  &:hover, &:active{
+    background-color: $color-base;
+    color: #FFFFFF;
+  }
+
+}
+
+@import "scss/layout";
+@import "scss/headerFooter";
+@import "scss/login";
+@import "scss/page";

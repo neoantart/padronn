@@ -10,8 +10,9 @@
     <jsp:output doctype-root-element="HTML" doctype-system=""/>
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
 
-    <div class="row" style="text-align:left;">
-        <h4>Bienvenido(a) ${usuario.fullName}</h4>
+    <div>
+        <h4>Bienvenido(a) <strong>${usuario.fullName}</strong></h4>
+        <p>Seleccione la entidad a la que desea ingresar.</p>
     </div>
     <div class="row-fluid">
         <div class="span5">
@@ -28,7 +29,7 @@
                                 </div>
                             </c:if>
 
-                            <label class="control-label" style="margin-bottom:20px; margin-top:20px; color:#333333;" for="entidad">Seleccione la entidad a la que desea ingresar.</label>
+                            <label class="control-label" for="entidad">Entidad</label>
                             <div class="controls">
                                 <util:simpleSelect selectorId="entidad" selectorName="entidad" selectorClass="input-block-level"
                                                    textoPorDefecto="Seleccione una entidad ..." valorPorDefecto="0"
@@ -37,13 +38,11 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <div class="span5">
-                                <button class="btn btn-primary input-block-level" type="submit">
+                            <div class="container-btns">
+                                <button class="s-btn " type="submit">
                                     <span class="icon-ok-sign icon-white"><!-- --></span>&#160;Continuar
                                 </button>
-                            </div>
-                            <div class="span5 offset1">
-                                <a class="btn btn-primary btn-danger"
+                                <a class="p-btn "
                                    href="logout.do#wrap"><span class="icon-remove-sign icon-white"><!-- --></span>&#160;Cerrar Sesión</a>
                             </div>
                         </div>

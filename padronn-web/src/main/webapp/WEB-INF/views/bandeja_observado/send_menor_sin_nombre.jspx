@@ -17,30 +17,38 @@
             <td><strong>Codigo Padron</strong></td>
             <td>${padronNominal.coPadronNominal}</td>
         </tr>
+
         <tr>
             <td><strong>Numero DNI</strong></td>
             <td>${padronNominal.nuDniMenor}</td>
         </tr>
+
         <tr>
             <td><strong>Primer Apellido</strong></td>
             <td>${padronNominal.apPrimerMenor}</td>
         </tr>
+
         <tr>
             <td><strong>Segundo Apellido</strong></td>
             <td>${padronNominal.apSegundoMenor}</td>
         </tr>
+
         <tr>
             <td><strong>Prenombres</strong></td>
             <td>${padronNominal.prenombreMenor}</td>
         </tr>
+
         <tr>
             <td><strong>Fecha Nacimiento</strong></td>
             <td>${padronNominal.feNacMenor}</td>
         </tr>
+
         <tr>
             <td><strong>Genero</strong></td>
-            <td>${padronNominal.deGeneroMenor}</td>
+            <td>
+                ${padronNominal.deGeneroMenor}</td>
         </tr>
+
         <tr>
             <td><strong>Fecha de modificacion</strong></td>
             <td>${padronNominal.feModiRegistro}</td>

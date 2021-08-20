@@ -175,16 +175,6 @@ $(function(){
     }
 
 });
-function cambiaFrecuencia(obj) {
-    var frecuenciaAtencion = document.getElementById("frecuenciaAtencionSelect");
-    var selectTipoEstablecimiento = obj.value;
-    if (selectTipoEstablecimiento == "1"){
-        frecuenciaAtencion.style.display="block";
-    } else{
-        frecuenciaAtencion.style.display="none";
-    }
-
-}
 ]]>
 </script>
 </jsp:root>

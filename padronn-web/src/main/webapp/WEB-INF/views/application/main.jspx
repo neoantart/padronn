@@ -9,16 +9,17 @@
 		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
 		<meta name="description" content=""/>
 		<meta name="author" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>${title}</title>
 		<jsp:include page="resources.jspx"/>
     </head>
-	<body>
+	<body class="l-layout">
 		<button id="errorButton" type="button" class="pull-right btn btn-mini btn-warning" data-toggle="modal" data-target="#errorModal"><i class="icon-warning-sign"><!----></i></button>
-		<div id="wrap">
+		<div id="wrap" class="l-layout-wrap">
 			<jsp:include page="${mainBody}"/>
 		</div>
-		<div id="footer">
-			<div class="container-narrow">
+		<div id="footer" class="l-layout-footer">
+			<div class="content-footer">
 				<span class="muted">Todos los derechos reservados / Gerencia de Tecnología de la Información - RENIEC 2013</span>
 				<!--<span class="muted">Gerencia de Tecnología de la Información</span>-->
 				<span><a class="recomendations" href="acercade.do#main-content">Acerca de</a></span>

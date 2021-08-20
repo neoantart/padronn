@@ -12,6 +12,7 @@
 	</c:if>
 	<c:if test="${not empty persona}">
 		<div class="foto pull-right">
+
 			<c:if test="${persona.baseDatosOrigen=='ANI'}">
 				<!--<spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
 				<c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>-->
@@ -159,7 +160,7 @@
 					<c:if test="${persona.baseDatosOrigen=='PN'}">
 
 						<c:choose>
-						<c:when test="${persona.esPadron eq '1' or persona.esPadron eq '2'}">
+						<c:when test="${persona.esPadron=='1'}">
 							<a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}" class="btn btn-info btn-mini">Actualizar Información</a>
 						</c:when>
 						<c:otherwise>

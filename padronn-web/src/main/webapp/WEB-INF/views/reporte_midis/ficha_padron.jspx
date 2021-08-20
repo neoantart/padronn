@@ -16,7 +16,7 @@
                     <h1>Ficha del Niño/a</h1>
                 </div>
                 <div class="pull-right">
-                    <a href="${urlVolverFicha}?nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolver=${urlVolver}&amp;apPrimerMenor=${apPrimerMenor}&amp;apSegundoMenor=${apSegundoMenor}&amp;prenombresMenor=${prenombresMenor}&amp;nuDoc=${nuDoc}&amp;tiDoc=${tiDoc}&amp;dni=${dni}&amp;apPrimer=${apPrimer}&amp;apSegundo=${apSegundo}&amp;prenombre=${prenombre}&amp;esPadron=${esPadron}"
+                    <a href="${urlVolverFicha}?nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolver=${urlVolver}&amp;apPrimerMenor=${apPrimerMenor}&amp;apSegundoMenor=${apSegundoMenor}&amp;prenombresMenor=${prenombresMenor}&amp;nuDoc=${nuDoc}&amp;tiDoc=${tiDoc}&amp;dni=${dni}&amp;apPrimer=${apPrimer}&amp;apSegundo=${apSegundo}&amp;prenombre=${prenombre}"
                        class="btn button-back"><i
                             class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
                 </div>

@@ -315,12 +315,12 @@
                         <c:set var="errorCoMenorEncontrado" value="error"></c:set>
                     </c:if>
                     <div class="control-group ${errorCoMenorEncontrado}">
-                        <label class="control-label" for="coMenorEncontrado" style="width: 165px !important; ">¿Menor encontrado? <span class="text-error required" title="requerido">*</span></label>
+                        <label class="control-label" for="coMenorEncontrado">Menor encontrado <span class="text-error required" title="requerido">*</span></label>
                         <div class="controls">
                             <form:select path="coMenorEncontrado" itemValue="${padronNominal.coMenorEncontrado}" id="coMenorEncontrado">
                                 <form:option value="" label="Seleccione..."/>
-                                <form:option value="1" label="SI"/>
-                                <form:option value="0" label="NO"/>
+                                <form:option value="1" label="ENCONTRADO"/>
+                                <form:option value="0" label="NO ENCONTRADO"/>
                             </form:select>
                             <form:errors path="coMenorEncontrado" cssClass="text-error" element="div"/>
                         </div>
@@ -381,11 +381,10 @@
             <label style="margin-left: 16px;display: block;width: 256px;clear: both;height: 20px;float: left;">Dirección Declarada</label>
             <div style="border: 2px dotted #001fff;padding: 0px;margin-top: 3px;margin-bottom: 11px;padding-bottom: 7px;padding-top: 12px;display: block;clear: both;">
                 <c:set var="mostrarEjeVial" value="hide"/>
-                <!--<c:set var="mostrarDirRef" value="hide"/>-->
-
+                <c:set var="mostrarDirRef" value="hide"/>
                 <c:if test="${padronNominal.deAreaCcpp eq 'URBANA' }">
                     <c:set var="mostrarEjeVial" value=""/>
-                    <!--<c:set var="mostrarDirRef" value=""/>-->
+                    <c:set var="mostrarDirRef" value=""/>
                 </c:if>
 
                 <div style="width: 700px;" id="eje_vial" class="${mostrarEjeVial}">

@@ -6,7 +6,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
 <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
 
-<div id="nav">
+<div id="nav" class="l-container-full">
 <div id="menu" class="navbar">
 <div id="menu-content">
 <!--<div class="container">-->
@@ -74,34 +74,36 @@
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle noAjax" role="button" href="#">
                 <i class="icon-pencil icon-white">&#160;</i> Registro en Línea <b class="caret">&#160;</b></a>
-            <ul role="menu" class="dropdown-menu">
+            <ul role="menu" class="dropdown-menu list-menu ">
                 <li role="presentation">
                     <a href="registromanual/buscarmenorform.do" tabindex="-1" role="menuitem"><i
-                            class="icon-edit"><!-- --></i>&#160;Formulario de Registro</a>
+                            class="icon-edit"><!-- --></i>&#160;Registro /Actualización del menor</a><!--earango Formulario de Registro-->
                 </li>
-                <li role="presentation">
+               <!-- <li role="presentation">
                     <a href="busquedademenor/avanzadoform.do" tabindex="-1" role="menuitem"><i
-                            class="icon-search"><!-- --></i>&#160;Búsquedas</a>
-                </li>
+                            class="icon-search"></i>&#160;Búsquedas</a>
+                </li>-->
+                <li class=""><a href="registromanual/padronnformalta.do"><i
+                        class="icon-thumbs-up"><!-- --></i>&#160;Dar de Alta al mnenor</a></li>
+                <li class=""><a href="registromanual/padronnformbaja.do"><i
+                        class="icon-thumbs-down"><!-- --></i>&#160;Dar de Baja al mnenor</a></li>
+                <li class=""><a href="rectificacion/index.do"><i
+                        class="icon-edit"><!-- --></i>&#160;Rectificación de datos del mnenor</a></li>
+
+                <c:if test="${bandejaObservados}">
+                <li class=""><a href="bandeja_observado/inicioBandeja.do"><i
+                        class="icon-zoom-out "><!-- --></i>&#160;Bandeja de observados del menor</a></li>
+                </c:if>
+                
                 <li role="presentation" class="divider"></li>
-                <li class=""><a href="registromanual/padronnform.do"><i
-                        class="icon-thumbs-down"><!-- --></i>&#160;Dar de Baja/Alta al Niño/a</a></li>
-                <li role="presentation" class="divider"></li>
+                
 
                 <!--<li class=""><a href="registromanual/padron_municipio.do">Reporte de niños ${usuario.deEntidad}</a></li>-->
                 <li class=""><a href="registromanual/padron_municipio.do"><i
-                        class="icon-download-alt"><!-- --></i>&#160;Padron de niños - Registrador</a></li>
+                        class="icon-download-alt"><!-- --></i>&#160;Reporte de registro de menores <br></br> por entidad</a></li>
                 <li class=""><a href="registromanual/padron_municipio_precarga.do"><i
-                        class="icon-download-alt"><!-- --></i>&#160;Padron de niños - Precarga</a></li>
-                <li role="presentation" class="divider"></li>
-                <li class=""><a href="rectificacion/index.do"><i
-                        class="icon-edit"><!-- --></i>&#160;Rectificación de datos del niño/a</a></li>
-
-                <li role="presentation" class="divider"></li>
-                <c:if test="${bandejaObservados}">
-                <li class=""><a href="bandeja_observado/bandeja_observados.do"><i
-                        class="icon-zoom-out "><!-- --></i>&#160;Bandeja de observados</a></li>
-                </c:if>
+                        class="icon-download-alt"><!-- --></i>&#160;Reporte de registro de menores <br></br>por entidad
+                    (Inactivos)</a></li>
 
             </ul>
         </li>
@@ -110,7 +112,7 @@
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle noAjax" role="button" href="#">
                 <i class="icon-hdd icon-white">&#160;</i> Precarga del Padrón <b class="caret">&#160;</b></a>
-            <ul role="menu" class="dropdown-menu">
+            <ul role="menu" class="dropdown-menu list-menu">
                 <li role="presentation">
                     <a href="precotejo/precotejoform.do" tabindex="-1" role="menuitem"><i
                             class="icon-folder-open"><!-- --></i>&#160;Formulario de Precarga</a>
@@ -120,7 +122,6 @@
                     <a href="precotejo/consultaform.do" tabindex="-1" role="menuitem">Consulta y Búsqueda</a>
                 </li>
                 -->
-                <li role="presentation" class="divider"></li>
                 <li role="presentation">
                     <a href="precotejo/precotejoformato.do" tabindex="-1" role="menuitem" class="noAjax"><i
                             class="icon-download-alt">&#160;</i>&#160;Descarga de Formato</a>
@@ -134,7 +135,7 @@
                 <i class="icon-folder-close icon-white"><!-- --></i>&#160;Actas de Reunión
                 <b class="caret"><!-- --></b>
             </a>
-            <ul role="menu" class="dropdown-menu">
+            <ul role="menu" class="dropdown-menu list-menu">
                 <!--<li class=""><a href="reportegrafico/show" tabindex="-1">Graficos</a></li>-->
                 <!--<li class=""><a href="actas/actasform.do" tabindex="-1" title="">Adjuntar Acta de Verificación</a></li>
                 <li class=""><a href="actas/detalleform.do" tabindex="-1">Búsqueda de Actas</a></li>-->
@@ -219,7 +220,7 @@
     <c:if test="${signup}">
         <li class="dropdown">
             <!--href="mantenimiento/maestros.do" tabindex="-1"-->
-            <a class="dropdown-toggle" href="mantenimiento/maestros.do" role="button"><i class="icon-briefcase icon-white">&#160;</i>&#160;Usuarios</a>
+           <!-- <a class="dropdown-toggle" href="mantenimiento/maestros.do" role="button"><i class="icon-briefcase icon-white">&#160;</i>&#160;Usuarios</a> earango-->
             <!--<ul role="menu" class="dropdown-menu">
                 <li class=""><a href="mantenimiento/maestros.do"><i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;Administrar Usuarios</a>
                 </li>
@@ -233,7 +234,8 @@
             </ul>-->
         </li>
     </c:if>
-    <c:if test="${grias}">
+    <!--<c:if test="${grias}"> earango-->
+    <c:if test="grias">
         <li class="dropdown">
             <a data-toggle="dropdown" href="#" class="dropdown-toggle" role="button"><i class="icon-ok-sign icon-white"><!-- --></i>&#160;Grias&#160;<b class="caret"><!-- --></b></a>
             <ul role="menu" class="dropdown-menu">
@@ -253,18 +255,19 @@
             <a href="grias/form_buscar_madre_grias.do" class=""><i class="icon-search icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Busqueda por Datos de Madre</a>
         </li>-->
     </c:if>
-    <c:if test="${midis}">
-<li class="dropdown">
-    <a data-toggle="dropdown" href="#" class="dropdown-toggle" role="button"><i class="icon-ok-sign icon-white"><!-- --></i>&#160;MIDIS&#160;<b class="caret"><!-- --></b></a>
-    <ul role="menu" class="dropdown-menu">
-        <li class=""><a href="reporte_midis/consolidado.do"><i class="icon-signal"><!-- --></i>&#160;Estadisticas</a></li>
-        <li class=""><a href="reporte_midis/consulta_ubigeo_form.do"><i class="icon-filter"><!-- --></i>&#160;Consulta por ubigeo</a></li>
-        <li class=""><a href="reporte_midis/form_buscar_menor.do"><i class="icon-search"><!-- --></i>&#160;Por Datos del Niño/a</a></li>
-        <li class=""><a href="reporte_midis/form_buscar_madre.do"><i class="icon-search"><!-- --></i>&#160;Por Datos de la Madre</a></li>
-        <!--<li class=""><a href="reporte/reporte_europan.do"><i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;EUROPAN</a></li>-->
-        <li class=""><a href="reporte_midis/padron_movimientos.do"><i class="icon-globe"><!-- --></i>&#160;Movimientos del Niño/a</a></li>
-    </ul>
-</li>
+    <!--<c:if test="${midis}">-->
+    <c:if test="midis">
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="#" class="dropdown-toggle" role="button"><i class="icon-ok-sign icon-white"><!-- --></i>&#160;MIDIS&#160;<b class="caret"><!-- --></b></a>
+            <ul role="menu" class="dropdown-menu">
+                <li class=""><a href="reporte_midis/consolidado.do"><i class="icon-signal"><!-- --></i>&#160;Estadisticas</a></li>
+                <li class=""><a href="reporte_midis/consulta_ubigeo_form.do"><i class="icon-filter"><!-- --></i>&#160;Consulta por ubigeo</a></li>
+                <li class=""><a href="reporte_midis/form_buscar_menor.do"><i class="icon-search"><!-- --></i>&#160;Por Datos del Niño/a</a></li>
+                <li class=""><a href="reporte_midis/form_buscar_madre.do"><i class="icon-search"><!-- --></i>&#160;Por Datos de la Madre</a></li>
+                <!--<li class=""><a href="reporte/reporte_europan.do"><i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;EUROPAN</a></li>-->
+                <li class=""><a href="reporte_midis/padron_movimientos.do"><i class="icon-globe"><!-- --></i>&#160;Movimientos del Niño/a</a></li>
+            </ul>
+        </li>
 </c:if>
 <!--
                         <c:if test="${maestros}">
@@ -309,20 +312,22 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">${usuario.login}
             <b class="caret">&#160;</b></a>
         <ul class="dropdown-menu menu-usuario">
-            <li>
+            <li class="menu-usuario-item data-usuario">
                 <div class="image-usuario">
                     <img style="width: 72px; height: 98px; display: inline-block;" src="data:image/png;base64,${img}"/>
                 </div>
                 <div class="info-usuario">
-                    <p>${usuario.paterno} ${usuario.materno}, ${usuario.nombres}</p>
+                    <p>${usuario.deApellidoPaterno} ${usuario.deApellidoMaterno},${usuario.dePrenombres}</p>
 
-                    <p>${usuario.deEntidad}</p>
+                    <p><strong>${usuario.deEntidad}</strong></p>
                     <!--<pre>${usuario}</pre>-->
-                    <div class= "clearfix" style="padding-right:5px;">
-                        <span class="pull-left"><a class="btn btn-mini btn-success btn-primary" href="cambio_password/index.do">Cambiar Contraseña</a></span>
-                        <span class="pull-right"><a class="btn btn-mini btn-danger btn-primary" href="logout.do#wrap">Cerrar Sesión</a></span>
-                    </div>
                 </div>
+            </li>
+            <li class="menu-usuario-item">
+                    <a  href="cambio_password/index.do">Cambiar Contraseña</a>
+            </li>
+            <li class="menu-usuario-item">
+                <a href="logout.do#wrap">Cerrar Sesión</a>
             </li>
             <!--<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#"><i class="icon-signal icon-white">&#160;</i> Admin <b class="caret">&#160;</b></a>
                  <ul role="menu" class="dropdown-menu">

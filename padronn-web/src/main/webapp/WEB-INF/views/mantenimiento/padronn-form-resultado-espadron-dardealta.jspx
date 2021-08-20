@@ -12,14 +12,14 @@
 
     <c:choose>
 
-        <c:when test="${not empty padronNominalBaja}">
+        <c:when test="${ubigeoValido=='valido'}">
 
             <div class="alert alert-block">
                 <h4 style="margin-bottom: 10px;">Confirmar Alta del niño/a*</h4>
 
                 <form:form commandName="padronNominalBaja"
                            action="registromanual/padronnalta.do#padronn-form-resultado-espadron-confirmar">
-                    <form:hidden path="coPadronNominal"/>
+                    <input type="hidden" id="coPadronNominal" class="coPadronNominal" name="coPadronNominal" value="0"/>
 
                     <spring:bind path="coMotivoBaja">
                         <c:if test="${status.error}">
@@ -57,10 +57,11 @@
                     <button style="margin-right: 10px;margin-top: 10px;" class="btn btn-medium btn-success"
                             type="submit"><span class="icon-ok icon-white">&#160;</span> Confirmar
                     </button>
-                    <a href="#" class="btn btn-medium btn-danger"
-                       onclick="$('#padronn-form-resultado-espadron-confirmar').hide();"
-                       style="margin-left: 10px;margin-top: 10px;"><span
-                            class="icon-remove icon-white">&#160;</span> Cancelar</a>
+                    
+                    <button class="btn btn-medium btn-danger" style="margin-left: 10px;margin-top: 10px;" data-dismiss="modal"><span
+                            class="icon-remove icon-white" >&#160;</span> Cancelar </button>
+                    
+                    
                 </form:form>
 
                 <p class="text-center">
@@ -98,6 +99,10 @@
             repeat: 100,
             placeholder: ""
         })
+        
+        
+        
+        
         ]]>
     </script>
 </jsp:root>

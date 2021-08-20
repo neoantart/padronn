@@ -5,7 +5,6 @@
   Time: 05:07 PM
   To change this template use File | Settings | File Templates.
 -->
-
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
@@ -36,7 +35,23 @@
             <c:set var="consulta_detalle_edad" value="false" />
             <c:set var="padron_ubigeo" value="false"/>
             <c:set var="midis" value="false"/>
-            <!--<pre>${usuario.authorities}</pre>-->
+
+            <c:set var="reporte_actas_muni" value="false" />
+            <c:set var="reporte_actas_muni_total" value="false" />
+            <c:set var="reporte_datos_madre" value="false" />
+            <c:set var="reporte_datos_menor" value="false" />
+            <c:set var="reporte_total_reg_ubi_detalle" value="false" />
+            <c:set var="reporte_menor_ubi" value="false" />
+            <c:set var="reporte_mov_ubi" value="false" />
+            <c:set var="reporte_menor_sin_nombre" value="false" />
+            <c:set var="reporte_menor_sin_doc" value="false" />
+            <c:set var="reporte_rango_fechas" value="false" />
+            <c:set var="reporte_programa_social" value="false" />
+            <c:set var="reporte_rango_edades" value="false" />
+            <c:set var="reporte_altas_bajas" value="false" />
+            <c:set var="reporte_segun_municipalidad" value="false" />
+            <c:set var="reporte_total_menor_ubi_resumen" value="false" />
+
             <c:forEach var="item" items="${usuario.authorities}">
                 <c:if test="${fn:startsWith(item, '/reporte')}">
                     <c:set var="reporte" value="true" />
@@ -53,9 +68,52 @@
                 <c:if test="${fn:startsWith(item, '/minsa_reporte/reporte_usuarios_minsa.do')}">
                     <c:set var="reporte_usuarios_minsa" value="true" />
                 </c:if>
-                <c:if test="${fn:startsWith(item, '/minsa_reporte/padron_actas_todos.do')}">
-                    <c:set var="padron_actas_todos" value="true" />
+                <c:if test="${fn:contains(item, '/minsa_reporte/padron_actas.do')}">
+                    <c:set var="reporte_actas_muni" value="true" />
                 </c:if>
+                <c:if test="${fn:contains(item, '/minsa_reporte/padron_actas_todos.do')}">
+                    <c:set var="reporte_actas_muni_total" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte_midis/form_buscar_madre.do')}">
+                    <c:set var="reporte_datos_madre" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte_midis/form_buscar_menor.do')}">
+                    <c:set var="reporte_datos_menor" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte_midis/consolidado.do')}">
+                    <c:set var="reporte_total_reg_ubi_detalle" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte_midis/consulta_ubigeo_form.do')}">
+                    <c:set var="reporte_menor_ubi" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte_midis/padron_movimientos.do')}">
+                    <c:set var="reporte_mov_ubi" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/reporte-recien-nacidos.do')}">
+                    <c:set var="reporte_menor_sin_nombre" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/padron_sin_docu.do')}">
+                    <c:set var="reporte_menor_sin_doc" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/padron_ubigeo.do')}">
+                    <c:set var="reporte_rango_fechas" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/padron_programa_social.do')}">
+                    <c:set var="reporte_programa_social" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/form_listado_edades.do')}">
+                    <c:set var="reporte_rango_edades" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/padron_altas_bajas.do')}">
+                    <c:set var="reporte_altas_bajas" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/padron_entidad.do')}">
+                    <c:set var="reporte_segun_municipalidad" value="true" />
+                </c:if>
+                <c:if test="${fn:contains(item, '/reporte/cantidades_departamentos_total.do')}">
+                    <c:set var="reporte_total_menor_ubi_resumen" value="true" />
+                </c:if>
+
                 <c:if test="${fn:startsWith(item, '/reporte/reporte_europan.do')}">
                     <c:set var="reporte_europan" value="true" />
                 </c:if>
@@ -80,25 +138,23 @@
                 <c:set var="midis" value="true"/>
             </c:if>
 
-            <c:if test="${reporte and not midis}" >
+            <c:if test="${reporte_total_menor_ubi_resumen}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px; ">
                     <a href="reporte/cantidades_departamentos_total.do" class="">
                         <i class="reportes_total_reg_ubig"><!-- --></i>
                     </a>
-
                 </div>
             </c:if>
 
-            <c:if test="${reporte}" >
+            <c:if test="${reporte_segun_municipalidad}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px; ">
                     <a href="reporte/padron_entidad.do" class="">
                         <i class="reportes_por_muni"><!-- --></i>
                     </a>
-
                 </div>
             </c:if>
 
-            <c:if test="${reporte}" >
+            <c:if test="${reporte_altas_bajas}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="reporte/padron_altas_bajas.do" class="">
                         <i class="reportes_altas_bajas_menores"><!-- --></i>
@@ -106,7 +162,7 @@
                 </div>
             </c:if>
 
-            <c:if test="${reporte}" >
+            <c:if test="${reporte_rango_edades}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px; ">
                     <a href="reporte/form_listado_edades.do" class="">
                         <i class="reportes_rango_edades"><!-- --></i>
@@ -114,17 +170,17 @@
                 </div>
             </c:if>
 
-            <c:if test="${reporte}" >
+
+            <!--<c:if test="${reporte}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px; ">
                     <a href="reporte/padron_establecimiento_salud.do" class="">
-                        <i class="reportes_est_salud"><!-- --></i>
+                        <i class="reportes_est_salud">&lt;!&ndash; &ndash;&gt;</i>
                     </a>
                 </div>
-
-            </c:if>
+            </c:if>-->
 
             <!--<div class="clearfix"></div>-->
-            <c:if test="${reporte}" >
+            <c:if test="${reporte_programa_social}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px; ">
                     <a href="reporte/padron_programa_social.do" class="">
                         <i class="reportes_progr_sociales"><!-- --></i>
@@ -132,7 +188,15 @@
                 </div>
             </c:if>
 
-            <c:if test="${padron_ubigeo and usuario.coTipoEntidad != '1'}" >
+            <c:if test="${reporte_datos_menor}" >
+                <div style="float:left; margin-right: 20px; margin-top: 20px; ">
+                    <a href="reporte_midis/form_buscar_menor.do" class="">
+                        <i class="reportes_datos_menor"><!-- --></i>
+                    </a>
+                </div>
+            </c:if>
+
+            <c:if test="${reporte_rango_fechas}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px; ">
                     <a href="reporte/padron_ubigeo.do" class="">
                         <i class="reportes_reg_rango_fechas"><!-- --></i>
@@ -140,81 +204,41 @@
                 </div>
             </c:if>
 
-            <c:if test="${reporte}" >
+            <c:if test="${reporte_menor_sin_doc}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;" >
                     <a href="reporte/padron_sin_docu.do" class="">
                         <i class="reportes_menores6_sindni"><!-- --></i>
                     </a>
                 </div>
-                <!--<div class="span3 well" style="height: 55px;">
-                    <h5>
-                        <a href="reporte/padron_sin_docu.do">
-                            <i class="icon-user"></i>&#160;Menores de 6 años sin DNI.
-                        </a>
-                    </h5>
-                </div>-->
             </c:if>
 
-            <c:if test="${( (usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '3')) and  movimientos_ubigeo}" >
+            <!--<c:if test="${( (usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '3')) and  movimientos_ubigeo}" >-->
+            <c:if test="${reporte_mov_ubi}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
-                    <a href="minsa_reporte/padron_movimientos.do" class="">
-                        <i class="reportes_mov_ubigeos_menor"><!-- --></i>
+                    <a href="reporte_midis/padron_movimientos.do" class="">
+                        <i class="reportes_mov_ubigeos_menor_midis"><!-- --></i>
                     </a>
                 </div>
-
-                <!--<div class="span3 well" style="height: 55px;">
-                    <h5>
-                        <a href="minsa_reporte/padron_movimientos.do">
-                            <i class="icon-random"></i>&#160;Movimientos ubigeo del menor.
-                        </a>
-                    </h5>
-                </div>-->
             </c:if>
-
-            <!--<c:if test="${reporte}" >
-            <div class="span3 well" style="height: 55px;">
-                <h5>
-                    <a href="reporte/padron_entidad.do">
-                        <i class=" icon-share"></i>&#160;Por municipalidad.
-                    </a>
-                </h5>
-            </div>
-            </c:if>-->
-
 
             <!--<div class="clearfix"></div>-->
 
-            <c:if test="${ ( (usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '3')) and padron_observados}" >
+            <!--<c:if test="${ ( (usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '3')) and padron_observados}" >-->
+            <c:if test="${reporte}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="minsa_reporte/padron_observados.do" class="">
                         <i class="reportes_reg_restricc_obsv"><!-- --></i>
                     </a>
                 </div>
-                <!--            <div class="span3 well" style="height: 55px;">
-                                <h5>
-                                    <a href="minsa_reporte/padron_observados.do">
-                                        <i class="icon-question-sign"></i>&#160;Registros con restricción / observación.
-                                    </a>
-                                </h5>
-                            </div>-->
             </c:if>
 
-            <c:if test="${reporte}" >
+            <c:if test="${reporte_menor_sin_nombre}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="reporte/reporte-recien-nacidos.do" class="">
                         <i class="reportes_reg_rcien_nacidos"><!-- --></i>
                     </a>
                 </div>
-                <!--<div class="span3 well" style="height: 55px;" >
-                    <h5 >
-                        <a href="reporte/reporte-recien-nacidos.do">
-                            <i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;Registro de Recien Nacidos.
-                        </a>
-                    </h5>
-                </div>-->
             </c:if>
-
-
             <!--<c:if test="${reporte_usuarios_minsa}" >
                 <div class="span3 well" style="height: 55px;">
                     <h5>
@@ -223,75 +247,76 @@
                     </h5>
                 </div>
             </c:if>-->
-
-            <c:if test="${minsa_reporte}" >
-                <c:if test="${usuario.coTipoEntidad != '1'}">
+            <c:if test="${reporte_actas_muni}">
                     <div style="float:left; margin-right: 20px; margin-top: 20px;">
                         <a href="minsa_reporte/padron_actas.do" class="">
                             <i class="reportes_acta_muni"><!-- --></i>
                         </a>
                     </div>
-
-
+            </c:if>
+            <c:if test="${reporte_actas_muni_total}">
                     <div style="float:left; margin-right: 20px; margin-top: 20px;">
                         <a href="minsa_reporte/padron_actas_todos.do" class="">
                             <i class="reportes_acta_muni_total_enviadas"><!-- --></i>
                         </a>
                     </div>
-                </c:if>
-
-                <!--<div class="span3 well" style="height: 55px;" >
-                    <h5 >
-                        <a href="minsa_reporte/padron_actas.do">
-                            <i class="icon-certificate" ></i>&#160;Actas por municipalidad.
-                        </a>
-                        <br></br>
-
-                        <c:if test="${usuario.coTipoEntidad eq '2' or usuario.coTipoEntidad eq '4' or usuario.coTipoEntidad eq '3'}">
-                          <a href="minsa_reporte/padron_actas_todos.do">
-                            <i class="icon-certificate"></i>&#160;Total actas enviadas.
-                        </a>
-                        </c:if>
-                    </h5>
-                </div>-->
             </c:if>
 
-            <c:if test="${usuario.coTipoEntidad eq '4' and reporte_europan}" >
+
+<!--            <c:if test="${usuario.coTipoEntidad eq '4' and reporte_europan}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="reporte/reporte_europan.do" class="">
-                        <i class="reportes_europan"><!-- --></i>
+                        <i class="reportes_europan">&lt;!&ndash; &ndash;&gt;</i>
                     </a>
                 </div>
-
-                <!--<div class="span3 well" style="height: 55px;">
+-->
+ <!--           <c:if test="${reporte_europan}">
+                <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <h5>
-                        <a href="reporte/reporte_europan.do">
-                            <i class=" icon-book"></i>&#160;Por Europan.
+                        <a href="reporte/reporte_europan.do" class="">
+                            <i class="reportes_europan">&lt;!&ndash; &ndash;&gt;</i>
                         </a>
                     </h5>
-                </div>-->
-            </c:if>
+                </div>
+            </c:if>-->
 
 
-            <c:if test="${( (usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '3')) and consulta_usuario}" >
+<!--            <c:if test="${( (usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '3')) and consulta_usuario}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="reporte/consulta_usuarios.do" class="">
-                        <i class="reportes_relacion_usuario"><!-- --></i>
+                        <i class="reportes_relacion_usuario">&lt;!&ndash; &ndash;&gt;</i>
                     </a>
                 </div>
 
-                <!--<div class="span3 well" style="height: 55px;" >
+                &lt;!&ndash;<div class="span3 well" style="height: 55px;" >
                     <h5 >
                         <a href="reporte/consulta_usuarios.do">
                             <i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;Consulta de usuarios
                         </a>
                     </h5>
-                </div>-->
+                </div>&ndash;&gt;
+            </c:if>-->
+
+            <c:if test="${reporte_total_reg_ubi_detalle}" >
+                <div style="float:left; margin-right: 20px; margin-top: 20px;">
+                    <a href="reporte_midis/consolidado.do" class="">
+                        <i class="reportes_ubigeo_detalle"><!-- --></i>
+                    </a>
+                </div>
+            </c:if>
+
+            <c:if test="${reporte_menor_ubi}" >
+                <div style="float:left; margin-right: 20px; margin-top: 20px;">
+                    <a href="reporte_midis/consulta_ubigeo_form.do" class="">
+                        <i class="reportes_menores_ubigeo"><!-- --></i>
+                    </a>
+                </div>
             </c:if>
 
             <!--Desde aqui se modifico por Jose Vidal Flores-->
             <!--Modificación 2: se agregó restricciones para el acceso(c:if) -->
-            <c:if test="${((usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '1')  or (usuario.coTipoEntidad eq '8')) and consulta_resumen_edad}" >
+            <!--<c:if test="${((usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '1'))and consulta_resumen_edad}" >-->
+            <c:if test="${reporte}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="reporte/reporte_resumen_edad_eess.do" class="">
                         <i class="reportes_res_niños_EESS_edad"><!-- --></i>
@@ -299,13 +324,33 @@
                 </div>
             </c:if>
 
-            <c:if test="${((usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '1') or (usuario.coTipoEntidad eq '8')) and consulta_detalle_edad}" >
+            <!--<c:if test="${((usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '1')) and consulta_detalle_edad}" >-->
+            <c:if test="${reporte}" >
                 <div style="float:left; margin-right: 20px; margin-top: 20px;">
                     <a href="reporte/reporte_detalle_edad_eess.do" class="">
                         <i class="reportes_det_niños_EESS_edad"><!-- --></i>
                     </a>
                 </div>
             </c:if>
+
+            <!--Consulta por datos de la madre-->
+            <!--<c:if test="${((usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '1')) and consulta_detalle_edad}" >-->
+            <c:if test="${reporte_datos_madre}" >
+                <div style="float:left; margin-right: 20px; margin-top: 20px;">
+                    <a href="reporte_midis/form_buscar_madre.do" class="">
+                        <i class="reportes_por_datos_madre"><!-- --></i>
+                    </a>
+                </div>
+            </c:if>
+
+            <!--Consulta por datos del menor-->
+           <!-- <c:if test="${((usuario.coTipoEntidad eq '4') or (usuario.coTipoEntidad eq '2') or (usuario.coTipoEntidad eq '1')) and consulta_detalle_edad}" >
+                <div style="float:left; margin-right: 20px; margin-top: 20px;">
+                    <a href="reporte/reporte_detalle_edad_eess.do" class="">
+                        <i class="reportes_det_niños_EESS_edad">&lt;!&ndash; &ndash;&gt;</i>
+                    </a>
+                </div>
+            </c:if>-->
 
         </div>
     </div>

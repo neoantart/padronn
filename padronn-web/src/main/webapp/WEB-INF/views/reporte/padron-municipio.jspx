@@ -82,10 +82,8 @@
                     <div class="controls">
                         <!--<form:input path="esPadron" id="esPadron" class="span1"/>-->
                         <form:select path="esPadron" id="esPadron" class="span2" cssStyle="margin-left: 20px;">
-                            <!--<form:option value="3" label="Todos" />-->
-                            <form:option value="1" label="Activos" />
-                            <form:option value="2" label="Activos-Observados" />
-                            <form:option value="0" label="Inactivos" />
+                            <form:option value="1" label="Activos"/>
+                            <form:option value="0" label="Inactivos"/>
                         </form:select>
                     </div>
 
@@ -116,14 +114,18 @@
         </div>
     </div>
 
+
+
+
+
     <c:if test="${not empty coEntidad and not empty esPadron}">
         <c:choose>
-            <c:when test="${not empty padronList and empty limitSize}">
+            <c:when test="${not empty padronList }">
                 <!--<h2>Reporte de Padron del nominal del ubigeo: <strong>${deEntidad}</strong>,  en el periodo de consulta: <strong>${feIni} al ${feFin}</strong> </h2>-->
                 <!--<h2>Detalle del Padrón de Niños de ${deEntidad}.</h2>-->
             <c:choose>
-            <c:when test="${esPadron eq'1' or esPadron eq '2'}">
-                <h2 style="font-size: 19px;">Resultado de niños y niñas registrados por la <code style="font-size: 18px;">${deEntidad}</code> del<code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code> -  <code style="font-size: 18px;"> <c:if test="${esPadron eq '1'}">ACTIVOS</c:if><c:if test="${esPadron eq '3'}">TODOS</c:if></code>.</h2>
+            <c:when test="${esPadron eq'1'}">
+                <h2 style="font-size: 19px;">Resultado de niños y niñas registrados por la <code style="font-size: 18px;">${deEntidad}</code> del<code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code> </h2>
                 <hr />
                 <div class="alert">
                     <!--<strong>Reporte de Padron del nominal por Municipalidad: <code>${deEntidad}</code></strong>
@@ -141,7 +143,10 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th width="120px;">Cod. Padron/DNI</th>
+                        <th width="120px;">Cod. Padron</th>
+                        <th >CNV</th>
+                        <th >CUI</th>
+                        <th >DNI</th>
                         <th width="90px;">Ap. paterno</th>
                         <th width="90px;">Ap. materno</th>
                         <th>Nombres</th>
@@ -155,6 +160,9 @@
                         <tr>
                             <td>${padron.fila}</td>
                             <td>${padron.coPadronNominal}</td>
+                            <td>${padron.nuCnv}</td>
+                            <td>${padron.nuCui}</td>
+                            <td>${padron.nuDniMenor}</td>
                             <td>${padron.apPrimerMenor}</td>
                             <td>${padron.apSegundoMenor}</td>
                             <td>${padron.prenombreMenor}</td>
@@ -181,8 +189,8 @@
             </c:choose>
 
         <c:choose>
-            <c:when test="${esPadron eq'0' or esPadron eq '3'}">
-                <h2 style="font-size: 19px;">Resultado de niñas y niñas registrados por la <code style="font-size: 18px;">${deEntidad}</code> del<code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin} - </code>  <code style="font-size: 18px;"><c:if test="${esPadron eq '0'}">INACTIVOS</c:if><c:if test="${esPadron eq '3'}">TODOS</c:if></code>. </h2>
+            <c:when test="${esPadron eq'0'}">
+                <h2 style="font-size: 19px;">Resultado de niñas y niñas registrados por la <code style="font-size: 18px;">${deEntidad}</code> del<code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code> </h2>
                 <hr />
                 <div class="alert">
                     <!--<strong>Reporte de Padron del nominal por Municipalidad: <code>${deEntidad}</code></strong>
@@ -200,7 +208,10 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th width="115px;">Cod. Padron/DNI</th>
+                        <th width="115px;">Cod. Padron</th>
+                        <th >CNV</th>
+                        <th >CUI</th>
+                        <th >DNI</th>
                         <th width="90px;">Ap. paterno</th>
                         <th width="90px;">Ap. materno</th>
                         <th width="90px;">Nombres</th>
@@ -216,11 +227,19 @@
                         <tr>
                             <td>${padron.fila}</td>
                             <td>${padron.coPadronNominal}</td>
+                            <td>${padron.nuCnv}</td>
+                            <td>${padron.nuCui}</td>
+                            <td>${padron.nuDniMenor}</td>
                             <td>${padron.apPrimerMenor}</td>
                             <td>${padron.apSegundoMenor}</td>
                             <td>${padron.prenombreMenor}</td>
                             <td>${padron.feNacMenor}</td>
-                            <td>${padron.deUbigeoInei}</td>
+                            <td>
+                                ${padron.deUbigeoInei}
+                                <!--<c:if test="${not empty padron.deCentroPoblado}">
+                                    , ${padron.deCentroPoblado}
+                                </c:if>-->
+                            </td>
                             <td>${padron.deMotivoBaja}</td>
                             <td>${padron.fechaBaja}</td>
                             <td>${padron.deUsuarioBaja}</td>
@@ -238,9 +257,6 @@
                 <!--<util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="registromanual/consulta_padron_municipio.do?nuPagina=" urlDespuesNuPagina="&amp;coEntidad=${coEntidad}&amp;deEntidad=${deEntidad}&amp;esPadron=${esPadron}&amp;coUbigeoInei=${coUbigeoInei}&amp;feIni=${feIni}&amp;feFin=${feFin}"></util:paginador>-->
             </c:when>
         </c:choose>
-            </c:when>
-            <c:when test="${empty padronList and not empty limitSize}">
-                <div class="alert alert-danger"><strong>${limitSize}</strong></div>
             </c:when>
             <c:otherwise>
                 <div class="alert alert-danger"><strong>No hay registros.</strong> con el Ubigeo: <code>${deEntidad}</code></div>

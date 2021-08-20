@@ -1,0 +1,104 @@
+/*accordeion*/
+.accordion-detalle{
+  .accordion-toggle{
+    padding: 15px;
+  }
+  .accordion-group {
+    border: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    overflow: hidden;}
+  .accordion-heading .accordion-toggle{
+    color: #0d3753;
+    background-color: #b4ccf3;
+    .collapsed {
+      color: #0d3753;
+      background-color: #b4ccf3;
+      }
+    &:hover{
+      color: #0d3753;
+      background-color: #a7c1ec;
+    }
+  }
+  .collapse.in>.accordion-inner, .accordion-inner {
+    border-top: 1px solid #e4e9ee;
+    color: #0d3753;
+    background-color: #b4ccf3;
+  }
+}
+
+/*buscador*/
+.search-tab{
+  .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    background-color: #0d3753;
+    border: none;
+    padding: 15px;
+  }
+  .nav-tabs>li>a, .nav-tabs>li>a:focus {
+    border-radius: 5px 5px 0 0!important;
+    padding: 14px;
+  }
+  .nav-tabs > li {
+    margin-left: 7px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+  }
+  .tab-content{
+    padding: 1em 1.3em;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    border: 1px solid #165580;
+    margin-bottom: 0;
+  }
+  .control-group{
+    margin-bottom: 0;
+  }
+}
+/*card-number*/
+.celda-card{
+  display: flex;
+  justify-content: space-between;
+  .celda-card-item{
+    padding: 1em;
+    width: 33%;
+    overflow: hidden;
+    border-right: 1px solid #0d3753;
+    &:last-child{
+      border-right: 1px solid transparent;
+    }
+  }
+  i{
+    text-decoration: underline;
+  }
+  span{
+    background-color: #0d3753;
+    border-radius: 50%;
+    padding: 4px 8px;
+    color: #FFFFFF;
+    margin-right: 5px;
+  }
+    ul {
+      list-style: disc;
+    }
+}
+/*table*/
+.header-table{
+  color:#707070;
+  border-bottom: 1px solid #707070;
+  margin-bottom: 15px;
+  h4{
+    padding: 5px 0;
+    margin: 0;
+    font-size: 16px;
+  }
+}
+.table{
+  thead:first-child tr{
+    background: #c9cdd2;;
+  }
+  &.table-condensed th {
+    text-align: center;
+    padding: 15px;
+  }
+}

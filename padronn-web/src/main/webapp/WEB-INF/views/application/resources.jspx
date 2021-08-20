@@ -30,6 +30,10 @@
     <link href="${localResourcesURL}/css/bootstrap-select.css?${now.time}" type="text/css" rel="stylesheet"/>
     <link href="${localResourcesURL}/css/ice-theme.css" type="text/css" rel="stylesheet"/>
     <link href="${localResourcesURL}/css/main.css?${now.time}" type="text/css" rel="stylesheet"/>
+    <!--CSS de nuevos estilos-REDISEÑO-->
+    <!--<link href="${localResourcesURL}/css/SCSS/style-new.css?${now.time}" type="text/css" rel="stylesheet"/>-->
+    <link href="${localResourcesURL}/css/style-new.css?${now.time}" type="text/css" rel="stylesheet"/>
+
     <link href="${localResourcesURL}/css/jquery-jvectormap-1.2.2.css" type="text/css" rel="stylesheet"/>
 
     <link href="${localResourcesURL}/css/jquery.multiselect.css" type="text/css" rel="stylesheet"/>

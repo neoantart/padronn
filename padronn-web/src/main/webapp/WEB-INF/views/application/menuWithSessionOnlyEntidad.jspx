@@ -7,7 +7,7 @@
     <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
 
 
-    <div id="nav">
+    <div id="nav" class="l-container-full">
         <div id="menu" class="navbar">
             <div id="menu-content">
                 <!--<div class="container">-->
@@ -21,7 +21,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">${usuario.login}
                                 <b class="caret">&#160;</b></a>
                             <ul class="dropdown-menu menu-usuario">
-                                <li>
+                                <li class="menu-usuario-item data-usuario">
                                     <div class="image-usuario">
                                         <img style="width: 72px; height: 98px; display: inline-block;"
                                              src="data:image/png;base64,${img}"/>
@@ -31,13 +31,14 @@
 
                                         <p>${usuario.deEntidad}</p>
                                         <!--<pre>${usuario}</pre>-->
-                                        <div class="clearfix"  style="padding-right:5px;">
-                                            <span class="pull-left"><a class="btn btn-mini btn-success btn-primary"
-                                                                       href="cambio_password/index.do">Cambiar Contraseña</a></span>
-                                            <span class="pull-right"><a class="btn btn-mini btn-danger btn-primary"
-                                                                        href="logout.do#wrap">Cerrar Sesión</a></span>
-                                        </div>
+
                                     </div>
+                                </li>
+                                <li class="menu-usuario-item">
+                                    <a  href="cambio_password/index.do">Cambiar Contraseña</a>
+                                </li>
+                                <li class="menu-usuario-item">
+                                    <a  href="logout.do#wrap">Cerrar Sesión</a>
                                 </li>
                             </ul>
                         </li>

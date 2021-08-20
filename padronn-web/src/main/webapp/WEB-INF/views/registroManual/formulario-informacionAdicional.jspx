@@ -2,154 +2,116 @@
 		  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form"
 		  xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<div class="row-fluid"></div>
+	<div class="row-fluid">
+		<c:if test="${not empty errores['coEstSaludAds']}">
+			<c:set var="errorCoEstSaludAds" value="error"></c:set>
+		</c:if>
+	    <div class="span6 control-group">
+			<label for="coEstSaludAds" class="control-label" title="requerido" style="width: auto;">Establecimiento de Salud de Adscripcion</label>
+			<c:choose>
+				<c:when test="${isPrecarga eq '1' and not empty padronNominal.coEstSaludAds}">
+						<div class="clearfix text-control" style="clear: both; display: block">${padronNominal.deEstSaludAds}
+							<!--<span style="position: absolute; left: 407px;" data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud de adscripción, o el codigo RENAES, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>-->
+						</div>
+						<form:hidden path="coEstSaludAds" id="coEstSaludAds" cssClass="large-select" cssStyle="width: 395px;" />
+						<form:errors path="coEstSaludAds" cssClass="text-error select2-text-error" element="div"/>
+						<form:hidden path="nuSecuenciaLocalAds" id="nuSecuenciaLocalAds"/>
+				</c:when>
+				<c:otherwise>
+						<form:hidden path="coEstSaludAds" id="coEstSaludAds" cssClass="large-select" cssStyle="width: 395px;" />
+						<span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud de adscripción, o el codigo RENAES, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>
+						<form:errors path="coEstSaludAds" cssClass="text-error select2-text-error" element="div"/>
+						<form:hidden path="nuSecuenciaLocalAds" id="nuSecuenciaLocalAds" />
+				</c:otherwise>
+			</c:choose>
+			<div id="msj_co_est_salud_ads" class="text-error"></div>
+		</div>
 
-    <c:if test="${not empty errores['coEstSaludAds']}">
-        <c:set var="errorCoEstSaludAds" value="error"></c:set>
-    </c:if>
-    <div class="row-fluid">
-        <div class="span6">
-            <div class="row-fluid">
-                <div style="padding-left: 10px;" class="span12 control-group">
-                    <c:choose>
-                        <c:when test="${not empty padronNominal.nuCnv or not empty padronNominal.coEstSaludNac}">
-                            <label for="coEstSaludNac" class="control-label" style="width: auto;">Establecimiento de Salud de Nacimiento</label>
-                            <c:choose>
-                                <!--No editable-->
-                                <c:when test="${not empty padronNominal.coEstSaludNac and(not empty padronNominal.nuCnv and padronNominal.nuCnv!=null and padronNominal.nuCnv ne '')}"><!--Si tiene ESN entons sol mostramos un span no editable-->
-                                    <div class="clearfix text-control" style="clear: both;">${padronNominal.deEstSaludNac}
-                                        <!--<span style="position: absolute; left: 885px;" data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud donde nacio el menor, dato opcional" data-position="sw" class="label label-info label-inf-adicional">?</span>-->
-                                    </div>
-                                    <form:hidden path="coEstSaludNac" id="coEstSaludNac" cssClass="large-select" cssStyle="width: 395px;" />
-                                    <form:hidden path="deEstSaludNac" id="deEstSaludNac"  cssClass="large-select" cssStyle="width: 395px;" />
-                                    <form:errors path="coEstSaludNac" cssClass="text-error select2-text-error" element="div"/>
-                                    <form:hidden path="nuSecuenciaLocalNac" id="nuSecuenciaLocalNac"/>
-                                </c:when>
-                                <!--Editable-->
-                                <c:when test="${not empty padronNominal.coEstSaludNac and (empty padronNominal.nuCnv or  padronNominal.nuCnv==null or padronNominal.nuCnv eq '')}" >
-                                    <form:hidden path="coEstSaludNac" id="coEstSaludNac" cssClass="large-select" cssStyle="width: 395px;" />
-                                    <span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud donde nacio el menor, dato opcional" data-position="sw" class="label label-info label-inf-adicional">?</span>
-                                    <form:hidden path="nuSecuenciaLocalNac" id="nuSecuenciaLocalNac"/>
-                                    <form:errors path="coEstSaludNac" cssClass="text-error select2-text-error" element="div"/>
-                                </c:when>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            <label for="coEstSaludNac" class="control-label" style="width: auto;">Establecimiento de Salud de Nacimiento</label>
-                            <form:hidden path="coEstSaludNac" id="coEstSaludNac" cssClass="large-select" cssStyle="width: 395px;" />
-                            <span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud donde nacio el menor, dato opcional" data-position="sw" class="label label-info label-inf-adicional">?</span>
-                            <form:errors path="coEstSaludNac" cssClass="text-error select2-text-error" element="div"/>
-                            <form:hidden path="nuSecuenciaLocalNac" id="nuSecuenciaLocalNac" />
-                        </c:otherwise>
-                    </c:choose>
-                    <div id="msj_co_est_salud_nac" class="text-error"></div>
-                </div>
-                <div class="span12 control-group">
-                    <label for="coEstSaludAds" class="control-label" title="requerido" style="width: auto;">Establecimiento de Salud de Adscripcion</label>
-                    <c:choose>
-                        <c:when test="${isPrecarga eq '1' and not empty padronNominal.coEstSaludAds}">
-                            <div class="clearfix text-control" style="clear: both; display: block">${padronNominal.deEstSaludAds}
-                                <!--<span style="position: absolute; left: 407px;" data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud de adscripción, o el codigo RENAES, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>-->
-                            </div>
-                            <form:hidden path="coEstSaludAds" id="coEstSaludAds" cssClass="large-select" cssStyle="width: 395px;" />
-                            <form:errors path="coEstSaludAds" cssClass="text-error select2-text-error" element="div"/>
-                            <form:hidden path="nuSecuenciaLocalAds" id="nuSecuenciaLocalAds"/>
-                        </c:when>
-                        <c:otherwise>
-                            <form:hidden path="coEstSaludAds" id="coEstSaludAds" cssClass="large-select" cssStyle="width: 395px;" />
-                            <span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud de adscripción, o el codigo RENAES, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>
-                            <form:errors path="coEstSaludAds" cssClass="text-error select2-text-error" element="div"/>
-                            <form:hidden path="nuSecuenciaLocalAds" id="nuSecuenciaLocalAds" />
-                        </c:otherwise>
-                    </c:choose>
-                    <div id="msj_co_est_salud_ads" class="text-error"></div>
-                </div>
-                <c:if test="${not empty errores['coEstSalud']}">
-                    <c:set var="errroCoEstSalud" value="error"></c:set>
-                </c:if>
-                <div class="span12 control-group ${errroCoEstSalud}">
-                    <label for="coEstSalud" class="control-label" title="requerido" style="width: auto;">Ultimo Establecimiento de Salud de Atención<span class="text-error required" title="requerido">*</span></label>
-                    <form:hidden path="coEstSalud" id="coEstSalud" cssClass="large-select" cssStyle="width: 395px;" />
-                    <span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud, o el codigo RENAES, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>
-                    <form:errors path="coEstSalud" cssClass="text-error select2-text-error" element="div"/>
-                    <div id="msj_co_est_salud" class="text-error"></div>
-                </div>
-                <c:if test="${not empty errores['coFrecAtencion']}">
-                    <c:set var="errorCoFrecAtencion" value="error"></c:set>
-                </c:if>
-                <div class="span12 control-group ${errorCoFrecAtencion}">
-                    <c:choose>
-                        <c:when test="${tipoEntidad eq '8'}"><!--nuevo registro-->
-                            <label for="coFrecAtencion" class="control-label" style="width: auto;">Frecuencia de Atención</label>
-                            <form:select path="coFrecAtencion" itemValue="${padronNominal.coFrecAtencion}" id="coFrecAtencion" cssClass="large-select" cssStyle="width: 395px;">
-                                <form:option value="" cssStyle="color: graytext;" label="Seleccionar frecuencia de atención"/>
-                                <c:forEach var="frecAtencionItem" items = "${frecuenciaAtencionList}">
-                                    <form:option value="${frecAtencionItem.coFrecuenciaAtencion}"
-                                                 label="${frecAtencionItem.noFrecuenciaAtencion}"/>
-                                </c:forEach>
-                            </form:select>
-                            <span data-trigger="tooltip" data-content="Ingrese la frecuencia..." data-position="sw" class="label label-info label-inf-adicional">?</span>
-                            <form:errors path="coFrecAtencion" cssClass="text-error" element="div"/>
-                        </c:when>
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${not empty padronNominal.deFrecAtencion}">
-                                    <label for="coFrecAtencion" class="control-label" style="width: auto;">Frecuencia de Atención</label>
-                                    <div class="clearfix text-control" style="clear: both; display: block">${padronNominal.deFrecAtencion} </div>
-                                    <form:hidden path="coFrecAtencion" value="${padronNominal.coFrecAtencion}"></form:hidden>
-                                    <form:hidden path="deFrecAtencion" value="${padronNominal.deFrecAtencion}"></form:hidden>
-                                </c:when>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-        </div>
-        <div class="span6">
-            <div class="row-fluid">
-                <div style="padding-left: 10px;" class="span12 control-group">
-                    <label for="coInstEducativa" class="control-label" style="width: auto;">Nombre de Institución Educativa a la que pertenece el niño/a</label>
-                    <form:hidden path="coInstEducativa" id="coInstEducativa"
-                                 cssClass="large-select" cssStyle="width: 407px;"/>
-                    <span data-trigger="tooltip" data-content="Ingrese el nombre de la institución educativa, o el codigo modular,  o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>
-                    <form:errors path="coInstEducativa" cssClass="text-error select2-text-error" element="div"/>
-                    <div id="msj_co_inst_educativa" class="text-error"></div>
-                </div>
-                <div class="span12 control-group">
-                    <label for="tiProSocial" class="control-label" style="width: auto;">Programas Sociales</label>
-                    <form:select path="tiProSocial" cssClass="large-select" id="tiProSocial" multiple="multiple" title="Seleccione..." cssStyle="width: 407px;">
-                        <form:options itemLabel="deDom" itemValue="coDominio" items="${tipoProgramaSocialItems}"/>
-                    </form:select>
-                    <span data-trigger="tooltip" data-content="Seleccione uno ó mas programas sociales, ó la opcion ninguno." data-position="sw" class="label label-info label-inf-adicional">?</span>
-                    <form:errors path="tiProSocial" cssClass="text-error" element="div"/>
-                </div>
-                <div class="span12 control-group">
-                    <label for="tiSeguroMenor" class="control-label"  title="requerido" style="width: auto;">Tipo de Seguro<!--<span class="text-error required" title="requerido">*</span>--></label>
-                    <form:select path="tiSeguroMenor" cssClass="large-select" id="tiSeguroMenor" multiple="multiple" title="Seleccione..." cssStyle="width: 407px !important;">
-                        <form:options itemLabel="deDom" itemValue="coDominio" items="${tipoSeguroItems}"/>
-                    </form:select>
-                    <c:if test="${isSusalud eq '1'}">
-                        <!--<c:if test="${isSusalud eq '1' and isTipoSeguro eq '1'}">-->
-                        <select class="large-select" id="tiSeguroMenorAux" multiple="multiple" title="Seleccione..." Style="width: 395px !important;">
-                            <c:forEach var="tipoSeguroItem" items="${tipoSeguroItems}">
-                                <option value="${tipoSeguroItem.coDominio}">${tipoSeguroItem.deDom}</option>
-                            </c:forEach>
-                        </select>
-                    </c:if>
-                    <span data-trigger="tooltip" data-content="Seleccione uno ó mas tipos de seguro de salud, ó la opcion ninguno." data-position="sw" class="label label-info label-inf-adicional">?</span>
-                    <form:errors path="tiSeguroMenor" cssClass="text-error" element="div"/>
-                    <input type="hidden" name="isSusalud" id="isSusalud" value="${isSusalud}" />
-                    <input type="hidden" name="isTipoSeguro" id="isTipoSeguro" value="${isTipoSeguro}" />
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="span6 control-group">
+			<c:choose>
+				<c:when test="${not empty padronNominal.nuCnv or not empty padronNominal.coEstSaludNac}">
 
-	<!--Cambio de frecuencia de atencion INICIO-->
+					<label for="coEstSaludNac" class="control-label" style="width: auto;">Establecimiento de Salud de Nacimiento</label>
+					<c:choose>
+						<!--No editable-->
+						<c:when test="${not empty padronNominal.coEstSaludNac and(not empty padronNominal.nuCnv and padronNominal.nuCnv!=null and padronNominal.nuCnv ne '')}"><!--Si tiene ESN entons sol mostramos un span no editable-->
+							<div class="clearfix text-control" style="clear: both;">${padronNominal.deEstSaludNac}
+								<!--<span style="position: absolute; left: 885px;" data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud donde nacio el menor, dato opcional" data-position="sw" class="label label-info label-inf-adicional">?</span>-->
+							</div>
+							<form:hidden path="coEstSaludNac" id="coEstSaludNac" cssClass="large-select" cssStyle="width: 407px;" />
+							<form:hidden path="deEstSaludNac" id="deEstSaludNac"  cssClass="large-select" cssStyle="width: 407px;" />
+							<form:errors path="coEstSaludNac" cssClass="text-error select2-text-error" element="div"/>
+							<form:hidden path="nuSecuenciaLocalNac" id="nuSecuenciaLocalNac"/>
+						</c:when>
+						<!--Editable-->
+						<c:when test="${not empty padronNominal.coEstSaludNac and (empty padronNominal.nuCnv or  padronNominal.nuCnv==null or padronNominal.nuCnv eq '')}" >
+							<form:hidden path="coEstSaludNac" id="coEstSaludNac" cssClass="large-select" cssStyle="width: 407px;" />
+							<span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud donde nacio el menor, dato opcional" data-position="sw" class="label label-info label-inf-adicional">?</span>
+							<form:hidden path="nuSecuenciaLocalNac" id="nuSecuenciaLocalNac"/>
+							<form:errors path="coEstSaludNac" cssClass="text-error select2-text-error" element="div"/>
+						</c:when>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					<label for="coEstSaludNac" class="control-label" style="width: auto;">Establecimiento de Salud de Nacimiento</label>
+					<form:hidden path="coEstSaludNac" id="coEstSaludNac" cssClass="large-select" cssStyle="width: 407px;" />
+					<span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud donde nacio el menor, dato opcional" data-position="sw" class="label label-info label-inf-adicional">?</span>
+					<form:errors path="coEstSaludNac" cssClass="text-error select2-text-error" element="div"/>
+					<form:hidden path="nuSecuenciaLocalNac" id="nuSecuenciaLocalNac" />
+				</c:otherwise>
+			</c:choose>
+			<div id="msj_co_est_salud_nac" class="text-error"></div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<c:if test="${not empty errores['coEstSalud']}">
+			<c:set var="errroCoEstSalud" value="error"></c:set>
+		</c:if>
 
-	<!--Cambio de frecuencia de atencion FIN-->
-<!--	<div class="row-fluid">
-
-	</div>-->
+		<div class="span6 control-group ${errroCoEstSalud}">
+			<label for="coEstSalud" class="control-label" title="requerido" style="width: auto;">Establecimiento de Salud de Atencion<span class="text-error required" title="requerido">*</span></label>
+			<form:hidden path="coEstSalud" id="coEstSalud" cssClass="large-select" cssStyle="width: 395px;" />
+			<span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud, o el codigo RENAES, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>
+			<form:errors path="coEstSalud" cssClass="text-error select2-text-error" element="div"/>
+			<div id="msj_co_est_salud" class="text-error"></div>
+		</div>
+		<div class="span6 control-group">
+			<label for="coInstEducativa" class="control-label" style="width: auto;">Nombre de Institución Educativa a la que pertenece el niño/a</label>
+			<form:hidden path="coInstEducativa" id="coInstEducativa"  cssClass="large-select" cssStyle="width: 407px;"/>
+			<span data-trigger="tooltip" data-content="Ingrese el nombre de la institución educativa, o el codigo modular,  o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info label-inf-adicional">?</span>
+			<form:errors path="coInstEducativa" cssClass="text-error select2-text-error" element="div"/>
+			<div id="msj_co_inst_educativa" class="text-error"></div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span6 control-group">
+			<label for="tiSeguroMenor" class="control-label"  title="requerido" style="width: auto;">Tipo de Seguro<!--<span class="text-error required" title="requerido">*</span>--></label>
+			<form:select path="tiSeguroMenor" cssClass="large-select" id="tiSeguroMenor" multiple="multiple" title="Seleccione..." cssStyle="width: 395px !important;">
+				<form:options itemLabel="deDom" itemValue="coDominio" items="${tipoSeguroItems}"/>
+			</form:select>
+			<c:if test="${isSusalud eq '1'}">
+			<!--<c:if test="${isSusalud eq '1' and isTipoSeguro eq '1'}">-->
+				<select class="large-select" id="tiSeguroMenorAux" multiple="multiple" title="Seleccione..." Style="width: 395px !important;">
+					<c:forEach var="tipoSeguroItem" items="${tipoSeguroItems}">
+						<option value="${tipoSeguroItem.coDominio}">${tipoSeguroItem.deDom}</option>
+					</c:forEach>
+				</select>
+			</c:if>
+			<span data-trigger="tooltip" data-content="Seleccione uno ó mas tipos de seguro de salud, ó la opcion ninguno." data-position="sw" class="label label-info label-inf-adicional">?</span>
+			<form:errors path="tiSeguroMenor" cssClass="text-error" element="div"/>
+				<input type="hidden" name="isSusalud" id="isSusalud" value="${isSusalud}" />
+				<input type="hidden" name="isTipoSeguro" id="isTipoSeguro" value="${isTipoSeguro}" />
+		</div>
+		<div class="span6 control-group">
+			<label for="tiProSocial" class="control-label" style="width: auto;">Programas Sociales</label>
+			<form:select path="tiProSocial" cssClass="large-select" id="tiProSocial" multiple="multiple" title="Seleccione..." cssStyle="width: 407px;">
+                   <form:options itemLabel="deDom" itemValue="coDominio" items="${tipoProgramaSocialItems}"/>
+			</form:select>
+			<span data-trigger="tooltip" data-content="Seleccione uno ó mas programas sociales, ó la opcion ninguno." data-position="sw" class="label label-info label-inf-adicional">?</span>
+			<form:errors path="tiProSocial" cssClass="text-error" element="div"/>
+		</div>
+	</div>
   <form:hidden path="nuSecuenciaLocal" />
 
 </jsp:root>

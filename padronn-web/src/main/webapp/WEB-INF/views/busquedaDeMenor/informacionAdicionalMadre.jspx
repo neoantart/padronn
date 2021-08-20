@@ -87,7 +87,7 @@
 												<c:if test="${hijoRegistrado.baseDatosOrigen=='PN'}">
 
 													<c:choose>
-													<c:when test="${hijoRegistrado.esPadron=='1' or hijoRegistrado.esPadron=='2'}">
+													<c:when test="${hijoRegistrado.esPadron=='1'}">
 															<a href="registromanual/formulario.do?coPadronNominal=${hijoRegistrado.codigoPadronNominal}" class="btn btn-info btn-mini pull-right">Actualizar información</a>&#160;
 													</c:when>
 													<c:otherwise>

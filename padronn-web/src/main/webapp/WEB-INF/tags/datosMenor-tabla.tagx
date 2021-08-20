@@ -63,7 +63,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Menor </td>
+                <td>Menor encontrado</td>
                 <td>
                     <c:choose>
                         <c:when test="${not empty padronNominal.coMenorEncontrado}">
@@ -174,19 +174,10 @@
             </td>
         </tr>
         <tr>
-            <td>Ultimo Establecimiento de Salud de Atención</td>
+            <td>Establecimiento de Salud de Atención</td>
             <td>
                 <c:choose>
                     <c:when test="${not empty padronNominal.coEstSalud}">${padronNominal.deEstSalud}</c:when>
-                    <c:otherwise><em>SIN DATO</em></c:otherwise>
-                </c:choose>
-            </td>
-        </tr>
-        <tr>
-            <td>Frecuencia de Atención</td>
-            <td>
-                <c:choose>
-                    <c:when test="${not empty padronNominal.coFrecAtencion}">${padronNominal.deFrecAtencion}</c:when>
                     <c:otherwise><em>SIN DATO</em></c:otherwise>
                 </c:choose>
             </td>

@@ -1,0 +1,364 @@
+<!--
+  Creado por: eduardo arango
+  earango@reniec.gob.pe
+  Date: 08/12/2019
+  Time: 02:47 PM
+-->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <c:set var="context" value="${pageContext.request.contextPath}" />
+    <c:if test="${empty tabmadre}">
+        <script type="text/javascript">
+            $(function () {
+                var validCharsRegex = /[\w\dÄ-ÜÁ-ÚÀ-ÙÂ-ÛÃÕÑä-üá-úà-ùâ-ûãõñ\-' \.]/i
+                        , noFirstChars = "-' .0123456789";
+                               
+                $('#apPrimer')
+                        .keyfilter(validCharsRegex)
+                        .inputmask('apellido');
+
+                $('#apSegundo')
+                        .keyfilter(validCharsRegex)
+                        .inputmask('apellido');
+                ;
+
+                $('#prenombres')
+                        .keyfilter(validCharsRegex)
+                        .inputmask('nombre');
+                ;
+
+            });
+        </script>
+    </c:if>
+     <script type="text/javascript">
+            <![CDATA[
+            $(function () {
+             $('#nuDniMenor').keypress(function (e) {
+                    if (e.which == 13) {
+                        $("#tbnBuscar").trigger('click');
+                    }
+             });
+                
+                var nuDoc = $('#nuDniMenor');
+                nuDoc.focus();   
+                var tiDoc = $('#tiDoc');
+                $("#nuDniMenor").keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+
+                function verificarCampos(ap, no, am){
+                    var check;
+                    if( (ap==null || ap=='' || ap.length==0) && (no==null || no=='' || no.length==0) && (am==null || am=='' || am.length==0) ||
+                        (ap!=null || ap!='' || ap.length!=0) && (no==null || no=='' || no.length==0) && (am==null || am=='' || am.length==0) ||
+                        (ap==null || ap=='' || ap.length==0) && (no!=null || no!='' || no.length!=0) && (am==null || am=='' || am.length==0) ||
+                        (ap==null || ap=='' || ap.length==0) && (no==null || no=='' || no.length==0) && (am!=null || am!='' || am.length!=0)
+                    ){
+                        return false;
+                    } else{
+                        return  true;
+                    }
+                }
+
+                $('#buscarMenorGrias').on ('submit',function(e){
+                    var op=$("#tiOpcion").val();
+                    if(op=='1') {
+                        var ap = $("#apPrimer").val().trim();
+                        var am = $("#apSegundo").val().trim();
+                        var no = $("#prenombres").val().trim();
+
+                        if( verificarCampos(ap, no, am) ) {
+                            if ((ap.length != 0 && ap.length < 3) || (no.length != 0 && no.length < 3) || (am.length != 0 && am.length < 3)) {
+                                alert('¡Los campos de datos del menor debe tener por lo menos 3 digitos!');
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                return false;
+                            }
+                        }else{
+                            alert('¡Debe llenar al menos dos campos!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                    } else if(op=='2') {
+                        if($('#tiDoc').val()==''){
+                            alert('¡Seleccione tipo de documento!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }                        
+                        if($("#nuDniMenor").val()==''){
+                            alert('¡Ingresar el dni del menor!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                });
+
+                $('#descargar').click(function(e){
+                   var opIr=0;
+                   var op=$("#tiOpcion").val();
+
+                    if(op=='1'){
+                        var ap=$("#apPrimer").val().trim();
+                        if(ap==''|| ap.length==0){
+                            alert('¡Ingresar los apellidos del menor!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                        var no=$("#prenombres").val().trim();
+                        if(no==''|| no.length==0){
+                            alert('¡Ingresar el nombre del menor!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                        opIr=1;
+                    }else if(op=='2'){
+                        if($('#tiDoc').val()==''){
+                            alert('¡Seleccione tipo de documento!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }                        
+                        if($("#nuDniMenor").val()==''){
+                            alert('¡Ingresar el dni del menor!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                        opIr=1;
+                    }
+                    if(opIr==1){
+                        var obj=new Object();
+                       obj.tiDoc=$("#tiDoc").val();
+                       obj.nuDniMenor=$("#nuDniMenor").val();
+                       obj.coTipoObservacion=$("#tipo_observacion").val();
+                       obj.apPrimer=$("#apPrimer").val();
+                       obj.apSegundo=$("#apSegundo").val();
+                       obj.prenombres=$("#prenombres").val(); 
+                       jQuery("#descargar").attr("href", "bandeja_observado/descargar_bandeja_observados.do?nuPagina=1&nuDniMenor=" +obj.nuDniMenor+"&apPrimer="+obj.apPrimer+"&apSegundo="+obj.apSegundo+"&prenombres="+obj.prenombres +"&coTipoObservacion="+obj.coTipoObservacion+"&tiDoc="+obj.tiDoc );
+                } else{
+                    alert('¡Debe ingresar un criterio para realizar la busqueda!');
+                }
+               
+            });
+                
+            });
+            
+            
+            
+             ]]>
+            
+        </script>
+    
+    
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Bandeja de registros observados</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="row-fluid">
+                <form:form id="buscarMenorGrias" action="bandeja_observado/listado_observados_filtro_por_datos.do#result_filtro" method="get" modelAttribute="FormBuscarMenor" >
+                    <ul id="busava-tabs" class="nav nav-tabs">
+                        <li class="${tabmenor}" data-id="1"><a href="#busmen-ava-menor-tabpane" class="opcion"  data-toggle="tab">Búsqueda por datos del Niño/a</a></li>
+                        <li class="${tabmenortdoc}" data-id="2"><a href="#busmen-ava-menor_td-tabpane" class="opcion"  data-toggle="tab">Búsqueda por tipo documento</a></li>
+                    </ul>
+                    <div id="" class="tab-content" style="padding:9px !important;">
+                        <input type="hidden" name="tiOpcion" id="tiOpcion" value="1"/>
+                        <div class="tab-pane ${tabmenor}" id="busmen-ava-menor-tabpane">
+                            <div class="row-fluid">
+                                <div class="span4">
+                                    <label for="apPrimer">Apellido Paterno</label>
+                                    <input type="text" id="apPrimer" name="apPrimer" class="span12 mask-alpha" />
+                                </div>
+                                <div class="span4">
+                                    <label for="apSegundo">Apellido Materno</label>
+                                    <input type="text" id="apSegundo" name="apSegundo" class="span12 mask-alpha" />
+                                </div>
+                                <div class="span4">
+                                    <label for="prenombres">Nombres</label>
+                                    <input type="text" id="prenombres" name="prenombres" class="span12 mask-alpha" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane ${tabmenortdoc}" id="busmen-ava-menor_td-tabpane">
+                            <div class="row-fluid">
+                                <div class="control-group">
+                                    <div class="span6">
+                                        <label class="control-label" for="tiDoc" title="requerido">Tipo Documento</label>
+                                        <select path="tiDoc" name="tiDoc" id="tiDoc" class="form-control" style="width: 400px;">
+                                            <option value="">---SELECCIONE TIPO DE DOCUMENTO---</option>
+                                            <option value="0">DOCUMENTO NACIONAL DE IDENTIDAD (DNI)</option>
+                                            <option value="1">CODIGO UNICO DE IDENTIDAD (CUI)</option>
+                                            <option value="2">NUMERO DE CNV</option>
+                                            <option value="3">CODIGO PADRON NOMINAL</option>
+                                        </select>
+                                        <!--<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i></button>-->
+                                    </div>
+                                    <div class="span2">
+                                        <label class="control-label" for="tiDoc" title="requerido">Número Documento</label>
+                                        <input type="text" name="nuDniMenor" id="nuDniMenor" placeholder="Numero de documento" ondragstart="return false;" ondrop="return false;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="alert alert-success clearfix">
+                            <div class="span3">
+                                <p><span class="icon-refresh"></span>&#160;Listado&#160;<a
+                                        href="#"
+                                        class="noAjax btn btn-success" id="descargar"><span
+                                        class="icon-download icon-white"></span>&#160;Descargar</a>
+                                </p>
+                            </div>
+                            <div class="span8">
+                                Filtrar por Tipo Observación:
+                                <select id="tipo_observacion" name="coTipoObservacion" style="width: 390px;">
+                                    <option value="0">-- TODOS --</option>
+                                    <c:forEach var="tipoObservacion" items="${tiposObservacion}">
+                                        <c:choose>
+                                            <c:when test="${tipoObservacion.coTipoObservacion eq coTipoObservacion}">
+                                                <option value="${tipoObservacion.coTipoObservacion}" selected="selected">${tipoObservacion.deTipoObservacion}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${tipoObservacion.coTipoObservacion}">${tipoObservacion.deTipoObservacion}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="text-align: right;"  >
+                        <div class="span5 offset7">
+                            <label>&#160;</label>
+                            <button type="submit" id="tbnBuscar" class="btn btn-success"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+                            &#160;
+                            <button id="btnLimpiar" class="btn btn"><i class="icon-remove icon-white">&#160;</i>Limpiar</button>
+                            &#160;
+                            <a href="home.do#main-content" class="btn btn-danger"><i class="icon-arrow-left icon-white"></i>&#160;Cerrar</a>
+                        </div>
+                    </div>
+
+                </form:form>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div id="result_filtro" class="span12" style="margin-top: 25px;">
+
+        </div>
+    </div>
+                    
+                    
+                    
+    <div id="mdlInfo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="informacionMenor">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<style>
+        .tab-content {
+            padding: 1px 1px !important;
+            margin-bottom: 1px !important;
+        }
+        #mdlInfo{
+            width: 690px;
+        }
+        .modal-megamenu {
+            width: 100%;
+            height:100%;
+        }
+
+        .modal-body {
+            max-height:600px;
+            overflow:auto;
+        }
+
+    </style>  
+    <script>
+        var CONTEXTPATH = "${context}";
+
+        $(document).on("click", "#busava-tabs", function (evt) {
+            evt.preventDefault();
+            var op = $('ul#busava-tabs').find('li.active').data('id');
+            $("#tiOpcion").val(op);
+            $("#btnLimpiar").click();
+        });
+        
+       $("#btnLimpiar").click(function () {
+            $('#buscarMenorGrias')[0].reset();
+            $("#result_filtro").empty();
+            return false;
+        })
+            
+        $("#tiDoc").change(function(){
+            $("#nuDoc").val('')   
+            setLengthNuDoc()
+           
+        });
+        
+        function setLengthNuDoc(){
+            var nuDoc=$("#nuDoc");
+            var tiDoc = $('#tiDoc');
+            if(tiDoc.val()!='2') {
+                nuDoc.attr('maxlength', '9');
+            } else {
+                nuDoc.attr('maxlength', '10');
+            }
+        }   
+        
+    </script>
+                        
+                        
+    <script>
+        
+        
+        /*
+        function fnNuevoFormulario(){
+            $("#application-content").load(CONTEXTPATH +"/registromanual/formulario.do", function(response, status, xhr) {
+						  if (status == "error") {
+						    var msg = "Error!, algo ha sucedido: ";
+						    $("#capa").html(msg + xhr.status + " " + xhr.statusText);
+						  }
+						});
+            
+        }
+        function fnEditarFormulario(codigo){
+            $("#application-content").load(CONTEXTPATH +"/registromanual/formulario.do?coPadronNominal="+codigo, function(response, status, xhr) {
+						  if (status == "error") {
+						    var msg = "Error!, algo ha sucedido: ";
+						    $("#capa").html(msg + xhr.status + " " + xhr.statusText);
+						  }
+						});
+            
+        }*/
+
+    </script>
+</jsp:root>

@@ -107,11 +107,11 @@
 
                 <div class="control-group">
                     <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
+
                     <div class="controls">
                         <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
                         <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 20px;">
                             <form:option value="1" label="Activos" />
-                            <form:option value="2" label="Activos-Observados" />
                             <form:option value="0" label="Inactivos"/>
                         </form:select>
                     </div>
@@ -140,12 +140,12 @@
 
     <c:if test="${not empty coProgramaSocial }">
         <c:choose>
-            <c:when test="${not empty padronList and empty limitSize}">
+            <c:when test="${not empty padronList}">
                 <!--<h2>Reporte de Padron del nominal del ubigeo: <strong>${deUbigeo}</strong>,  en el periodo de consulta: <strong>${feIni} al ${feFin}</strong> </h2>-->
                 <c:choose>
-                    <c:when test="${esPadron eq'1' or esPadron eq '2'}">
+                    <c:when test="${esPadron eq'1'}">
 
-                        <h2 style="font-size: 17px; font-weight: bold;">Resultado de la consulta del<code style="font-size: 18px;">${deProgramaSocial}</code>-<strong>&#160;&#160;<c:if test="${esPadron eq '1'}">Activos</c:if><c:if test="${esPadron eq '2'}">Activos-Observados</c:if> </strong>
+                        <h2 style="font-size: 17px; font-weight: bold;">Resultado de la consulta del<code style="font-size: 18px;">${deProgramaSocial}</code>-<strong>&#160;&#160;Activos</strong>
                             del <code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code></h2>
 
                         <hr/>
@@ -167,7 +167,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th style="width: 114px;">Cod. Padron/DNI</th>
+                                <th style="width: 114px;">Cod. Padron</th>
+                                 <th>CNV</th>
+                                <th>CUI</th>
+                                <th >DNI</th>
                                 <th width="90px">Ap. paterno</th>
                                 <th style="width: 85px;">AP. materno</th>
                                 <th width="90px">Nombres</th>
@@ -183,6 +186,9 @@
                                 <tr>
                                     <td>${padron.fila}</td>
                                     <td>${padron.coPadronNominal}</td>
+                                     <td>${padron.nuCnv}</td>
+                                        <td>${padron.nuCui}</td>
+                                        <td>${padron.nuDniMenor}</td>
                                     <td>${padron.apPrimerMenor}</td>
                                     <td>${padron.apSegundoMenor}</td>
                                     <td>${padron.prenombreMenor}</td>
@@ -236,7 +242,10 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th style="width: 114px;">Cod. Padron/DNI</th>
+                        <th style="width: 114px;">Cod. Padron</th>
+                        <th>CNV</th>
+                                <th>CUI</th>
+                                <th >DNI</th>
                         <th width="90px">Ap. paterno</th>
                         <th style="width: 85px;">AP. materno</th>
                         <th width="90px">Nombres</th>
@@ -253,6 +262,9 @@
                         <tr>
                             <td>${padron.fila}</td>
                             <td>${padron.coPadronNominal}</td>
+                            <td>${padron.nuCnv}</td>
+                            <td>${padron.nuCui}</td>
+                            <td>${padron.nuDniMenor}</td>
                             <td>${padron.apPrimerMenor}</td>
                             <td>${padron.apSegundoMenor}</td>
                             <td>${padron.prenombreMenor}</td>
@@ -282,9 +294,6 @@
                                 urlDespuesNuPagina="&amp;coEntidad=${coEntidad}&amp;coProgramaSocial=${coProgramaSocial}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;deProgramaSocial=${deProgramaSocial}&amp;esPadron=${esPadron}&amp;tiRegFecha=${tiRegFecha}"></util:paginador>
                     </c:when>
                 </c:choose>
-            </c:when>
-            <c:when test="${not empty limitSize and empty padronList}">
-                <div class="alert alert-danger"><strong>${limitSize}</strong></div>
             </c:when>
             <c:otherwise>
                 <div class="alert alert-danger">

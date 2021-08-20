@@ -65,7 +65,7 @@
                     <div class="controls">
                         <form:select path="tiRegFecha" id="tiRegFecha" cssClass="span2" cssStyle="margin-left: 20px;">
                             <form:option value="" label="Seleccione..." />
-                            <!--<form:option value="T" label="Todos" />-->
+                            <form:option value="T" label="Todos" />
                             <form:option value="N" label="Nuevo" />
                             <form:option value="U" label="Actualizado"/>
                         </form:select>
@@ -102,20 +102,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="control-group">
-                    <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
-
-                    <div class="controls">
-                        <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
-                        <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 20px;">
-                            <form:option value="3" label="Todos" selected="selected" />
-                            <form:option value="1" label="Activos" />
-                            <form:option value="2" label="Activos-Observados" />
-                            <!--<form:option value="0" label="Inactivos"/>-->
-                        </form:select>
-                    </div>
-                </div>
             </div>
 
             <div class="panel-footer clearfix">
@@ -137,7 +123,7 @@
 
     <c:if test="${ not empty coUbigeo }">
         <c:choose>
-            <c:when test="${not empty padronSinDocu and empty limitSize }">
+            <c:when test="${not empty padronSinDocu}">
                 <!--<h2>Reporte de Padron del nominal del ubigeo: <strong>${deUbigeo}</strong>,  en el periodo de consulta: <strong>${feIni} al ${feFin}</strong> </h2>-->
                   <h2 style="font-size: 17px;"><strong>
                     Resultado de Niños y niñas  sin DNI del
@@ -155,7 +141,7 @@
 <!--                    <p class="text-info">La descarga del reporte en excel puede demorar según el número de registros.</p>-->
                     <strong>Descargar reporte en formato Excel.</strong>&#160;&#160;&#160;
                     <a class="noAjax btn btn-success"
-                       href="reporte/reporte_padron_sin_docu_xls.do?coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}&amp;esPadron=${esPadron}">
+                       href="reporte/reporte_padron_sin_docu_xls.do?coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}">
                         <i class="icon-download icon-white">&#160;</i>&#160;
                         Descargar
                     </a>&#160;&#160;
@@ -170,6 +156,9 @@
                         <th>#</th>
                         <!-- se quito del cod. Padron el (/DNI) 18-05-2016-->
                         <th width="114px">Cod. Padron</th>
+                        <th>CNV</th>
+                        <th>CUI</th>
+                        <th >DNI</th>
                         <th width="90px">Ap. paterno</th>
                         <th width="90px">Ap. materno</th>
                         <th>Nombres</th>
@@ -183,6 +172,9 @@
                         <tr>
                             <td>${padron.fila}</td>
                             <td>${padron.coPadronNominal}</td>
+                            <td>${padron.nuCnv}</td>
+                            <td>${padron.nuCui}</td>
+                            <td>${padron.nuDniMenor}</td>
                             <td>${padron.apPrimerMenor}</td>
                             <td>${padron.apSegundoMenor}</td>
                             <td>${padron.prenombreMenor}</td>
@@ -208,10 +200,7 @@
                 <br/>
                 <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                                 urlAntesNuPagina="reporte/consulta_padron_sin_docu.do?nuPagina="
-                                urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}&amp;esPadron=${esPadron}"></util:paginador>
-            </c:when>
-            <c:when test="${not empty limitSize and empty padronSinDocu}">
-                <div class="alert alert-danger"><strong>${limitSize}</strong></div>
+                                urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}"></util:paginador>
             </c:when>
             <c:otherwise>
                 <div class="alert alert-danger"><strong>No existen registros</strong> para la consulta realizada.</div>

@@ -9,7 +9,12 @@
           xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:spring="http://www.springframework.org/tags">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <p class="lead text-info">Datos de la madre padron</p>
+    <p class="lead text-info">Datos de la madre menor</p>
+    <div class="" >
+            <div class="">
+                                <jsp:include page="datos-ani-madre.jspx"/>
+                            </div>
+        </div>            
     <form:form action="rectificacion/set_datos_madre.do#datos-madre-padron" method="post" modelAttribute="madre">
 <!--        <c:choose>
             <c:when test="${empty coDniMadre}">

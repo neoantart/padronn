@@ -63,7 +63,6 @@
                                     <li class="${cssDisable}">
                                         <a href="${urlAnt}" onclick="${onClick}">&#171;</a>
                                     </li>
-
                                     <c:forEach var="nuPaginaVar" begin="${numPerPageli * (currentPageli) + 1}"
                                                end="${numPerPageli * (currentPageli + 1)}" step="1">
                                         <c:set var="cssActive" value="" scope="request"/>
@@ -82,11 +81,9 @@
                                             </li>
                                         </c:if>
                                     </c:forEach>
-
                                     <c:set var="urlSig" value="#" scope="request"/>
                                     <c:set var="tmp" value="${nuPaginas / numPerPageli}" scope="request"/>
                                     <c:set var="tmp" value="${tmp - ( tmp % 1 ) }" scope="request"/>
-
                                     <c:if test="${currentPageli le (tmp -1)}">
                                         <fmt:formatNumber type="number" maxFractionDigits="0"
                                                           value="${numPerPageli * (currentPageli + 1) + 1}"
