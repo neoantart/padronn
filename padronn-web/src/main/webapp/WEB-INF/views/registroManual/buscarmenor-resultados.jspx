@@ -104,7 +104,6 @@
                         <td><strong style="float: right;">Sexo</strong></td>
                         <td>${persona.genero}</td>
                     </tr>
-
                     <tr>
                         <c:choose>
                             <c:when test="${not empty persona.padreTipoVinculo and not empty persona.padrePrimerApellido}">
@@ -250,12 +249,12 @@
                         </c:choose>
                     </tr>
 
-                   <!-- <c:if test="${not empty persona.coRestri}">
+                    <c:if test="${not empty persona.coRestri}">
                         <tr>
                             <td class="text-error">Restricción:</td>
                             <td>${persona.deRestri}</td>
                         </tr>
-                    </c:if>-->
+                    </c:if>
                 </table>
 
                 <!--				<dl class="dl-horizontal">-->
@@ -359,16 +358,17 @@
                         <strong>${persona.deRestri}</strong>. <br/></p>
                 </c:if>
                 <!--<c:if test="${persona.edad lt 6 and empty persona.coRestri}">-->
+                   
                 <c:if test="${persona.edad lt 6}">
                     <c:if test="${persona.baseDatosOrigen=='PN'}">
                         <c:choose>
-                            <c:when test="${persona.esPadron=='1' or persona.esPadron=='2'}">
+                            <c:when test="${persona.esPadron=='1'}">
                                 <p><strong class="text-info">YA SE ENCUENTRA REGISTRADO</strong> en el Padrón Nominal.
                                     <!-- <em class="text-info">Se actualizará la información que ya tiene registrada.</em>-->
                                 </p>
-                                <a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}"
+                               <!-- <a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}"
                                    class="btn btn-info"><span
-                                        class="icon-pencil icon-white"></span> Actualizar en el Padrón Nominal</a>
+                                        class="icon-pencil icon-white"></span> Actualizar en el Padrón Nominal</a>-->
                             </c:when>
                             <c:otherwise>
                                 <p class="text-muted text-error">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
@@ -377,17 +377,14 @@
 
                     </c:if>
                     <c:if test="${persona.baseDatosOrigen=='ANI'}">
-                        <p><strong class="text-success">NO ESTA REGISTRADO</strong> en el Padrón Nominal, se registrará como Registro
-                            <c:choose>
-                                <c:when test="${persona.coRestri eq '04' or persona.coRestri eq 'A'}">Observado.</c:when>
-                                <c:otherwise>Activo.</c:otherwise>
-                            </c:choose>
+                        <p><strong class="text-success">NO ESTA REGISTRADO</strong> en el Padrón Nominal.
                             <!--<em class="text-success">Se realizará un nuevo registro.</em>-->
                         </p>
-                        <a href="registromanual/formulario.do?nuDniMenor=${persona.dni}" class="btn btn-info" style="margin-bottom: 5px;"><span class="icon-hdd icon-white"></span> Registrar en el Padrón Nominal</a>
-
+                       <!-- <a href="registromanual/formulario.do?nuDniMenor=${persona.dni}" class="btn btn-info"><span
+                                class="icon-hdd icon-white"></span> Registrar en el Padrón Nominal</a>-->
                     </c:if>
                 </c:if>
+                                
             </div>
             <c:if test="${not empty datosCaducidadDni}">
                 <c:if test="${datosCaducidadDni.diasParaCaducidad lt 0}">

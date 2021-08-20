@@ -38,7 +38,6 @@
 						${mensaje}
 						<!--<a href="registromanual/buscarmenorform.do" class="btn btn-medium btn-success pull-right"><span class="icon-pencil icon-white"></span> Ir al Formulario de Registro</a>-->
 					</h4>
-					<p style="color: #2d6987; font-weight: bold;">${msgRestriccion}</p>
 					<p style="margin-bottom: 0px;margin-top: 10px">
 						Ahora, puede ir al <a href="registromanual/buscarmenorform.do" class="text-info">Formulario de Registro</a>,
 						o ir al <a href="busquedademenor/avanzadoform.do" class="text-info">Formulario de Búsqueda de Niño/a</a>,

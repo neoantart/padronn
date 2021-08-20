@@ -31,22 +31,6 @@ var RegistroManual = {
     },*/
     inicializarFormulario: function () {
 
-        var coFuenteDatos = $('#coFuenteDatos').val();
-        if(coFuenteDatos == 12){//telemonitoreo
-           $('span#span-celular-required').show();
-        } else{
-            $('span#span-celular-required').hide();
-        }
-
-        $('#coFuenteDatos').on('change', function () {
-            coFuenteDatos = $(this).val();
-           if(coFuenteDatos == 12){ //telemonitoreo
-               $('span#span-celular-required').show();
-           }else{
-               $('span#span-celular-required').hide();
-           }
-        });
-
         var beforeSelected = $('#coGraInstMadre').children('option:selected').val();
 
         $('#coGraInstMadre').each(function() {
@@ -76,18 +60,11 @@ var RegistroManual = {
 
             if($('#tiVinculoJefe').val() != "") {
                 if (confirm("¿Desea seleccionar otro tipo de vínculo de jefe de familiar?")) {
-
-                    /*if($('#tiVinculoJefe').val() =="1") {//madre
-                        $('#apPrimerJefe').val($('#apPrimerMadre').val());
-                        $('#apSegundoJefe').val($('#apSegundoMadre').val());
-                        $('#prenomJefe').val($('#prenomMadre').val());
-                        $('#coDniJefeFam').val('');
-                    } else {*/
-                        $('#coDniJefeFam').val('');
-                        $('#apPrimerJefe').val('');
-                        $('#apSegundoJefe').val('');
-                        $('#prenomJefe').val('');
-                    /*}*/
+                    //if( !($('#tiVinculoJefe').val() == "")){
+                    $('#coDniJefeFam').val('');
+                    $('#apPrimerJefe').val('');
+                    $('#apSegundoJefe').val('');
+                    $('#prenomJefe').val('');
                 }
                 else {
                     $(this).val(previousValueTiVinculoJefe)
@@ -494,7 +471,6 @@ var RegistroManual = {
                 }
             }
         });
-
         $coInstEducativa.off('select2-selecting');
         $coInstEducativa.on('select2-selecting', function(e) {
             if(!$('#msj_co_inst_educativa').is(':empty'))
@@ -929,11 +905,11 @@ var RegistroManual = {
     var mostrarEjeVial=function(deAreaCcpp){
         if(deAreaCcpp == 'URBANA'){
             $('#eje_vial').removeClass('hide');
+            $('#deRefDirWrap').removeClass('hide');
         } else {
             $('#eje_vial').addClass('hide');
-            /*$('#deRefDirWrap').addClass('hide');*/
+            $('#deRefDirWrap').addClass('hide');
         }
-        $('#deRefDirWrap').removeClass('hide');
     }
     $("#coUbigeoInei").on('select2-open', function(){
             $('.select2-input').inputmask('ubigeo');
@@ -1551,7 +1527,7 @@ var RegistroManual = {
                     alert('Por favor elija un ubigeo de su jurisdicción');
                     $('#coUbigeoInei').select2("val", "");
                     $('#eje_vial').addClass('hide');
-                /*    $('#deRefDirWrap').addClass('hide');*/
+                    $('#deRefDirWrap').addClass('hide');
                     $('#deAreaCcpp').val('');
                     $("#coCentroPoblado").select2("val", "");
                     $('#coVia').select2("val", "");
@@ -1671,11 +1647,11 @@ var RegistroManual = {
                     $("#coCentroPoblado").select2("data", data);
                     if(data.deAreaCcpp == 'URBANA'){
                         $('#eje_vial').removeClass('hide');
+                        $('#deRefDirWrap').removeClass('hide');
                     } else {
                         $('#eje_vial').addClass('hide');
-                        /*$('#deRefDirWrap').addClass('hide');*/
+                        $('#deRefDirWrap').addClass('hide');
                     }
-                    $('#deRefDirWrap').removeClass('hide');
                     $('#deDireccion').val('');
                     $('#deRefDir').val('');
                     $('#coVia').select2("val", "");

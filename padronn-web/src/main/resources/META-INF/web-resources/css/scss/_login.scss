@@ -1,0 +1,125 @@
+.form-log-in {
+  width: 100%;
+  padding: 25px;
+  border: 1px solid #ddd;
+  background-color:#fff;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 0;
+  @include mediaQ(1200px){
+    width:80%;
+  }
+  @include mediaQ(1367px){
+    margin-top: 2em;
+  }
+
+  .login-title{
+    text-align: center;
+    color: #004370;
+    line-height: 1;
+    @include mediaQ(1367px){
+      margin: 20px 0;
+    }
+  }
+}
+.row-fluid {
+  .offset1 {
+    margin: 0;
+    @include mediaQ(768px){
+      margin-left: 10.638297872340425%;
+    }
+  }
+  .span5{
+    width: 98%;
+    @include mediaQ(768px){
+      width: 40.42553191489362%;
+    }
+  }
+  .span6{
+    display: none;
+    @include mediaQ(768px){
+      display: block;
+    }
+  }}
+  .control-group{
+    label{
+      font-weight: normal;
+      color: #757575;
+      margin: 0;
+    }
+  }
+   .control-group{
+    margin-bottom: 0;
+    @include mediaQ(1367px){
+      margin-bottom: 10px;
+    }
+  }
+  .control-group textarea, .control-group input[type="text"], .control-group input[type="password"],
+  .control-group input[type="datetime"], .control-group input[type="datetime-local"], .control-group input[type="date"],
+  .control-group input[type="month"], .control-group input[type="time"], .control-group input[type="week"],
+  .control-group input[type="number"], .control-group input[type="email"], .control-group input[type="url"], .control-group input[type="search"],
+  .control-group input[type="tel"], .control-group input[type="color"] {
+    background-color: #F1F2F3;
+    border: none;
+    padding: 1.3em 10px;
+    font-size: 16px;
+    border-radius: 5px!important;
+    @include mediaQ(1367px){
+      padding: 1.5em 10px;
+    }
+  }
+  .control-group select{
+    padding: 1em 10px;
+    height: auto;
+    border:0;
+    border-radius: 3px;
+    background: #f1f2f3;
+  }
+  #captcha-section {
+    .input-append {
+      width: 100%;
+      position: relative;
+    }
+    a{
+      position: absolute;
+      right: 5px;
+      top: 2px;
+    }
+  }
+  //icon-list -principal
+#application-content ul.panel{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  padding: 20px 0;
+  @include mediaQ(1367px){
+    padding: 40px 0;
+    justify-content: space-between;
+  }
+  @include mediaQ(1400px){
+    flex-wrap: nowrap;
+  }
+  li{
+    margin: 10px .8%;;
+    &:hover{
+      transform: scale(1.1);
+    }
+    @include mediaQ(1367px){
+      margin: 10px 0;
+      &:hover{
+        transform: scale(1.15);
+      }
+    }
+    a{
+      margin: 1em 8px;
+      @include mediaQ(1367px){
+        margin: 1.8em;
+      }
+    }
+  }
+  }
+
+
+
+
+

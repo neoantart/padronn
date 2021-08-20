@@ -54,25 +54,25 @@
                             <!--<td>${depa.coUbigeo}</td>-->
                             <td>${prov.deUbigeo}</td>
                             <td style="text-align: right;">
-                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=2&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=2&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}"
                                    class="btn-link" title="">
                                     <fmt:formatNumber value="${prov.nuCui}" pattern="###,###,###"/>
                                 </a>
                             </td>
                             <td style="text-align: right;">
-                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=3&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=3&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}"
                                    class="btn-link" title="">
                                     <fmt:formatNumber value="${prov.nuSinDni}" pattern="###,###,###"/>
                                 </a>
                             </td>
                             <td style="text-align: right;">
-                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=1&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=1&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}"
                                    class="btn-link" title="">
                                     <fmt:formatNumber value="${prov.nuConDni}" pattern="###,###,###"/>
                                 </a>
                             </td>
                             <td style="text-align: right;background-color: #fcefa1;">
-                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                <a href="grias/listar_menores_ubigeo.do?coUbigeo=${prov.coUbigeo}&amp;tiDocMenor=&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}"
                                    class="btn-link" title="Ver listado de menores Total">
                                     <fmt:formatNumber value="${prov.nuTotal}" pattern="###,###,###"/>
                                 </a>

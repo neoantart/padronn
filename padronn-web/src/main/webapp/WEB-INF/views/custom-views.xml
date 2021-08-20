@@ -51,8 +51,5 @@
     <!--Desde aqui agregado por Jose Vidal Flores-->
     <bean id="reporteResumenEdadEESS.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteResumenEdadEESSView"></bean>
     <bean id="reporteDetalleEdadEESS.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteDetalleEdadEESSView"></bean>
-    <!--Adicional para frecuencia de atencion-->
-    <bean id="reporteResumenEdadEESSatencion.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteResumenEdadEESSatencion"></bean>
-    <bean id="reporteDetalleEdadEESSatencion.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteDetalleEdadEESSatencion"></bean>
 
 </beans>

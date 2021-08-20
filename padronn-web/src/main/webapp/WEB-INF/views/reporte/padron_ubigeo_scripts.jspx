@@ -133,7 +133,7 @@
                 $('#s2id_coUbigeo >a span').text('');
             });
 
-            /*$('#esPadron')
+            $('#esPadron')
                     .hide()
                     .after(
                             $(document.createElement('input'))
@@ -144,7 +144,7 @@
                                         }
                                         $('#esPadron').val(this.checked ? '1' : '0');
                                     })
-                    );*/
+                    );
 
             var ubigeoReadOnly = '${ubigeoReadOnly}';
             if (ubigeoReadOnly==='true'){

@@ -108,7 +108,10 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th width="114px">Cod. Padron/DNI</th>
+                                <th width="114px">Cod. Padron</th>
+                                <th>CNV</th>
+                                <th>CUI</th>
+                                <th >DNI</th>
                                 <th width="85px">Ap. Paterno</th>
                                 <th width="85px">Ap. Materno</th>
                                 <th>Nombres</th>
@@ -126,6 +129,9 @@
                                     <td>${count}</td>
                                     <c:set var="count" value="${count + 1}" scope="page"/>
                                     <td>${observacion.coPadronNominal}</td>
+                                   <td>${observacion.nuCnv}</td>
+                                        <td>${observacion.nuCui}</td>
+                                        <td>${observacion.nuDniMenor}</td>
                                     <td>${observacion.apPrimerMenor}</td>
                                     <td>${observacion.apSegundoMenor}</td>
                                     <td>${observacion.prenombreMenor}</td>

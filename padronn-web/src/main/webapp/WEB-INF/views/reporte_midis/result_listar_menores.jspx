@@ -41,7 +41,7 @@
                 <div class="alert">
                     <p>Descargar el detalle del resultado en formato excel
                     <a class="noAjax btn btn-success btn-normal"
-                       href="reporte_midis/result_listar_menores_xlsx.do?coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;tiSeguro=${tiSeguro}&amp;coProgramaSocial=${coProgramaSocial}&amp;esPadron=${esPadron}">
+                       href="reporte_midis/result_listar_menores_xlsx.do?coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;tiSeguro=${tiSeguro}&amp;coProgramaSocial=${coProgramaSocial}">
                         <i class="icon-download icon-white"><!-- --></i>&#160;<strong>Descargar ${filas} registros</strong>
                     </a>
                     </p>
@@ -74,7 +74,7 @@
                             </td>
                             <td>
                                 <a title="Ver Ficha del menor" class="btn btn-mini btn-primary"
-                                   href="reporte_midis/fichaPadron.do?coPadronNominal=${padron.coPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}">
+                                   href="reporte_midis/fichaPadron.do?coPadronNominal=${padron.coPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}">
                                     <i class=" icon-user icon-white"><!-- --></i>&#160;Ver ficha
                                 </a>
                             </td>
@@ -85,7 +85,7 @@
                 <br/>
                 <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                                 urlAntesNuPagina="reporte_midis/listar_menores_ubigeo.do?nuPagina="
-                                urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;tiSeguro=${tiSeguro}&amp;coProgramaSocial=${coProgramaSocial}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}">
+                                urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;tiSeguro=${tiSeguro}&amp;coProgramaSocial=${coProgramaSocial}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}">
                 </util:paginador>
             </c:when>
             <c:otherwise>

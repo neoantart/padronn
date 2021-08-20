@@ -114,7 +114,7 @@
                                                             <c:if test="${hijoRegistrado.baseDatosOrigen=='PN'}">
                                                                 <!--<a href="registromanual/formulario.do?coPadronNominal=${hijoRegistrado.codigoPadronNominal}" class="btn btn-info btn-mini pull-right">Actualizar información</a>&#160;-->
                                                                 <c:choose>
-                                                                    <c:when test="${hijoRegistrado.esPadron=='1' or hijoRegistrado.esPadron=='2'}">
+                                                                    <c:when test="${hijoRegistrado.esPadron=='1'}">
                                                                         <!--<a title="Ver Ficha del menor" class="btn btn-mini btn-primary" href="grias/fichaPadron.do?coPadronNominal=${hijoRegistrado.codigoPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=&amp;deEdad=&amp;hastaEdad=&amp;deUbigeo=&amp;feIni=&amp;feFin=&amp;feNacIni=&amp;feNacFin=&amp;tiDocMenor=&amp;coGeneroMenor=&amp;urlVolverFicha=${urlVolverFicha}&amp;dni=${dni}"><i class=" icon-user icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Ver ficha</a>-->
                                                                         <a href="registromanual/formulario.do?coPadronNominal=${hijoRegistrado.codigoPadronNominal}" class="btn btn-info btn-mini pull-right">Actualizar información</a>&#160;
                                                                     </c:when>

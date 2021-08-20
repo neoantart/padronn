@@ -1,17 +1,8 @@
 html,
 body {
     height: 100%;
-    min-width:1060px;
+    /*min-width:1060px;*/
 }
-#wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -75px;
-    background: url(../img/background-huella.jpg) no-repeat bottom left fixed;
-    position: static; /* !important;*/
-}
-
 /*
 General Layout
 */
@@ -21,9 +12,9 @@ General Layout
     position: relative;
 }
 #header{
-    border-top:4px solid #7E0047;
-    background:url(../img/fondo_header.jpg);
-    height:137px;
+    background-color: #0d3753;
+    padding:  0;
+
 }
 .borderImg1{
     border: 1px solid #f2f2f2;
@@ -33,33 +24,27 @@ General Layout
     padding: 10px;
 }
 #header .navbar{
-    width: 1060px;
     margin: auto;
 }
-#header .nav{
-}
+
 #header #logo{
     width:1000px;
-    height:96px;
     background-image: url(../img/top_titulo_interno.jpg);
 }
 #footer{
-    clear:both;
     width:100%;
-    height:34px;
     border-top: 1px solid #366EAF;
     font-size:11px;
     color: #366EAF;
-    margin-top:40px;
     text-align: center;
-    /*position: absolute;*/
+
 }
 #footer span{
-    line-height:32px;
+    line-height:1;
     margin-left:15px;
 }
 #main-content{
-    padding:0px 30px 50px 30px;
+    padding: 0;
 }
 /* Verificar */
 #main-content #loginForm{
@@ -69,12 +54,12 @@ General Layout
 }
 /* Personalización de elementos bootstrap para la aplicación */
 #main-content h1{
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 20px;
+    line-height: 20px;
     color: #004370;
     font-weight: 300;
     padding: 0;
-    margin: 22px 0px 8px;
+    margin: 5px 0 0px;
 }
 
 #main-content h2{
@@ -161,7 +146,7 @@ table.fixed-width-table th, table.fixed-width-table td {
     line-height: 30px;
     padding-left: 5px;
 }
-#main-content .control-group{
+ .control-group{
     margin-bottom:10px;
 }
 
@@ -206,12 +191,17 @@ table.fixed-width-table th, table.fixed-width-table td {
     text-align: center;
     margin-left: 30px;
     margin-bottom: 30px;
+    border: 1px solid #c1c4c5;
+    border-radius: 8px;
+    box-shadow: 1px 1px 8px #dedada;
+    transition-duration:.5s;
 }
 
 #application-content ul.panel li a{
     display: block;
     width: 120px;
     height: 160px;
+    margin: 1.8em;
     /*height: 120px;*/
     /*position: relative;*/
 }
@@ -411,8 +401,8 @@ table.fixed-width-table th, table.fixed-width-table td {
     -moz-border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     -webkit-border-top-right-radius: 4px;
-    -moz-border-top-right-radius: 4px;*/
-    width: 1060px;
+    -moz-border-top-right-radius: 4px;
+    width: 1060px;*/
 }
 .navbar-inverse .brand, .navbar-inverse .nav > li > a{
     color:#fff;
@@ -472,12 +462,11 @@ embed#deployJavaPlugin{
 
 /*menu usuario*/
 .menu-usuario{
-    width: 353px;
+    width: 250px;
 }
 
 .image-usuario{
-    float:left;
-    width: 90px;
+    width: 150px;
 }
 .image-usuario p{
     font-weight: bold;
@@ -502,7 +491,6 @@ embed#deployJavaPlugin{
 
 /*foto footer*/
 .muni_nombre {
-    margin-top: 10px;
     font-size: 12px;
 }
 
@@ -758,7 +746,7 @@ a{
 
 #nav{
     display: block;
-    width: 100%;
+    /*width: 100%;*/
     background: #012D4A;
 }
 .fix{
@@ -985,9 +973,10 @@ li.success{
 
 .page-header{
     margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #004370;
+    padding-bottom: 5px;
 }
-
-
 .ico_stats_64{
     background-image: url(../img/grias_estadisticas.png);
     width: 115px;
@@ -1066,13 +1055,20 @@ li.success{
     opacity: 0.7;
 }
 
-
-
-.reportes_total_reg_ubig{
-    background-image: url(../img/reportes_total_reg_ubig.png);
+.reportes_icon, .reportes_res_niños_EESS_edad, .reportes_por_datos_madre, .reportes_det_niños_EESS_edad, .reportes_ubigeo_detalle,
+.reportes_por_ubi_detalle, .reportes_menores_ubigeo, .reportes_europan, .reportes_acta_muni, .reportes_altas_bajas_menores,
+.reportes_acta_muni_total_enviadas, .reportes_est_salud, .reportes_menores6_sindni, .reportes_mov_ubigeos_menor_midis,
+.reportes_por_muni, .reportes_mov_ubigeos_menor,.reportes_datos_menor,.reportes_rango_edades, .reportes_progr_sociales,
+.reportes_reg_rango_fechas, .reportes_reg_restricc_obsv, .reportes_reg_rcien_nacidos, .reportes_relacion_usuario, .reportes_total_reg_ubig{
     width: 115px;
     height: 185px;
     display: block;
+    background-repeat: no-repeat;
+}
+
+
+.reportes_total_reg_ubig{
+    background-image: url(../img/de_reportes_total_reg_ubig.png);
 }
 .reportes_total_reg_ubig:hover{
     opacity: 0.7;
@@ -1080,69 +1076,55 @@ li.success{
 
 .reportes_relacion_usuario{
     background-image: url(../img/reportes_relacion_usuario.png);
-    width: 115px;
-    height: 185px;
-    display: block;
 }
 .reportes_relacion_usuario:hover {
     opacity: 0.7;
 }
 
 .reportes_reg_restricc_obsv{
-    background-image: url(../img/reportes_reg_restricc_obsv.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_reg_restricc_obsv.png);
 }
 .reportes_reg_restricc_obsv:hover {
     opacity: 0.7;
 }
 
 .reportes_reg_rcien_nacidos{
-    background-image: url(../img/reportes_reg_rcien_nacidos.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_reg_rcien_nacidos.png);
 }
 .reportes_reg_rcien_nacidos:hover{
     opacity: 0.7;
 }
 
 .reportes_reg_rango_fechas{
-    background-image: url(../img/reportes_reg_rango_fechas.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_reg_rango_fechas.png);
 }
 .reportes_reg_rango_fechas:hover {
     opacity: 0.7;
 }
 
 .reportes_rango_edades{
-    background-image: url(../img/reportes_rango_edades.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_rango_edades.png);
 }
 .reportes_rango_edades:hover{
     opacity: 0.7;
 }
 
 .reportes_progr_sociales{
-    background-image: url(../img/reportes_progr_sociales.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_progr_sociales.png);
 }
 .reportes_progr_sociales:hover{
     opacity: 0.7;
 }
 
+.reportes_datos_menor{
+    background-image: url(../img/de_consulta_datos_menor.png);
+}
+.reportes_datos_menor:hover{
+    opacity: 0.7;
+}
+
 .reportes_por_muni{
-    background-image: url(../img/reportes_por_muni.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_por_muni.png);
 }
 .reportes_por_muni:hover {
     opacity: 0.7;
@@ -1150,105 +1132,99 @@ li.success{
 
 .reportes_mov_ubigeos_menor{
     background-image: url(../img/reportes_mov_ubigeos_menor.png);
-    width: 115px;
-    height: 185px;
-    display: block;
 }
 .reportes_mov_ubigeos_menor:hover{
     opacity: 0.7;
 }
 
 .reportes_mov_ubigeos_menor_midis{
-    background-image: url(../img/reportes_mov_ubigeos_menor_midis.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reporte_mov_ubigeos.png);
 }
 .reportes_mov_ubigeos_menor_midis:hover{
     opacity: 0.7;
 }
 
 .reportes_menores6_sindni{
-    background-image: url(../img/reportes_menores6_sindni.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_menores6_sindni.png);
 }
 .reportes_menores6_sindni:hover {
     opacity: 0.7;
 }
 
-.reportes_europan{
-    background-image: url(../img/reportes_europan.png);
-    width: 115px;
-    height: 185px;
-    display: block;
-}
-.reportes_europan:hover {
-    opacity: 0.7;
-}
-
 .reportes_est_salud{
     background-image: url(../img/reportes_est_salud.png);
-    width: 115px;
-    height: 185px;
-    display: block;
 }
 .reportes_est_salud:hover {
     opacity: 0.7;
 }
 
 .reportes_altas_bajas_menores{
-    background-image: url(../img/reportes_altas_bajas_menores.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_altas_bajas_menores.png);
 }
 .reportes_altas_bajas_menores:hover {
     opacity: 0.7;
 }
 
 .reportes_acta_muni_total_enviadas{
-    background-image: url(../img/reportes_acta_muni_total_enviadas.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_acta_muni_total_enviadas.png);
 }
 
 .reportes_acta_muni_total_enviadas:hover {
     opacity: 0.7;
 }
+
+.reportes_europan{
+    background-image: url(../img/reportes_europan.png);
+}
+.reportes_europan:hover {
+    opacity: 0.7;
+}
+
 .reportes_acta_muni{
-    background-image: url(../img/reportes_acta_muni.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_acta_muni.png);
 }
 .reportes_acta_muni:hover {
     opacity: 0.7;
 }
 
-/*Desde aqui se modifico por Jose Vidal Flores*/
+.reportes_por_ubi_detalle{
+    background-image: url(../img/de_total_registros_detalle.png);
+}
+.reportes_por_ubi_detalle:hover{
+    opacity: 0.7;
+}
+
+.reportes_menores_ubigeo{
+    background-image: url(../img/de_menores_ubigeo.png);
+}
+.reportes_menores_ubigeo:hover{
+    opacity: 0.7;
+}
+
+.reportes_ubigeo_detalle{
+    background-image: url(../img/de_total_registros_detalle.png);
+}
+.reportes_ubigeo_detalle:hover{
+    opacity: 0.7;
+}
 .reportes_res_niños_EESS_edad{
-    background-image: url(../img/reportes_grupo_edad_resumen.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_grupo_edad_resumen.png);
 }
 .reportes_res_niños_EESS_edad:hover{
     opacity: 0.7;
 }
-
+.reportes_por_datos_madre{
+    background-image: url(../img/de_consultas_datos_madres.png);
+}
+.reportes_por_datos_madre:hover{
+    opacity: 0.7;
+}
 .reportes_det_niños_EESS_edad{
-    background-image: url(../img/reportes_grupo_edad_detalle.png);
-    width: 115px;
-    height: 185px;
-    display: block;
+    background-image: url(../img/de_reportes_grupo_edad_detalle.png);
 }
 .reportes_det_niños_EESS_edad:hover{
     opacity: 0.7;
 }
-/*Hasta aqui se modifico por Jose Vidal Flores*/
 
 a.btn_big{
     background-color: #A6D8F8!important;

@@ -137,21 +137,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br/>
-                        <div class="control-group">
-                            <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
-
-                            <div class="controls">
-                                <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
-                                <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 20px;">
-                                    <!--<form:option value="3" label="Todos" selected="selected" />-->
-                                    <form:option value="1" label="Activos" />
-                                    <form:option value="2" label="Activos-Observados" />
-                                    <!--<form:option value="0" label="Inactivos"/>-->
-                                </form:select>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="panel-footer clearfix">
                         <div class="pull-right">
@@ -169,7 +154,7 @@
 
             <c:if test="${not empty coUbigeo and not empty deEdad and not empty hastaEdad }">
                 <c:choose>
-                    <c:when test="${not empty padronList and empty limitSize}">
+                    <c:when test="${not empty padronList}">
                         <!--<h2>Reporte de Padron del nominal del ubigeo: <strong>${deUbigeo}</strong>,  en el periodo de consulta: <strong>${feIni} al ${feFin}</strong> </h2>-->
                        <h2 style="font-size: 19px;">Resultado de la consulta por rango de edades de <code style="font-size: 19px">${deEdad} a ${hastaEdad} año(s)</code> - <code style="font-size: 17px">${deUbigeo}</code>
                             del <code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code></h2>
@@ -180,7 +165,7 @@
                             <!--<br/><br/>-->
                             <strong>Descargar reporte en formato Excel.</strong>&#160;&#160;&#160;
                             <a class="noAjax btn btn-success"
-                               href="reporte/padron_edad_xls.do?coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}&amp;esPadron=${esPadron}">
+                               href="reporte/padron_edad_xls.do?coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}">
                                 <i class="icon-download icon-white">&#160;</i>&#160;
                                 Descargar
                             </a>&#160;&#160;
@@ -192,7 +177,10 @@
                             <thead>
                             <tr align="center">
                                 <th>#</th>
-                                <th width="130px;">Cod. Padron/DNI</th>
+                                <th width="130px;">Cod. Padron</th>
+                                <th width="120px">CNV</th>
+                                    <th width="120px">CUI</th>
+                                    <th width="120px">DNI</th>
                                 <th width="90px;">Ap. paterno</th>
                                 <th width="90ps;">Ap. materno</th>
                                 <th>Nombres</th>
@@ -207,6 +195,9 @@
                                 <tr>
                                     <td>${padron.fila}</td>
                                     <td>${padron.coPadronNominal}</td>
+                                    <td>${padron.nuCnv}</td>
+                                        <td>${padron.nuCui}</td>
+                                        <td>${padron.nuDniMenor}</td>
                                     <td>${padron.apPrimerMenor}</td>
                                     <td>${padron.apSegundoMenor}</td>
                                     <td>${padron.prenombreMenor}</td>
@@ -231,10 +222,7 @@
                         <br/>
                         <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                                         urlAntesNuPagina="reporte/consulta_listado_edades.do?nuPagina="
-                                        urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}&amp;esPadron=${esPadron}"></util:paginador>
-                    </c:when>
-                    <c:when test="${empty padronList and not empty limitSize}">
-                        <div class="alert alert-danger"><strong>${limitSize}</strong></div>
+                                        urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;tiRegFecha=${tiRegFecha}"></util:paginador>
                     </c:when>
                     <c:otherwise>
                         <div class="alert alert-danger"><strong>No hay registros.</strong> con el Ubigeo:

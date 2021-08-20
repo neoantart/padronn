@@ -10,7 +10,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <div class="row-fluid">
         <c:choose>
-            <c:when test="${not empty menorPadron and (menorPadron.esPadron eq '1' or menorPadron.esPadron eq '2')}">
+            <c:when test="${not empty menorPadron and menorPadron.esPadron eq '1'}">
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#datosMenorPane" data-toggle="tab" class="noAjax"><span class="badge badge-info uno"></span>&#160;Datos del niño/a</a>

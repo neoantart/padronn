@@ -10,57 +10,51 @@
     <script type='text/javascript'>
         <![CDATA[
         $(function () {
-            var rangoDiasBeforeToday = 90;
-
             $('#feIni').inputmask("dd/mm/yyyy");
             $('#feFin').inputmask("dd/mm/yyyy");
-            var nowTemp = new Date();
-            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-            var startDate;
-            var endDate;
-
-            fnComparaFechaIniMenor = function(feIni, feFin) {
-                startDate = undefined;
-                endDate = undefined;
-                var feIniInput = false,
-                        feFinInput = false;
-                if(feIni != '' && $.trim(feIni).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
-                    var split = feIni.split('/');
-                    startDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
-                    feIniInput=true;
-                } else startDate = new Date(nowTemp.getFullYear(), (nowTemp.getMonth()+1), nowTemp.getDate(), 0, 0, 0, 0);
-                if(feFin != '' && $.trim(feFin).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
-                    var split =feFin.split('/');
-                    endDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
-                    feFinInput = true;
-                    if(!feIniInput)
+            var nowTemp = new Date(),
+                now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0),
+                startDate,
+                endDate,
+                fnComparaFechaIniMenor = function(feIni, feFin){
+                    startDate = undefined;
+                    endDate = undefined;
+                    var feIniInput = false,
+                            feFinInput = false;
+                    if(feIni != '' && $.trim(feIni).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
+                        var split = feIni.split('/');
                         startDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
-                } else{
-                    endDate = new Date(nowTemp.getFullYear(), (nowTemp.getMonth()+1), nowTemp.getDate(), 0, 0, 0, 0);
-                }
-                if(startDate.valueOf() > endDate.valueOf()) {
-                    alert('La fecha inicial no puede ser mayor que la fecha final');
-                    setTimeout(function()
-                            { $('#feFin').val(''); }
-                            , 100);
+                        feIniInput=true;
+                    } else startDate = new Date(nowTemp.getFullYear(), (nowTemp.getMonth()+1), nowTemp.getDate(), 0, 0, 0, 0);
+                    if(feFin != '' && $.trim(feFin).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
+                        var split =feFin.split('/');
+                        endDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                        feFinInput = true;
+                        if(!feIniInput)
+                            startDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                    } else{
+                        endDate = new Date(nowTemp.getFullYear(), (nowTemp.getMonth()+1), nowTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    if(startDate.valueOf() > endDate.valueOf()) {
+                        alert('La fecha inicial no puede ser mayor que la fecha final');
+                        setTimeout(function()
+                                { $('#feFin').val(''); }
+                                , 100);
 
-                    $('#feFinButton').focus();
-                }
-            };
-
-            fnResetButtonData=function(){
-                    if($.trim($('#feIni').val())== '' && $.trim($('#feIni').val()).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10) $('#feIniButton').data('date', '');
-                    if($.trim($('#feFin').val())== '' && $.trim($('#feFin').val().replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10)) $('#feFinButton').data('date', '');
-            };
-
+                        $('#feFinButton').focus();
+                    }
+                },
+                fnResetButtonData=function(){
+                        if($.trim($('#feIni').val())== '' && $.trim($('#feIni').val()).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10) $('#feIniButton').data('date', '');
+                        if($.trim($('#feFin').val())== '' && $.trim($('#feFin').val().replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10)) $('#feFinButton').data('date', '');
+                };
             var feIniDatePicker = $('#feIniButton')
                     .datepicker({format: 'dd/mm/yyyy'})
                     .on('changeDate', function (ev) {
                         fnResetButtonData();
-                        var dd = ev.date.getDate();
-                        var mm = ev.date.getMonth() + 1;
-                        var yyyy = ev.date.getFullYear();
-
+                        var dd = ev.date.getDate(),
+                                mm = ev.date.getMonth()+ 1,
+                                yyyy = ev.date.getFullYear();
                         if(dd < 10) {
                             dd = '0'+ dd;
                         }
@@ -68,7 +62,6 @@
                             mm = '0' + mm;
                         }
                         fnComparaFechaIniMenor(dd+'/'+mm+'/'+yyyy, $('#feFinButton').data('date'));
-
                         if (ev.date.valueOf() <= now) {
                             if (ev.viewMode == 'days') {
                                 feIniDatePicker.hide();
@@ -92,10 +85,9 @@
                     .datepicker({format: 'dd/mm/yyyy'})
                     .on('changeDate', function (ev) {
                         fnResetButtonData();
-                        var dd = ev.date.getDate();
-                        var mm = ev.date.getMonth()+ 1;
-                        var yyyy = ev.date.getFullYear();
-
+                        var dd = ev.date.getDate(),
+                                mm = ev.date.getMonth()+ 1,
+                                yyyy = ev.date.getFullYear();
                         if(dd < 10) {
                             dd = '0'+ dd;
                         }

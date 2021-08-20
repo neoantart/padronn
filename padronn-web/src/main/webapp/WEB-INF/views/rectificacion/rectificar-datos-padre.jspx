@@ -9,7 +9,12 @@
     xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:spring="http://www.springframework.org/tags">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <p class="lead text-info">Padron nominal</p>
+    <p class="lead text-info"> Datos de Jefe de Familia o Titular</p>   
+    <div class="" >
+            <div class="">
+                                <jsp:include page="datos-ani-padre.jspx"/>
+                            </div>
+        </div>    
     <form:form action="rectificacion/set_datos_padre.do#datos-padre-padron" method="post" modelAttribute="padre">
 <!--        <c:choose>
             <c:when test="${empty coDniJefeFam}">
@@ -52,8 +57,8 @@
         </spring:bind>
         <div class="control-group ${tiVinculoJefeError}">
             <label class="control-label" for="tiVinculoJefe">Vinculo Familiar</label>
-            <div class="controls">
-                <form:select path="tiVinculoJefe" id="tiVinculoJefe">
+            <div class="">
+                <form:select path="tiVinculoJefe" id="tiVinculoJefe" cssClass="form-control">
                     <form:option value="" label="Ninguno"/>
                     <form:options itemLabel="deDom" itemValue="coDominio" items="${vinculoFamiliarItems}" />
                 </form:select>

@@ -19,12 +19,12 @@
         <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
         <c:set var="req" value="${pageContext.request}"/>
         <!--<c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}"/>-->
-        <img src="${localResourcesURL}/img/collage.jpg" width="590" height="427"/>
+        <img src="${localResourcesURL}/img/portada.png" />
     </div>
     <div class="span5 offset1">
         <div class="tab-pane active" id="login-form">
 
-            <div class="form-container form-log-in" style="width:80%;">
+            <div class="form-container form-log-in" >
                 <form class="form-signin" id="form-signin" action="login.do#wrap" method="post" autocomplete="off">
 
                     <fieldset>
@@ -42,7 +42,7 @@
                                     <label class="control-label" for="user">DNI:</label>
                                     <div class="controls">
                                         <input type="text" name="user" id="user" class="input-block-level"
-                                               value="${login}" readonly="readonly" placeholder="DNI"/>
+                                               value="41274715" readonly="readonly" placeholder="DNI"/>
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                     <label class="control-label" for="password">Contraseña:</label>
                                     <div class="controls">
                                         <input type="password" name="password" id="password" class="input-block-level"
-                                               value="${password}" readonly="readonly" autocomplete="off"/>
+                                               value="Reniec2019" readonly="readonly" autocomplete="off"/>
                                         <!--<input type="password" name="password" id="password" class="input-block-level" readonly="readonly" autocomplete="off"/>-->
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <!--<div class="span6">-->
-                                    <button class="btn btn-primary " type="submit">
+                                    <button class="s-btn full" type="submit">
                                         <span class="icon-ok-sign icon-white"><!-- --></span>&#160;Iniciar Sesión
                                     </button>
                                     <!--</div>-->
@@ -179,12 +179,7 @@
 </div>
 <style type="text/css">
     #wrap {
-        background: none;
-    }
-
-    #header {
-        height: 96px;
-        margin-bottom: 18px;
+        /*background: none;*/
     }
 
     #header #login {

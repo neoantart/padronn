@@ -48,9 +48,11 @@
                 </p>
                 <div class="alert">
                     <p>Descargar el detalle del resultado en formato excel:
-                        <a  href="grias/result_listar_menores_xlsx.do?coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;esPadron=${esPadron}" class="btn btn-success noAjax" title="Descargar ${filas} filas"><i class="icon-download icon-white"><!-- --></i>&#160;<strong>Descargar ${filas} registros</strong></a>
+                        <a  href="grias/result_listar_menores_xlsx.do?coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}" class="btn btn-success noAjax" title="Descargar ${filas} filas"><i class="icon-download icon-white"><!-- --></i>&#160;<strong>Descargar ${filas} registros</strong></a>
                     </p>
                 </div>
+
+
 
                 <table class="table table-striped table-bordered table-hover" style="width: 1100px;">
                     <thead>
@@ -95,7 +97,7 @@
                             <!--<td>${padron.deCentroPoblado}</td>-->
                             <td>
                                 <a title="Ver Ficha del menor" class="btn btn-mini btn-primary"
-                                   href="grias/fichaPadron.do?coPadronNominal=${padron.coPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}">
+                                   href="grias/fichaPadron.do?coPadronNominal=${padron.coPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}">
                                     <i class=" icon-user icon-white"><!-- --></i>&#160;Ver ficha
                                 </a>
                             </td>
@@ -106,7 +108,7 @@
                 <br/>
                 <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                                 urlAntesNuPagina="grias/listar_menores_ubigeo.do?nuPagina="
-                                urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}">
+                                urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolver=${urlVolver}">
                 </util:paginador>
             </c:when>
             <c:otherwise>

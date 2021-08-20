@@ -10,13 +10,13 @@
 
 	<c:choose>
 
-		<c:when test="${not empty padronNominalBaja}">
+		<c:when test="${ubigeoValido=='valido'}">
 
 			<div class="alert alert-block">
 				<h4 style="margin-bottom: 10px;">Confirmar Baja de Usuario*</h4>
 
 				<form:form commandName="padronNominalBaja" action="registromanual/padronnbaja.do#padronn-form-resultado-espadron-confirmar">
-					<form:hidden path="coPadronNominal"/>
+                                    <input type="hidden" id="coPadronNominal" name="coPadronNominal" value="0"/>
 
 					<spring:bind path="coMotivoBaja">
 						<c:if test="${status.error}">
@@ -49,15 +49,14 @@
 
 					<!--<a style="margin-right: 10px;margin-top: 10px;" class="btn btn-medium btn-success " href="signup/padronnbaja.do?coPadronNominal=${persona.codigoPadronNominal}#padronn-form-resultado-espadron"><span class="icon-ok icon-white"></span> Confirmar</a>-->
 					<button style="margin-right: 10px;margin-top: 10px;" class="btn btn-medium btn-success" type="submit"><span class="icon-ok icon-white">&#160;</span> Confirmar</button>
-					<a href="#" class="btn btn-medium btn-danger" onclick="$('#padronn-form-resultado-espadron-confirmar').hide();" style="margin-left: 10px;margin-top: 10px;"><span class="icon-remove icon-white">&#160;</span> Cancelar</a>
+                                        <button type="button" click="javascript:return false;" class="btn btn btn-medium btn-danger" data-dismiss="modal" style="margin-left: 10px;margin-top: 10px;"><span class="icon-remove icon-white">&#160;</span> Cancelar</button>
+					
 				</form:form>
 
 				<p class="text-center"><small>(*) Los campos marcados con (*) son obligatorios.</small></p>
 				<p class="text-center"><small>(*) Esta operación quedará registrado en los historicos del sistemas.</small></p>
 			</div>
 		</c:when>
-
-
 		<c:when test="${baja}">
 			<script type="text/javascript">
 				$('#padronn-form-resultado-espadron-confirmar-header').hide();
@@ -83,7 +82,11 @@
                 repeat: 100,
                 placeholder: ""
             })
+            
+            
+            
         ]]>
+        
     </script>
 
 </jsp:root>

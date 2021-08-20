@@ -275,12 +275,12 @@
                         <c:set var="errorCoMenorEncontrado" value="error"></c:set>
                     </c:if>
                     <div class="control-group ${errorCoMenorEncontrado}" id="coMenorEncError">
-                        <label class="control-label" for="coMenorEncontrado">¿Menor encontrado? <span class="text-error required" title="requerido">*</span></label>
+                        <label class="control-label" for="coMenorEncontrado">Menor encontrado <span class="text-error required" title="requerido">*</span></label>
                         <div class="controls">
                             <form:select path="coMenorEncontrado" itemValue="${padronNominal.coMenorEncontrado}" id="coMenorEncontrado">
                                 <!--<form:option value="" label="Seleccione..."/>-->
-                                <form:option value="1" label="SI"/>
-                                <form:option value="0" label="NO"/>
+                                <form:option value="1" label="ENCONTRADO"/>
+                                <!--<form:option value="0" label="NO ENCONTRADO"/>-->
                             </form:select>
                             <!--<span data-trigger="tooltip"
                                   data-content="Si se encontró al menor actualizar ubigeo, caso contrario dejar con el ubigeo que tiene registrado."
@@ -341,7 +341,6 @@
             <label style="margin-left: 16px;display: block;width: 256px;clear: both;height: 20px;float: left;">Dirección Declarada</label>
             <div style="border: 2px dotted #001fff;padding: 0px;margin-top: 3px;margin-bottom: 11px;padding-bottom: 7px;padding-top: 12px;display: block;clear: both;">
                 <div style="width: 700px;" id="eje_vial" class="hide">
-                <!--<div style="width: 700px;" id="eje_vial">-->
                     <div class="control-group">
                         <label class="control-label" for="coVia">Eje Vial</label>
                         <div class="controls">
@@ -376,8 +375,7 @@
                 </div>
             </div>
 
-            <!--<div class="control-group hide" id="deRefDirWrap">-->
-            <div class="control-group" id="deRefDirWrap">
+            <div class="control-group hide" id="deRefDirWrap">
                 <label class="control-label" for="deRefDir" title="requerido">Referencia de Dirección</label>
                 <div class="controls">
                     <form:input path="deRefDir" id="deRefDir" cssClass="span10" maxlength="100" cssStyle="width: 500px;"/>

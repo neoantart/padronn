@@ -124,21 +124,16 @@
 								</c:if>
 								<c:if test="${persona.edad lt 6}">
 									<c:if test="${persona.baseDatosOrigen=='PN'}">
+
 										<c:choose>
-                                            <c:when test="${persona.esPadron=='1' or persona.esPadron=='2'}">
+                                            <c:when test="${persona.esPadron=='1'}">
                                                 <a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}" class="btn btn-info btn-mini">Actualizar Información</a>
                                             </c:when>
                                             <c:otherwise>
-												<c:choose>
-													<c:when test="${persona.coRestri eq '1'}"> <!--fallecimiento por el procedimiento-->
-														<p class="text-error">El niño/a tiene la siguiente restricción: <strong>FALLECIMIENTO</strong>. <br/> <!--No se puede registrar en el Padrón Nominal.--></p>
-													</c:when>
-													<c:otherwise>
-														<p class="text-muted">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
-													</c:otherwise>
-												</c:choose>
+                                                <p class="text-muted">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
                                             </c:otherwise>
 										</c:choose>
+
 									</c:if>
                                     <c:if test="${persona.baseDatosOrigen=='ANI'}">
                                             <c:if test="${not empty persona.coRestri}">

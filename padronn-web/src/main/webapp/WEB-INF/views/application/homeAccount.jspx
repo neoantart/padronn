@@ -8,8 +8,8 @@
         <div id="application-content">
             <div class="">
                 <div class="">
-                    <div class="" style="text-align:left;">
-                        <h4>Bienvenido(a) ${usuario.fullName}</h4>
+                    <div class="title-welcome" >
+                        <h4>Bienvenido(a) <strong>${usuario.fullName}</strong> </h4>
                     </div>
                     <c:choose>
                         <c:when test="${nuRegObservados gt 0 and usuario.coTipoEntidad eq '1'}">
@@ -80,19 +80,31 @@
                     <c:if test="${(usuario.coTipoEntidad eq '10') }">
                         <c:set var="midis" value="true" />
                     </c:if>
-                    <ul class="panel clearfix" style="padding-top: 40px; margin:0;">
+                    <ul class="panel clearfix">
                         <c:if test="${registromanual}">
                         <li class="infobox ">
                             <a href="registromanual/buscarmenorform.do" class="ico_registro"><!-- --></a>
                             <!--<span>Registro en Línea</span>-->
                         </li>
                         </c:if>
+                        
+                            <!-- <li class="infobox ">
+                            <a href="registromanual/padronnformalta.do" class="ico_alta">Alta Menor</a>-->
+                            <!--<span>Registro en Línea</span>-->
+                                            
+                        
+                             <!--<li class="infobox ">                                 
+                            <a href="registromanual/padronnformbaja.do" class="ico_baja">Baj Menor</a>-->
+                            <!--<span>Registro en Línea</span>
+                        </li>-->
+                        
     
-                        <c:if test="${busquedademenor}">
-                        <li class="infobox ">
-                            <a href="busquedademenor/avanzadoform.do" class="ico_busqueda" ><!-- --></a>
-                            <!--<span>Búsqueda</span>-->
-                        </li>
+                        <c:if test="${busquedademenor} ">
+                        <!--
+                            <li class="infobox ">
+                            <a href="busquedademenor/avanzadoform.do" class="ico_busqueda" ></a>
+                            
+                        </li>-->
                         </c:if>
     
                         <c:if test="${precotejo}">
@@ -119,14 +131,14 @@
                                 <c:set var="contains" value="true" />
                             </c:if>
                         </c:forEach>
-                        <c:if test="${mantenimiento and contains eq 'true'}">
+                        <c:if test="${mantenimiento and contains eq 'true' and 2==5}">
                             <li class="infobox ">
                                 <a href="mantenimiento/maestros.do" class="ico_config"><!-- --></a>
                                 <!--<span>Configuración</span>-->
                             </li>
                         </c:if>
 
-                        <c:if test="${grias}">
+                        <c:if test="${1==2}">
                             <li class="infobox ">
                                 <a href="grias/home_grias.do" class="ico_grias" title="GRIAS">
                                     <!--<i class="icon-signal icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;GRIAS-->
@@ -134,7 +146,7 @@
                             </li>
                         </c:if>
 
-                        <c:if test="${midis or midisLink}">
+                        <c:if test="${1==2}">
                             <li class="infobox ">
                                 <a href="reporte_midis/home_reporte_midis.do" class="ico_midis" title="reportes midis - padron nominal">
                                     <!--<i class="icon-signal icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;GRIAS-->
@@ -144,7 +156,8 @@
 
                         <c:if test="${bandejaObservados}">
                         <li class="infobox">
-                            <a href="bandeja_observado/bandeja_observados.do" class="ico_observados" title="Bandeja de observados"></a>
+                            
+                            <a href="bandeja_observado/inicioBandeja.do" class="ico_observados" title="Bandeja de observados"></a>
                             <!--<p style="    position: absolute;top: 130px;font-weight: bold;">Bandeja de observados</p>-->
                         </li>
                         </c:if>
@@ -186,4 +199,16 @@
             location.reload();
         </script>
     </c:if>
+        <style>
+            #application-content ul.panel li a.ico_alta {
+                /* background-image: url(../img/ico_registro.jpg); */
+                background-image: url(../img/alta_menor.jpg);
+            }
+            #application-content ul.panel li a.ico_baja{
+                /* background-image: url(../img/ico_registro.jpg); */
+                background-image: url(../img/baja_menor.png);
+            }
+        </style>
+        
 </jsp:root>
+        

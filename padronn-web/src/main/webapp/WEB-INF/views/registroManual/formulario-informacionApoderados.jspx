@@ -200,18 +200,18 @@
 						<form:errors path="coGraInstMadre" cssClass="text-error" element="div"/>
 					</div>
 				</div>
+                <c:if test="${not empty errores['coLenMadre']}">
+                    <c:set var="errorCoLenMadre" value="error"></c:set>
+                </c:if>
 
-				<c:if test="${not empty errores['nuCelMadre']}">
-					<c:set var="errorNuCelMadre" value="error"></c:set>
-				</c:if>
-				<div class="control-group ${errorNuCelMadre}">
-					<label class="control-label" for="nuCelMadre">Celular<span class="text-error required hidden" title="requerido" id="span-celular-required">*</span></label>
+				<div class="control-group">
+					<label class="control-label">Celular</label>
+
 					<div class="controls">
 						<form:input path="nuCelMadre" id="nuCelMadre" placeholder="" data-inputmask="'mask': '999999999'" val="${padronNominal.nuCelMadre}" maxlength="9"/>
 						<form:errors path="nuCelMadre" cssClass="text-error" element="div"/>
 					</div>
 				</div>
-
 				<div class="control-group">
 					<label class="control-label">Correo Electrónico</label>
 					<div class="controls">
@@ -219,10 +219,6 @@
 						<form:errors path="diCorreoMadre" cssClass="text-error" element="div"/>
 					</div>
 				</div>
-
-				<c:if test="${not empty errores['coLenMadre']}">
-					<c:set var="errorCoLenMadre" value="error"></c:set>
-				</c:if>
 				<div class="control-group ${errorCoLenMadre}">
 					<label class="control-label" for="coLenMadre">Lengua Habitual <span class="text-error required label-lengua-habitual" title="requerido">*</span></label>
 					<div class="controls">

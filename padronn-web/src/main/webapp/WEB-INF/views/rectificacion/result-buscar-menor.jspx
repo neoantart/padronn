@@ -44,7 +44,7 @@
                             <td>${menor.feNacMenor}</td>
                             <td>
                             <c:choose>
-                                <c:when test="${menor.esPadron eq '1' or menor.esPadron eq '2'}">
+                                <c:when test="${menor.esPadron eq '1'}">
                                     <a class="btn btn-mini" href="rectificacion/datos_personales_padron.do?coPadronNominal=${menor.coPadronNominal}#modulo_rectificaccion"><i class="icon-pencil icon-white">&#160;</i>&#160;Rectificar datos</a>
                                 </c:when>
                                 <c:otherwise>

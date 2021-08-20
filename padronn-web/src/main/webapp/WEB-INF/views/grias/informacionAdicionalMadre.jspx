@@ -89,7 +89,7 @@
                                             <c:if test="${hijoRegistrado.baseDatosOrigen=='PN'}">
 
                                                 <c:choose>
-                                                    <c:when test="${hijoRegistrado.esPadron=='1' or hijoRegistrado.esPadron=='2'}">
+                                                    <c:when test="${hijoRegistrado.esPadron=='1'}">
                                                         <!--<a title="Ver Ficha del menor" class="btn btn-mini btn-primary noAjax" href="grias/fichaPadronPDF.pdf?coPadronNominal=${hijoRegistrado.codigoPadronNominal}&amp;download=1&amp;urlVolver=${urlVolver}&amp;urlVolverFicha=${urlVolverFicha}"><i class=" icon-user icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Ver ficha</a>-->
                                                         <a title="Ver Ficha del menor" class="btn btn-mini btn-success"
                                                            href="grias/fichaPadron.do?coPadronNominal=${hijoRegistrado.codigoPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolverFicha=${urlVolverFicha}&amp;urlVolver=${urlVolver}&amp;apPrimer=${apPrimer}&amp;apSegundo=${apSegundo}&amp;prenombre=${prenombre}">

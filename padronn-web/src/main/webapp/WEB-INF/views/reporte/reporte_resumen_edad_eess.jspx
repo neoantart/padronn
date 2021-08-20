@@ -2,6 +2,7 @@
           xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:util="urn:jsptagdir:/WEB-INF/tags">
 <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
 <div class="page-header clearfix">
     <div class="pull-left">
         <h1><span class="icon-user">&#160;</span>&#160;Reporte por grupo de edad según establecimiento de salud - resumen</h1>
@@ -30,12 +31,12 @@
     <!--<form:errors path="*" element="div" cssClass="alert alert-error"/>-->
 
     <form:form action="reporte/consulta_resumen_edad_eess.do" method="get" class="form-horizontal"
-               modelAttribute="reportePadronResumenEESS">
+               modelAttribute="reportePadronResumenEdadEESS">
         <div class="panel-body">
-            <form:errors path="*" element="div" cssClass="alert alert-error" cssStyle="background-color: #f3dcdc !important; border-color: #ffcad2 !important;"/>
+            <form:errors path="*" element="div" cssClass="alert alert-error"/>
 
             <div class="control-group">
-                <label class="control-label" id="forCoUbigeo" title="requerido" style="width:190px;">Ubigeo de EESS: <span title="requerido"
+                <label class="control-label" id="forCoUbigeo" title="requerido" style="width:180px;">Ubigeo de EESS: <span title="requerido"
                                                                                                   class="text-error required">*</span></label>
                 <div class="controls">
                     <div class="span6 clearfix">
@@ -53,58 +54,20 @@
                     </div>
                 </div>
             </div>
+            &#160;
 
             <div class="control-group">
-                <label class="control-label" style="width:190px;">Tipo de establecimiento: <span class="text-error required">*</span></label>
+                <label class="control-label" style="width:180px;">Tipo de establecimiento: <span class="text-error required">*</span></label>
 
                 <div class="controls">
                     <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
-                    <form:select path="tiEstablecimiento" id="tiEstablecimiento" onchange="cambiaFrecuencia(this)" cssClass="span2" cssStyle="margin-left: 20px;">
-                        <form:option value="" label="Seleccione" />
+                    <form:select path="tiEstablecimiento" id="tiEstablecimiento" cssClass="span2" cssStyle="margin-left: 20px;">
                         <form:option value="1" label="Atención" />
                         <form:option value="2" label="Nacimiento"/>
                         <form:option value="3" label="Adscripción"/>
                     </form:select>
                 </div>
             </div>
-
-            <div class="control-group disabled" id="frecuenciaAtencionSelect" style="display: none;padding-top: 10px;">
-               <label class="control-label" for="coFrecAtencion" style="width:190px;">Frecuencia de Atención: <span class="text-error required">*</span> </label>
-                <div class="controls">
-                    <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
-                        <form:select path="coFrecAtencion" itemValue="${reportePadronResumenEdadEESS.coFrecAtencion}" id="coFrecAtencion" cssClass="large-select" cssStyle="width: 300px; margin-left: 20px;">
-                            <form:option value="" cssStyle="color: graytext;" label="Seleccionar..."/>
-                            <form:option value="0" cssStyle="color: graytext;" label="NO TIENE FRECUENCIA DE ATENCION"></form:option>
-                            <c:forEach var="frecAtencionItem" items = "${frecAtencionList}">
-                                <form:option value="${frecAtencionItem.coFrecuenciaAtencion}"
-                                             label="${frecAtencionItem.noFrecuenciaAtencion}"/>
-                            </c:forEach>
-                            <form:option value="5" csStyle="color: graytext;" label="TODOS"></form:option>
-
-                        </form:select>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
-
-                <div class="controls">
-                    <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
-                    <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 30px;">
-                        <!--<form:option value="3" label="Todos" selected="selected" />-->
-                        <form:option value="1" label="Activos" />
-                        <form:option value="2" label="Activos-Observados" />
-                        <!--<form:option value="0" label="Inactivos"/>-->
-                    </form:select>
-                </div>
-            </div>
-
-                <c:if test="${!empty tiEstablecimiento || tiEstablecimiento == '1'}">
-                    <script>
-                        cambiaFrecuencia(document.getElementById("tiEstablecimiento"));
-                    </script>
-                </c:if>
-
         </div>
         <div class="panel-footer clearfix">
             <!--<input type="hidden" name="deUbigeo" id="deUbigeo"/>-->
@@ -139,7 +102,7 @@
             <div class="alert">
                 <strong>Descargar reporte en formato Excel.</strong>&#160;&#160;&#160;
                 <a class="noAjax btn btn-success"
-                   href="reporte/reporte_resumen_edad_eess_xlsx.do?coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;tiEstablecimiento=${tiEstablecimiento}&amp;coFrecAtencion=${coFrecAtencion}&amp;esPadron=${esPadron}  ">
+                   href="reporte/reporte_resumen_edad_eess_xlsx.do?coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;tiEstablecimiento=${tiEstablecimiento}">
                     <i class="icon-download icon-white">&#160;</i>&#160;
                     <strong>Descargar</strong>
                 </a>&#160;&#160;
@@ -150,7 +113,6 @@
                 <thead>
                     <tr>
                         <th>Ítem</th>
-                        <th>Código Renaes</th>
                         <th width="210px;">EESS de ${Establecimiento}</th>
                         <th width="210px;">Dirección</th>
                         <th>Menores de 1 año</th>
@@ -167,7 +129,6 @@
                     <c:forEach items="${padronActivos}" var="padron" varStatus="padronLoop">
                         <tr>
                             <td>${count}</td>
-                            <td>${padron.coRenaes}</td>
                             <c:set var="count" value="${count + 1}" scope="page"/>
                             <c:if test="${tiEstablecimiento eq 1}"><td>${padron.deEstSalud}</td></c:if>
                             <c:if test="${tiEstablecimiento eq 2}"><td>${padron.deEstSaludNac}</td></c:if>
@@ -187,7 +148,7 @@
             <br/>
             <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
                             urlAntesNuPagina="reporte/consulta_resumen_edad_eess.do?nuPagina="
-                            urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;tiEstablecimiento=${tiEstablecimiento}&amp;coEstSalud=${coEstSalud}&amp;coFrecAtencion=${coFrecAtencion}&amp;esPadron=${esPadron}"></util:paginador>
+                            urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deUbigeo=${deUbigeo}&amp;tiEstablecimiento=${tiEstablecimiento}&amp;coEstSalud=${coEstSalud}"></util:paginador>
         </c:when>
         <c:otherwise>
             <div class="alert alert-danger"><strong>No hay registros</strong> con el ubigeo del establecimiento de salud

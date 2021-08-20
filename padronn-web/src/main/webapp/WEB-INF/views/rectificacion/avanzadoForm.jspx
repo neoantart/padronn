@@ -1,0 +1,352 @@
+<!--
+  Creado por: eduardo arango
+  earango@reniec.gob.pe
+  Date: 10/12/2019
+  Time: 02:47 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <c:set var="context" value="${pageContext.request.contextPath}" />
+    <script type="text/javascript">
+            <![CDATA[
+            $(function () {
+                var nuDoc = $('#nuDoc');
+                nuDoc.focus();   
+                var tiDoc = $('#tiDoc');
+                $("#nuDoc").keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+                $("#dniMadre").keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+
+                function verificarCampos(ap, no, am){
+                    var check;
+                    if( (ap==null || ap=='' || ap.length==0) && (no==null || no=='' || no.length==0) && (am==null || am=='' || am.length==0) ||
+                        (ap!=null || ap!='' || ap.length!=0) && (no==null || no=='' || no.length==0) && (am==null || am=='' || am.length==0) ||
+                        (ap==null || ap=='' || ap.length==0) && (no!=null || no!='' || no.length!=0) && (am==null || am=='' || am.length==0) ||
+                        (ap==null || ap=='' || ap.length==0) && (no==null || no=='' || no.length==0) && (am!=null || am!='' || am.length!=0)
+                    ){
+                        return false;
+                    } else {
+                        return  true;
+                    }
+                }
+
+                $('#buscarMenorGrias').on ('submit',function(e){
+                    var op=$("#tiOpcion").val();
+                    if(op=='1'){
+                       var ap=$("#apPrimerMenor").val().trim();
+                       var am=$("#apSegundoMenor").val().trim();
+                       var no=$("#prenombresMenor").val().trim();
+
+
+                       if( verificarCampos(ap, no, am) ) {
+                           if ((ap.length!=0 && ap.length<3) || (no.length!=0 && no.length<3) || ( am.length!=0 && am.length < 3) ){
+                               alert('¡Los campos de datos del menor debe tener por lo menos 3 digitos!');
+                               e.stopImmediatePropagation();
+                               e.preventDefault();
+                               return false;
+                           }
+                       }
+                       else{
+                           alert('¡Debe llenar al menos dos campos!');
+                           e.stopImmediatePropagation();
+                           e.preventDefault();
+                           return false;
+                       }
+                    }else if(op=='2'){
+                        if($('#tiDoc').val()==''){
+                            alert('¡Seleccione tipo de documento!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }                        
+                        if($("#nuDoc").val()==''){
+                            alert('¡Ingresar el dni del menor!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                        if($("#tiDoc").val()=='0' &&( $("#nuDoc").val().length<8 || $("#nuDoc").val().length>9) ){
+                            alert('¡Ingresar el número de dni debe contener 8 ó 9 digitos!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                        if($("#tiDoc").val()=='2' && $("#nuDoc").val().length>10 ){
+                            alert('¡Ingresar el número de cnv debe contener más de 10 digitos!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                        if($("#tiDoc").val()=='3' &&  $("#nuDoc").val().length>9 ){
+                            alert('¡Ingresar el código de padron nominal valdio debe contener más de 9 digitos!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;
+                        }
+                    }else{
+                        var dm=$("#dniMadre").val().trim();
+                        var apm=$("#apPrimeroMadre").val().trim();
+                        var app=$("#apSegundoMadre").val().trim();
+                        var nmo=$("#prenombresMadre").val().trim();
+
+                        if(dm!=''){
+                            if(dm.length<8 || dm.length>9){
+                                alert('¡Ingresar el dni de la madre del menor, debe contener 8 ó 9 digitos !');
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                return false; 
+                            }
+                        }else{
+                            if(dm=='' && apm =='' && nmo=='' && app==''){
+                                alert('¡Ingresar el dni ó nombre de la madre del menor!');
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                return false;
+                            }
+                            if( verificarCampos(ap, no, am) ) {
+                                if ((app.length!=0 && app.length<3) || (nmo.length!=0 && nmo.length<3) || ( apm.length!=0 && apm.length < 3) ){
+                                    alert('¡Los campos de datos del menor debe tener por lo menos 3 digitos!');
+                                    e.stopImmediatePropagation();
+                                    e.preventDefault();
+                                    return false;
+                                }
+                            }
+                            else {
+                                alert('¡Debe llenar al menos dos campos!');
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                return false;
+                            }
+
+                        }
+                        
+                        
+
+                        /*if(dm=='' && apm !='' && nmo=='' ){
+                            alert('¡Ingresar los datos de la madre!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;    
+                        }
+                        if(dm=='' && apm =='' && nmo !='' ){                                 
+                            alert('¡Ingresar los datos de la madre!');
+                            e.stopImmediatePropagation();
+                            e.preventDefault();
+                            return false;    
+                        }*/
+                    }
+                });
+                
+                
+            });
+            
+             ]]>
+        </script>
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Rectificación de datos del Niño/a</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="row-fluid">
+                <form:form id="buscarMenorGrias" action="rectificacion/buscarDatosMenor.do#result_buscar_menor" method="get" modelAttribute="FormBuscarMenor" >
+                <ul id="busava-tabs" class="nav nav-tabs">
+                    <li class="${tabmenor}" data-id="1"><a href="#busmen-ava-menor-tabpane" class="opcion"  data-toggle="tab">Búsqueda por datos del Niño/a</a></li>
+                    <li class="${tabmenortdoc}" data-id="2"><a href="#busmen-ava-menor_td-tabpane" class="opcion"  data-toggle="tab">Búsqueda por tipo documento</a></li>
+                    <li class="${tabmadre}" data-id="3"><a href="#busmen-ava-madre-tabpane" class="opcion"  data-toggle="tab">Búsqueda por datos de la Madre</a></li>
+                </ul>
+                <div id="" class="tab-content" style="padding: 15px !important;">
+                    <input type="hidden" name="tiOpcion" id="tiOpcion" value="1"/>
+                    <input type="hidden" name="menu" id="menu" value="${menu}"/>
+                    <div class="tab-pane ${tabmenor}" id="busmen-ava-menor-tabpane">
+                        <!--<jsp:include page="../busquedaDeMenor/avanzadoFormMenor.jspx"/>-->
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <label for="apPrimerMenor">Apellido Paterno</label>
+                                <input type="text" id="apPrimerMenor" name="apPrimerMenor" class="span12 mask-alpha" />
+                            </div>
+                            <div class="span4">
+                                <label for="apSegundoMenor">Apellido Materno</label>
+                                <input type="text" id="apSegundoMenor" name="apSegundoMenor" class="span12 mask-alpha" />
+                            </div>
+                            <div class="span4">
+                                <label for="prenombresMenor">Nombres</label>
+                                <input type="text" id="prenombresMenor" name="prenombresMenor" class="span12 mask-alpha" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane ${tabmenortdoc}" id="busmen-ava-menor_td-tabpane">
+                        <!--<jsp:include page="buscarmenor-form.jspx"/>-->
+                        <div class="row-fluid">
+                            <div class="control-group">
+                                <div class="span6">
+                                    <label class="control-label" for="tiDoc" title="requerido">Tipo Documento</label>
+                                    <select path="tiDoc" name="tiDoc" id="tiDoc" class="form-control" style="width: 400px;">
+                                        <option value="">---SELECCIONE TIPO DE DOCUMENTO---</option>
+                                        <option value="0">DOCUMENTO NACIONAL DE IDENTIDAD (DNI)</option>
+                                        <option value="1">CODIGO UNICO DE IDENTIDAD (CUI)</option>
+                                        <option value="2">NUMERO DE CNV</option>
+                                        <option value="3">CODIGO PADRON NOMINAL</option>
+                                    </select>
+                                    <!--<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i></button>-->
+                                </div>
+                                <div class="span2">
+                                    <label class="control-label" for="tiDoc" title="requerido">Número Documento</label>
+                                    <input type="text" class="input-number" name="nuDoc" id="nuDoc" placeholder="Numero de documento" ondragstart="return false;" ondrop="return false;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane ${tabmadre}" id="busmen-ava-madre-tabpane">
+                        <!--<jsp:include page="../busquedaDeMenor/avanzadoFormMadre.jspx" />-->
+                        <div class="row-fluid">
+                            <div class="span2">
+                                <label for="dniMadre">DNI</label>
+                                <input type="text" id="dniMadre" name="dniMadre" class="span12 input-number" placeholder="DNI" maxlength="8" />
+                            </div>
+                            <div class="span1 text-center" style="font-size: 15px;"><strong></strong></div>
+                            <div class="span3">
+                                <label for="apPrimeroMadre">Apellido Paterno</label>
+                                <input type="text" id="apPrimeroMadre" name="apPrimeroMadre" class="span12 mask-alpha" />
+                            </div>
+                            <div class="span3">
+                                <label for="apSegundoMadre">Apellido Materno</label>
+                                <input type="text" id="apSegundoMadre" name="apSegundoMadre" class="span12 mask-alpha" />
+                            </div>
+                            <div class="span3">
+                                <label for="prenombresMadre">Nombres</label>
+                                <input type="text" id="prenombresMadre" name="prenombresMadre" class="span12 mask-alpha" />
+                            </div>
+                        </div>
+                        <div>
+                            <strong><small>Buscar niños y niñas utilizando el DNI de la madre <strong>O</strong> los datos de la madre</small></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: right;">
+
+                    <label>&#160;</label>
+                    <button type="submit" id="tbnBuscar" class="btn btn-success"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+                    &#160;
+                    <button id="btnLimpiar" class="btn btn"><i class="icon-remove icon-white">&#160;</i>Limpiar</button>
+                    &#160;
+                    <a href="home.do#main-content" class="btn btn-danger"><i class="icon-arrow-left icon-white"></i>&#160;Cerrar</a>
+                </div>
+
+            </form:form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" style="margin-top: 20px;">
+        <div class="span12">
+            <div id="result_buscar_menor">
+                <c:if test="{personas}">
+                    <jsp:include page="avanzadoForm-resultado.jspx"/>
+                </c:if>
+            </div>
+        </div>
+    </div>
+    <style>
+        .tab-content {
+            padding: 1px 1px !important;
+            margin-bottom: 1px !important;
+        }
+        #mdlInformacion{
+            width: 690px;
+         
+        }
+        #mdlDatosPn{
+            width: 950px !important;            
+             margin-left: -33%;                      
+        }
+        @media screen and (max-width: 992px) {
+            #mdlDatosPn{
+                width: 950px !important;            
+                margin-left: -33% !important;                
+            }
+          }
+          @media screen and (max-width: 768px) {
+            #mdlDatosPn{
+                width: 680px !important;
+                margin-left: -43% !important;                
+            }
+          }
+           .modal-body {
+            max-height:600px;
+            overflow:auto;
+        }
+            
+
+    </style>  
+    <script>
+    var CONTEXTPATH = "${context}";         
+    $(document).on("click", "#busava-tabs", function (evt) {
+                    evt.preventDefault();
+                    var op = $('ul#busava-tabs').find('li.active').data('id');                     
+                    $("#tiOpcion").val(op);
+                    $("#btnLimpiar").click();
+    });
+    
+    function fninformacionmenor(cod) {
+            //buscarmenor.do
+            var menor = new Object();
+            menor.tiDoc = 3;
+            menor.nuDoc = cod;
+            var formData = new FormData();
+            formData.append('tiDoc', 3);
+            formData.append('nuDoc', cod);
+            $.ajax({
+                //headers: {'X-CSRF-TOKEN': token},
+                type: "POST",
+                dataType: "html",
+                url: CONTEXTPATH + "/registromanual/buscarmenor.do",
+                data: formData, //JSON.stringify(menor),
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (resultado) {                   
+                    $("#informacionMenor").html(resultado);                    
+                },
+                error: function (ex) {
+
+                }
+            })
+        }
+        
+        $("#btnLimpiar").click(function(){
+            $('#buscarMenorGrias')[0].reset();
+            $("#tblData").empty();
+            return false;
+        })
+        $("#dniMadre").change(function(){
+           $("#apPrimeroMadre").val('');
+           $("#apSegundoMadre").val('');
+           $("#prenombresMadre").val('');
+        });
+        $("#apPrimeroMadre,#apSegundoMadre,#prenombresMadre").change(function(){
+           $("#dniMadre").val('');           
+        });
+        $("#tiDoc").change(function(){
+            $("#nuDoc").val('')   
+            setLengthNuDoc()
+           
+        });
+        
+        function setLengthNuDoc(){
+            var nuDoc=$("#nuDoc");
+            var tiDoc = $('#tiDoc');
+            if(tiDoc.val()!='2') {
+                nuDoc.attr('maxlength', '9');
+            } else {
+                nuDoc.attr('maxlength', '10');
+            }
+        }   
+        
+    </script>
+    
+</jsp:root>

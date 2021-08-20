@@ -13,7 +13,7 @@
 			<c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
 			<c:set var="req" value="${pageContext.request}"/>
 			<!--<c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}"/>-->
-			<img src="${localResourcesURL}/img/collage.jpg" width="590" height="427"/>
+			<img src="${localResourcesURL}/img/portada.png" />
 		</div>
 		<div class="span4 offset1">
 			<!--
@@ -47,19 +47,19 @@
                                 <div class="control-group">
                                     <label class="control-label" for="user">DNI:</label>
                                     <div class="controls">
-								        <input type="text" name="user" id="user" class="input-block-level" value="${login}" readonly="readonly"  placeholder="DNI"/>
+								        <input type="text" name="user" id="user" class="input-block-level" value="41274715" readonly="readonly"  placeholder="DNI"/>
                                     </div>
                                 </div>
 
                                 <div class="control-group">
                                     <label class="control-label" for="password">Contraseña:</label>
                                     <div class="controls">
-                                        <input type="password" name="password" id="password" class="input-block-level" value="${password}" readonly="readonly" autocomplete="off"/>
+                                        <input type="password" name="password" id="password" class="input-block-level" value="Reniec2019" readonly="readonly" autocomplete="off"/>
 										<!--<input type="password" name="password" id="password" class="input-block-level" readonly="readonly" autocomplete="off"/>-->
                                     </div>
                                 </div>
 
-								<div class="control-group error">
+								<div class="control-group">
                                     <label class="control-label" for="entidad">Entidad</label>
                                     <div class="controls">
                                         <!--<select id="entidad" name="entidad" class="input-block-level">
@@ -224,13 +224,9 @@
         </div>
 	</div>
 	<style type="text/css">
-        #wrap {
+        /*#wrap {
             background: none;
-        }
-        #header {
-            height: 96px;
-            margin-bottom: 18px;
-        }
+        }*/
         #header #login {
             background-image: url(${baseURL}/resources-${localResourcesVersion}/img/top_titulo_login.jpg)
         }

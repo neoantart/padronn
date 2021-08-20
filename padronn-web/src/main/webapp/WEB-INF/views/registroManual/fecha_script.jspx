@@ -63,7 +63,7 @@
                     var lastFeVisitaTemp = new Date(lastFeVisitaParts[2], lastFeVisitaParts[1] - 1, lastFeVisitaParts[0]),
                         lastFeVisita = new Date(lastFeVisitaTemp.getFullYear(), lastFeVisitaTemp.getMonth(), lastFeVisitaTemp.getDate(), 0, 0, 0, 0);
                     limiteInf = new Date(lastFeVisita);
-                    limiteInf = limiteInf.setDate(lastFeVisita.getDate() - rangoDiasBeforeLastDate);
+                    limiteInf =  limiteInf.setDate(lastFeVisita.getDate() - rangoDiasBeforeLastDate);
                     limiteInf = new Date(limiteInf);
                     limiteInf = new Date(limiteInf.getFullYear(), limiteInf.getMonth(), limiteInf.getDate(), 0, 0, 0, 0);
                     var dateInfPrint = formatDatePrint(limiteInf);
@@ -233,8 +233,6 @@
                 }
             });
 
-
-
             $('#feUltimaTomaDatos').blur(function () {
                 var existeFeUltimaTomaDatos = true;
                 if($('#feUltimaTomaDatos').val().trim().length < 10){ $('#feUltimaTomaDatos').val('');}
@@ -248,7 +246,7 @@
                         var feNacimientoTemp = new Date(feNacimientoParts[2], feNacimientoParts[1] - 1, feNacimientoParts[0]);
                         feNacimiento = new Date(feNacimientoTemp.getFullYear(), feNacimientoTemp.getMonth(), feNacimientoTemp.getDate(), 0, 0, 0, 0);
                     }
-                    if (feUltimaTomaDatosChange < limiteInf) {
+                    if (feUltimaTomaDatosChange < limiteInf){
                         feUltimaTomaDatosDatePicker.hide();
                         feUltimaTomaDatosDatePicker.setValue(limiteInf);
                         alert(message);

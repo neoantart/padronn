@@ -1,0 +1,137 @@
+#wrap{
+  background-color: #e4e9ee;
+}
+
+/*header*/
+.content-header{
+  justify-content: center;
+  padding: 5px 0;
+  @include mediaQ(768px){
+    justify-content: space-between;
+  }
+}
+.logo-header{
+  display: flex;
+  align-items: center;
+  .title-header{
+    font-size: 20px;
+    color: #FFFFFF;
+    margin-left: 15px;
+    line-height: 1;
+    @include mediaQ(1367px){
+      font-size: 26px;
+    }
+  }
+}
+.logos-min{
+  display: none;
+  @include mediaQ(768px){
+    display: flex;
+  }
+}
+/*menu*/
+.navbar .nav > li > a{
+  font-size: 12px;
+  @include mediaQ(1367px){
+    font-size: 14px;
+  }
+}
+.dropdown-menu{
+  padding: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  .image-usuario{
+    padding: 5px 0;
+  }
+}
+li.menu-usuario-item{
+  text-align: center;
+  border-bottom: 1px solid #d1d6db;
+  a{
+    padding: 15px 0;
+    color: #0b6cbc;
+    margin: 0;
+    transition: .5s;
+    &:hover{
+      background-color: #2283c5;
+    }
+  }
+  &:last-child{
+    background-color: #f5f4f4;
+    transition: .5s;
+  }
+}
+.l-menu{
+  background-color: #01243c;
+  .menu-ubigeo{
+    color: #908d8d;
+    margin-top: 10px;
+  }
+}
+.list-menu{
+  li a{
+    padding: 8px 10px ;
+    transition: .5s;
+  }
+  .divider{
+    background-color: #ccc;
+    margin: 0;
+    height: 2px;
+  }
+}
+.data-usuario{
+  display: flex;
+}
+.info-usuario{
+  text-align: left;
+  margin-top: 10px;
+}
+.title-welcome{
+  margin-bottom: 1em;
+  h4{
+    font-size: 15px;
+    @include mediaQ(1367px){
+      font-size: 18px;
+    }
+  }
+}
+
+/*migas de pan*/
+.breadcrumb-base{
+  display: flex;
+  font-size: 14px;
+  padding: 0;
+  color: #757575;
+  margin: 2px 0 10px;
+  a{
+    color: #757575;
+  }
+}
+.breadcrumb-item{
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+  a{
+    &::after{
+      content: " > ";
+      margin-left: 5px;
+    }
+  }
+  &:last-child {
+    a{
+      font-weight: normal;
+      cursor:default;
+      &::after{
+        content: ''}
+    }
+  }
+}
+/*footer*/
+.content-footer{
+  padding: 8px 0;
+  .muted{
+    line-height: 1;
+  }
+}
