@@ -1,0 +1,120 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="precotejoRegistro" type="pe.gob.reniec.padronn.logic.model.PrecotejoRegistro" required="true" rtexprvalue="true" />
+	<jsp:directive.attribute name="tablaCss" type="java.lang.String" required="true" rtexprvalue="true" />
+
+	<table class="table table-condensed ${tablaCss}">
+		<tr>
+			<th colspan="2">Información del Registro</th>
+		</tr>
+
+		<tr>
+			<td>DNI</td>
+			<td>${precotejoRegistro.nuDniMenor}</td>
+		</tr>
+
+		<tr>
+			<td>Nombre</td>
+			<td><util:persona primerApellido="${precotejoRegistro.apPrimerMenor}" segundoApellido="${precotejoRegistro.apSegundoMenor}" nombres="${precotejoRegistro.prenombreMenor}"/></td>
+		</tr>
+
+		<tr>
+			<td>Fecha de nacimiento</td>
+			<td>${precotejoRegistro.feNacMenor}</td>
+		</tr>
+
+		<tr>
+			<td>Sexo</td>
+			<td>${precotejoRegistro.deGeneroMenor}</td>
+		</tr>
+		<tr>
+			<td>Ubigeo</td>
+			<td>${precotejoRegistro.deUbigeoInei}</td>
+		</tr>
+
+        <tr>
+            <td>CentroPoblado</td>
+            <td>${precotejoRegistro.deCentroPoblado}</td>
+        </tr>
+
+		<tr>
+			<td>Dirección</td>
+			<td class="text-upper">${precotejoRegistro.deDireccion}</td>
+		</tr>
+
+		<tr>
+			<td>Establecimiento de salud</td>
+           <td>${precotejoRegistro.deEstSalud}</td>
+		</tr>
+
+		<tr>
+			<td>Tipo de seguro</td>
+			<td>${precotejoRegistro.deSeguroMenor}</td>
+		</tr>
+
+		<tr>
+			<td>Programas sociales</td>
+			<td>
+				<c:choose>
+					<c:when test="${not empty precotejoRegistro.tiProSocialList}">
+						<span>${precotejoRegistro.tiProSocial}</span>
+						<ul>
+							<c:forEach var="programaSocial" items="${precotejoRegistro.tiProSocialList}">
+								<li>${programaSocial}</li>
+							</c:forEach>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<em>No se registró ningún programa social</em>
+					</c:otherwise>
+				</c:choose>
+			</td>
+		</tr>
+
+		<tr>
+			<td>Institución educativa</td>
+			<c:if test="${empty precotejoRegistro.deInstEducativa}">
+				<td><em>No se registró ninguna institución educativa</em></td>
+			</c:if>
+			<c:if test="${not empty precotejoRegistro.deInstEducativa}">
+				<td>${precotejoRegistro.deInstEducativa}</td>
+			</c:if>
+		</tr>
+
+		<tr>
+			<th colspan="2">Información del Jefe de Familia o Titular</th>
+		</tr>
+		<tr>
+			<td>Tipo de vínculo</td>
+			<td>${precotejoRegistro.deVinculoJefe}</td>
+		</tr>
+		<tr>
+			<td>Número de DNI</td>
+			<td>${precotejoRegistro.coDniJefeFam}</td>
+		</tr>
+		<tr>
+			<td>Nombre</td>
+			<td class="text-upper"><util:persona primerApellido="${precotejoRegistro.apPrimerJefe}" segundoApellido="${precotejoRegistro.apSegundoJefe}" nombres="${precotejoRegistro.prenomJefe}"/></td>
+		</tr>
+
+		<tr>
+			<th colspan="2">Información de la Madre</th>
+		</tr>
+		<tr>
+			<td>Número de DNI</td>
+			<td>${precotejoRegistro.coDniMadre}</td>
+		</tr>
+		<tr>
+			<td>Nombre</td>
+			<td class="text-upper"><util:persona primerApellido="${precotejoRegistro.apPrimerMadre}" segundoApellido="${precotejoRegistro.apSegundoMadre}" nombres="${precotejoRegistro.prenomMadre}"/></td>
+		</tr>
+		<tr>
+			<td>Grado de instrucción</td>
+			<td>${precotejoRegistro.deGraInstMadre}</td>
+		</tr>
+		<tr>
+			<td>Lenguaje habitual</td>
+			<td>${precotejoRegistro.deLenMadre}</td>
+		</tr>
+	</table>
+</jsp:root>

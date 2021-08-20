@@ -1,0 +1,55 @@
+<!--
+ * Archivo precotejoform-upload.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 02/08/13 04:15 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<script type="text/javascript">
+		$(function () {
+			$("${divToHide}").hide();
+		});
+	</script>
+
+	<div class="row-fluid">
+		<div class="span12">
+
+			<c:if test="${empty precotejoRegistro}">
+				<h4>Información Básica del Niño/a</h4>
+				<hr/>
+
+				<div class="row-fluid">
+					<div class="span10 offset1">
+						<div class="alert alert-block"  style="text-align: center;">
+							<h4 class="text-upper">Registro No pudo ser Actualizado</h4>
+						</div>
+					</div>
+				</div>
+			</c:if>
+
+			<c:if test="${not empty precotejoRegistro}">
+				<!--<h4>Información Básica del Menor: ${precotejoRegistro.nuRegistro} / Envío ${precotejoRegistro.nuEnvio} - <util:persona nombres="${precotejoRegistro.prenombreMenor}" primerApellido="${precotejoRegistro.apPrimerMenor}" segundoApellido="${precotejoRegistro.apSegundoMenor}"/></h4>-->
+				<h4>Información Básica del Niño/a</h4>
+				<hr/>
+
+				<div class="row-fluid">
+					<div class="span10 offset1">
+						<div class="alert alert-block alert-success" style="text-align: center;">
+							<h4 class="text-upper">Registro #${precotejoRegistro.nuRegistro} de Envío #<fmt:formatNumber type="number" maxFractionDigits="0" value="${precotejoRegistro.nuEnvio}"/> Actualizado Exitosamente</h4>
+						</div>
+					</div>
+				</div>
+
+				<util:precotejoRegistro-tabla precotejoRegistro="${precotejoRegistro}" tablaCss="table table-condensed"/>
+				<br/>
+				<!--<hr style="clear:both;"/>-->
+			</c:if>
+
+		</div>
+	</div>
+
+</jsp:root>

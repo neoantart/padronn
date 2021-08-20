@@ -1,0 +1,56 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: lmamani
+  Date: 23/07/13
+  Time: 11:26 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags" xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<c:choose>
+		<c:when test="${persona.esPadron eq '1' or persona.esPadron eq '2'}">
+			<c:choose>
+				<c:when test="${not empty ubigeoValido}">
+					<div class="row-fluid">
+						<div class="span10 offset1">
+							<div id="padronn-form-resultado-espadron-confirmar-header">
+								<p class="text-muted text-info">El niño/a se encuentra registrado en el Padrón Nominal.</p>
+								<a href="#" onclick="$('#padronn-form-resultado-espadron-confirmar').show()" class="btn btn-danger"><span class="icon-pencil icon-white">&#160;</span> Dar de baja del Padrón Nominal</a>
+							</div>
+
+							<div id="padronn-form-resultado-espadron-confirmar" class="hidden">
+								<jsp:include page="padronn-form-resultado-espadron-dardebaja.jspx"/>
+							</div>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<p class="text-error">Usted solo puede dar de baja al menor, que pertenece a su jurisdicción</p>
+				</c:otherwise>
+			</c:choose>
+
+		</c:when>
+
+		<c:otherwise>
+			<div class="row-fluid">
+				<div class="span10 offset1">
+					<c:choose>
+						<c:when test="${padronNominalBaja.coMotivoBaja eq '1' and padronNominalBaja.usCreaAudi eq 'SPDEFDNI' }">
+							<p class="text-muted text-error">El DNI del niño/a se encuentra con restricción de fallecimiento.</p>
+						</c:when>
+						<c:otherwise>
+							<div id="padronn-form-resultado-espadron-confirmar-header">
+								<p class="text-muted text-error">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
+								<a href="#" onclick="$('#padronn-form-resultado-espadron-confirmar').show();" class="btn btn-success"><span class="icon-pencil icon-white">&#160;</span> Dar de alta en el Padrón Nominal</a>
+							</div>
+							<div id="padronn-form-resultado-espadron-confirmar" class="hidden" style="margin-top:10px;">
+								<jsp:include page="padronn-form-resultado-espadron-dardealta.jspx"/>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
+
+</jsp:root>

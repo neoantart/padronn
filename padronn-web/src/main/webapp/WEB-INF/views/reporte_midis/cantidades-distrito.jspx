@@ -1,0 +1,110 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 17/09/13
+  Time: 09:57 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row">
+
+        <div class="span12">
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h3>Cantidad de registros por distrito: ${deUbigeo}</h3>
+                </div>
+                <div class="pull-right" style="margin-top: 24px;">
+                    <a class="btn btn-success btn-mini"
+                           href="reporte_midis/cantidades_provincia.do?coUbigeo=${fn:substring(coUbigeo, 0,2)}">
+                        <i class=" icon-arrow-left icon-white"></i>&#160;Volver a provincias
+                    </a>
+                    <!--<a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Volver</a>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <p class=""><a href="reporte_midis/padron_total_distritos.do" class="btn btn-success"><i
+                    class="icon-download icon-white"><!-- --></i>&#160;Consolidado por distritos</a></p>
+
+            <div id="world-map"
+                 style="width: 300px; height: 400px; margin: auto 0; border: 1px solid #ccc; padding: 2px;">
+                <!-- --></div>
+            <div>
+                <span class="text-info">Fuente: Padron Nominal - RENIEC</span>
+            </div>
+        </div>
+        <div class="span8">
+            <div id="cantidades">
+                <table class="table table-bordered  table-condensed table-hover table-striped" id="depas">
+                    <caption>
+                        Número de registros por distrito - <span class="text-info">fuente: Padron nominal</span><br/>
+                        <!--<span class="text-info"
+                              style="margin-bottom: 10px;">Fecha de generación de consolidado: ${fechaConsolidado}</span>-->
+                    </caption>
+                    <tr>
+                        <th>Distritos</th>
+                        <th style="text-align: center;">CON CUI</th>
+                        <th style="text-align: center;">SIN DOC.</th>
+                        <th style="text-align: center;">CON DNI</th>
+                        <th style="text-align: center;">TOTAL</th>
+                    </tr>
+                    <c:set var="total" value='0'/>
+                    <c:set var="total1" value='0'/>
+                    <c:set var="total2" value='0'/>
+                    <c:set var="total3" value='0'/>
+                    <c:forEach items="${distritos}" var="dist">
+                        <c:set var="total" value="${total+dist.nuConDni}"/>
+                        <c:set var="total1" value="${total1+dist.nuCui}"/>
+                        <c:set var="total2" value="${total2+dist.nuSinDni}"/>
+                        <c:set var="total3" value="${total3+dist.nuTotal}"/>
+                        <tr id="${dist.coUbigeo}">
+                            <td>${dist.deUbigeo}</td>
+                            <td style="text-align: right;">
+                                <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${dist.coUbigeo}&amp;tiDocMenor=2&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                   class="btn-link" title="Ver listado de menores sin DNI">
+                                    <fmt:formatNumber value="${dist.nuCui}" pattern="###,###,###"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${dist.coUbigeo}&amp;tiDocMenor=3&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                   class="btn-link" title="Ver listado de menores sin DNI">
+                                    <fmt:formatNumber value="${dist.nuSinDni}" pattern="###,###,###"/>
+                                </a>
+                            </td>
+                            <td style="text-align: right;">
+                                <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${dist.coUbigeo}&amp;tiDocMenor=1&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                   class="btn-link" title="Ver listado de menores sin DNI">
+                                    <fmt:formatNumber value="${dist.nuConDni}" pattern="###,###,###"/>
+                                </a>
+                            </td>
+                            <td style="text-align: right;background-color: #fcefa1;">
+                                <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${dist.coUbigeo}&amp;tiDocMenor=&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;esPadron=${esPadron}"
+                                   class="btn-link" title="Ver listado de menores sin DNI">
+                                    <fmt:formatNumber value="${dist.nuTotal}" pattern="###,###,###"/>
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    <tr>
+                        <th>Total:</th>
+                        <td style="text-align: right;"><fmt:formatNumber value="${total1}" pattern="###,###,###"/></td>
+                        <td style="text-align: right;"><fmt:formatNumber value="${total2}" pattern="###,###,###"/></td>
+                        <td style="text-align: right;"><fmt:formatNumber value="${total}" pattern="###,###,###"/></td>
+                        <td style="text-align: right;background-color: #fcefa1;"><fmt:formatNumber value="${total3}"
+                                                                                                   pattern="###,###,###"/>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <!--<div id="result">
+        </div>-->
+    </div>
+    <jsp:include page="mapa_total_script.jspx"/>
+</jsp:root>

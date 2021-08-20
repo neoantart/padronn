@@ -1,0 +1,89 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 10/05/2016
+  Time: 03:07 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <form:form action="bandeja_observado/send_sin_datos_madre.do#form_sin_datos_madre" method="post"
+               modelAttribute="madre" cssClass="form-horizontal">
+        <div class="control-group">
+            <label class="control-label">DNI:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <form:input path="coDniMadre" id="coDniMadre" cssStyle="width: 167px;"/>
+                    <button class="btn btn-buscar-madre-dni" type="button"><i
+                            class="icon-white icon-search">&#160;</i></button>
+                </div>
+                <form:errors path="coDniMadre" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="madre.apPrimerMadre">
+            <c:if test="${status.error}">
+                <c:set var="apPrimerMadreError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${apPrimerMadreError}">
+            <label class="control-label">Apellido paterno:</label>
+            <div class="controls">
+                <form:input path="apPrimerMadre" id="apPrimerMadre"/>
+                <form:errors path="apPrimerMadre" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="madre.apSegundoMadre">
+            <c:if test="${status.error}">
+                <c:set var="apSegundoMadreError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${apSegundoMadreError}">
+            <label class="control-label">Apellido materno:</label>
+            <div class="controls">
+                <form:input path="apSegundoMadre" id="apSegundoMadre"/>
+                <form:errors path="apSegundoMadre" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="madre.prenomMadre">
+            <c:if test="${status.error}">
+                <c:set var="prenombreMadreError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${prenombreMadreError}">
+            <label class="control-label">Nombres:</label>
+            <div class="controls">
+                <form:input path="prenomMadre" id="prenomMadre"/>
+                <form:errors path="prenomMadre" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="madre.deRectificacion">
+            <c:if test="${status.error}">
+                <c:set var="deRectificacionError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${deRectificacionError}">
+            <label class="control-label">Detalle de rectificación:</label>
+            <div class="controls">
+                <form:textarea path="deRectificacion" id="deRectificacion"  cssStyle="height: 75px;" maxlength="500"/>
+                <!--<form:input path="deRectificacion" id="deRectificacion" cssStyle="width: 300px;"
+                            maxlength="500"/>-->
+                <form:errors path="deRectificacion" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <form:hidden path="coPadronNominal" id="coPadronNominal"/>
+            <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>&#160;Guardar</button>
+            &#160;&#160;
+            <a href="bandeja_observado/bandeja_observados.do?coTipoObservacion=2&amp;nuPagina=${nuPagina}"
+               class="btn btn-danger"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+        </div>
+    </form:form>
+    <jsp:include page="madre_sin_doc_script.jspx"/>
+</jsp:root>

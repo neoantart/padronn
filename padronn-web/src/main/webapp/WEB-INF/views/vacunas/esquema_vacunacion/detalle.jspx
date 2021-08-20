@@ -1,0 +1,85 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="modal_editar" class="modal" style="width: 640px;">
+        <div class="modal-header">
+            <a type="button" class="close" href="esquema_vacunacion/listar.do">×</a>
+
+            <h3><span class="icon-edit"></span>&#160;Detalle Esquema de Vacunación</h3>
+        </div>
+
+        <div class="form-horizontal">
+            <fieldset disabled="disabled">
+                <div class="modal-body">
+
+                    <c:if test="${not empty msgSuccess}">
+                        <div class="alert alert-success"><span class="icon-ok"></span>&#160;${msgSuccess}</div>
+                    </c:if>
+
+                    <div class="control-group">
+                        <label class="control-label" for="nuEdad">Edad en año(s)</label>
+
+                        <div class="controls">
+                            <input value="${esquemaVacunacion.nuEdad} año(s)" style="color: black!important;" class="span2"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="nuEdadMeses">Edad en mese(s)</label>
+
+                        <div class="controls">
+                            <input value="${esquemaVacunacion.nuEdadMeses} mese(s)"  style="color: black!important;" class="span2" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="deTipoVacuna">Tipo vacuna</label>
+
+                        <div class="controls">
+                            <input value="${esquemaVacunacion.deTipoVacuna}" style="color: black!important;" class="span4"/>
+                        </div>
+                    </div>
+
+                    <!--<div class="control-group">
+                        <label class="control-label" for="nuDosis">Número de dosis</label>
+
+                        <div class="controls">
+                            <input value="${esquemaVacunacion.nuDosis}" id="nuDosis" style="color: black!important;" class="span2"/>
+                        </div>
+                    </div>-->
+
+                    <div class="control-group">
+                        <label class="control-label" for="deTipoDosis">Tipo de Dosis</label>
+
+                        <div class="controls">
+                            <input value="${esquemaVacunacion.deTipoDosis}" id="deTipoDosis" style="color: black!important;" class="span2"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="nuDosis">Estado</label>
+
+                        <div class="controls">
+                            <c:choose>
+                                <c:when test="${esquemaVacunacion.esEsquemaVacunacion eq '1'}">
+                                    <input value="ACTIVO" style="color: black!important;" class="span2"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input value="INACTIVO" style="color: black!important;" class="span2"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer center">
+                    <a class="btn btn-danger btn-small" href="esquema_vacunacion/listar.do"><span
+                            class="icon-remove icon-white"></span>&#160;Cerrar</a>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+</jsp:root>

@@ -1,0 +1,110 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request" />
+
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <spring:eval expression="@applicationProps['application.resources.cdnserver']" var="cdnResourcesServer"/>
+    <spring:eval expression="@applicationProps['application.resources.cdnserver.version']" var="cdnResourcesVersion"/>
+    <!--<c:set var="cdnResourcesURL" value="${cdnResourcesServer}/resources-${cdnResourcesVersion}" scope="request"/>-->
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+    <jsp:useBean id="now" class="java.util.Date"/>
+
+    <!--<link href="${cdnResourcesURL}/css/datepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="${cdnResourcesURL}/js/select2-3.4.0/select2.css" rel="stylesheet" type="text/css"/>-->
+
+    <link href="${localResourcesURL}/css/jquery-ui-1.9.2.css" type="text/css" rel="stylesheet"/>
+
+    <link href="${localResourcesURL}/css/datepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/js/select2-3.4.0/select2.css" rel="stylesheet" type="text/css"/>
+    <link href="${localResourcesURL}/js/select2v4/select2v4.css" rel="stylesheet" type="text/css"/>
+
+    <!--<link href="${localResourcesURL}/css/jquery-ui-1.9.2.css" type="text/css" rel="stylesheet"/>-->
+
+    <link href="${localResourcesURL}/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/scojs.css" type="text/css" rel="stylesheet"/>
+    <!--<link href="${localResourcesURL}/css/jquery-ui.css" type="text/css" rel="stylesheet"/>-->
+
+    <link href="${localResourcesURL}/css/bootstrap-select.css?${now.time}" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/ice-theme.css" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/main.css?${now.time}" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/jquery-jvectormap-1.2.2.css" type="text/css" rel="stylesheet"/>
+
+    <link href="${localResourcesURL}/css/jquery.multiselect.css" type="text/css" rel="stylesheet"/>
+  <!--  <link href="${localResourcesURL}/css/select2.min.css" type="text/css" rel="stylesheet"/> -->
+
+    <link href="${localResourcesURL}/css/960_24_col.css" type="text/css" rel="stylesheet"/>
+
+    <!--<script src="${cdnResourcesURL}/js/jquery-1.9.0.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <script src="${localResourcesURL}/js/jquery-1.9.0.min.js" type="text/javascript"><!-- script --></script>
+<!--    <script src="${localResourcesURL}/js/jquery-ui-1.9.2.js" type="text/javascript"></script>  -->
+
+    <script src="${localResourcesURL}/js/jquery-ui-1.9.2.js" type="text/javascript"><!-- script --></script>
+
+
+    <script src="${localResourcesURL}/js/jquery-jvectormap-1.2.2.min.js" type="text/javascript"><!-- script --></script>
+
+
+    <script src="${localResourcesURL}/js/jquery.ui.widget.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/jquery.iframe-transport.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/jquery.fileupload.js" type="text/javascript"><!-- script --></script>
+
+
+    <!--<script src="${cdnResourcesURL}/js/jquery-migrate-1.2.1.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+    <script src="${cdnResourcesURL}/js/jquery.form.js" type="text/javas cript">&lt;!&ndash; script &ndash;&gt;</script>
+    <script src="${cdnResourcesURL}/js/jquery.blockUI.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+    <script src="${cdnResourcesURL}/js/bootstrap.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+
+    <!--<script src="${localResourcesURL}/js/jquery-migrate-1.2.1.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <script src="${localResourcesURL}/js/jquery.form-3.40.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/jquery.blockUI.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/bootstrap.min.js" type="text/javascript"><!-- script --></script>
+
+    <!--<script src="${cdnResourcesURL}/js/select2-3.4.0/select2.min.js">&lt;!&ndash; script &ndash;&gt;</script>
+    <script src="${cdnResourcesURL}/js/select2-3.4.0/select2_locale_es.js">&lt;!&ndash; script &ndash;&gt;</script>-->
+
+    <script src="${localResourcesURL}/js/jquery.multiselect.min.js" type="text/javascript"><!-- script --></script>
+  <!--  <script src="${localResourcesURL}/js/select2.js" type="text/javascript"></script> -->
+    <script src="${localResourcesURL}/js/select2v4/select2v4.js"><!-- script --></script>
+
+    <script src="${localResourcesURL}/js/select2-3.4.0/select2.min.js"><!-- script --></script>
+    <script src="${localResourcesURL}/js/select2-3.4.0/select2_locale_es.js"><!-- script --></script>
+
+    <script src="${localResourcesURL}/js/bootstrap-datepicker.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/jquery.keyfilter.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/sco.tooltip.js" type="text/javascript"><!-- script --></script>
+    <!--<script src="${localResourcesURL}/js/sco.tooltip.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <!--<script src="${cdnResourcesURL}/js/jquery.inputmask-2.x/jquery.inputmask.bundle.min.js">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <script src="${localResourcesURL}/js/jquery.inputmask.js"><!-- script --></script>
+    <script src="${localResourcesURL}/js/jquery.inputmask.custom.reniec.js?${now.time}"><!-- script --></script>
+    <script src="${localResourcesURL}/js/jquery.media.js"><!-- script --></script>
+
+    <!--<script src="${cdnResourcesURL}/js/bootstrap-tooltip.js">&lt;!&ndash; script &ndash;&gt;</script>
+    <script src="${cdnResourcesURL}/js/bootstrap-popover.js">&lt;!&ndash; script &ndash;&gt;</script>-->
+
+    <script src="${localResourcesURL}/js/bootstrap-tooltip.js"><!-- script --></script>
+    <script src="${localResourcesURL}/js/bootstrap-popover.js"><!-- script --></script>
+    <script src="${localResourcesURL}/js/unobtrusiveXRequest-0.2-SNAPSHOT.min.js?${now.time}" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/main.js?${now.time}" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/js-paginate.js" type="text/javascript"><!-- script --></script>
+    <!--<script src="${localResourcesURL}/js/ul-paginate.js?${now.time}" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <script src="${localResourcesURL}/js/bootstrap-filestyle.min.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/bootstrap-select.js?${now.time}" type="text/javascript"><!-- script --></script>
+    <!--<script src="${localResourcesURL}/js/deployJava.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <!--<script src="${localResourcesURL}/js/login_dnie.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <script src="${localResourcesURL}/js/bootstrap-alert.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/util.js?${now.time}" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/registroManual.js?${now.time}" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/cotejoregobs-editform.js" type="text/javascript"><!-- script --></script>
+    <!--<script src="${localResourcesURL}/js/mapa.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+    <!--<script src="${localResourcesURL}/js/deployJava.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+
+    <script src="${localResourcesURL}/js/amcharts/amcharts.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/amcharts/serial.js" type="text/javascript"><!-- script --></script>
+
+    <script src="${localResourcesURL}/js/validacion_input.js?${now.time}"><!-- script --></script>
+
+    <link rel="shortcut icon" href="${localResourcesURL}/img/favicon.ico" />
+</jsp:root>

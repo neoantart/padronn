@@ -1,0 +1,133 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 17/12/2015
+  Time: 09:15 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_SUMINISTRADA']" var="TI_DOSIS_SUMINISTRADA"/>
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_CRONOGRAMA']" var="TI_DOSIS_CRONOGRAMA"/>
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div id="modal_establecer_dosis" class="modal" style="width: 640px;">
+        <div class="modal-header">
+            <a type="button" class="close close-modal" data-dismiss="modal" id="btn_close">×</a>
+            <h3><span class="icon-edit"></span>&#160;Registar dosis</h3>
+        </div>
+
+        <form:form action="calendario_vacunacion/send_establecer_dosis.do#modal" modelAttribute="dosis"
+                   cssClass="form-horizontal">
+            <div class="modal-body">
+                <form:hidden path="nuSecuencia"/>
+                <form:hidden path="coPadronNominal"/>
+                <form:hidden path="count"/>
+                <form:hidden path="tiDosis" value="${dosis.tiDosis}"/>
+                <!--<form:hidden path="feProrroga" />
+                <form:hidden path="deProrroga" />-->
+
+                <fieldset disabled="disabled">
+                    <spring:bind path="dosis.coTipoVacuna">
+                        <c:if test="${status.error}">
+                            <c:set var="coTipoVacunaError" value="error"/>
+                        </c:if>
+                    </spring:bind>
+
+                    <div class="control-group ${coTipoVacunaError}">
+                        <label class="control-label" for="coTipoVacuna">Tipo vacuna</label>
+
+                        <div class="controls">
+                            <form:select path="coTipoVacuna" cssClass="span5">
+                                <form:option value="" label="-- Seleccione --"/>
+                                <form:options items="${tiposVacunas}" itemLabel="deTipoVacunaAbr"
+                                              itemValue="coTipoVacuna"/>
+                            </form:select>
+                            <form:errors path="coTipoVacuna" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <spring:bind path="dosis.feVacuna">
+                    <c:if test="${status.error}">
+                        <c:set var="feVacunaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+                <fieldset disabled="disabled">
+                    <div class="control-group ${feVacunaError}">
+                        <label class="control-label" for="feVacuna">Fecha de calendario</label>
+                        <div class="controls">
+                            <form:input path="feVacuna" cssClass="span2" cssStyle="color: black!important;"/>
+                            <form:errors path="feVacuna" cssClass="text-error" element="div" />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset disabled="disabled">
+                    <spring:bind path="dosis.coTipoDosis">
+                        <c:if test="${status.error}">
+                            <c:set var="coTipoDosisError" value="error"/>
+                        </c:if>
+                    </spring:bind>
+
+                    <div class="control-group ${coTipoDosisError}">
+                        <label class="control-label" for="coTipoDosis">Tipo Dosis</label>
+
+                        <div class="controls">
+                            <form:select path="coTipoDosis" cssClass="span3">
+                                <form:option value="" label="-- Seleccione --"/>
+                                <form:options items="${tiposDosis}" itemLabel="deTipoDosis" itemValue="coTipoDosis"/>
+                            </form:select>
+                            <form:errors path="coTipoDosis" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <spring:bind path="dosis.coCaptacion">
+                    <c:if test="${status.error}">
+                        <c:set var="coCaptacionError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${coCaptacionError}">
+                    <label class="control-label" for="coCaptacion">Tipo de Captacion</label>
+
+                    <div class="controls">
+                        <form:select path="coCaptacion" cssClass="span3">
+                            <form:option value="" label="-- Seleccione --"/>
+                            <form:options items="${tiposCaptacion}" itemLabel="deCaptacion" itemValue="coCaptacion"/>
+                        </form:select>
+                        <form:errors path="coCaptacion" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+                <spring:bind path="dosis.feDosis">
+                    <c:if test="${status.error}">
+                        <c:set var="feDosisError" value="error"/>
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${feDosisError}">
+                    <label class="control-label" for="feDosis">Fecha de dosis</label>
+                    <div class="controls">
+                        <form:input path="feDosis" id="feDosis" cssStyle="width: 163px;"/>
+                        <div class="input-append">
+                            <button id="feDosisButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i class="icon-calendar icon-white"></i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feDosis" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer center">
+                <button class="btn btn-primary"><span class="icon-check icon-white"></span>&#160;Aceptar</button>
+                <a class="close-modal btn btn-danger btn-small"><span
+                        class="icon-remove icon-white"></span>&#160;Cancelar</a>
+            </div>
+        </form:form>
+    </div>
+    <jsp:include page="establecer_dosis_script.jspx"/>
+</jsp:root>

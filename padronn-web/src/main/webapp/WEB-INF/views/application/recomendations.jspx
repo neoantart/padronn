@@ -1,0 +1,71 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="pull-left">
+				<h1>Requisitos de funcionamiento</h1>
+			</div>
+			<div class="pull-right" style="margin-top: 14px;">
+				<a href="home.do#main-content" class="btn"><i class="icon-arrow-left icon-white">&#160;</i>&#160;Volver</a>
+			</div>
+		</div>
+		<ul>
+			<li>Cookies habilitadas en su navegador.</li>
+			<li>Java 6 o superior instalado. Sino tiene Java, descárguelo <a target="_blank" href="http://www.java.com/es/download/"> aquí</a>.</li>
+			<!--<li>Lector de contacto de tarjetas inteligentes.</li>-->
+		</ul>
+		<p class="lead">Este sistema ha sido probado en las siguientes combinaciones de sistemas operativos y navegadores.</p>
+		<table style="margin-bottom: 6px;" class="table table-hover">
+			<tbody>
+			<tr>
+				<th>&#160;</th>
+				<!--<th>IE 9</th>
+				<th>IE 10</th>
+				<th>Firefox 20+</th>-->
+				<th>Google Chrome 26+</th>
+				<!--<th>Opera 16+</th>-->
+			</tr>
+			<tr>
+				<th>Windows Vista (Java 6 o superior)</th>
+				<!--<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>
+				<td><i>&lt;!&ndash; &ndash;&gt;</i></td>
+				<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>-->
+				<td style="text-align: center"><i class="icon-ok"><!-- --></i></td>
+				<!--<td><i>&lt;!&ndash; &ndash;&gt;</i></td>-->
+			</tr>
+			<tr>
+				<th>Windows 7 (Java 6 o superior)</th>
+				<!--<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>
+				<td><i>&lt;!&ndash; &ndash;&gt;</i></td>
+				<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>-->
+				<td style="text-align: center"><i class="icon-ok"><!-- --></i></td>
+				<!--<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>-->
+			</tr>
+			<tr>
+				<th>Windows 8 (Java 7 o superior)</th>
+				<!--<td><i>&lt;!&ndash; &ndash;&gt;</i></td>
+				<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>
+				<td style="text-align: center"><i class="icon-ok">&lt;!&ndash; &ndash;&gt;</i></td>-->
+				<td style="text-align: center"><i class="icon-ok"><!-- --></i></td>
+				<!--<td><i>&lt;!&ndash; &ndash;&gt;</i></td>-->
+			</tr>
+			</tbody>
+		</table>
+	</div>
+    <br/>
+    <br/>
+<!--    <a href="home.do#main-content" class="btn"><i class="icon-arrow-left icon-white">&#160;</i>&#160;Volver al inicio</a>-->
+
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            if($('.nav').size() == 0){
+                $('#header').css({
+                    height: '96px',
+                    marginBottom: '18px'
+                });
+            }
+        });
+        ]]>
+    </script>
+</jsp:root>

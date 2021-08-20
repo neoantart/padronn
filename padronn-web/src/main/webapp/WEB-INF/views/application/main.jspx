@@ -1,0 +1,93 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:spring="http://www.springframework.org/tags">
+	<jsp:output doctype-root-element="HTML" doctype-system=""/>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<spring:eval expression="@applicationProps['application.html.title']" var="title"/>
+	<spring:eval expression="T(java.util.Calendar).getInstance().get(T(java.util.Calendar).YEAR)" var="currentYear"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+	<html>
+	<head>
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+		<meta name="description" content=""/>
+		<meta name="author" content=""/>
+		<title>${title}</title>
+		<jsp:include page="resources.jspx"/>
+    </head>
+	<body>
+		<button id="errorButton" type="button" class="pull-right btn btn-mini btn-warning" data-toggle="modal" data-target="#errorModal"><i class="icon-warning-sign"><!----></i></button>
+		<div id="wrap">
+			<jsp:include page="${mainBody}"/>
+		</div>
+		<div id="footer">
+			<div class="container-narrow">
+				<span class="muted">Todos los derechos reservados / Gerencia de Tecnología de la Información - RENIEC 2013</span>
+				<!--<span class="muted">Gerencia de Tecnología de la Información</span>-->
+				<span><a class="recomendations" href="acercade.do#main-content">Acerca de</a></span>
+				<span><a class="recomendations" href="recommendations.do#main-content">Recomendaciones de uso</a></span>
+				<span><a class="recomendations" href="ayuda.do#main-content">Ayuda</a></span>
+				<span class="muted">v${localResourcesVersion}</span>
+				<!--<span><a class="muted noAjax" href="about.do">Acerca de</a></span>-->
+				<div id="errorModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:90%;height:80%;margin-left:-45%;padding:20px;">
+					<iframe style="width:100%;height:90%;border:none;" id="debug-content"><!----></iframe>
+				</div>
+			</div>
+		</div>
+
+	</body>
+    <!--<jsp:include page="resources-js.jspx"/>-->
+	</html>
+    <script type="text/javascript">
+        <![CDATA[
+        // Solucion rapida para weblogic
+        var urlApp = window.location.href;
+        if(urlApp.charAt(urlApp.length-1) != "/") {
+            window.location = urlApp + "/";
+        }
+
+
+        /*function showDown(evt){
+            evt = (evt) ? evt : ((event) ? event : null);
+            if (evt){
+                if(evt.ctrlKey && (evt.keyCode == 86 || evt.keyCode == 118)){
+                    cancelKey(evt);
+                }
+                else if (evt.keyCode == 116) {
+                    // F5
+                    cancelKey(evt);
+                }
+                else if (evt.ctrlKey && (evt.keyCode == 78 || evt.keyCode == 82)) {
+                    // When ctrl is pressed with R or N
+                    cancelKey(evt);
+                }
+                else if (evt.ctrlKey && (evt.keyCode == 65 || evt.keyCode == 85)) {
+                    // When ctrl is pressed with U or A
+                    cancelKey(evt);
+                }
+                else if (evt.altKey && (evt.keyCode == 37 || evt.keyCode == 39)) {
+                    // stop Alt left or right cursor
+                    return false;
+                }
+            }
+        }
+
+        function cancelKey(evt) {
+            if (evt.preventDefault) {
+                evt.preventDefault();
+                return false;
+            }
+            else {
+                evt.keyCode = 0;
+                evt.returnValue = false;
+            }
+        }
+        document.onkeydown = showDown;
+
+        $(document).ready(function() {
+            function disableBack() { window.history.forward() }
+
+            window.onload = disableBack();
+            window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+        });*/
+
+        ]]>
+    </script>
+</jsp:root>

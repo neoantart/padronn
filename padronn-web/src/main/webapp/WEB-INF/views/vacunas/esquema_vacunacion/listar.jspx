@@ -1,0 +1,90 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="container_24">
+        <div class="page-header clearfix">
+            <div class="pull-left">
+                <h1>Esquema de vacunación, Peru</h1>
+            </div>
+            <div class="pull-right">
+                <a href="vacunas/home_vacunas.do" class="btn button-back"><i
+                        class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container_24">
+        <div class=" prefix_16 grid_8">
+            <a href="esquema_vacunacion/nuevo.do#modal" class="btn btn-block"><span
+                    class="icon-plus-sign icon-white"></span>&#160;Agregar Esquema de Vacunación</a>
+        </div>
+        <div class="clearfix"></div>
+        <br/>
+
+        <div class="grid_24">
+            <c:choose>
+                <c:when test="${not empty edades}">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Nro</th>
+                            <th>VACUNA</th>
+                            <c:forEach var="edad" items="${edades}">
+                                <c:choose>
+                                    <c:when test="${edad.nuEdad eq '0' and edad.nuEdadMeses eq'0'}">
+                                        <th style="width: 100px;">Recien Nacido</th>
+                                    </c:when>
+                                    <c:when test="${edad.nuEdad eq '0'}">
+                                        <th style="width: 100px;">${edad.nuEdadMeses} meses</th>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <th style="width: 100px;">${edad.nuEdad} años ${edad.nuEdadMeses} meses</th>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--Definir colores de los botones-->
+                        <c:set var="btn_colors" value="${fn:split('btn-primary,btn-info,btn-success,btn-warning,btn-danger,btn-inverse,btn-pink,btn-purple,btn-yellow,btn-light,btn-grey', ',')}" scope="application" />
+
+                        <c:forEach var="tipoVacuna" items="${tipoVacunas}" varStatus="index">
+                            <tr>
+                                <td style="padding:0;height: 51px;">${index.count}</td>
+                                <td style="padding:0;">${tipoVacuna.deTipoVacunaAbr}</td>
+                                <c:forEach var="edad" items="${edades}">
+                                    <c:set var="nuDosis" value=""/>
+                                    <c:set var="coEsquemaVac" value=""/>
+                                    <c:forEach var="esquemaVacunacion" items="${esquemasVacunacion}">
+                                        <c:choose>
+                                            <c:when test="${esquemaVacunacion.nuEdad eq edad.nuEdad and esquemaVacunacion.nuEdadMeses eq edad.nuEdadMeses and esquemaVacunacion.coTipoVacuna eq tipoVacuna.coTipoVacuna}">
+                                                <c:set var="nuDosis" value="${esquemaVacunacion.nuDosis}"/>
+                                                <c:set var="coEsquemaVac" value="${esquemaVacunacion.coEsquemaVac}"/>
+                                            </c:when>
+                                        </c:choose>
+                                    </c:forEach>
+                                        <c:choose>
+                                            <c:when test="${not empty nuDosis}">
+                                                <td style="padding:0;"><a href="esquema_vacunacion/editar.do?coEsquemaVac=${coEsquemaVac}#modal
+                                                " class="btn btn-large btn-block ${btn_colors[index.count]}"><span class="icon-ok icon-white"></span>&#160;</a></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td></td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                </c:forEach>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <p><strong class="text-error">No existe registros en el esquema de vacunación</strong></p>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+    <div id="overlay" class="modal-backdrop hide"></div>
+    <div id="modal"></div>
+</jsp:root>

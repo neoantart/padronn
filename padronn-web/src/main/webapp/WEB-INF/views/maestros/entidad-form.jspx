@@ -1,0 +1,97 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 21/09/13
+  Time: 02:16 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>${titulo}</h1>
+            <hr/>
+            <c:if test="${not empty mensajeError}">
+                <div class="alert alert-danger">${mensajeError}</div>
+            </c:if>
+            <div></div>
+            <form:form action="${action}#maestros-modulo-div" method="post" modelAttribute="entidad" cssClass="form-horizontal">
+                <form:errors path="*" element="div" cssClass="alert alert-danger" />
+                <form:hidden path="coEntidad" id="coEntidad"/>
+                <fieldset>
+                    <spring:bind path="entidad.deEntidad">
+                        <c:if test="${status.error}">
+                            <c:set var="classDeEntidad" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${classDeEntidad}">
+                        <label class="control-label">Nombre entidad corta:</label>
+                        <div class="controls">
+                            <form:input path="deEntidad" cssClass="span6"/>
+                            <form:errors path="deEntidad" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="entidad.deEntidadLarga">
+                        <c:if test="${status.error}">
+                            <c:set var="classDeEntidadLarga" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${classDeEntidadLarga}">
+                        <label class="control-label">Nombre entidad larga:</label>
+                        <div class="controls">
+                            <form:input path="deEntidadLarga" cssClass="span6"/>
+                            <form:errors path="deEntidadLarga" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="entidad.coUbigeoInei">
+                        <c:if test="${status.error}">
+                            <c:set var="classCoUbigeoInei" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${classCoUbigeoInei}">
+                        <label class="control-label">Ubigeo:</label>
+                        <div class="controls">
+                            <form:input path="coUbigeoInei" id="coUbigeoInei" cssClass="span4"/>
+                            <form:errors path="coUbigeoInei" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="entidad.coTipoEntidad">
+                        <c:if test="${status.error}">
+                            <c:set var="classCoTipoEntidad" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${classCoTipoEntidad}">
+                        <label class="control-label">Tipo:</label>
+                        <div class="controls">
+                            <form:select path="coTipoEntidad" id="coTipoEntidad" cssClass="span4">
+                                <form:option value="" label="Seleccione..." selected="selected"/>
+                                <form:option value="1" label="Municipio" />
+                                <form:option value="2" label="Entidad Minsa"/>
+                                <form:option value="3" label="Otras entidades"/>
+                            </form:select>
+                            <form:errors path="coTipoEntidad" cssClass="text-error" element="div" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success"><i class="icon-ok-circle icon-white"></i>Guardar</button>&#160;&#160;
+                        <c:choose>
+                            <c:when test="${not empty coEntidad}">
+                                <a href="maestros/form_actualizar_entidad.do?coEntidad=${coEntidad}#maestros-modulo-div" class="btn btn-danger"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="maestros/form_add_entidad.do#maestros-modulo-div" class="btn btn-danger"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
+                </fieldset>
+            </form:form>
+        </div>
+    </div>
+    <jsp:include page="entidad-form-script.jspx"/>
+</jsp:root>

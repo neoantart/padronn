@@ -1,0 +1,91 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 03/09/2014
+  Time: 12:32 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+
+            //entidades
+            $('#coEntidad').select2({
+                //multiple: true,
+                //data: data.entidades,
+                placeholder: 'Buscar entidad',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'reporte/buscar_entidad_usuarios.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        return {
+                            deEntidad: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+                formatResult: function (item) {
+                    if(item.text){
+                        return "<div>"+item.text+" (<em>"+item.children.length+" resultados</em>)</div>";
+                    }else{
+                        return '<div class="title"><strong>' + item.deEntidad + '</strong></div>' +
+                                '<div class="body">' +
+                                '<div><strong>' + item.deEntidad + '</strong></div>' +
+                                '</div>';
+                    }
+                },
+                /*                formatResult: function (item) {
+                 return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+                 },*/
+                formatSelection: function (item) {
+                    $('#deEntidad').val(item.deEntidad);
+                    return item.deEntidad;
+                },
+                id: function (object) {
+                    return object.coEntidad;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    //console.log(codigo);
+                    if (codigo !== "") {
+                        $.ajax("reporte/get_entidad_usuarios.do", {
+                            data: {
+                                coEntidad: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                            var data = [];
+                            data.push({coEntidad: res.coEntidad, deEntidad: res.deEntidad});
+                            $('#s2id_coEntidad >a span').text(res.deEntidad);
+                            //callback(data);
+                        });
+                    }
+                }
+            });
+            $('.select2-input').inputmask('entidad');
+
+
+            $('#btn-clean-entidad').click(function(e){
+                e.preventDefault();
+                $('input').val('');
+                $('#result_consulta_usuarios_entidad').html('');
+                $('.select2-container a').find('span').text('');
+                $('#coEntidad').val('');
+                $('#msj_error').hide('');
+                $('#no_result').hide('');
+                $('.text-error').hide();
+                $('input').css({'borderColor':'#d5d5d5'});
+            })
+
+
+        });
+        ]]>
+    </script>
+</jsp:root>

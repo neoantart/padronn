@@ -1,0 +1,41 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 20/06/2016
+  Time: 06:03 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function(){
+            $('#nuDniMenor').inputmask('dni');
+
+            $('#apPrimer')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('apellido');
+            $('#apSegundo')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('apellido');
+            $('#prenombres')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('nombre');
+
+            $('#clean-input').on('click', function(e){
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                e.preventDefault;
+//                $('input').val('');
+                Util.load('bandeja_observado/listado_observados.do', {coTipoObservacion: $('#tipo_observacion').val()}, '#listado_observados');
+            });
+        });
+        ]]>
+    </script>
+</jsp:root>

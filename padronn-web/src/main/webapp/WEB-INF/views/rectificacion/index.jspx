@@ -1,0 +1,35 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 17/10/13
+  Time: 05:55 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="row-fluid">
+        <div class="page-header clearfix">
+            <div class="pull-left">
+                <h1>Rectificación de datos del Niño/a</h1>
+            </div>
+            <div class="pull-right">
+                <a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+            </div>
+        </div>
+        <!--<p>Podra realizar rectificaciones de los datos personales del menor, jefe de familia y madre</p>-->
+
+        <div class="row-fluid">
+            <a class="btn btn-large btn-success" href="rectificacion/con_dni.do#modulo_rectificaccion">
+                <i class="icon-ok icon-white"></i>&#160;Búsqueda por Documento
+            </a>
+            &#160;&#160;
+            <a class="btn btn-large btn-info" href="rectificacion/sin_dni.do#modulo_rectificaccion">
+                <i class="icon-search icon-white"></i>&#160;Búsqueda por datos del Niño/a
+            </a>
+        </div>
+        <br/>
+
+        <div id="modulo_rectificaccion"></div>
+    </div>
+</jsp:root>

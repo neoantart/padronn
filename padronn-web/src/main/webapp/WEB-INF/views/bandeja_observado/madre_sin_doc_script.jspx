@@ -1,0 +1,66 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function(){
+            // campo dni menor
+            $('input[name=coDniMadre]').inputmask('dni');
+
+            $('#apPrimerMadre')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('apellido');
+            $('#apSegundoMadre')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('apellido');
+            $('#prenomMadre')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('nombre');
+            $('#deRectificacion')
+                    .on('change', function(e){
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('observacion');
+
+            var fnBuscarMadrePorDni = function(){
+                Util.load('rectificacion/get_datos_madre_dni.do', {dni:$('#coDniMadre').val()}, '#datos-ani-madre');
+
+                /*$.ajax({
+                    type: 'post',
+                    url: 'rectificacion/get_datos_madre_dni.do',
+                    data: { dni:$('#coDniMadre').val()},
+                    success: function(response){
+                        $('#datos-ani-madre').html(response);
+                    },
+                    error:function(){
+                        $('#datos-ani-madre').html('<span class="text-error">Ocurrio un error.</span>');
+                    },
+                    beforeSend: function() {
+                        $.blockUI();
+                    },
+                    complete: function(){
+                        $.unblockUI();
+                    }
+                });*/
+            };
+
+            $('#coDniMadre').keypress(function(e) {
+                e.preventDefault();
+                if(e.keyCode == 13 && $(this).val().length == 8) {
+                    fnBuscarMadrePorDni();
+                }
+            });
+
+            $('.btn-buscar-madre-dni').on('click', function(){
+                if($('#coDniMadre').val().length == 8)
+                    fnBuscarMadrePorDni();
+            });
+        });
+        ]]>
+    </script>
+</jsp:root>

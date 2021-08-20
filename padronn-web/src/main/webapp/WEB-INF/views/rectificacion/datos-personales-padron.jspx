@@ -1,0 +1,76 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 17/10/13
+  Time: 07:30 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row-fluid">
+        <c:choose>
+            <c:when test="${not empty menorPadron and (menorPadron.esPadron eq '1' or menorPadron.esPadron eq '2')}">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#datosMenorPane" data-toggle="tab" class="noAjax"><span class="badge badge-info uno"></span>&#160;Datos del niño/a</a>
+                    </li>
+                    <li>
+                        <a href="#datosMadrePane" data-toggle="tab" class="noAjax"><span class="badge badge-info dos"></span>&#160;Datos de la Madre</a>
+                    </li>
+                    <li>
+                        <a href="#datosPadrePane" data-toggle="tab" class="noAjax"><span class="badge badge-info tres"></span>&#160;Datos de Jefe de Familia o Titular</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="datosMenorPane" class="tab-pane active"  style="padding: 10px 40px; margin-bottom:20px;">
+                        <!--<p class="lead text-center">Datos del menor</p>-->
+                        <div class="clearfix">
+                            <div class="span6">
+                                <jsp:include page="datos-padron-menor.jspx"/>
+                            </div>
+                            <div class="span6">
+                                <jsp:include page="datos-ani-menor.jspx"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="datosMadrePane" class="tab-pane" style="padding: 10px 40px;margin-bottom:20px;">
+                        <!--<p class="lead text-center">Datos de la Madre</p>-->
+                        <div class="clearfix">
+                            <div class="span6">
+                                <jsp:include page="datos-padron-madre.jspx"/>
+                            </div>
+                            <div class="span6">
+                                <jsp:include page="datos-ani-madre.jspx"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="datosPadrePane" class="tab-pane" style="padding: 10px 40px;margin-bottom:20px;">
+                        <!--<p class="lead text-center">Jefe de Familia o Titular</p>-->
+                        <div class="clearfix">
+                            <div class="span6">
+                                <jsp:include page="datos-padron-padre.jspx"/>
+                            </div>
+                            <div class="span6">
+                                <jsp:include page="datos-ani-padre.jspx"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+            <c:when test="${not empty menorPadron and menorPadron.esPadron eq '0'}">
+                <p class="text-error">
+                    El registro del niño/a ha sido dado de baja del Padrón Nominal.
+                </p>
+            </c:when>
+            <c:otherwise>
+                <!--<h2 class="text-error">No existe el menor o se le dio de baja en el padron nominal.</h2>-->
+                <p class="text-error">
+                    Seleccionar otro tipo de documento o ingresar otro número de documento para realizar la búsqueda.
+                </p>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</jsp:root>

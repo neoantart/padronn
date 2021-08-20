@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<mvc:annotation-driven />
+
+	<!-- Objeto usuario que representa a la sesión del usuario actual -->
+	<bean id="usuario" class="pe.gob.reniec.padronn.logic.model.Usuario" scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+
+
+	<!-- Interceptors para el control de sesiones y peticiones via http request -->
+	<util:set id="noInterceptSession" value-type="java.lang.String">
+		<value>/tipo_entidades.do</value>
+		<value>/loginLast.do</value>
+		<value>/login.do</value>
+		<value>/entidades.do</value>
+		<value>/logindnie.do</value>
+		<value>/logout.do</value>
+
+		<!--
+		Agregar páginas que seran requeridas y que no requieren una sesión
+		Se incuyen además las páginas que no se les aplicará una validación de autorización (getAuthorities)
+		-->
+		<value>/padronimg/mostrarmenor.do</value>
+		<value>/imagen_ciudadano/img_menor.do</value>
+        <value>/actas/download.do</value>
+		<value>/cambioCredencial.do</value>
+		<value>/cambioCredencialExp.do</value>
+		<value>/recommendations.do</value>
+		<value>/acercade.do</value>
+		<value>/home.do</value>
+		<value>/about.do</value>
+        <value>/precotejo/setestado.do</value>
+        <value>/session_timer.do</value>
+        <value>/close_window.do</value>
+
+        <value>/mensaje.do</value>
+        <value>/ayuda.do</value>
+        <value>/reload_captcha.do</value>
+        <!--<value>/minsa/reporte_usuarios_xls.do</value>-->
+
+        <!--temporalmente, deberia tener session-->
+        <value>/grias/downloadPDF.do</value>
+        <value>/reporte/fichaPadronPDF.pdf</value>
+        <value>/reporte_midis/fichaPadronPDF.pdf</value>
+        <value>/endpointdoc.do</value>
+        <value>/unautorized.do</value>
+	</util:set>
+
+	<util:set id="noInterceptRequest" value-type="java.lang.String">
+		<!-- Agregar páginas que seran requeridas y que no requieren ser del tipo HTTPRequest (AJAX) -->
+		<value>/tipo_entidades.do</value>
+		<value>/padronimg/mostrarmenor.do</value>
+		<value>/imagen_ciudadano/img_menor.do</value>
+		<value>/precotejo/precotejoobs.do</value>
+		<value>/precotejo/upload.do</value>
+		<value>/precotejo/allobs.do</value>
+		<value>/precotejo/precotejoformato.do</value>
+		<value>/registromanual/guardar.do</value>
+		<value>/actas/file.do</value>
+		<value>/actas/download.do</value>
+		<value>/reporte/dorep.do</value>
+		<value>/reporte/reporte_ubigeo_xls.do</value>
+		<value>/reporte/padron_entidad_xls.do</value>
+		<value>/reporte/padron_establecimiento_salud_xls.do</value>
+		<value>/reporte/padron_programa_social_xls.do</value>
+		<value>/reporte/padron_edad_xls.do</value>
+		<value>/registromanual/padron_municipio_xls.do</value>
+		<value>/reporte/padron_movimientos_xls.do</value>
+		<value>/reporte/padron_total_distritos_xls.do</value>
+		<value>/grias/padron_total_distritos_xls.do</value>
+		<value>/reporte/padron_observados_xls.do</value>
+		<value>/reporte/reporte_padron_sin_docu_xls.do</value>
+		<value>/reporte/reporte_padron_altas_bajas_xls.do</value>
+		<value>/reporte/consula_padron_actas_todos_xls.do</value>
+		<value>/signup/reporte_usuarios_xls.do</value>
+		<value>/registromanual/padron_municipio_precarga_xls.do</value>
+		<value>/reporte/padron_europan_xls.do</value>
+		<value>/reporte/reporte_recien_nacidos_xls.do</value>
+		<value>/reporte/padron_total_distritos_europan_xls.do</value>
+		<value>/grias/result_listar_menores_xlsx.do</value>
+		<value>/reporte_midis/result_listar_menores_xlsx.do</value>
+		<value>/registromanual/padron_baja_xls.do</value>
+		<value>/reporte/reporte_padron_bajas_xls.do</value>
+		<value>/recommendations.do</value>
+		<value>/acercade.do</value>
+		<value>/precotejo/setestado.do</value>
+		<value>/session_timer.do</value>
+		<value>/close_window.do</value>
+
+		<value>/minsa_reporte/reporte_usuarios_xls.do</value>
+		<value>/grias/downloadPDF.do</value>
+		<value>/reporte/fichaPadronPDF.pdf</value>
+		<value>/reporte_midis/fichaPadronPDF.pdf</value>
+		<value>/reporte_midis/padron_movimientos_xls.do</value>
+
+		<value>/reporte_midis/cantidad_ubigeo_pro_social_xls.do</value>
+		<value>/reporte_midis/cantidad_ubigeo_edad_xls.do</value>
+		<value>/reporte_midis/cantidad_ubigeo_ti_seguro_xls.do</value>
+		<value>/mensaje.do</value>
+		<value>/reporte/consulta_usuario_entidad_xls.do</value>
+
+		<value>/endpointdoc.do</value>
+		<value>/reporte_midis/padron_total_distritos_xls.do</value>
+		<value>/bandeja_observado/descargar_bandeja_observados.do</value>
+
+		<value>/reporte/reporte_resumen_edad_eess_xlsx.do</value>
+		<value>/reporte/reporte_detalle_edad_eess_xlsx.do</value>
+
+	</util:set>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!--<mvc:mapping path="/*.do"/>-->
+			<mvc:mapping path="/**/*.do"/>
+			<mvc:mapping path="/"/>
+			<bean class="pe.gob.reniec.commons.baseApplication.interceptor.SessionInterceptor">
+				<property name="noIntercept" ref="noInterceptSession"/>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!--<mvc:mapping path="/*.do"/>-->
+			<mvc:mapping path="/**/*.do"/>
+			<bean class="pe.gob.reniec.commons.baseApplication.interceptor.HttpRequestInterceptor">
+				<property name="noIntercept" ref="noInterceptRequest"/>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!--<mvc:mapping path="/*.do"/>-->
+			<mvc:mapping path="/**/*.do"/>
+			<bean class="pe.gob.reniec.commons.baseApplication.interceptor.HttpRequestInterceptor">
+				<property name="noIntercept" ref="noInterceptRequest"/>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<mvc:resources mapping="/resources-#{applicationProps['application.resources.local.version']}/**"
+	               location="/, classpath:/META-INF/web-resources/" cache-period="31556926"/>
+
+	<bean id="viewResolver"
+	      class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jspx"/>
+	</bean>
+
+	<bean id="xmlResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location" value="/WEB-INF/views/custom-views.xml"/>
+		<property name="order" value="1"/>
+	</bean>
+
+	<context:component-scan base-package="pe.gob.reniec.padronn"/>
+
+	<bean id="applicationProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/config/application.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+                <value>/WEB-INF/config/application.properties</value>
+				<!--<value>/WEB-INF/config/log4j.properties</value>-->
+				<value>/WEB-INF/config/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<jee:jndi-lookup id="dataSource" jndi-name="${jndi.main.jndiName}"/><!--el nombre jndi se convierta en un bean injectable-->
+	<jee:jndi-lookup id="dataSourceRC" jndi-name="${jndi.rc}"/>
+	<!-- <jee:jndi-lookup id="dataSourceHV" jndi-name="${jndi.hv}"/> -->
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManager2" />
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<bean id="transactionManager2" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceRC"/>
+	</bean>
+
+    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="524288000"/>
+
+	<bean id="jsr303Validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+    <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" p:extractValueFromSingleKeyModel="true" />
+
+    <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+		<property name="basename" value="messages/validation"/>
+	</bean>
+
+</beans>

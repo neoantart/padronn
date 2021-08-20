@@ -1,0 +1,59 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 04/09/13
+  Time: 04:31 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request" />
+
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <spring:eval expression="@applicationProps['application.resources.cdnserver']" var="cdnResourcesServer"/>
+    <spring:eval expression="@applicationProps['application.resources.cdnserver.version']" var="cdnResourcesVersion"/>
+    <!--<c:set var="cdnResourcesURL" value="${cdnResourcesServer}/resources-${cdnResourcesVersion}" scope="request"/>-->
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="" style="background-color: transparent;">
+                <div class="span12">
+                    <div class="pull-left"><h2>Manuales</h2></div>
+                    <div class="pull-right" style="margin-top: 14px;">
+                        <a href="home.do#main-content" class="btn"><i class="icon-arrow-left icon-white">&#160;</i>&#160;Volver</a>
+                    </div>
+                </div>
+                <ul class="unstyled">
+                    <li><span class="icon-ok"></span>&#160;<a href="${localResourcesURL}/pdf/MU_Sistema Padron Nomional_Registradorv2.1.pdf" class="noAjax" target="_blank">MANUAL PADRÓN NOMINAL</a></li>
+                    <li><span class="icon-ok"></span>&#160;<a href="${localResourcesURL}/pdf/13-MT-DE-MU-MU-PN_V.4.1.pdf" class="noAjax" target="_blank">MANUAL PADRÓN NOMINAL DETALLADO</a></li>
+                </ul>
+            </div>
+
+            <br/>
+            <div class="" style="background-color: transparent;">
+                <h2>Mesa de ayuda</h2>
+                <p>Cualquier consulta o problema respecto al sistema de padron nominal, consultar al siguiente correo electronico <a href="mailto:helpdesk@reniec.gob.pe" title="Mesa de ayuda">helpdesk@reniec.gob.pe</a>, adjuntando capturas de pantalla.</p>
+                <br/>
+                <p><abbr title="Phone">Telefono de mesa de ayuda:</abbr> <strong class="text-info"><i class="icon-bullhorn">&#160;</i>&#160;3154000 anexos : 1384 - 1385 - 1387</strong></p>
+                <br/>
+<!--                <a href="home.do#main-content" class="btn"><i class="icon-arrow-left icon-white">&#160;</i>&#160;Volver al inicio</a>-->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            if($('.nav').size() == 0){
+                $('#header').css({
+                    height: '96px',
+                    marginBottom: '18px'
+                });
+            }
+        });
+        ]]>
+    </script>
+</jsp:root>

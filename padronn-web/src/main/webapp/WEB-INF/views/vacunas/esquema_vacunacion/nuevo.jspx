@@ -1,0 +1,137 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="modal_editar" class="modal" style="width: 640px;">
+        <div class="modal-header">
+            <a type="button" class="close" href="esquema_vacunacion/listar.do">×</a>
+
+            <h3><span class="icon-edit"></span>&#160;Nuevo Esquema de Vacunación</h3>
+        </div>
+
+        <form:form action="esquema_vacunacion/send_nuevo.do#modal" modelAttribute="esquemaVacunacion"
+                   cssClass="form-horizontal">
+            <div class="modal-body">
+                <spring:bind path="esquemaVacunacion.nuEdad">
+                    <c:if test="${status.error}">
+                        <c:set var="nuEdadError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${nuEdadError}">
+                    <label class="control-label" for="nuEdad">Edad en año(s)</label>
+
+                    <div class="controls">
+                        <form:select path="nuEdad" cssClass="span2">
+                            <form:option value="" label="-- Seleccione --"/>
+                            <!--TODO: Pasar a un properties-->
+                            <c:forEach var="i" begin="0" end="12">
+                                <form:option value="${i}" label="${i} año(s)"/>
+                            </c:forEach>
+                        </form:select>
+                        <form:errors path="nuEdad" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+                <spring:bind path="esquemaVacunacion.nuEdadMeses">
+                    <c:if test="${status.error}">
+                        <c:set var="nuEdadMesesError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${nuEdadMesesError}">
+                    <label class="control-label" for="nuEdadMeses">Edad en mese(s)</label>
+
+                    <div class="controls">
+                        <form:select path="nuEdadMeses" cssClass="span2">
+                            <form:option value="" label="-- Seleccione --"/>
+                            <!--TODO: pasar a properties-->
+                            <c:forEach var="i" begin="0" end="11">
+                                <form:option value="${i}" label="${i} mese(s)"/>
+                            </c:forEach>
+                        </form:select>
+                        <form:errors path="nuEdadMeses" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+                <spring:bind path="esquemaVacunacion.coTipoVacuna">
+                    <c:if test="${status.error}">
+                        <c:set var="coTipoVacunaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${coTipoVacunaError}">
+                    <label class="control-label" for="coTipoVacuna">Tipo vacuna</label>
+
+                    <div class="controls">
+                        <form:select path="coTipoVacuna" cssClass="span4">
+                            <form:option value="" label="-- Seleccione--"/>
+                            <form:options items="${tipoVacunas}" itemValue="coTipoVacuna" itemLabel="deTipoVacuna"/>
+                        </form:select>
+                        <form:errors path="coTipoVacuna" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+                <form:hidden path="nuDosis" value="1"/>
+                <!--<spring:bind path="esquemaVacunacion.nuDosis">
+                    <c:if test="${status.error}">
+                        <c:set var="nuDosisError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${nuDosisError}">
+                    <label class="control-label" for="nuOrden">Número de dosis</label>
+
+                    <div class="controls">
+                        <form:input path="nuDosis" cssClass="span1"/>
+                        <form:errors path="nuDosis" cssClass="text-error" element="div"/>
+                    </div>
+                </div>-->
+
+                <spring:bind path="esquemaVacunacion.coTipoDosis">
+                    <c:if test="${status.error}">
+                        <c:set var="coTipoDosisError" value="error" />
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${coTipoDosisError}">
+                    <label class="control-label" for="">Tipo de Dosis</label>
+
+                    <div class="controls">
+                        <form:select path="coTipoDosis" cssClass="span2">
+                            <form:option value="" label="-Seleccione-"/>
+                            <form:options items="${coTiposDosis}" itemValue="coTipoDosis" itemLabel="deTipoDosis"/>
+                        </form:select>
+                    </div>
+                </div>
+
+                <spring:bind path="esquemaVacunacion.esEsquemaVacunacion">
+                    <c:if test="${status.error}">
+                        <c:set var="esEsquemaVacunacionError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${esEsquemaVacunacionError}">
+                    <label class="control-label" for="esEsquemaVacunacion">Estado</label>
+
+                    <div class="controls">
+                        <form:select path="esEsquemaVacunacion" cssClass="span2">
+                            <form:option value="1" label="Activo"/>
+                            <form:option value="0" label="Inactivo"/>
+                        </form:select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer center">
+                <button class="btn btn-primary"><span class="icon-check icon-white"></span>&#160;Guardar</button>
+                <a class="btn btn-danger btn-small" href="esquema_vacunacion/listar.do"><span
+                        class="icon-remove icon-white"></span>&#160;Cancelar</a>
+            </div>
+        </form:form>
+    </div>
+
+    <jsp:include page="editar_script.jspx"/>
+
+</jsp:root>

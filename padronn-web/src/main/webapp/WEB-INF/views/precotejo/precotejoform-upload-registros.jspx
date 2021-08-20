@@ -1,0 +1,209 @@
+<!--
+ * Archivo precotejoform-upload.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 16/05/13 05:13 PM
+ * @version 1.0.0
+-->
+
+
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+<c:if test="${not empty successFiles}">
+	<div class="span7 offset2">
+		<div class="alert alert-block alert-success">
+			<button type="button" class="close" data-dismiss="alert"><i class="icon-remove">&#160;</i></button>
+			<h4><i class="icon-ok-circle"><!----></i> Archivos de precarga registrados</h4>
+			<ul>
+				<c:forEach items="${successFiles}" var="file" varStatus="loop">
+					<li>Archivo <span style="font-style: italic;">${file.noFile}</span> con código de envío
+						<strong><fmt:formatNumber type="number" pattern="00000" value="${file.nuEnvio}"/></strong></li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
+</c:if>
+
+<c:if test="${not empty errorFiles}">
+	<div class="span7 offset2">
+		<div class="alert alert-block alert-error">
+			<button type="button" class="close" data-dismiss="alert"><i class="icon-remove">&#160;</i></button>
+			<h4><i class="icon-remove-circle"><!----></i> Error al registrar los siguientes archivos</h4>
+			<ul>
+				<c:forEach items="${errorFiles}" var="file" varStatus="loop">
+					<li><span style="font-style: italic;">${file.noFile}</span>.</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
+</c:if>
+
+<div class="row-fluid">
+	<div class="span9">
+		<h2 class="header smaller lighter blue">Lista de Archivos Enviados</h2>
+	</div>
+	<div class="span3" style="margin-top: 15px;">
+		<a href="precotejo/registros.do#precarga-modulo-div" class="btn"><i class="icon-refresh icon-white">&#160;</i>&#160;Actualizar Lista</a>
+	</div>
+</div>
+<!--<span class="pull-left">
+		<strong>
+
+		</strong>
+</span>-->
+<div class="row-fluid">
+	<div class="span12">
+		<!--<div class="well well-large" style="background-color:transparent;padding-top:6px;padding-left:6px;padding-right:6px;padding-bottom:6px;margin-bottom:10px;">-->
+		<table id="listado-archivos-enviados" class="table table-bordered table-hover table-condensed" style="margin-bottom: 6px;">
+			<thead>
+			<tr>
+				<th style="width: 80px; text-align: center;">Envío</th>
+				<th>Nombre de Archivo</th>
+				<th style="text-align: center;">Fecha de Envío</th>
+				<!--<th style="text-align: center;">Fecha de Inicio</th>-->
+				<th style="text-align: center;">Fecha Finaliza</th>
+				<!--<th style="text-align: center;">Enviado por</th>-->
+				<th>Estado</th>
+				<th>Resultados<!--<small>( <span class="text-warning">validación</span> / <span class="text-error">cotejo</span> )</small>--></th>
+			</tr>
+			</thead>
+			<tbody>
+			<c:choose>
+				<c:when test="${empty precotejoList}">
+					<tr>
+						<td colspan="6">No hay archivos registrados.</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="precotejo" items="${precotejoList}" varStatus="loop">
+						<tr>
+							<td style="text-align: center;">
+								<fmt:formatNumber type="number" pattern="00000" value="${precotejo.nuEnvio}"/>
+							</td>
+							<td>
+								<util:abreviar text="${precotejo.noArchivoOriginal}"/>
+								<br/>&#160;<small class="text-info"><i><strong>${precotejo.nuRegistros}</strong> registro(s) encontrado(s)</i></small>
+							</td>
+							<td style="text-align: center;">
+								<small><fmt:formatDate pattern="dd/MM/yy HH:mm" value="${precotejo.feCreaAudi}"/></small>
+							</td>
+
+							<!--<td style="text-align: center;">
+								<small><fmt:formatDate pattern="dd/MM/yy HH:mm" value="${precotejo.feProcesoIni}"/></small>
+							</td>
+							-->
+							<td style="text-align: center;">
+								<small><fmt:formatDate pattern="dd/MM/yy HH:mm" value="${precotejo.feProcesoFin}"/></small>
+							</td>
+							<!--
+							<td style="text-align: center;">
+								<small><i class="icon-user">&#160;</i>&#160;${precotejo.usCreaAudi}</small>
+							</td>-->
+							<!--<td>${entidad.esEnvio==1 ? "Registrado con Observaciones" : (entidad.esEnvio==2 ? "Registrado" : (entidad.esEnvio==3 ? "En Proceso" : (entidad.esEnvio==4 ? "Finalizado con Observaciones" : "Finalizado")))}</td>-->
+							<c:choose>
+
+								<c:when test="${precotejo.esEnvio==10}">
+									<td colspan="2">
+										<span class="muted">Registrando <span style="font-style: italic;">${precotejo.noArchivoOriginal}</span>...</span>
+									</td>
+								</c:when>
+
+								<c:when test="${precotejo.esEnvio==11}">
+									<td>
+										<span class="infobox-grey"><strong>Registrado</strong></span>
+									</td>
+									<td>
+										<a href="precotejo/allregs.do?nuEnvio=${precotejo.nuEnvio}&amp;nuPagina=1&amp;nuPaginaAnterior=${nuPagina}#precarga-modulo-div" class="btn btn-mini" data-toggle="tooltip" title="${precotejo.nuRegistros} registro(s) recibido(s)"><i class="icon-th-list icon-white">&#160;</i> Ver Registros</a>
+										<!--&#160;<a title="${precotejo.nuRegistros} registro(s) recibido(s)"><span class="text-info" style="font-size:smaller; font-style: italic;">(${precotejo.nuRegistros})</span></a>-->
+										<c:if test="${not (precotejo.nuRegistros-precotejo.nuRegistrosOk eq 0)}">
+											<br/><span class="text-warning" style="font-size: smaller;"><b>${precotejo.nuRegistros-precotejo.nuRegistrosOk}</b> registro(s) observado(s)</span>
+										</c:if>
+									</td>
+								</c:when>
+
+								<c:when test="${precotejo.esEnvio==12}">
+									<td>
+										<span class="text-error">Error al Registrar</span>
+									</td>
+									<td>
+										<!--<span class="text-error">Error al registrar '${precotejo.noArchivoOriginal}'... Intente subir el archivo nuevamente.</span>-->
+										<span class="text-error">No se pudo subir, revise el archivo e intente nuevamente.</span>
+									</td>
+								</c:when>
+
+								<c:when test="${precotejo.esEnvio==20}">
+									<td>
+										<span class="text-info"><strong>Cotejando...</strong></span>
+									</td>
+									<td>
+										<a href="precotejo/allregs.do?nuEnvio=${precotejo.nuEnvio}&amp;nuPagina=1&amp;nuPaginaAnterior=${nuPagina}#precarga-modulo-div" class="btn btn-mini" data-toggle="tooltip" title="Ver registros"><i class="icon-th-list icon-white">&#160;</i> Ver Registros</a>
+										<!--&#160;<a title="${precotejo.nuRegistros} registro(s) recibido(s)"><span class="text-info" style="font-size:smaller; font-style: italic;">(${precotejo.nuRegistros})</span></a>-->
+										<c:if test="${not (precotejo.nuRegistros-precotejo.nuRegistrosOk eq 0)}">
+											<br/><span class="text-warning" style="font-size: smaller;"><b>${precotejo.nuRegistros-precotejo.nuRegistrosOk}</b> registro(s) observado(s)</span>
+										</c:if>
+									</td>
+								</c:when>
+
+								<c:when test="${precotejo.esEnvio==21}">
+									<td>
+										<span class="text-success"><strong>Finalizado</strong></span>
+									</td>
+									<td>
+										<a href="precotejo/allregs.do?nuEnvio=${precotejo.nuEnvio}&amp;nuPagina=1&amp;nuPaginaAnterior=${nuPagina}#precarga-modulo-div" class="btn btn-mini" data-toggle="tooltip" title="Ver registros"><i class="icon-th-list icon-white">&#160;</i> Ver Registros</a>
+										<!--&#160;<a title="${precotejo.nuRegistros} registro(s) recibido(s)"><span class="text-info" style="font-size:smaller; font-style: italic;">(${precotejo.nuRegistros})</span></a>-->
+										<c:if test="${not (precotejo.nuRegistros-precotejo.nuRegistrosOk eq 0)}">
+											<br/><span class="text-warning" style="font-size: smaller;"><b>${precotejo.nuRegistros-precotejo.nuRegistrosOk}</b> registro(s) observado(s)</span>
+										</c:if>
+									</td>
+								</c:when>
+
+								<c:when test="${precotejo.esEnvio==22}">
+									<!--<td colspan="2">-->
+										<!--<span class="text-error">Error al cotejar '${precotejo.noArchivoOriginal}'.</span>-->
+									<!--</td>-->
+
+									<td>
+										<span class="text-error">Error al cotejar</span>
+									</td>
+									<td>
+										<span class="text-error">No se pudo subir, revise el archivo e intente nuevamente.</span>
+									</td>
+								</c:when>
+
+								<c:when test="${precotejo.esEnvio==30}">
+									<td>
+										<span class="text-success"><strong>Finalizado</strong> <br/><i>(corregido)</i></span>
+									</td>
+									<td>
+										<a href="precotejo/allregs.do?nuEnvio=${precotejo.nuEnvio}&amp;nuPagina=1&amp;nuPaginaAnterior=${nuPagina}#precarga-modulo-div" class="btn btn-mini" data-toggle="tooltip" title="Ver registros"><i class="icon-th-list icon-white">&#160;</i> Ver Registros</a>
+										<!--&#160;<a title="${precotejo.nuRegistros} registro(s) recibido(s)"><span class="text-info" style="font-size:smaller; font-style: italic;">(${precotejo.nuRegistros})</span></a>-->
+										<c:if test="${not (precotejo.nuRegistros-precotejo.nuRegistrosOk eq 0)}">
+											<br/><span class="text-warning" style="font-size: smaller;"><b>${precotejo.nuRegistros-precotejo.nuRegistrosOk}</b> registro(s) observado(s)</span>
+											<br/><span class="text-info" style="font-size: smaller;"><b>${precotejo.nuRegistrosCor}</b> registro(s) corregidos</span>
+										</c:if>
+									</td>
+								</c:when>
+
+								<c:otherwise>
+									<td colspan="2">
+										&#160;
+									</td>
+								</c:otherwise>
+							</c:choose>
+
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			</tbody>
+		</table>
+
+		<!--</div>-->
+	</div>
+</div>
+
+<util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="precotejo/registros.do?nuPagina=" urlDespuesNuPagina="#precarga-modulo-div"/>
+
+</jsp:root>

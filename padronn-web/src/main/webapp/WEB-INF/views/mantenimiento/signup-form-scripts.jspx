@@ -1,0 +1,152 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 16/07/13
+  Time: 03:08 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags">
+
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request" />
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+    <script src="${localResourcesURL}/js/jquery-ui.js" type="text/javascript"><!-- script --></script>
+    <script src="${localResourcesURL}/js/ax-util.js" type="text/javascript"><!-- script --></script>
+
+
+    <script type="text/javascript">
+        <![CDATA[
+        // TODO: solucion temporal, buscar solucion mas optima
+        // hack para jquery-ui y select2
+        if ($.ui && $.ui.dialog && $.ui.dialog.prototype._allowInteraction) {
+            var ui_dialog_interaction = $.ui.dialog.prototype._allowInteraction;
+            $.ui.dialog.prototype._allowInteraction = function(e) {
+                if ($(e.target).closest('.select2-drop').length) return true;
+                return ui_dialog_interaction.apply(this, arguments);
+            };
+        }
+
+        $(function(){
+            Signup = {
+                dataBase:[],
+                init: function() {
+                    var self = this;
+                    $('#agregar-usuario').click(function(e) {
+                        e.preventDefault();
+                        self.showWindows();
+                    });
+                    Util.ajax('signup/get_extras.do', {}, function(data){
+                        Signup.dataBase = data;
+                    })
+                },
+                showWindows: function() {
+                    var win, self =this, $form, $entidades, $grupos;
+
+                    //console.log(Signup.dataBase)
+
+                    win = new Util.ventanas.getNueva({
+                        title: 'Nuevo usuario - Sistema padrón Nominal',
+                        width: 500,
+                        height: 600,
+                        position: ['center',40],
+                        buttons: {
+                            'Guardar':function() {
+                                $form.xForm('envioManual');
+                            }
+                        }
+                    });
+                    $entidades = Util.getHTMLFormElement({
+                                    tipo: 'input',
+                                    nombre: 'entidades',
+                                    label: 'Municipios'
+                                });
+                    $grupos = Util.getHTMLFormElement({
+                                tipo: 'input',
+                                nombre: 'grupos',
+                                label: 'Grupos de usuario'
+                                //campos: ['CO_GRUPO', 'DE_GRUPO'],
+                                //opciones: Signup.dataBase.grupos //[{'coGrupo':'1','deGrupo':'registradores'}, {'coGrupo':'2', 'deGrupo': 'adminis'}]
+                                });
+
+                            $form = $('<form>')
+                            .addClass('form-horizontal')
+                            .attr({action: 'signup/new.do'})
+                            .appendTo(win.$container)
+                            .append(
+                                Util.getHTMLFormElement({
+                                    tipo: 'input',
+                                    nombre: 'apPrimer',
+                                    label: 'Apellido paterno: '
+                                }),
+                                Util.getHTMLFormElement({
+                                    tipo: 'input',
+                                    nombre: 'apSegundo',
+                                    label: 'Apellido materno: '
+                                }),
+                                Util.getHTMLFormElement({
+                                    tipo: 'input',
+                                    nombre: 'prenombres',
+                                    label: 'Nombres: '
+                                }),
+                                Util.getHTMLFormElement({
+                                    tipo: 'input',
+                                    nombre: 'coUsuario',
+                                    label: 'DNI - Usuario: '
+                                }),
+                                Util.getHTMLFormElement({
+                                    tipo: 'password',
+                                    type: 'password',
+                                    nombre: 'dePassword',
+                                    label: 'Password: '
+                                }),
+                                Util.getHTMLFormElement({
+                                    type: 'password',
+                                    tipo: 'password',
+                                    nombre: 'rePassword',
+                                    label: 'Repita password'
+                                }),
+                                $grupos,
+                                $entidades
+                            );
+
+                    $entidades
+                            .find('input')
+                            .select2({
+                                multiple: true,
+                                //Signup.dataBase.entidades,
+                                data: Signup.dataBase.entidades//[{id:1, text:'muni panaos'}, {id:2, text:'muni margos'}, {id:3, text:'muni test'}]
+                                //dropdownCssClass : 'ui-dialog'
+                            });
+
+                    $grupos
+                            .find('input')
+                            .select2({
+                                multiple:true,
+                                data: Signup.dataBase.grupos
+                            });
+                    //console.log(Signup.dataBase.entidades);
+
+                    /*$entidades
+                            .find('input')
+                            .val('1');*/
+                    /*console.log(Signup.dataBase);
+                    console.log(Signup.dataBase);
+                    console.log(Signup.dataBase);
+                    console.log(Signup.dataBase);*/
+
+                    $form.xForm({
+                        continuar:function(data){
+                        // Investigacion.impactoRevistas = data.impactoRevistas;
+                            win.close();
+                        //self.showInHoja();
+                        }
+                    });
+                }
+            }
+            Signup.init();
+        });
+        ]]>
+    </script>
+</jsp:root>

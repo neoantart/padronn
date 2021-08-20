@@ -1,0 +1,257 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 20/03/2014
+  Time: 11:22 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function () {
+            var rangoDiasBeforeToday = 90;
+
+            $('#feIni').inputmask("dd/mm/yyyy");
+            $('#feFin').inputmask("dd/mm/yyyy");
+            var nowTemp = new Date();
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+            var startDate;
+            var endDate;
+
+            fnComparaFechaIniMenor = function(feIni, feFin) {
+                startDate = undefined;
+                endDate = undefined;
+                var feIniInput = false,
+                    feFinInput = false;
+                if(feIni != '' && $.trim(feIni).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
+                    var split = feIni.split('/');
+                    startDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                    feIniInput=true;
+                } else startDate = new Date(nowTemp.getFullYear(), (nowTemp.getMonth()+1), nowTemp.getDate(), 0, 0, 0, 0);
+                if(feFin != '' && $.trim(feFin).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
+                    var split =feFin.split('/');
+                    endDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                    feFinInput = true;
+                    if(!feIniInput)
+                        startDate = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                } else{
+                    endDate = new Date(nowTemp.getFullYear(), (nowTemp.getMonth()+1), nowTemp.getDate(), 0, 0, 0, 0);
+                }
+                if(startDate.valueOf() > endDate.valueOf()) {
+                    console.log('goo');
+                    alert('La fecha inicial no puede ser mayor que la fecha final');
+                    setTimeout(function()
+                        { $('#feFin').val(''); }
+                        , 100);
+
+                    $('#feFinButton').focus();
+                    return;
+                }
+            };
+
+            fnResetButtonData=function(){
+                if($.trim($('#feIni').val())== '' && $.trim($('#feIni').val()).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10) $('#feIniButton').data('date', '');
+                if($.trim($('#feFin').val())== '' && $.trim($('#feFin').val().replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10)) $('#feFinButton').data('date', '');
+            };
+
+            var feIniDatePicker = $('#feIniButton')
+                .datepicker({format: 'dd/mm/yyyy'})
+                .on('changeDate', function (ev) {
+                    fnResetButtonData();
+                    var dd = ev.date.getDate();
+                    var mm = ev.date.getMonth() + 1;
+                    var yyyy = ev.date.getFullYear();
+
+                    if(dd < 10) {
+                        dd = '0'+ dd;
+                    }
+                    if(mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    fnComparaFechaIniMenor(dd+'/'+mm+'/'+yyyy, $('#feFinButton').data('date'));
+                    if (ev.date.valueOf() <= now) {
+                        limiteInf = new Date(now);
+                        limiteInf = limiteInf.setDate(now.getDate() - rangoDiasBeforeToday);
+
+                        if (ev.date.valueOf() < limiteInf) {
+                            feIniDatePicker.hide();
+                            feIniDatePicker.setValue(now);
+                            alert("Usted, puede ingresar la fecha inicial " + rangoDiasBeforeToday + " días anteriores a la fecha actual");
+                            setTimeout(function()
+                                { $('#feIni').val(''); }
+                                , 100);
+                            return 0;
+                        }
+
+                        if (ev.viewMode == 'days') {
+                            feIniDatePicker.hide();
+                            $('#feIni').val($('#feIniButton').data('date'));
+                        }
+
+
+                    }
+                    else {
+                        feIniDatePicker.hide();
+                        feIniDatePicker.setValue(now);
+                        alert('La fecha no puede ser futura')
+                        $('#feIni').val('');
+                    }
+                })
+                .on('show', function (ev) {
+                    var left = feIniDatePicker.picker.position().left - $('#feIniButton').width();
+                    feIniDatePicker.picker.css('left', left);
+                })
+                .data('datepicker');
+
+            var feFinDatePicker = $('#feFinButton')
+                .datepicker({format: 'dd/mm/yyyy'})
+                .on('changeDate', function (ev) {
+                    fnResetButtonData();
+                    var dd = ev.date.getDate();
+                    var mm = ev.date.getMonth()+ 1;
+                    var yyyy = ev.date.getFullYear();
+
+                    if(dd < 10) {
+                        dd = '0'+ dd;
+                    }
+                    if(mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    fnComparaFechaIniMenor($('#feIniButton').data('date'), dd+'/'+mm+'/'+yyyy);
+                    if (ev.date.valueOf() <= now) {
+                        limiteInf = new Date(now);
+                        limiteInf = limiteInf.setDate(now.getDate() - rangoDiasBeforeToday);
+
+                        if (ev.date.valueOf() < limiteInf) {
+                            feFinDatePicker.hide();
+                            feFinDatePicker.setValue(now);
+                            alert("Usted, puede ingresar la fecha final " + rangoDiasBeforeToday + " días anteriores a la fecha actual");
+
+                            setTimeout(function()
+                                { $('#feFin').val(''); }
+                                , 100);
+                            return 0;
+                        }
+
+                        if (ev.viewMode == 'days') {
+                            feFinDatePicker.hide();
+                            $('#feFin').val($('#feFinButton').data('date'));
+                        }
+                    }
+                    else {
+                        feFinDatePicker.hide();
+                        feFinDatePicker.setValue(now);
+                        alert('La fecha no puede ser futura')
+                        $('#feFin').val('');
+                    }
+                })
+                .on('show', function (ev) {
+                    var left = feFinDatePicker.picker.position().left - $('#feFinButton').width();
+                    feFinDatePicker.picker.css('left', left);
+                })
+                .data('datepicker');
+               /* setTimeout(function(){
+                    $('#feIni, #feFin').on('change paste keyup', function (e) {
+                    fnResetButtonData();
+                    fnComparaFechaIniMenor($('#feIni').val(), $('#feFin').val());
+                });
+            }, 100);*/
+
+
+            /*------------------*/
+            var existeFeFin = !!document.getElementById('feFin');
+            $('#feIni').blur(function(){
+                var existeFeIni = true;
+                var limiteInf = new Date(now);
+
+                if($('#feIni').val().trim().length < 10){
+                    $('#feIni').val('');
+                }
+                if($('#feIni').val()==='' || $('#feIni').val()== null ) {
+                    existeFeIni = false
+                }
+                if (existeFeIni === true){
+                    var feIniParts = $('#feIni').val().split('/');
+                    var feIniChangeTemp = new Date(feIniParts[2], feIniParts[1] - 1, feIniParts[0]);
+                    var feIniChange = new Date(feIniChangeTemp.getFullYear(), feIniChangeTemp.getMonth(), feIniChangeTemp.getDate(), 0, 0, 0, 0);
+                    if (existeFeFin){
+                        var feFinParts = $('#feFin').val().split('/');
+                        var feFinTemp = new Date(feFinParts[2], feFinParts[1] - 1, feFinParts[0]);
+                        var feFin = new Date(feFinTemp.getFullYear(), feFinTemp.getMonth(), feFinTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    limiteInf = limiteInf.setDate(now.getDate() - rangoDiasBeforeToday);
+                    if (feIniChange < limiteInf) {
+                        feIniDatePicker.hide();
+                        feIniDatePicker.setValue(limiteInf);
+                        alert("Usted, puede ingresar la fecha " + rangoDiasBeforeToday + " días anteriores a la fecha actual");
+                        $('#feIni').val('');
+                    } else {
+                        if (existeFeFin && feIniChange > feFin) {
+                            feIniDatePicker.hide();
+                            feIniDatePicker.setValue(feFin);
+                            dateInfPrint = formatDatePrint(feFin);
+                            alert('La fecha inicial no debe ser mayor a la fecha de final: ' + dateInfPrint);
+                            $('#feIni').val('');
+                        }
+                    }
+                }
+            });
+
+            var existeFeIni = !!document.getElementById('feIni');
+            $('#feFin').blur(function(){
+                console.log('inside..');
+                var existeFeFin = true;
+                var limiteInf = new Date(now);
+
+                if($('#feFin').val().trim().length < 10){
+                    $('#feFin').val('');
+                }
+                if($('#feFin').val()==='' || $('#feFin').val()== null ) {
+                    existeFeFin = false
+                }
+                if (existeFeFin === true){
+                    var feFinParts = $('#feFin').val().split('/');
+                    var feFinChangeTemp = new Date(feFinParts[2], feFinParts[1] - 1, feFinParts[0]);
+                    var feFinChange = new Date(feFinChangeTemp.getFullYear(), feFinChangeTemp.getMonth(), feFinChangeTemp.getDate(), 0, 0, 0, 0);
+                    if (existeFeIni){
+                        var feIniParts = $('#feIni').val().split('/');
+                        var feIniTemp = new Date(feIniParts[2], feIniParts[1] - 1, feIniParts[0]);
+                        var feIni = new Date(feIniTemp.getFullYear(), feIniTemp.getMonth(), feIniTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    limiteInf = limiteInf.setDate(now.getDate() - rangoDiasBeforeToday);
+                    if (feFinChange < limiteInf) {
+                        feIniDatePicker.hide();
+                        feIniDatePicker.setValue(limiteInf);
+                        alert("Usted, puede ingresar la fecha " + rangoDiasBeforeToday + " días anteriores a la fecha actual");
+                        $('#feFin').val('');
+                    } else {
+                        if (existeFeIni && feFinChange < feIni) {
+                            feIniDatePicker.hide();
+                            feIniDatePicker.setValue(feIni);
+                            dateInfPrint = formatDatePrint(feIni);
+                            alert('La fecha final no debe ser menor a la fecha inicial: ' + dateInfPrint);
+                            $('#feFin').val('');
+                        }
+                    }
+                }
+            });
+
+
+            function formatDatePrint(datePrint) {
+                var dd = datePrint.getDate(),
+                    mm = datePrint.getMonth()+1,
+                    yyyy = datePrint.getFullYear();
+                if(dd < 10) {
+                    dd = '0'+ dd;
+                }
+                if(mm < 10) {
+                    mm = '0' + mm;
+                }
+                return dd + '/' + mm + '/' + yyyy;
+            }
+
+        })
+        ]]>
+    </script>
+</jsp:root>

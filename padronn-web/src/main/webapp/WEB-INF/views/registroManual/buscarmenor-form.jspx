@@ -1,0 +1,173 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 24/05/13
+  Time: 08:38 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+		  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="page-header clearfix">
+        <div class="pull-left">
+	        <h1>Registro/Actualización de datos del Niño/a</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+	<div class="row-fluid">
+		<div class="span5" style="border:1px solid #ccc; padding: 8px;">
+			<!--<div>
+				<div class="controls" style="text-align: justify;">
+					<strong>
+						<small>Ingrese el tipo de documento y numero de documento del niño/a</small>
+					</strong>
+				</div>
+			</div>-->
+			<form:form action="registromanual/buscarmenor.do#form-bus-resultado" class="" id="buscarmenor" modelAttribute="buscarMenorDocumento">
+				<div class="control-group" style=" background: #6fb3e0;padding: 5px;">
+					<label class="control-label" for="tiDoc" title="requerido">Tipo Documento</label>
+					<div class="controls">
+						<div class="input-append">
+							<form:select path="tiDoc" cssStyle="width: 332px;">
+								<form:option value="" label="---SELECCIONE TIPO DE DOCUMENTO---"/>
+								<form:option value="0" label="DOCUMENTO NACIONAL DE IDENTIDAD (DNI)"/>
+								<form:option value="1" label="CODIGO UNICO DE IDENTIDAD (CUI)"/>
+								<form:option value="2" label="NUMERO DE CNV"/>
+								<form:option value="3" label="CODIGO PADRON NOMINAL"/>
+							</form:select>
+							<!--<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i></button>-->
+						</div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="nuDoc" title="requerido">Número Documento</label>
+					<div class="controls">
+						<div class="input-append">
+							<input type="text" name="nuDoc" id="nuDoc" placeholder="Numero de documento" ondragstart="return false;" ondrop="return false;"/>
+							<!--<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i></button>-->
+						</div>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+					</div>
+				</div>
+
+			</form:form>
+
+			<br/>
+
+			<div class="alert alert-danger"><p>(*) Considerar que ya se estan emitiendo DNI con serie 9</p></div>
+
+		</div>
+		<div class="span7">
+			<div id="form-bus-resultado" style="border-left:1px dotted #d5d5d5;margin-left:10px;padding-left: 5px;">
+				<c:if test="${not empty mensaje}">
+					<p class="text-error">${mensaje}</p>
+				</c:if>
+				<c:if test="${empty mensaje}">
+					<!-- -->
+				</c:if>
+			</div>
+		</div>
+
+
+	</div>
+
+    <div class="row-fluid" style="margin-top: 44px;">
+        <div class="alert ">
+            <p>Flujo para registrar o actualizar a un niño/a.</p>
+            <ol class="unstyled">
+                <li style="margin: 14px 0;">
+                    <span class="badge badge-success">1</span>
+                    Si el niño/a tiene DNI:
+                    <ul class="unstyled" style="margin-left: 56px;list-style: circle;">
+                        <li>Si está registrado en el padrón podra <strong>visualizar o actualizar el padron del niño/a</strong>.</li>
+                        <li>Si no está registrado en el padrón podra <strong>registrar al niño/a</strong>.</li>
+                    </ul>
+                </li>
+                <li style="margin: 14px 0;">
+                    <span class="badge badge-success">2</span>
+                    Si el número de documento no existe, usted realizara las siguientes búsquedas agotando toda las posibilidades de encontrar al niño/a.
+                    <ul class="unstyled" style="margin-left: 56px;list-style: circle;">
+                        <li>Buscar con otro <strong>Tipo de Documento y Número de Documento</strong>.</li>
+                        <li>Buscar por datos <strong>personales del niño/a</strong>(apellido paterno, apellido materno, nombres).</li>
+                    </ul>
+                </li>
+                <li style="margin: 14px 0;">
+                    <span class="badge badge-success">3</span>
+                    Buscar por datos de la <strong>madre del niño/a</strong>.
+                </li>
+                <li style="margin: 14px 0;">
+                    <span class="badge badge-success">4</span>
+                    Cuando no encuentre al niño/a en las busquedas usted podra realizar el <strong>registro en el padron al niño/a sin DNI como nuevo.</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+	<!--<div class="row-fluid">
+		<div class="span12"><a href="registromanual/formulario.do">Realizar el registro en el padron al menor sin DNI</a></div>
+	</div>-->
+	<script type="text/javascript">
+		<![CDATA[
+		$(function () {
+			var nuDoc = $('#nuDoc');
+			nuDoc.focus();
+
+			var tiDoc = $('#tiDoc');
+
+			nuDoc.keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+
+			function setLengthNuDoc(){
+				nuDoc.val('').focus();
+				// Limpiar resultado...
+				$('#form-bus-resultado').html('');
+
+				if(tiDoc.val()!='2') {
+					nuDoc.attr('maxlength', '8');
+				} else {
+					nuDoc.attr('maxlength', '10');//CNV
+				}
+			}
+
+			setLengthNuDoc();
+			tiDoc.on('change', function(e){
+				setLengthNuDoc();
+			});
+
+			function sendForm(form) {
+				if(tiDoc.val()==''){
+					alert('Seleccione tipo de documento!');
+				}else if(nuDoc.val().replace(/_/g, '').length == 8 && tiDoc.val()!='2' ) {
+					Util.enviarFormTarget(form, '#form-bus-resultado');
+				} else if ((nuDoc.val().replace(/_/g, '').length == 10 || nuDoc.val().replace(/_/g, '').length == 8) && tiDoc.val() == '2') {
+					Util.enviarFormTarget(form, '#form-bus-resultado');
+				} else if (nuDoc.val().trim().length == 0){
+					alert('Ingrese el numero de documento');
+				} else {
+					alert('Numero de documento invalido');
+				}
+			}
+
+			// envio de formulario de busqueda
+			$('#buscarmenor').submit(function(e){
+				e.stopImmediatePropagation();
+				e.preventDefault();
+				sendForm($(this));
+			});
+
+            nuDoc.on('keypress', function(e){
+                var code = e.keyCode || e.which;
+                if(code == 13) { //Enter keycode
+                    sendForm($('#buscarmenor'));
+                }
+            });
+
+		});
+		]]>
+	</script>
+
+</jsp:root>

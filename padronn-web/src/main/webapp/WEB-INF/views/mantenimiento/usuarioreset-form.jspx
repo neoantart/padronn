@@ -1,0 +1,124 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 18/07/13
+  Time: 05:35 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:forn="http://www.springframework.org/tags/form">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="mantenimiento-modulo-div">
+        <div class=" page-header">
+            <div class="span6">
+                <h2>${titulo}</h2>
+                <span style="padding-left: 10px; font-size: 12px;" class="text-error">La información marcada con (<strong title="requerido" class="text-error required">*</strong>) es requerida</span>
+            </div>
+
+            <c:if test="${not empty coUsuario}">
+                <div class="span3 offset3">
+                    <a class="btn btn-danger" href="signup/reset_password.do?nuDni=${coUsuario}#mantenimiento-modulo-div" style="margin-top: 10px;">
+                        <i class="icon-retweet icon-white">&#160;</i>&#160;Resetear contraseña
+                    </a>
+                </div>
+            </c:if>
+
+        </div>
+        <c:if test="${not empty mensajeSuccessInsert}">
+            <div class="alert alert-success">
+                <strong>${mensajeSuccessInsert}</strong>
+            </div>
+        </c:if>
+
+        <c:if test="${not empty mensajeErrorInsert}">
+            <div class="alert alert-danger">
+                <strong>${mensajeErrorInsert}</strong>
+            </div>
+        </c:if>
+
+
+        <c:if test="${not empty mensajeSuccessUpdate}">
+            <div class="alert alert-success">
+                <strong>${mensajeSuccessUpdate}</strong>.
+            </div>
+        </c:if>
+
+        <c:if test="${not empty mensajeError}">
+            <div class="alert alert-danger">
+                <strong>${mensajeError}</strong>
+            </div>
+        </c:if>
+
+        <!--<div class="media"> @jronal: triste esta ... era el problema! corriggeeee tu codigooo -->
+            <!--<c:if test="${not empty coUsuario}">
+                <a class="pull-right" href=""><img class="media-object" src="http://sio2.reniec.gob.pe/imagen/imagen?tiFicha=E&amp;nuDni=${coUsuario}&amp;tiImg=0" style="padding:5px; border:1px solid #dddddd;"/></a>
+            </c:if>-->
+
+            <!--<div class="media-body"> @jronal: triste esta ... era el problema! corriggeeee tu codigooo -->
+                <form:form action="signup/${action}#mantenimiento-modulo-div" method="post" class="form-horizontal" modelAttribute="signupForm">
+                    <!--<div class="span3 pull-right" style="margin-top: 15px;">
+                          <a href="signup/lista_usuarios.do#mantenimiento-modulo-div" class="btn"><i class="icon-arrow-left icon-white">&amp;nbsp;</i>&amp;nbsp;Regresar</a>
+                     </div>-->
+
+
+                    <c:if test="${not empty usuarioExterno.usCreaAudi}">
+                        <div class="control-group">
+                            <label class="control-label">Usuario que creo</label>
+                            <div class="controls">
+                                <span class="input-xlarge uneditable-input span6">
+                                ${usuarioExterno.apPrimerCrea} ${usuarioExterno.apSegundoCrea} ${usuarioExterno.prenombresCrea} (${usuarioExterno.coUsuarioCrea})
+                                </span>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty usuarioExterno.feCreaAudi}">
+                        <div class="control-group">
+                            <label class="control-label">Fecha de creación</label>
+                            <div class="controls">
+                                <span class="input-xlarge uneditable-input">
+                                ${usuarioExterno.feCreaAudi}
+                                </span>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty usuarioExterno.usModiAudi}">
+                        <div class="control-group">
+                            <label class="control-label">Usuario que modifico</label>
+                            <div class="controls">
+                                <span class="input-xlarge uneditable-input span6">
+                                ${usuarioExterno.apPrimerModi} ${usuarioExterno.apSegundoModi} ${usuarioExterno.prenombresModi} (${usuarioExterno.coUsuarioModi})
+                                </span>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty usuarioExterno.feModiAudi}">
+                        <div class="control-group">
+                            <label class="control-label">Fecha de modificacion</label>
+                            <div class="controls">
+                                <span class="input-xlarge uneditable-input">
+                                ${usuarioExterno.feModiAudi}
+                                </span>
+                            </div>
+                        </div>
+                    </c:if>
+        <!--Angelica 01 07 2014 mfigueroa-->
+
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>&#160;Cambiar Contraseña</button>
+                        &#160;&#160;<a href="signup/reset_password.do#mantenimiento-modulo-div" class="btn btn-danger"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+                    </div>
+
+                </form:form>
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+	<jsp:include page="usuarioreset-form-scripts.jspx"/>
+
+
+</jsp:root>

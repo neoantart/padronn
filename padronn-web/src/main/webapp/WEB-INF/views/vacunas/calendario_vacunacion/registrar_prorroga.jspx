@@ -1,0 +1,70 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 28/12/2015
+  Time: 05:17 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_SUMINISTRADA']" var="TI_DOSIS_SUMINISTRADA"/>
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_CRONOGRAMA']" var="TI_DOSIS_CRONOGRAMA"/>
+
+    <div id="modal_registar_prorroga" class="modal" style="width: 640px;">
+        <div class="modal-header">
+            <a type="button" class="close close-modal" data-dismiss="modal" id="btn_close">×</a>
+            <h3><span class="icon-edit"><!-- --></span>&#160;Prorroga</h3>
+        </div>
+        <form:form action="calendario_vacunacion/send_registrar_prorroga.do#modal_prorroga" modelAttribute="dosis" cssClass="form-horizontal">
+            <form:hidden path="count" value="${dosis.count}" />
+            <form:hidden path="coTipoVacuna" value="${dosis.coTipoVacuna}" />
+            <form:hidden path="feVacuna" value="${dosis.feVacuna}" />
+            <div class="modal-body">
+                <div class="alert">Registre la prorroga de la Fecha de calendario</div>
+                <spring:bind path="dosis.feProrroga">
+                    <c:if test="${status.error}">
+                        <c:set var="feProrrogaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${feProrrogaError}">
+                    <label class="control-label" for="feProrroga">Fecha de calendario</label>
+
+                    <div class="controls">
+                        <form:input path="feProrroga" id="feProrroga" cssStyle="width: 163px;" value="${dosis.feVacuna}" cssClass="feProrroga"/>
+                        <div class="input-append">
+                            <button id="feProrrogaButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i class="icon-calendar icon-white"><!-- --></i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feProrroga" element="div" cssClass="text-error"/>
+                    </div>
+                </div>
+
+                <spring:bind path="dosis.deProrroga">
+                    <c:if test="${status.error}">
+                        <c:set var="deProrrogaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${deProrrogaError}">
+                    <label class="control-label" for="deProrroga">Motivo de Prorroga</label>
+                    <div class="controls">
+                        <form:textarea path="deProrroga" cssClass="span5 deProrroga" rows="3"/>
+                        <form:errors path="deProrroga" element="div" cssClass="text-error"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer center">
+                <button class="btn btn-primary"><span class="icon-check icon-white"><!-- --></span>&#160;Aceptar</button>
+                <a class="close-modal btn btn-danger btn-small"><span
+                        class="icon-remove icon-white"><!-- --></span>&#160;Cancelar</a>
+            </div>
+
+        </form:form>
+    </div>
+    <jsp:include page="registrar_prorroga_script.jspx" />
+</jsp:root>

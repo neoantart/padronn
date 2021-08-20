@@ -1,0 +1,155 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Busqueda del menor</h1>
+        </div>
+        <div class="pull-right">
+            <a href="vacunas/home_vacunas.do" class="btn button-back"><i
+                    class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Búsqueda por datos del Menor</a></li>
+        <!--<li><a href="busqueda_menor/buscar_menor_madre.do">Búsqueda por datos de la Madre</a></li>-->
+    </ul>
+    <div class="tab-content" style="width: 1024px;">
+        <div class="tab-pane active" >
+            <form:form action="busqueda_menor/send_buscar_menor.do" modelAttribute="busquedaMenor">
+                <form:hidden path="mensaje" />
+                <div class="row-fluid">
+                    <div class="span2">
+                        <label for="nuDniMenor">DNI</label>
+                        <form:input path="nuDniMenor" class="span12" placeholder="DNI/CUI" data-inputmask="'mask': '99999999'" />
+                        <form:errors path="nuDniMenor" element="div" cssClass="text-error"/>
+                    </div>
+                    <div class="span1 text-center" style="font-size: 15px;"><strong>O</strong></div>
+                    <div class="span2">
+                        <label for="apPrimerMenor">Primer Apellido</label>
+                        <form:input path="apPrimerMenor" class="span12 mask-alpha" />
+                        <form:errors path="apPrimerMenor" element="div" cssClass="text-error"/>
+                    </div>
+                    <div class="span2">
+                        <label for="apSegundoMenor">Segundo Apellido</label>
+                        <form:input path="apSegundoMenor" class="span12 mask-alpha" />
+                        <form:errors path="apSegundoMenor" element="div" cssClass="text-error"/>
+                    </div>
+                    <div class="span2">
+                        <label for="prenombreMenor">Nombres</label>
+                        <form:input path="prenombreMenor" class="span12 mask-alpha" />
+                        <form:errors path="prenombreMenor" element="div" cssClass="text-error"/>
+                    </div>
+                    <div class="span3">
+                        <label>&#160;</label>
+                        <button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+                        &#160;
+                        <button id="clean-input-form-madre" class="btn btn-danger"><i class="icon-remove icon-white">&#160;</i>Limpiar</button>
+                    </div>
+                </div>
+                <spring:bind path="busquedaMenor.mensaje">
+                    <c:if test="${status.error}">
+                        <c:set var="mensajeError" value="${true}"/>
+                    </c:if>
+                </spring:bind>
+                <c:if test="${not empty mensajeError}">
+                    <div class="alert alert-danger">
+                        <form:errors path="mensaje" element="p" cssClass="text-danger"/>
+                    </div>
+                </c:if>
+            </form:form>
+        </div>
+
+        <div id="resultado">
+            <c:choose>
+                <c:when test="${not empty personas}">
+                    <blockquote>
+                        <p>Resultados de la búsqueda.</p>
+                    </blockquote>
+                    <table class="table table-bordered table-hover table-striped table-condensed" style="width: 1024px;">
+                        <thead>
+                            <tr>
+                                <th>DNI/CUI/COD. PADRON</th>
+                                <th>Primer Apellido</th>
+                                <th>Segundo Apellido</th>
+                                <th>Nombres</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Edad</th>
+                                <th style="width: 150px;">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="persona" items="${personas}">
+                                <tr>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${not empty persona.nuCui and empty persona.dni}">${persona.nuCui}</c:when>
+                                            <c:when test="${not empty persona.dni}">${persona.dni}</c:when>
+                                            <c:otherwise>${persona.codigoPadronNominal}</c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>${persona.primerApellido}</td>
+                                    <td>${persona.segundoApellido}</td>
+                                    <td>${persona.nombres}</td>
+                                    <td>${persona.fechaNacimiento}</td>
+                                    <td>${persona.edad}</td>
+                                    <c:choose>
+                                        <c:when test="${not empty persona.codigoPadronNominal}">
+                                            <c:choose>
+                                                <c:when test="${persona.esPadron eq '1'}">
+                                                    <td><a href="calendario_vacunacion/formulario.do?coPadronNominal=${persona.codigoPadronNominal}" class="btn btn-small btn-info btn-mini"><span class="icon-edit icon-white"></span>&#160;Registrar Vacunación</a></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td><p class="text-error">El registro del menor ha sido dado de baja del Padrón Nominal.</p></td>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td><a href="calendario_vacunacion/formulario.do?nuDniMenor=${persona.dni}" class="btn btn-small btn-info btn-mini"><span class="icon-edit icon-white"></span>&#160;Registrar Vacunación</a></td>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
+                                    urlAntesNuPagina="busqueda_menor/send_buscar_menor.do?nuPagina="
+                                    urlDespuesNuPagina="&amp;nuDniMenor=${busquedaMenor.nuDniMenor}&amp;apPrimerMenor=${busquedaMenor.apPrimerMenor}&amp;apSegundoMenor=${busquedaMenor.apSegundoMenor}&amp;prenombreMenor=${busquedaMenor.prenombreMenor}&amp;mensaje="></util:paginador>
+
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${enviado eq true}">
+                        <blockquote>
+                            <p>Resultados de la búsqueda.</p>
+                        </blockquote>
+                        <div class="alert alert-warning">
+                            <p>No se ha encontrado ninguna coincidencia.</p>
+                        </div>
+                    </c:if>
+                </c:otherwise>
+            </c:choose>
+
+            <c:if test="${enviado eq true }">
+                <div class="alert">
+                    ¿Ningún resultado coincide con los datos del menor buscado?
+                    <a href="calendario_vacunacion/formulario.do" class="btn">Registrar al menor sin DNI en el padron nominal</a>
+                </div>
+            </c:if>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+
+            $('#nuDniMenor').focus().inputmask('dni');
+            $('#apPrimerMenor').inputmask('apellido');
+            $('#apSegundoMenor').inputmask('apellido');
+            $('#prenombreMenor').inputmask('nombre');
+
+        })
+    </script>
+</jsp:root>

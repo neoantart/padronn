@@ -1,0 +1,37 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 17/12/2015
+  Time: 04:58 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_SUMINISTRADA']" var="TI_DOSIS_SUMINISTRADA"/>
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_CRONOGRAMA']" var="TI_DOSIS_CRONOGRAMA"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script>
+        <![CDATA[
+        $(function(){
+            $('#dosis${dosis.count}\\.nuSecuencia').val('${dosis.nuSecuencia}');
+            $('#dosis${dosis.count}\\.coTipoVacuna').val('${dosis.coTipoVacuna}');
+            $('#dosis${dosis.count}\\.coPadronNominal').val('${dosis.coPadronNominal}');
+            $('#dosis${dosis.count}\\.coRenaes').val('${dosis.coRenaes}');
+            $('#dosis${dosis.count}\\.coTipoDosis').val('${dosis.coTipoDosis}');
+            $('#dosis${dosis.count}\\.coCaptacion').val('${dosis.coCaptacion}');
+            $('#dosis${dosis.count}\\.feDosis').val('${dosis.feDosis}');
+            $('#dosis${dosis.count}\\.feVacuna').val('${dosis.feVacuna}');
+
+            $('#dosis${dosis.count}\\.tiDosis').val('${TI_DOSIS_SUMINISTRADA}');
+            $('#overlay').addClass('hide');
+            var btnCalendario = $('#btn_dosis_${dosis.count}')
+                    .html('${dosis.feDosis}')
+                    .parent()
+                    .removeClass('btn-danger')
+                    .addClass('btn-success');
+            $('#btn_dosis_options_${dosis.count}_1').hide();
+            $('#btn_dosis_options_${dosis.count}_2').hide();
+        });
+        ]]>
+    </script>
+</jsp:root>

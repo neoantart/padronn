@@ -1,0 +1,51 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 02/09/2014
+  Time: 04:05 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Consulta de usuarios</h1>
+            <span>Los campos con asterisco <span style="color:#b94a48;" class="required">(*)</span> son obligatorios y deben llenarse</span>
+        </div>
+        <div class="pull-right">
+            <a href="reporte/reporte_panel.do" class="btn button-back"><i
+                    class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs" id="tabs-usuarios">
+                <li class="active"><a href="#datos_personales" data-toggle="tab" class="noAjax"><span
+                            class="badge badge-info uno"></span>&#160;Por datos personales</a></li>
+                <li><a href="#entidad" data-toggle="tab" class="noAjax"><span
+                        class="badge badge-info dos"></span>&#160;Por entidad</a></li>
+                 <li><a href="#listado" data-toggle="tab" class="noAjax"><span
+                        class="badge badge-info tres"></span>&#160;Descargar todos los usuarios</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="datos_personales">
+                    <jsp:include page="consulta_usuario_datos.jspx"/>
+                </div>
+                <div class="tab-pane" id="entidad">
+                    <jsp:include page="consulta_usuario_entidad.jspx" />
+                </div>
+                <div class="tab-pane" id="listado">
+                    <div class="alert">
+                        <p> Descargar listado de usuarios en excel
+                            <a href="minsa_reporte/reporte_usuarios_xls.do" class="btn noAjax">
+                                <i class="icon-download icon-white"></i>Listado de Usuarios
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</jsp:root>

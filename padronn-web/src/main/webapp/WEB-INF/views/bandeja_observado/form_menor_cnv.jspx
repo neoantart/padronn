@@ -1,0 +1,262 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 10/05/2016
+  Time: 11:44 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:base64="http://www.reniec.gob.pe/Tlds"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <form:form action="bandeja_observado/send_menor_cnv.do#form_menor_cnv" method="post"
+               modelAttribute="menor"
+               cssClass="">
+        <fieldset class="span6">
+            <c:if test="${not empty padronNominal.coDniMadre and fn:length(padronNominal.coDniMadre) eq 8}">
+            <div style="position: absolute;left: 343px;">
+                <!--<img style="width: 110px;height: 151px;border: 1px solid #ccc;padding: 5px;" src="imagen_ciudadano/img_menor.do?nu_dni=${base64:encodeBase64(padronNominal.coDniMadre)}" />-->
+                <img src="data:image/png;base64,${img}" width="120" height="140" />
+
+            </div>
+            </c:if>
+            <legend><span class="badge badge-info">1</span>&#160;MADRE
+                <small>Datos de la Madre</small>
+            </legend>
+            <div class="control-group">
+                <label class="control-label">DNI Madre:</label>
+                <div class="controls">
+                    <span class="uneditable-input">${padronNominal.coDniMadre}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Primer Apellido Madre</label>
+                <div class="controls">
+                    <span class="uneditable-input">${padronNominal.apPrimerMadre}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Segundo Apellido Madre</label>
+                <div class="controls">
+                    <span class="uneditable-input">${padronNominal.apSegundoMadre}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Prenombres Madre</label>
+                <div class="controls">
+                    <span class="uneditable-input">${padronNominal.prenomMadre}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Ubigeo de Domicilio de la Madre</label>
+                <div class="controls">
+                    <span class="input-xlarge uneditable-input">${padronNominal.deUbigeoInei}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Dirección de la Madre</label>
+                <div class="controls">
+                    <span class="input-xlarge uneditable-input">${padronNominal.deDireccion}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Codigo RENAES de Nacimiento</label>
+                <div class="controls">
+                    <span class="uneditable-input">${padronNominal.coEstSaludNac}</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Establecimiento de salud de Nacimiento</label>
+                <div class="controls">
+                    <span class="input-xlarge uneditable-input">${padronNominal.deEstSaludNac}</span>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="span5">
+            <legend><span class="badge badge-info">2</span>&#160;NACIDO
+                <small>Datos del Nacimiento</small>
+            </legend>
+
+            <spring:bind path="menor.nuCui">
+                <c:if test="${status.error}">
+                    <div class="alert alert-danger">
+                        <p>Error de validación: DNI/CUI del Niño/a ya existe en el padron Nominal.</p>
+                        <p>Puede dar de baja este registro, <a href=""></a></p>
+                    </div>
+
+                </c:if>
+            </spring:bind>
+
+            <c:choose>
+                <c:when test="${empty nuDniMenor}">
+                    <spring:bind path="menor.nuDniMenor">
+                        <c:if test="${status.error}">
+                            <c:set var="nuDniMenorError" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${nuDniMenorError} success">
+                        <label class="control-label">DNI del Niño/a:</label>
+
+                        <div class="controls">
+                            <div class="input-append">
+                                <form:input path="nuDniMenor" id="nuDniMenor" cssStyle="width: 167px;"/>
+                                <!--<input placeholder="DNI" id="coPadronNominal" name="coPadronNominal" type="text" class="" />-->
+                                <button class="btn btn-buscar-dni" type="button"><i
+                                        class="icon-white icon-search">&#160;</i></button>
+                            </div>
+                            <form:errors path="nuDniMenor" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="menor.nuCui">
+                        <c:if test="${status.error}">
+                            <c:set var="nuCuiError" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <fieldset disabled="disabled">
+                        <div class="control-group ${nuCuiError} hide">
+                            <label class="control-label">CUI:</label>
+                            <div class="controls">
+                                <form:input path="nuCui" id="nuCui"
+                                            cssStyle="width: 90px;color: black!important;"/>
+                                <form:errors path="nuCui" cssClass="text-error" element="div"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </c:when>
+
+                <c:otherwise>
+                    <div class="control-group success">
+                        <label class="control-label">DNI:</label>
+                        <div class="controls">
+                            <span class="input-small uneditable-input">${nuDniMenor}</span>
+                            <form:hidden path="nuDniMenor" id="nuDniMenor"/>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
+            <fieldset disabled="disabled">
+                <div class="control-group">
+                    <label class="control-label">N° Certificado Nacido Vivo:</label>
+                    <div class="controls">
+                        <form:input path="nuCnv" id="nuCnv"
+                                    cssClass="color: black!important;"/>
+                        <form:errors path="nuCnv" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <spring:bind path="menor.apPrimerMenor">
+                <c:if test="${status.error}">
+                    <c:set var="apPrimerMenorError" value="error"/>
+                </c:if>
+            </spring:bind>
+            <div class="control-group ${apPrimerMenorError}">
+                <label class="control-label">Primer Apellido del Menor:</label>
+                <div class="controls">
+                    <form:input path="apPrimerMenor" id="apPrimerMenor" cssClass="color: black!important;"/>
+                    <form:errors path="apPrimerMenor" cssClass="text-error" element="div"/>
+                </div>
+            </div>
+
+            <spring:bind path="menor.apSegundoMenor">
+                <c:if test="${status.error}">
+                    <c:set var="apSegundoMenorError" value="error"/>
+                </c:if>
+            </spring:bind>
+            <fieldset disabled="disabled">
+                <div class="control-group ${apSegundoMenorError}">
+                    <label class="control-label">Segundo Apellido del Menor:</label>
+                    <div class="controls">
+                        <form:input path="apSegundoMenor" id="apSegundoMenor"
+                                    cssClass="color: black!important;"/>
+                        <form:errors path="apSegundoMenor" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <spring:bind path="menor.prenombreMenor">
+                <c:if test="${status.error}">
+                    <c:set var="prenombreMenorError" value="error"/>
+                </c:if>
+            </spring:bind>
+            <div class="control-group ${prenombreMenorError}">
+                <label class="control-label">Nombres del Menor:</label>
+                <div class="controls">
+                    <form:input path="prenombreMenor" id="prenombreMenor"/>
+                    <form:errors path="prenombreMenor" cssClass="text-error" element="div"/>
+                </div>
+            </div>
+
+            <spring:bind path="menor.feNacMenor">
+                <c:if test="${status.error}">
+                    <c:set var="feNacMenorError" value="error"/>
+                </c:if>
+            </spring:bind>
+            <fieldset disabled="disabled">
+                <div class="control-group ${feNacMenorError}">
+                    <label title="requerido" for="feNacMenor" class="control-label">Fecha Nacimiento Niño/a: </label>
+                    <div class="controls">
+                        <form:input path="feNacMenor" id="feNacMenor" cssStyle="width: 127px;"/>
+                        <div data-date-format="dd/mm/yyyy" data-date="" id="feNacMenor-date"
+                             class="input-append date">
+                            <button class="btn add-on" id="feNacMenor-button" type="button"
+                                    style="height: 30px;"><i
+                                    class="icon-white icon-calendar"></i></button>
+                        </div>
+                        <form:errors path="feNacMenor" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <spring:bind path="menor.coGeneroMenor">
+                <c:if test="${status.error}">
+                    <c:set var="coGeneroMenorError" value="error"/>
+                </c:if>
+            </spring:bind>
+            <fieldset disabled="disabled">
+                <div class="control-group ${coGeneroMenorError}">
+                    <label title="requerido" class="control-label">Genero Niño/a: </label>
+                    <div class="controls">
+                        <label class="radio inline"><form:radiobutton path="coGeneroMenor"
+                                                                      value="1"/>Masculino</label>
+                        <label class="radio inline"><form:radiobutton path="coGeneroMenor"
+                                                                      value="2"/>Femenino</label>
+                        <form:errors path="coGeneroMenor" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <spring:bind path="menor.deRectificacion">
+                <c:if test="${status.error}">
+                    <c:set var="deRectificacionError" value="error"/>
+                </c:if>
+            </spring:bind>
+            <div class="control-group ${deRectificacionError}">
+                <label class="control-label">Detalle de rectificación:</label>
+                <div class="controls">
+                    <form:textarea path="deRectificacion" id="deRectificacion" cssStyle="height: 75px;"
+                                   maxlength="500"/>
+                    <!--<form:input path="deRectificacion" id="deRectificacion" cssStyle="width: 230px;"
+                                maxlength="500"/>-->
+                    <form:errors path="deRectificacion" cssClass="text-error" element="div"/>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <form:hidden path="coPadronNominal" id="coPadronNominal"/>
+                <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>&#160;Guardar
+                </button>
+                &#160;&#160;
+                <a href="bandeja_observado/bandeja_observados.do?coTipoObservacion=7&amp;nuPagina=${nuPagina}"
+                   class="btn btn-danger"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+            </div>
+        </fieldset>
+
+    </form:form>
+
+    <jsp:include page="form_menor_cnv_script.jspx"/>
+</jsp:root>

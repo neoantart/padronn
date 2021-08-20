@@ -1,0 +1,106 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+<div class="row">
+    <div class="span12">
+        <h1>Reporte por departamentos</h1>
+        <div id="chartpie" style="width: 100%; height: 400px;"></div>
+        <div id="chartcolumn" style="width: 100%; height: 400px;"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var Grafico = {
+            init: function(){
+                this.listaDepartamentos();
+            },
+            showGraficoPie3D: function(data, label, value){
+                var chart;
+                var legend;
+                var chartData = data;
+                chart = new AmCharts.AmPieChart();
+                chart.dataProvider = chartData;
+                chart.titleField = label;
+                chart.valueField = value;
+                chart.outlineColor = "#FFFFFF";
+                chart.outlineAlpha = 0.8;
+                chart.outlineThickness = 2;
+                // this makes the chart 3D
+                chart.depth3D = 15;
+                chart.angle = 30;
+                // WRITE
+                chart.write("chartpie");
+                //$('tspan:last').hide();
+            },
+            showGraficoColumn3D:function(data, label, value){
+                var chart;
+                // SERIAL CHART
+                chart = new AmCharts.AmSerialChart();
+                chart.dataProvider = data;
+                chart.categoryField = label;
+                // the following two lines makes chart 3D
+                chart.depth3D = 20;
+                chart.angle = 30;
+
+                // AXES
+                // category
+                var categoryAxis = chart.categoryAxis;
+                categoryAxis.labelRotation = 90;
+                categoryAxis.dashLength = 5;
+                categoryAxis.gridPosition = "start";
+
+                // value
+                var valueAxis = new AmCharts.ValueAxis();
+                valueAxis.title = "Número de registros";
+                valueAxis.dashLength = 5;
+                chart.addValueAxis(valueAxis);
+
+                // GRAPH
+                var graph = new AmCharts.AmGraph();
+                graph.valueField = "CANTIDAD";
+                graph.colorField = "color";
+                graph.balloonText = "[[category]]: [[value]]";
+                graph.type = "column";
+                graph.lineAlpha = 0;
+                graph.fillAlphas = 1;
+                chart.addGraph(graph);
+
+                // WRITE
+                chart.write("chartcolumn");
+                //$('tspan:last').hide();
+            },
+            listaDepartamentos: function(){
+                var self = this;
+                Util.ajax("reportegrafico/listadepartamentos",{},function(data) {
+                    self.showGraficoPie3D(data, "DE_DEPARTAMENTO", "CANTIDAD");
+                    self.showGraficoColumn3D(self.setColoresBarras(data), "DE_DEPARTAMENTO", "CANTIDAD");
+                });
+            },
+            setColoresBarras:function(data){
+                var colores = ["#FF0F00",
+                    "#FF6600",
+                    "#FF9E01",
+                    "#FCD202",
+                    "#F8FF01",
+                    "#B0DE09",
+                    "#04D215",
+                    "#0D8ECF",
+                    "#0D52D1",
+                    "#2A0CD0",
+                    "#8A0CCF",
+                    "#CD0D74",
+                    "#754DEB",
+                    "#DDDDDD",
+                    "#999999",
+                    "#333333",
+                    "#000000"];
+                for(i in data){
+                    data[i]['color'] = colores[Math.floor(Math.random() * colores.length)];
+                }
+                //console.log(data);
+                return data;
+            }
+        };
+        Grafico.init();
+    });
+</script>
+</jsp:root>

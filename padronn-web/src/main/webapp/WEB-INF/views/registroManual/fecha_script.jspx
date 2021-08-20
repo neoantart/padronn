@@ -1,0 +1,315 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jvidalf
+  Date: 04/01/2019
+  Time: 04:52 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function () {
+            $('#feVisita').inputmask("dd/mm/yyyy");
+            $('#feUltimaTomaDatos').inputmask("dd/mm/yyyy");
+            $('#feVisitaBefore').inputmask("dd/mm/yyyy");
+            $('#feUltimaTomaDatosBefore').inputmask("dd/mm/yyyy");
+            if($('#existeError').val() === 'false'){
+                $('#feVisita').val('');
+                $('#feUltimaTomaDatos').val('');
+            }
+
+            var existeFeNacimiento = !!document.getElementById('feNacMenor');
+
+            var rangoDiasBeforeToday = 60;
+            var rangoDiasBeforeTodayFuenteDatos = 30;
+            var rangoDiasBeforeLastDate = 0;
+            var message;
+            var existeFeVisitaBefore = true;
+            var existeFeUltimaTomaDatosBefore = true;
+            var limiteInf;
+            var feNacimiento = new  Date();
+            if ($('#feVisitaBefore').val()==='' || $('#feVisitaBefore').val()== null ) {existeFeVisitaBefore = false}
+            if ($('#feUltimaTomaDatosBefore').val()==='' || $('#feUltimaTomaDatosBefore').val()== null ) {existeFeUltimaTomaDatosBefore = false}
+
+            var nowTemp = new Date(),
+                now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0),
+                startDate,
+                endDate,
+                fnResetButtonData=function(){
+                    if($.trim($('#feVisita').val())== '' && $.trim($('#feVisita').val().replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10)) $('#feVisitaButton').data('date', '');
+                },
+                fnResetButtonDataUltimaTomaDatos=function(){
+                    if($.trim($('#feUltimaTomaDatos').val())== '' && $.trim($('#feUltimaTomaDatos').val().replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10)) $('#feUltimaTomaDatosButton').data('date', '');
+                };
+
+            function setLimitInfDate() {
+                if (existeFeVisitaBefore || existeFeUltimaTomaDatosBefore) {
+                    var lastFeVisitaParts;
+                    var feVisitaBeforeCompare = $('#feVisitaBefore').val().split('/')[2] + $('#feVisitaBefore').val().split('/')[1] + $('#feVisitaBefore').val().split('/')[0];
+                    var feUltimaTomaDatosBeforeCompare = $('#feUltimaTomaDatosBefore').val().split('/')[2] + $('#feUltimaTomaDatosBefore').val().split('/')[1] + $('#feUltimaTomaDatosBefore').val().split('/')[0];
+                    if (existeFeVisitaBefore && existeFeUltimaTomaDatosBefore){
+                        if (feVisitaBeforeCompare>feUltimaTomaDatosBeforeCompare){
+                            lastFeVisitaParts = $('#feVisitaBefore').val().split('/');
+                        } else {
+                            lastFeVisitaParts = $('#feUltimaTomaDatosBefore').val().split('/');
+                        }
+                    } else {
+                        if (existeFeVisitaBefore) {lastFeVisitaParts = $('#feVisitaBefore').val().split('/');}
+                        if (existeFeUltimaTomaDatosBefore) {lastFeVisitaParts = $('#feUltimaTomaDatosBefore').val().split('/');}
+                    }
+
+                    // var lastFeVisitaParts = $('#feVisitaBefore').val().split('/');
+                    var lastFeVisitaTemp = new Date(lastFeVisitaParts[2], lastFeVisitaParts[1] - 1, lastFeVisitaParts[0]),
+                        lastFeVisita = new Date(lastFeVisitaTemp.getFullYear(), lastFeVisitaTemp.getMonth(), lastFeVisitaTemp.getDate(), 0, 0, 0, 0);
+                    limiteInf = new Date(lastFeVisita);
+                    limiteInf = limiteInf.setDate(lastFeVisita.getDate() - rangoDiasBeforeLastDate);
+                    limiteInf = new Date(limiteInf);
+                    limiteInf = new Date(limiteInf.getFullYear(), limiteInf.getMonth(), limiteInf.getDate(), 0, 0, 0, 0);
+                    var dateInfPrint = formatDatePrint(limiteInf);
+                    if (document.getElementById('menorVisitOpt1').checked){
+                        message = 'La fecha de visita no debe ser menor a la fecha de visita anterior / fecha de fuente de datos anterior';
+                    } else {
+                        message = 'La fecha de fuente de datos no debe ser menor a la fecha de visita anterior / fecha de fuente de datos anterior';
+                    }
+                } else {
+                    limiteInf = new Date(now);
+                    if (document.getElementById('menorVisitOpt1').checked){
+                        limiteInf = limiteInf.setDate(now.getDate() - rangoDiasBeforeToday);
+                        message = 'Usted, puede ingresar la fecha de visita ' + rangoDiasBeforeToday +' días anteriores a la fecha actual';
+                    } else {
+                        limiteInf = limiteInf.setDate(now.getDate() - rangoDiasBeforeTodayFuenteDatos);
+                        message = 'Usted, puede ingresar la fecha de fuente de datos ' + rangoDiasBeforeTodayFuenteDatos + ' días anteriores a la fecha actual';
+                    }
+                    limiteInf = new Date(limiteInf);
+                    limiteInf = new Date(limiteInf.getFullYear(), limiteInf.getMonth(), limiteInf.getDate(), 0, 0, 0, 0);
+                    // var dateInfPrint = formatDatePrint(limiteInf);
+                    // $('#feVisita').val(formatDatePrint(new Date()));
+                }
+            }
+
+            setLimitInfDate();
+
+            var feVisitaDatePicker = $('#feVisitaButton')
+                .datepicker({format: 'dd/mm/yyyy'})
+                .on('changeDate', function (ev) {
+                    fnResetButtonData();
+                    var dd = ev.date.getDate(),
+                        mm = ev.date.getMonth()+ 1,
+                        yyyy = ev.date.getFullYear();
+                    if(dd < 10) {
+                        dd = '0'+ dd;
+                    }
+                    if(mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    if (existeFeNacimiento){
+                        var feNacimientoParts = $('#feNacMenor').val().split('/');
+                        var feNacimientoTemp = new Date(feNacimientoParts[2], feNacimientoParts[1] - 1, feNacimientoParts[0]);
+                        feNacimiento = new Date(feNacimientoTemp.getFullYear(), feNacimientoTemp.getMonth(), feNacimientoTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    if (ev.date.valueOf() <= now) {
+                        if (ev.date.valueOf() < limiteInf){
+                            feVisitaDatePicker.hide();
+                            feVisitaDatePicker.setValue(limiteInf);
+                            alert(message);
+                            $('#feVisita').val('');
+                        } else {
+                            if (existeFeNacimiento && ev.date.valueOf() < feNacimiento){
+                                feVisitaDatePicker.hide();
+                                feVisitaDatePicker.setValue(feNacimiento);
+                                dateInfPrint = formatDatePrint(feNacimiento);
+                                alert('La fecha no debe ser menor a la fecha de nacimiento: ' + dateInfPrint);
+                                $('#feVisita').val('');
+                            } else {
+                                if (ev.viewMode == 'days') {
+                                    feVisitaDatePicker.hide();
+                                    $('#feVisita').val($('#feVisitaButton').data('date'));
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        feVisitaDatePicker.hide();
+                        feVisitaDatePicker.setValue(now);
+                        alert('La fecha no puede ser futura');
+                        $('#feVisita').val('');
+                    }
+                })
+                .on('show', function (ev) {
+                    var left = feVisitaDatePicker.picker.position().left - $('#feVisitaButton').width();
+                    feVisitaDatePicker.picker.css('left', left);
+                })
+                .data('datepicker');
+
+            var feUltimaTomaDatosDatePicker = $('#feUltimaTomaDatosButton')
+                .datepicker({format: 'dd/mm/yyyy'})
+                .on('changeDate', function (ev) {
+                    fnResetButtonDataUltimaTomaDatos();
+                    var dd = ev.date.getDate(),
+                        mm = ev.date.getMonth()+ 1,
+                        yyyy = ev.date.getFullYear();
+                    if(dd < 10) {
+                        dd = '0'+ dd;
+                    }
+                    if(mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    if (existeFeNacimiento){
+                        var feNacimientoParts = $('#feNacMenor').val().split('/');
+                        var feNacimientoTemp = new Date(feNacimientoParts[2], feNacimientoParts[1] - 1, feNacimientoParts[0]);
+                        feNacimiento = new Date(feNacimientoTemp.getFullYear(), feNacimientoTemp.getMonth(), feNacimientoTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    if (ev.date.valueOf() <= now) {
+                        if (ev.date.valueOf() < limiteInf){
+                            feUltimaTomaDatosDatePicker.hide();
+                            feUltimaTomaDatosDatePicker.setValue(limiteInf);
+                            alert(message);
+                            $('#feUltimaTomaDatos').val('');
+                        } else {
+                            if (existeFeNacimiento && ev.date.valueOf() < feNacimiento){
+                                feUltimaTomaDatosDatePicker.hide();
+                                feUltimaTomaDatosDatePicker.setValue(feNacimiento);
+                                dateInfPrint = formatDatePrint(feNacimiento);
+                                alert('La fecha no debe ser menor a la fecha de nacimiento: ' + dateInfPrint);
+                                $('#feUltimaTomaDatos').val('');
+                            } else {
+                                if (ev.viewMode == 'days') {
+                                    feUltimaTomaDatosDatePicker.hide();
+                                    $('#feUltimaTomaDatos').val($('#feUltimaTomaDatosButton').data('date'));
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        feUltimaTomaDatosDatePicker.hide();
+                        feUltimaTomaDatosDatePicker.setValue(now);
+                        alert('La fecha no puede ser futura');
+                        $('#feUltimaTomaDatos').val('');
+                    }
+                })
+                .on('show', function (ev) {
+                    var left = feUltimaTomaDatosDatePicker.picker.position().left - $('#feUltimaTomaDatosButton').width();
+                    feUltimaTomaDatosDatePicker.picker.css('left', left);
+                })
+                .data('datepicker');
+
+            setTimeout(function(){
+                $('#feVisita').on('change paste keyup', function (e) {
+                    fnResetButtonData();
+                });
+                $('#feUltimaTomaDatos').on('change paste keyup', function (e) {
+                    fnResetButtonDataUltimaTomaDatos();
+                });
+            }, 100);
+
+            $('#feVisita').blur(function () {
+                var existeFeVisita = true;
+                if($('#feVisita').val().trim().length < 10){ $('#feVisita').val('');}
+                if ($('#feVisita').val()==='' || $('#feVisita').val()== null ) {existeFeVisita = false}
+                if (existeFeVisita === true){
+                    var feVisitaParts = $('#feVisita').val().split('/');
+                    var feVisitaChangeTemp = new Date(feVisitaParts[2], feVisitaParts[1] - 1, feVisitaParts[0]),
+                        feVisitaChange = new Date(feVisitaChangeTemp.getFullYear(), feVisitaChangeTemp.getMonth(), feVisitaChangeTemp.getDate(), 0, 0, 0, 0);
+                    if (existeFeNacimiento){
+                        var feNacimientoParts = $('#feNacMenor').val().split('/');
+                        var feNacimientoTemp = new Date(feNacimientoParts[2], feNacimientoParts[1] - 1, feNacimientoParts[0]);
+                        feNacimiento = new Date(feNacimientoTemp.getFullYear(), feNacimientoTemp.getMonth(), feNacimientoTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    if (feVisitaChange < limiteInf){
+                        feVisitaDatePicker.hide();
+                        feVisitaDatePicker.setValue(limiteInf);
+                        alert(message);
+                        $('#feVisita').val('');
+                    } else {
+                        if (existeFeNacimiento && feVisitaChange < feNacimiento){
+                            feVisitaDatePicker.hide();
+                            feVisitaDatePicker.setValue(feNacimiento);
+                            dateInfPrint = formatDatePrint(feNacimiento);
+                            alert('La fecha no debe ser menor a la fecha de nacimiento: ' + dateInfPrint);
+                            $('#feVisita').val('');
+                        }
+                    }
+                }
+            });
+
+
+
+            $('#feUltimaTomaDatos').blur(function () {
+                var existeFeUltimaTomaDatos = true;
+                if($('#feUltimaTomaDatos').val().trim().length < 10){ $('#feUltimaTomaDatos').val('');}
+                if ($('#feUltimaTomaDatos').val()==='' || $('#feUltimaTomaDatos').val()== null ) {existeFeUltimaTomaDatos = false}
+                if (existeFeUltimaTomaDatos === true){
+                    var feUltimaTomaDatosParts = $('#feUltimaTomaDatos').val().split('/');
+                    var feUltimaTomaDatosChangeTemp = new Date(feUltimaTomaDatosParts[2], feUltimaTomaDatosParts[1] - 1, feUltimaTomaDatosParts[0]),
+                        feUltimaTomaDatosChange = new Date(feUltimaTomaDatosChangeTemp.getFullYear(), feUltimaTomaDatosChangeTemp.getMonth(), feUltimaTomaDatosChangeTemp.getDate(), 0, 0, 0, 0);
+                    if (existeFeNacimiento){
+                        var feNacimientoParts = $('#feNacMenor').val().split('/');
+                        var feNacimientoTemp = new Date(feNacimientoParts[2], feNacimientoParts[1] - 1, feNacimientoParts[0]);
+                        feNacimiento = new Date(feNacimientoTemp.getFullYear(), feNacimientoTemp.getMonth(), feNacimientoTemp.getDate(), 0, 0, 0, 0);
+                    }
+                    if (feUltimaTomaDatosChange < limiteInf) {
+                        feUltimaTomaDatosDatePicker.hide();
+                        feUltimaTomaDatosDatePicker.setValue(limiteInf);
+                        alert(message);
+                        $('#feUltimaTomaDatos').val('');
+                    } else {
+                        if (existeFeNacimiento && feUltimaTomaDatosChange < feNacimiento){
+                            feUltimaTomaDatosDatePicker.hide();
+                            feUltimaTomaDatosDatePicker.setValue(feNacimiento);
+                            dateInfPrint = formatDatePrint(feNacimiento);
+                            alert('La fecha no debe ser menor a la fecha de nacimiento: ' + dateInfPrint);
+                            $('#feUltimaTomaDatos').val('');
+                        }
+                    }
+                }
+            });
+
+            function formatDatePrint(datePrint) {
+                var dd = datePrint.getDate(),
+                    mm = datePrint.getMonth()+1,
+                    yyyy = datePrint.getFullYear();
+                if(dd < 10) {
+                    dd = '0'+ dd;
+                }
+                if(mm < 10) {
+                    mm = '0' + mm;
+                }
+                return dd + '/' + mm + '/' + yyyy;
+            }
+
+            $('#feVisitaButton').on('click', function () {
+               verificarFeNac();
+            });
+            $('#feVisita').on('click', function () {
+                verificarFeNac();
+            });
+
+            $('#feUltimaTomaDatosButton').on('click', function () {
+                verificarFeNac();
+            });
+            $('#feUltimaTomaDatos').on('click', function () {
+                verificarFeNac();
+            });
+
+            $('#menorVisitOpt1').on('click', function () {
+                setLimitInfDate();
+            });
+            $('#menorVisitOpt2').on('click', function () {
+                setLimitInfDate();
+            });
+
+            function verificarFeNac() {
+                if (existeFeNacimiento && ($('#feNacMenor').val() === '' || $('#feNacMenor').val() == null)){
+                    feVisitaDatePicker.hide();
+                    $('#feVisita').val('');
+                    feUltimaTomaDatosDatePicker.hide();
+                    $('#feUltimaTomaDatos').val('');
+                    alert('Por favor primero ingrese la fecha de nacimiento');
+                    $('#feNacMenor').focus();
+                }
+            }
+        })
+        ]]>
+    </script>
+</jsp:root>

@@ -1,0 +1,439 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 01/12/2014
+  Time: 12:52 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<div class="row">
+
+    <div class="span12">
+        <div class="page-header clearfix">
+            <div class="pull-left">
+                <h1>Cantidad de registros por departamento.</h1>
+            </div>
+            <div class="pull-right">
+                <a href="reporte_midis/home_reporte_midis.do" class="btn button-back"><i
+                        class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="span4">
+        <p class=""><a href="reporte_midis/padron_total_distritos.do" class="btn btn-success"><i
+                class="icon-download icon-white"><!-- --></i>&#160;Consolidado por distritos</a></p>
+
+        <div id="world-map" style="width: 300px; height: 400px; margin: auto 0; border: 1px solid #ccc; padding: 2px;">
+            <!-- --></div>
+        <div>
+            <span class="text-info">Fuente: Padron Nominal - RENIEC</span>
+        </div>
+    </div>
+    <div class="span8">
+        <div id="cantidades">
+            <table class="table table-bordered  table-condensed table-hover table-striped" id="depas">
+                <caption style="margin-bottom: 10px;"><strong>Número de registros por departamentos </strong>
+                    <br/>
+                    <span class="text-info">Fecha y Hora de generación de consolidado: ${fechaGeneracion}</span>
+                </caption>
+                <tr>
+                    <!--<th>Codigo</th>-->
+                    <th>DEPARTAMENTO</th>
+                    <th style="text-align: center;">CON CUI</th>
+                    <th style="text-align: center;">SIN DOC.</th>
+                    <th style="text-align: center;">CON DNI</th>
+                    <th style="text-align: center;">TOTAL</th>
+                    <th></th>
+                </tr>
+                <c:set var="total" value='0'/>
+                <c:set var="total1" value='0'/>
+                <c:set var="total2" value='0'/>
+                <c:set var="total3" value='0'/>
+                <c:forEach items="${depas}" var="depa">
+                    <c:set var="total" value="${total+depa.nuConDni}"/>
+                    <c:set var="total1" value="${total1+depa.nuCui}"/>
+                    <c:set var="total2" value="${total2+depa.nuSinDni}"/>
+                    <c:set var="total3" value="${total3+depa.nuTotal}"/>
+                    <tr id="${depa.coUbigeo}">
+                        <!--<td>${depa.coUbigeo}</td>-->
+                        <td>${depa.deUbigeo}</td>
+                        <td style="text-align: right;">
+                            <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${depa.coUbigeo}&amp;tiDocMenor=2&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;tiSeguro=&amp;coProgramaSocial=&amp;esPadron=3"
+                               class="btn-link" title="Ver listado de menores">
+                                <fmt:formatNumber value="${depa.nuCui}" pattern="###,###,###"/>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${depa.coUbigeo}&amp;tiDocMenor=3&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;tiSeguro=&amp;coProgramaSocial=&amp;esPadron=3"
+                               class="btn-link" title="Ver listado de menores">
+                                <fmt:formatNumber value="${depa.nuSinDni}" pattern="###,###,###"/>
+                            </a>
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${depa.coUbigeo}&amp;tiDocMenor=1&amp;coGeneroMenor=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;tiSeguro=&amp;coProgramaSocial=&amp;esPadron=3"
+                               class="btn-link" title="Ver listado de menores">
+                                <fmt:formatNumber value="${depa.nuConDni}" pattern="###,###,###"/>
+                            </a>
+                        </td>
+                        <td style="text-align: right;background-color: #fcefa1;">
+                            <a href="reporte_midis/listar_menores_ubigeo.do?coUbigeo=${depa.coUbigeo}&amp;tiDocMenor=&amp;coGeneroMenor=&amp;feNacIni=&amp;feNacFin=&amp;feIni=&amp;feFin=&amp;deEdad=&amp;hastaEdad=&amp;urlVolver=${urlVolver}&amp;tiSeguro=&amp;coProgramaSocial=&amp;esPadron=3"
+                               class="btn-link" title="Ver listado de menores">
+                                <fmt:formatNumber value="${depa.nuTotal}" pattern="###,###,###"/>
+                            </a>
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="reporte_midis/cantidades_provincia.do?coUbigeo=${depa.coUbigeo}"
+                               class="btn btn-mini btn-primary" title="Ver provincias"><i
+                                    class="icon-search icon-white"><!-- --></i>&#160;Provincias</a>&#160;&#160;
+                            <!-- <a  href="reporte_midis/result_listar_menores_xlsx.do?coUbigeo=${depa.coUbigeo}&amp;deUbigeo=${depa.deUbigeo}#cantidades" class="btn btn-mini btn-success noAjax" title="Ver provincias"><i class="icon-download icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Descargar</a>-->
+                        </td>
+                    </tr>
+                </c:forEach>
+                <tr>
+                    <th>Total</th>
+                    <td style="text-align: right;"><fmt:formatNumber value="${total1}" pattern="###,###,###"/></td>
+                    <td style="text-align: right;"><fmt:formatNumber value="${total2}" pattern="###,###,###"/></td>
+                    <td style="text-align: right;"><fmt:formatNumber value="${total}" pattern="###,###,###"/></td>
+                    <td style="text-align: right;background-color: #fcefa1;"><fmt:formatNumber value="${total3}"
+                                                                                               pattern="###,###,###"/>
+                    </td>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="span12">
+        <div class="page-header ">
+            <h2>Cantidad de registros por departamento y programas sociales &#160;&#160;
+                <a href="reporte_midis/cantidad_ubigeo_pro_social_xls.do" class="noAjax btn btn-success btn-small"><span class="icon-download icon-white"></span>&#160;Descargar</a>
+            </h2>
+        </div>
+        <div id="result_pro_soc" style="width: 100%; height: 960px; " class="clearfix"></div>
+    </div>
+
+
+    <div class="span12">
+        <div class="page-header ">
+            <h2>Cantidad de registros por departamento y edades &#160;&#160;
+                <a href="reporte_midis/cantidad_ubigeo_edad_xls.do" class="noAjax btn btn-success btn-small"><span class="icon-download icon-white"></span>&#160;Descargar</a>
+            </h2>
+        </div>
+        <div id="result_edad" style="width: 100%; height: 960px;" class="clearfix"></div>
+    </div>
+
+
+    <div class="span12">
+        <div class="page-header ">
+            <h2>Cantidad de registros por departamento y tipo de seguro &#160;&#160;
+                <a href="reporte_midis/cantidad_ubigeo_ti_seguro_xls.do" class="noAjax btn btn-success btn-small"><span class="icon-download icon-white"></span>&#160;Descargar</a>
+            </h2>
+        </div>
+        <div id="result_ti_seguro" style="width: 100%; height: 960px;" class="clearfix"></div>
+    </div>
+
+
+</div>
+<jsp:include page="mapa_total_script.jspx"/>
+
+
+<script type='text/javascript'>
+    <![CDATA[
+    $(function () {
+        $.ajax("reporte_midis/get_cantidad_ubigeo_pro_social_depa.do", {
+            data: {},
+            dataType: "json",
+            beforeSend: function () {
+                $('#result_pro_soc').html('cargando...');
+            }
+        }).done(function (data) {
+            //$('#result_pro_soc').html('');
+            var chart;
+            var chartData = data
+            // SERIAL CHART
+            chart = new AmCharts.AmSerialChart();
+            chart.dataProvider = chartData;
+            chart.categoryField = "deDepartamento";
+            chart.startDuration = 1;
+            chart.plotAreaBorderColor = "#DADADA";
+            chart.plotAreaBorderAlpha = 1;
+            // this single line makes the chart a bar chart
+            chart.rotate = true;
+
+            // AXES
+            // Category
+            var categoryAxis = chart.categoryAxis;
+            categoryAxis.gridPosition = "start";
+            categoryAxis.gridAlpha = 0.1;
+            categoryAxis.axisAlpha = 0;
+
+            // Value
+            var valueAxis = new AmCharts.ValueAxis();
+            valueAxis.axisAlpha = 0;
+            valueAxis.gridAlpha = 0.1;
+            valueAxis.position = "top";
+            chart.addValueAxis(valueAxis);
+
+            // GRAPHS
+            // first graph
+            var graph1 = new AmCharts.AmGraph();
+            graph1.type = "column";
+            graph1.title = "PVL";
+            graph1.valueField = "nuPvl";
+            graph1.balloonText = "PVL:[[value]]";
+            graph1.lineAlpha = 0;
+            graph1.fillColors = "#FF1919";
+            graph1.fillAlphas = 1;
+            chart.addGraph(graph1);
+
+            // second graph
+            var graph2 = new AmCharts.AmGraph();
+            graph2.type = "column";
+            graph2.title = "QALIWARMA";
+            graph2.valueField = "nuQaliwarma";
+            graph2.balloonText = "QALIWARMA:[[value]]";
+            graph2.lineAlpha = 0;
+            graph2.fillColors = "#6600CC";
+            graph2.fillAlphas = 1;
+            chart.addGraph(graph2);
+
+            // 3 graph
+            var graph3 = new AmCharts.AmGraph();
+            graph3.type = "column";
+            graph3.title = "JUNTOS";
+            graph3.valueField = "nuJuntos";
+            graph3.balloonText = "JUNTOS:[[value]]";
+            graph3.lineAlpha = 0;
+            graph3.fillColors = "#FFFF00";
+            graph3.fillAlphas = 1;
+            chart.addGraph(graph3);
+
+            // 4 graph
+            var graph4 = new AmCharts.AmGraph();
+            graph4.type = "column";
+            graph4.title = "CUNA";
+            graph4.valueField = "nuCuna";
+            graph4.balloonText = "CUNA:[[value]]";
+            graph4.lineAlpha = 0;
+            graph4.fillColors = "#336600";
+            graph4.fillAlphas = 1;
+            chart.addGraph(graph4);
+
+            // LEGEND
+            var legend = new AmCharts.AmLegend();
+            legend.position="top";
+            chart.addLegend(legend);
+
+            chart.creditsPosition = "top-right";
+
+            // WRITE
+            chart.write("result_pro_soc");
+        });
+
+        $.ajax("reporte_midis/get_cantidad_ubigeo_edad_depa.do", {
+            data: {},
+            dataType: "json",
+            beforeSend: function () {
+                $('#result_edad').html('cargando...');
+            }
+        }).done(function (data) {
+            var chart;
+            var chartData = data
+            // SERIAL CHART
+            chart = new AmCharts.AmSerialChart();
+            chart.dataProvider = chartData;
+            chart.categoryField = "deDepartamento";
+            chart.startDuration = 1;
+            chart.plotAreaBorderColor = "#DADADA";
+            chart.plotAreaBorderAlpha = 1;
+            // this single line makes the chart a bar chart
+            chart.rotate = true;
+
+            // AXES
+            // Category
+            var categoryAxis = chart.categoryAxis;
+            categoryAxis.gridPosition = "start";
+            categoryAxis.gridAlpha = 0.1;
+            categoryAxis.axisAlpha = 0;
+
+            // Value
+            var valueAxis = new AmCharts.ValueAxis();
+            valueAxis.axisAlpha = 0;
+            valueAxis.gridAlpha = 0.1;
+            valueAxis.position = "top";
+            chart.addValueAxis(valueAxis);
+
+            // GRAPHS
+            // first graph
+            var graph1 = new AmCharts.AmGraph();
+            graph1.type = "column";
+            graph1.title = "0 AÑOS";
+            graph1.valueField = "nuEdad0";
+            graph1.balloonText = "0 AÑOS:[[value]]";
+            graph1.lineAlpha = 0;
+            graph1.fillColors = "#FF1919";
+            graph1.fillAlphas = 1;
+            chart.addGraph(graph1);
+
+            // second graph
+            var graph2 = new AmCharts.AmGraph();
+            graph2.type = "column";
+            graph2.title = "1 AÑOS";
+            graph2.valueField = "nuEdad1";
+            graph2.balloonText = "1 AÑOS:[[value]]";
+            graph2.lineAlpha = 0;
+            graph2.fillColors = "#6600CC";
+            graph2.fillAlphas = 1;
+            chart.addGraph(graph2);
+
+            // 3 graph
+            var graph3 = new AmCharts.AmGraph();
+            graph3.type = "column";
+            graph3.title = "2 AÑOS";
+            graph3.valueField = "nuEdad2";
+            graph3.balloonText = "2 AÑOS:[[value]]";
+            graph3.lineAlpha = 0;
+            graph3.fillColors = "#FFFF00";
+            graph3.fillAlphas = 1;
+            chart.addGraph(graph3);
+
+            // 4 graph
+            var graph4 = new AmCharts.AmGraph();
+            graph4.type = "column";
+            graph4.title = "3 AÑOS";
+            graph4.valueField = "nuEdad3";
+            graph4.balloonText = "3 AÑOS:[[value]]";
+            graph4.lineAlpha = 0;
+            graph4.fillColors = "#336600";
+            graph4.fillAlphas = 1;
+            chart.addGraph(graph4);
+
+            // 5 graph
+            var graph5 = new AmCharts.AmGraph();
+            graph5.type = "column";
+            graph5.title = "4 AÑOS";
+            graph5.valueField = "nuEdad4";
+            graph5.balloonText = "4 AÑOS:[[value]]";
+            graph5.lineAlpha = 0;
+            graph5.fillColors = "#336600";
+            graph5.fillAlphas = 1;
+            chart.addGraph(graph5);
+
+            // 6 graph
+            var graph6 = new AmCharts.AmGraph();
+            graph6.type = "column";
+            graph6.title = "5 AÑOS";
+            graph6.valueField = "nuEdad5";
+            graph6.balloonText = "5 AÑOS:[[value]]";
+            graph6.lineAlpha = 0;
+            graph6.fillColors = "#336600";
+            graph6.fillAlphas = 1;
+            chart.addGraph(graph6);
+
+            // LEGEND
+            var legend = new AmCharts.AmLegend();
+            legend.position="top";
+            chart.addLegend(legend);
+
+            chart.creditsPosition = "top-right";
+
+            // WRITE
+            chart.write("result_edad");
+        });
+
+        $.ajax("reporte_midis/get_cantidad_ubigeo_ti_seguro_depa.do", {
+            data: {},
+            dataType: "json",
+            beforeSend: function () {
+                $('#result_ti_seguro').html('cargando...');
+            }
+        }).done(function (data) {
+            var chart;
+            var chartData = data
+            // SERIAL CHART
+            chart = new AmCharts.AmSerialChart();
+            chart.dataProvider = chartData;
+            chart.categoryField = "deDepartamento";
+            chart.startDuration = 1;
+            chart.plotAreaBorderColor = "#DADADA";
+            chart.plotAreaBorderAlpha = 1;
+            // this single line makes the chart a bar chart
+            chart.rotate = true;
+
+            // AXES
+            // Category
+            var categoryAxis = chart.categoryAxis;
+            categoryAxis.gridPosition = "start";
+            categoryAxis.gridAlpha = 0.1;
+            categoryAxis.axisAlpha = 0;
+
+            // Value
+            var valueAxis = new AmCharts.ValueAxis();
+            valueAxis.axisAlpha = 0;
+            valueAxis.gridAlpha = 0.1;
+            valueAxis.position = "top";
+            chart.addValueAxis(valueAxis);
+
+            // GRAPHS
+            // first graph
+            var graph1 = new AmCharts.AmGraph();
+            graph1.type = "column";
+            graph1.title = "SIS";
+            graph1.valueField = "nuSis";
+            graph1.balloonText = "SIS:[[value]]";
+            graph1.lineAlpha = 0;
+            graph1.fillColors = "#FF1919";
+            graph1.fillAlphas = 1;
+            chart.addGraph(graph1);
+
+            // second graph
+            var graph2 = new AmCharts.AmGraph();
+            graph2.type = "column";
+            graph2.title = "ESSALUD";
+            graph2.valueField = "nuEssalud";
+            graph2.balloonText = "ESSALUD:[[value]]";
+            graph2.lineAlpha = 0;
+            graph2.fillColors = "#6600CC";
+            graph2.fillAlphas = 1;
+            chart.addGraph(graph2);
+
+            // 3 graph
+            var graph3 = new AmCharts.AmGraph();
+            graph3.type = "column";
+            graph3.title = "PRIVADO";
+            graph3.valueField = "nuPrivado";
+            graph3.balloonText = "PRIVADO:[[value]]";
+            graph3.lineAlpha = 0;
+            graph3.fillColors = "#FFFF00";
+            graph3.fillAlphas = 1;
+            chart.addGraph(graph3);
+
+            // 4 graph
+            var graph4 = new AmCharts.AmGraph();
+            graph4.type = "column";
+            graph4.title = "NINGUNO";
+            graph4.valueField = "nuNinguno";
+            graph4.balloonText = "NINGUNO:[[value]]";
+            graph4.lineAlpha = 0;
+            graph4.fillColors = "#336600";
+            graph4.fillAlphas = 1;
+            chart.addGraph(graph4);
+
+            // LEGEND
+            var legend = new AmCharts.AmLegend();
+            legend.position="top";
+            chart.addLegend(legend);
+
+            chart.creditsPosition = "top-right";
+
+            // WRITE
+            chart.write("result_ti_seguro");
+        });
+    })
+
+    ]]>
+</script>
+</jsp:root>

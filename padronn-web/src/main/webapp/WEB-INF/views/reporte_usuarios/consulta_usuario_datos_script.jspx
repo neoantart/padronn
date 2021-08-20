@@ -1,0 +1,39 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 03/09/2014
+  Time: 12:31 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            $('#coUsuario')
+                    .inputmask('dni')
+                    .focus();
+            $('#apPrimer').inputmask("apellido");
+            $('#apSegundo').inputmask('apellido');
+            $('#prenombres').inputmask('nombre');
+
+            $('#btn-clean').click(function(e){
+                e.preventDefault();
+                $('input').val('');
+                $('#result_consulta_usuarios_datos').html('');
+                $('#msj_error').hide('');
+                $('#no_result').hide('');
+
+                $('.text-error').hide();
+                $('input').css({'borderColor':'#d5d5d5'});
+            })
+/* se agrego trim para quitar espacios null*/
+            $('#consultaUsuarioDatos').on('submit', function(e){
+                $('#apPrimer').val($("#apPrimer").val().trim());
+                $('#apSegundo').val($("#apSegundo").val().trim());
+                $('#prenombres').val($("#prenombres").val().trim());
+            })
+        });
+        ]]>
+    </script>
+</jsp:root>

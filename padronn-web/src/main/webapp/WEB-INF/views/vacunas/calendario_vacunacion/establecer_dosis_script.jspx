@@ -1,0 +1,65 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 17/12/2015
+  Time: 10:16 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script>
+        <![CDATA[
+        $(function () {
+            var establecerDosis = {
+                init: function () {
+                    // muestra ventana modal
+                    $('#overlay').removeClass("hide");
+                    $('#modal_establecer_dosis').modal({
+                        backdrop: false,
+                        keyboard: false
+                    });
+
+                    $('.close-modal').on('click', function (e) {
+                        e.preventDefault();
+                        $('#modal_establecer_dosis').modal('hide');
+                        $('#overlay').addClass("hide");
+                    })
+
+                    // script para feDosis
+                    $('#feDosis').inputmask('dd/mm/yyyy');
+                    var nowTemp = new Date();
+                    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+                    var feDosisPicker = $('#feDosisButton').datepicker('setValue', '${dosis.feDosis}')
+                            .on('changeDate', function (ev) {
+                                if (ev.date.valueOf() <= now) {
+                                    if (ev.viewMode == 'days') {
+                                        feDosisPicker.hide();
+                                        $('#feDosis').val($('#feDosisButton').data('date'));
+                                    }
+                                }
+                                else {
+                                    feDosisPicker.show();
+                                }
+                            })
+                            .on('show', function () {
+                                var left = feDosisPicker.picker.position().left - $('#feDosis').width();
+                                feDosisPicker.picker.css('left', left);
+
+                                var modal = $('#modal_establecer_dosis').closest('.modal');
+                                var datePicker = $('body').find('.datepicker');
+                                if (!modal.length) {
+                                    $(datePicker).css('z-index', 'auto');
+                                    return;
+                                }
+                                var zIndexModal = $(modal).css('z-index');
+                                $(datePicker).css('z-index', zIndexModal + 1);
+                            })
+                            .data('datepicker');
+                }
+
+            }
+            establecerDosis.init();
+        });
+        ]]>
+    </script>
+</jsp:root>

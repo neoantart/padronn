@@ -1,0 +1,20 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 13/01/14
+  Time: 12:30 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="alert alert-danger clearfix">
+        <p><strong>¿Desea dar de baja el acta? cuando dé de baja el acta, el acta no sera visualizada por el MINSA.</strong></p>
+        <p class="">
+            <a href="actas/confirma_dar_baja.do?coActa=${coActa}&amp;esActa=0&amp;nuPagina=${nuPagina}" class="btn btn-success btn-small"><span class="icon-ok icon-white"><!-- --></span>&#160;Dar de baja</a>
+            &#160;&#160;
+            <a href="actas/cancela_dar_baja.do?coActa=${coActa}&amp;nuPagina=${nuPagina}" class="btn btn-danger btn-small"><span class="icon-remove icon-white"><!-- --></span>&#160;Cancelar</a>
+        </p>
+    </div>
+
+</jsp:root>

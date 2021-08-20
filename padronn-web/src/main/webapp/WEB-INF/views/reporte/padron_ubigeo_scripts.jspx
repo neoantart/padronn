@@ -1,0 +1,161 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 23/08/13
+  Time: 05:36 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function(){
+            $('#coUbigeo').select2({
+                placeholder: 'Buscar ubigeo',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'reporte/buscar_ubigeo.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        return {
+                            deUbigeo: term
+                        };
+                    },
+                    results: function (data, page) {
+                        return {results: data};
+                    }
+                },
+                formatResult: function (item) {
+                    return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+                },
+                formatSelection: function (item) {
+                    $('#deUbigeo').val(item.deLugar);
+                    return item.deLugar;
+                },
+                id: function (object) {
+                    return object.coLugar;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    if (codigo !== "") {
+                        $.ajax("reporte/get_ubigeo.do", {
+                            data: {
+                                coUbigeo: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                                    var data = [];
+                                    data.push({coLugar: res.coLugar, deLugar: res.deLugar});
+                                    $('#s2id_coUbigeo >a span').text(res.deLugar);
+                                    $('#deUbigeo').val(res.deLugar);
+                                });
+                    }
+                }
+            });
+
+            $('.select2-input').inputmask('nombre');
+
+
+
+            /*$('#feIniButton')
+                    .datepicker({format: 'dd/mm/yyyy'})
+                    .on('changeDate', function(e){
+                        $('#feIni').datepicker('hide');
+                    })*/
+
+            /*$('#feFinButton')
+                    .datepicker({format: 'dd/mm/yyyy'})
+                    .on('changeDate', function(e){
+                        $('#feFin').datepicker('hide');
+                    })*/
+
+
+/*            var nowTemp = new Date(),
+                    startDate,
+                    endDate;
+
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+            if($('#feIni').val() != ''){
+                var split =$('#feIni').val().split('/');
+                startDate = new Date(parseInt(split[2]), parseInt(split[1])-1, split[0]);
+                $('#feIniText').text($('#feIni').val());
+            }
+            else
+                startDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+            if($('#feFin').val() != ''){
+                var split =$('#feFin').val().split('/');
+                endDate = new Date(parseInt(split[2]), parseInt(split[1])-1, parseInt(split[0]));
+                $('#feFinText').text($('#feFin').val());
+            }
+            else
+                endDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+            $('#feIni-date').datepicker({format:'dd/mm/yyyy'})
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() > endDate.valueOf()){
+                            $('#alert').show().find('strong').text('La Fecha Inicial no puede ser mayor que la fecha final');
+                        } else {
+                            $('#alert').hide();
+                            startDate = new Date(ev.date);
+                            $('#feIniText').text($('#feIni-date').data('date'));
+                            $('#feIni').val($('#feIni-date').data('date'));
+                        }
+                        $('#feIni-date').datepicker('hide');
+                    });
+
+            $('#feFin-date').datepicker({format:'dd/mm/yyyy'})
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() < startDate.valueOf()){
+                            $('#alert').show().find('strong').text('La Fecha Final no puede ser menor que la fecha inicial');
+                        } else {
+                            $('#alert').hide();
+                            endDate = new Date(ev.date);
+                            $('#feFinText').text($('#feFin-date').data('date'));
+                            $('#feFin').val($('#feFin-date').data('date'));
+                        }
+                        $('#feFin-date').datepicker('hide');
+                    });*/
+
+
+            $('#reset').click(function(e){
+                e.preventDefault();
+                $('.alert:not(.no-remove)').hide();
+
+                $('#coUbigeo').val('');
+                $('#deUbigeo').val('');
+                $('#feIni').val('');
+                $('#feFin').val('');
+
+                $('#s2id_coUbigeo >a span').text('');
+            });
+
+            /*$('#esPadron')
+                    .hide()
+                    .after(
+                            $(document.createElement('input'))
+                                    .attr({type: "checkbox", checked: ($('#esPadron').val() == 1) ? true : false})
+                                    .change(function (e) {
+                                        if($('#esPadron').val() == ''){
+                                            $('#esPadron').val('0');
+                                        }
+                                        $('#esPadron').val(this.checked ? '1' : '0');
+                                    })
+                    );*/
+
+            var ubigeoReadOnly = '${ubigeoReadOnly}';
+            if (ubigeoReadOnly==='true'){
+                $('#s2id_coUbigeo').hide();
+                $('#forCoUbigeo')
+                    .find('span')
+                    .remove();
+                document.getElementById("coUbigeo").parentNode.style.marginTop = "4px";
+            }
+
+        });
+        ]]>
+    </script>
+</jsp:root>

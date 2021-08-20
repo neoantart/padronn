@@ -1,0 +1,220 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 23/05/2014
+  Time: 12:14 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <script type='text/javascript'>
+
+        <![CDATA[
+        $(function() {
+            //entidades
+            $('#coUbigeo').select2({
+
+                placeholder: 'Buscar ubigeo',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'grias/buscar_ubigeo.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        return {
+                            deUbigeo: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+                formatResult: function (item) {
+
+                    return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+                },
+                formatSelection: function (item) {
+                    $('#deUbigeo').val(item.deLugar);
+                    return item.deLugar;
+                },
+                id: function (object) {
+                    return object.coLugar;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    // console.log(codigo);
+                    /*alert('here');*/
+
+                    if (codigo !== "") {
+                        $.ajax("grias/get_ubigeo.do", {
+                            data: {
+                                coUbigeo: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                            var data = [];
+                            data.push({coLugar: res.coLugar, deLugar: res.deLugar});
+                            $('#s2id_coUbigeo >a span').text(res.deLugar);
+                            $('#deUbigeo').val(res.deLugar);
+                        });
+                    }
+                }
+            });
+            $('.select2-input').inputmask('ubigeo');
+
+            var $deEdad = $('#deEdad'),
+                    $hastaEdad = $('#hastaEdad');
+
+            var previous, previousHasta;
+
+            $($deEdad).focus(function () {
+                previous = this.value;
+            }).change(function() {
+                //document.getElementById("log").innerHTML = "<b>Previous: </b>"+previous;
+                //previous = this.value;
+                if($hastaEdad.val() != '') {
+                    if($deEdad.val()> $hastaEdad.val()){
+                        $deEdad.val(previous);
+
+                    }
+                }
+            });
+
+            $($hastaEdad).focus(function () {
+                previousHasta = this.value;
+            }).change(function() {
+                if($hastaEdad.val() != '') {
+                    if($deEdad.val()> $hastaEdad.val()){
+                        $hastaEdad.val(previousHasta);
+                    }
+                }
+            });
+
+
+            $('#feNacIni').inputmask("dd/mm/yyyy");
+            $('#feNacFin').inputmask("dd/mm/yyyy");
+            var nowTemp2 = new Date(),
+                    now2 = new Date(nowTemp2.getFullYear(), nowTemp2.getMonth(), nowTemp2.getDate(), 0, 0, 0, 0),
+                    startDate2,
+                    endDate2,
+                    fnComparaFechaIniMenor2 = function(feIni, feFin) {
+                        startDate2 = undefined;
+                        endDate2 = undefined;
+                        var feIniInput = false,
+                                feFinInput = false;
+                        if(feIni != '' && $.trim(feIni).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
+                            var split = feIni.split('/');
+                            startDate2 = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                            feIniInput=true;
+                        } else startDate2 = new Date(nowTemp2.getFullYear(), (nowTemp2.getMonth()+1), nowTemp2.getDate(), 0, 0, 0, 0);
+                        if(feFin != '' && $.trim(feFin).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ').length == 10) {
+                            var split =feFin.split('/');
+                            endDate2 = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                            feFinInput = true;
+                            if(!feIniInput)
+                                startDate2 = new Date(parseInt(split[2]), parseInt(split[1]), parseInt(split[0]), 0, 0, 0, 0);
+                        } else{
+                            endDate2 = new Date(nowTemp2.getFullYear(), (nowTemp2.getMonth()+1), nowTemp2.getDate(), 0, 0, 0, 0);
+                        }
+                        if(startDate2.valueOf() > endDate2.valueOf()) {
+                            alert('La fecha desde no puede ser mayor que la fecha hasta');
+                            setTimeout(function()
+                                    { $('#feNacFin').val(''); }
+                                    , 100);
+
+                            $('#feNacFinButton').focus();
+                        }
+                    },
+                    fnResetButtonData2=function() {
+                        if($.trim($('#feNacIni').val())== '' && $.trim($('#feNacIni').val()).replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10) $('#feNacIniButton').data('date', '');
+                        if($.trim($('#feNacFin').val())== '' && $.trim($('#feNacFin').val().replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').length!=10)) $('#feNacFinButton').data('date', '');
+                    };
+
+            var feIniNacDatePicker = $('#feNacIniButton')
+                    .datepicker({format: 'dd/mm/yyyy'})
+                    .on('changeDate', function (ev) {
+                        fnResetButtonData2();
+                        var dd = ev.date.getDate(),
+                                mm = ev.date.getMonth()+ 1,
+                                yyyy = ev.date.getFullYear();
+                        if(dd < 10) {
+                            dd = '0'+ dd;
+                        }
+                        if(mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        fnComparaFechaIniMenor2(dd+'/'+mm+'/'+yyyy, $('#feNacFinButton').data('date'));
+                        if (ev.date.valueOf() <= now2) {
+                            if (ev.viewMode == 'days') {
+                                feIniNacDatePicker.hide();
+                                $('#feNacIni').val($('#feNacIniButton').data('date'));
+                            }
+                        }
+                        else {
+                            feIniNacDatePicker.hide();
+                            feIniNacDatePicker.setValue(now2);
+                            alert('La fecha no puede ser futura')
+                            $('#feNacIni').val('');
+                        }
+                    })
+                    .on('show', function (ev) {
+                        var left = feIniNacDatePicker.picker.position().left - $('#feNacIniButton').width();
+                        feIniNacDatePicker.picker.css('left', left);
+                    })
+                    .data('datepicker');
+
+            var feFinNacDatePicker = $('#feNacFinButton')
+                    .datepicker({format: 'dd/mm/yyyy'})
+                    .on('changeDate', function (ev) {
+                        fnResetButtonData2();
+                        var dd = ev.date.getDate(),
+                                mm = ev.date.getMonth()+ 1,
+                                yyyy = ev.date.getFullYear();
+                        if(dd < 10) {
+                            dd = '0'+ dd;
+                        }
+                        if(mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        fnComparaFechaIniMenor2($('#feNacIniButton').data('date'), dd+'/'+mm+'/'+yyyy);
+                        if (ev.date.valueOf() <= now2) {
+                            if (ev.viewMode == 'days') {
+                                feFinNacDatePicker.hide();
+                                $('#feNacFin').val($('#feNacFinButton').data('date'));
+                            }
+                        }
+                        else {
+                            feFinNacDatePicker.hide();
+                            feFinNacDatePicker.setValue(now2);
+                            alert('La fecha no puede ser futura')
+                            $('#feNacFin').val('');
+                        }
+                    })
+                    .on('show', function (ev) {
+                        var left = feFinNacDatePicker.picker.position().left - $('#feNacFinButton').width();
+                        feFinNacDatePicker.picker.css('left', left);
+                    })
+                    .data('datepicker');
+            setTimeout(function(){
+                $('#feNacIni, #feNacFin').on('change paste keyup', function (e) {
+                    fnResetButtonData2();
+                    fnComparaFechaIniMenor2($('#feNacIni').val(), $('#feNacFin').val());
+                });
+            }, 100);
+
+            var ubigeoReadOnly = '${ubigeoReadOnly}';
+            if (ubigeoReadOnly==='true'){
+                $('#s2id_coUbigeo').hide();
+                $('#forCoUbigeo')
+                    .find('span')
+                    .remove();
+                document.getElementById("coUbigeo").parentNode.style.marginTop = "4px";
+            }
+
+        });
+        ]]>
+    </script>
+</jsp:root>

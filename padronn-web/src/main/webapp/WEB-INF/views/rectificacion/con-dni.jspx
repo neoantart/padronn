@@ -1,0 +1,165 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 17/10/13
+  Time: 06:28 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row-fluid" style="width: 350px; border: 1px solid #ccc;padding: 5px;">
+        <!--<h2>Rectificación de datos con DNI del menor</h2>-->
+        <br/>
+
+        <form:form action="rectificacion/datos_personales_padron.do#modulo_rectificaccion" class="" id="buscarmenor" modelAttribute="buscarMenorDocumento">
+            <div class="control-group" style=" background: #6fb3e0;padding: 5px;">
+                <label class="control-label" for="tiDoc" title="requerido">Tipo Documento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <form:select path="tiDoc" cssStyle="width: 332px;">
+                            <form:option value="" label="---SELECCIONE TIPO DE DOCUMENTO---"/>
+                            <form:option value="0" label="DOCUMENTO NACIONAL DE IDENTIDAD (DNI)"/>
+                            <form:option value="1" label="CODIGO UNICO DE IDENTIDAD (CUI)"/>
+                            <form:option value="2" label="NUMERO DE CNV"/>
+                            <form:option value="3" label="CODIGO PADRON NOMINAL"/>
+                        </form:select>
+                        <!--<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i></button>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="nuDoc" title="requerido">Número Documento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="nuDoc" id="nuDoc" placeholder="Numero de documento"/>
+                        <!--<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i></button>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="alert alert-danger"><p>(*) Considerar que ya se estan emitiendo DNI con serie 9</p></div>
+
+        </form:form>
+
+        <!--<form id="form-dni" class="form-horizontal well" action="rectificacion/datos_personales_padron.do#modulo_rectificaccion" method="get">
+            <div class="control-group">
+                <label for="coPadronNominal" class="control-label">DNI/CUI<span title="requerido" class="text-error">*</span></label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input placeholder="DNI" id="coPadronNominal" name="coPadronNominal" type="text" class="" />
+                        <button class="btn" type="submit" id="buscarCoPadronNominal"><i class="icon-white icon-search">&#160;</i></button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="controls"><strong><small>Ingrese el número de DNI/CUI del niño/a</small></strong></div>
+            </div>
+        </form>-->
+    </div>
+
+
+    <script type="text/javascript">
+        <![CDATA[
+        $(function () {
+            var nuDoc = $('#nuDoc');
+            nuDoc.focus();
+
+            var tiDoc = $('#tiDoc');
+
+            nuDoc.keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+
+            function setLengthNuDoc(){
+                nuDoc.val('').focus();
+                // Limpiar resultado...
+                $('#modulo_rectificaccion').html();
+
+                if(tiDoc.val()!='2') {
+                    nuDoc.attr('maxlength', '8');
+                } else {
+                    nuDoc.attr('maxlength', '10');
+                }
+            }
+
+            setLengthNuDoc();
+            tiDoc.on('change', function(e){
+                setLengthNuDoc();
+            });
+
+            function sendForm(form){
+                if(tiDoc.val()==''){
+                    alert('Seleccione tipo de documento!');
+                }else if(nuDoc.val().replace(/_/g, '').length == 8 && tiDoc.val()!='2' ) {
+                    Util.enviarFormTarget(form, '#modulo_rectificaccion');
+                } else if ((nuDoc.val().replace(/_/g, '').length == 10|| nuDoc.val().replace(/_/g, '').length==8) && tiDoc.val() == '2') {
+                    Util.enviarFormTarget(form, '#modulo_rectificaccion');
+                } else if (nuDoc.val().trim().length == 0){
+                    alert('Ingrese el numero de documento');
+                } else {
+                    alert('Numero de documento invalido');
+                }
+            }
+
+            // envio de formulario de busqueda
+            $('#buscarmenor').submit(function(e) {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                sendForm($(this));
+            });
+
+            nuDoc.on('keypress', function(e){
+                var code = e.keyCode || e.which;
+                if(code == 13) { //Enter keycode
+                    sendForm($('#buscarmenor'));
+                }
+            });
+
+        });
+        ]]>
+    </script>
+    <!--<script type='text/javascript'>
+        <![CDATA[
+        $(function(){
+            $('input[name=coPadronNominal]')
+                    .inputmask('dni')
+                    .focus();
+
+
+            var $coPadronNominal = $('#coPadronNominal');
+            $coPadronNominal.inputmask();
+            $coPadronNominal.focus();
+
+            // envio de formulario de busqueda
+            $('#form-dni').submit(function(e) {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                if($coPadronNominal.val().replace(/_/g, '').length == 8) {
+                    Util.enviarFormTarget($(this), '#modulo_rectificaccion');
+                } else {
+                    alert('DNI/CUI debe tener 8 digitos');
+                }
+            });
+        });
+
+       /* $('#coPadronNominal').on('keydown',function(e) {
+            if(e.width === 13 && $(this).val() === '') {
+                e.preventDefault();
+            }
+        });
+
+        $('#buscarCoPadronNominal').on('click', function(e) {
+            if($('#coPadronNominal').val() === '')
+                e.preventDefault();
+        })*/
+        ]]>
+    </script>-->
+</jsp:root>

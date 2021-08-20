@@ -1,0 +1,19 @@
+<!--
+ * Archivo menorporentidadform-scripts.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 26/05/13 02:39 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<script type="text/javascript">
+		<![CDATA[
+		$(function(){
+			// PAGINACION
+			paginar();
+		});
+		]]>
+	</script>
+</jsp:root>

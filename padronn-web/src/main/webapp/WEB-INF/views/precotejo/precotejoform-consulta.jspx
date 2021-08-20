@@ -1,0 +1,42 @@
+<!--
+ * Archivo precotejoform-consulta.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 16/05/13 05:17 PM
+ * @version 1.0.0
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:useBean id="now" class="java.util.Date" scope="page"/>
+	<fmt:formatDate value="${now}" pattern="MM.dd.yyyy" var="fecha"/>
+
+	<form action="precotejo/consulta.do#precarga-modulo-div" class="well form-inline" id="">
+		<input type="text" name="nuEnvio" class="span2" placeholder="Número de Envío" id="nuEnvio"/>
+
+		<div id="feInicioDate" class="input-append" data-date="${fecha}" data-date-format="dd/mm/yyyy"
+				 style="margin-left: 10px;">
+			<input class="input-small" name="feInicio" id="feInicio" type="text" placeholder="Desde"/>
+			<button class="add-on btn" type="button" style="padding-left: 13px;padding-right: 11px;height: 30px;"><i class="icon-calendar icon-white">&amp;nbsp;</i></button>
+		</div>
+
+		<div id="feFinDate" class="input-append" data-date="${fecha}" data-date-format="dd/mm/yyyy"
+				 style="margin-left: 10px;">
+			<input class="input-small" name="feFin" id="feFin" type="text" placeholder="Hasta"/>
+			<button class="add-on btn" type="button" style="padding-left: 13px;padding-right: 11px;height: 30px;"><i class="icon-calendar icon-white">&amp;nbsp;</i></button>
+			<!--<a class="add-on btn" href="#"><i class="icon-calendar icon-white"></i></a>-->
+		</div>
+
+		<button class="btn btn-success" type="submit" style="margin-left: 10px;"><i class="icon-search">&amp;nbsp;</i></button>
+		<button class="btn btn-danger limpiar" style="margin-left: 10px;">Limpiar<!--<i class="icon-remove icon-white"></i>--></button>
+	</form>
+
+	<script type="text/javascript">
+		$(function () {
+			$('.limpiar').click(function (e) {
+				e.preventDefault();
+				$('form').find('input[type=text]').val('');
+			});
+		});
+	</script>
+</jsp:root>

@@ -1,0 +1,36 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 21/09/13
+  Time: 05:13 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>Buscar entidad</h1>
+            <c:if test="${not empty mensaje}">
+                <div class="alert">${mensaje}</div>
+            </c:if>
+            <form:form action="maestros/buscar_entidad.do#busqueda-entidad" method="post">
+                <div class="clearfix">
+                    <div class="span5">
+                        <label>Nombre de entidad:</label>
+                        <!--<form:input path="deEntidad" id="deEntidad" cssStyle="width: 357px;"/>-->
+                        <input name="deEntidad" id="deEntidad" type="text" class="" style="width: 357px;"/>
+                    </div>
+                    <div class="span4">
+                        <label>&#160;</label>
+                        <button class="btn"><i class="icon-white icon-search"></i>Buscar</button>&#160;&#160;
+                        <button class="btn btn-danger"><i class="icon-remove icon-white" id="clean-input"></i>Limpiar</button>
+                     </div>
+                </div>
+            </form:form>
+            <div id="busqueda-entidad">
+            </div>
+        </div>
+    </div>
+    <jsp:include page="form-buscar-entidad-script.jspx"/>
+</jsp:root>

@@ -1,0 +1,37 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request" />
+
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <spring:eval expression="@applicationProps['application.resources.cdnserver']" var="cdnResourcesServer"/>
+    <spring:eval expression="@applicationProps['application.resources.cdnserver.version']" var="cdnResourcesVersion"/>
+    <!--<c:set var="cdnResourcesURL" value="${cdnResourcesServer}/resources-${cdnResourcesVersion}" scope="request"/>-->
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+    <jsp:useBean id="now" class="java.util.Date"/>
+
+    <!--<link href="${cdnResourcesURL}/css/datepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="${cdnResourcesURL}/js/select2-3.4.0/select2.css" rel="stylesheet" type="text/css"/>-->
+
+    <link href="${localResourcesURL}/css/jquery-ui-1.9.2.css" type="text/css" rel="stylesheet"/>
+
+    <link href="${localResourcesURL}/css/datepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/js/select2-3.4.0/select2.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${localResourcesURL}/css/jquery-ui-1.9.2.css" type="text/css" rel="stylesheet"/>-->
+
+    <link href="${localResourcesURL}/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/scojs.css" type="text/css" rel="stylesheet"/>
+    <!--<link href="${localResourcesURL}/css/jquery-ui.css" type="text/css" rel="stylesheet"/>-->
+
+    <link href="${localResourcesURL}/css/bootstrap-select.css?${now.time}" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/ice-theme.css" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/main.css?${now.time}" type="text/css" rel="stylesheet"/>
+    <link href="${localResourcesURL}/css/jquery-jvectormap-1.2.2.css" type="text/css" rel="stylesheet"/>
+
+    <link href="${localResourcesURL}/css/jquery.multiselect.css" type="text/css" rel="stylesheet"/>
+
+
+    <link rel="shortcut icon" href="${localResourcesURL}/img/favicon.ico" />
+</jsp:root>

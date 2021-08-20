@@ -1,0 +1,111 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 27/04/2016
+  Time: 02:41 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:base64="http://www.reniec.gob.pe/Tlds">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row">
+        <div class="span12">
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h1><span
+                            class="icon-th-large"></span>&#160;Bandeja de Observados / Registro Observado (Fallecimiento)
+                    </h1>
+                </div>
+                <div class="pull-right"><a
+                        href="bandeja_observado/bandeja_observados.do?coTipoObservacion=5&amp;nuPagina=${nuPagina}"
+                        class="btn button-back"><i
+                        class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+            </div>
+        </div>
+
+        <div class="span10 offset1">
+            <table class="table table-striped table-hover table-condensed">
+                <tr>
+                    <td colspan="2"
+                        style="background-color: #ff3700;border: 3px dotted #ccc; text-align: center;color:white;">
+                        <strong>NIÑO/A FALLECIDO/A</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Codigo Padron</strong></td>
+                    <td>${padronNominal.coPadronNominal}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Numero DNI</strong></td>
+                    <td>${padronNominal.nuDniMenor}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Primer Apellido</strong></td>
+                    <td>${padronNominal.apPrimerMenor}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Segundo Apellido</strong></td>
+                    <td>${padronNominal.apSegundoMenor}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Prenombres</strong></td>
+                    <td>${padronNominal.prenombreMenor}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Fecha Nacimiento</strong></td>
+                    <td>${padronNominal.feNacMenor}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Genero</strong></td>
+                    <td>
+                        ${padronNominal.deGeneroMenor}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>DNI Madre</strong></td>
+                    <td>${padronNominal.coDniMadre}</td>
+                </tr>
+                <tr>
+                    <td><strong>Madre</strong></td>
+                    <td>${padronNominal.apPrimerMadre} ${padronNominal.apSegundoMadre} ${padronNominal.prenomMadre} ${padronNominal.prenomMadre}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Ubigeo</strong></td>
+                    <td>${padronNominal.deUbigeoInei}</td>
+                </tr>
+
+
+                <tr>
+                    <td><strong>Fecha de registro</strong></td>
+                    <td>${padronNominal.feCreaRegistro}</td>
+                </tr>
+
+            </table>
+            <c:if test="${not empty padronNominal.nuDniMenor}">
+                <div style="position: absolute;top: 136px;right: 114px;border: 1px solid #ccc;padding: 2px;background: white;">
+                    <!-- <img style="width: 102px;height: 140px;display: inline-block;"
+                         src="imagen_ciudadano/img_menor.do?nu_dni=${base64:encodeBase64(padronNominal.nuDniMenor)}"/>-->
+                        <img src="data:image/png;base64,${img}" width="120" height="140" />
+
+                </div>
+            </c:if>
+
+            <p class="text-center">
+                <a href="bandeja_observado/fallecimiento_baja.do?coPadronNominal=${padronNominal.coPadronNominal}&amp;coTipoObservacion=5&amp;nuPagina=${nuPagina}#modal"
+                   class="btn btn-danger"><span
+                        class="icon-pencil icon-white"></span>&#130;Dar de Baja del Padron Nominal</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Capas para visualizar el modal-->
+    <div id="overlay" class="modal-backdrop hide"></div>
+    <div id="modal"></div>
+
+</jsp:root>

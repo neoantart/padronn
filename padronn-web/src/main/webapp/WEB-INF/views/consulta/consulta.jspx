@@ -1,0 +1,41 @@
+<!--
+ * Archivo consulta.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 26/05/13 02:29 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:include page="consulta-scripts.jspx" />
+
+	<div class="span12">
+		<div class="row-fluid">
+
+			<div class="row">
+				<div class="span12">
+
+					<ul class="nav nav-tabs" style="margin-bottom: 0px;">
+						<li class="${not empty consultaModulo and consultaModulo?'active':''}"><a href="#consulta-form-div" data-toggle="tab" class="noAjax">Consulta de Entidades</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane fade in ${not empty consultaModulo and consultaModulo?'active':''} well well-large" id="consulta-form-div" style="border-top: 0px;">
+							<p class="lead">Consulta de Entidades</p>
+							<jsp:include page="consulta-form.jspx"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span12" id="consulta-registros-div">
+					<c:if test="${not empty consultaModulo and consultaModulo}">
+						<jsp:include page="consulta-registros.jspx"/>
+					</c:if>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</jsp:root>

@@ -1,0 +1,170 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<fieldset>
+		<legend>Resultados de la búsqueda</legend>
+        <c:choose>
+
+
+        <c:when test="${not empty camposInsuficientes}">
+            <p class="alert alert-danger">Debe ingresar <strong>al menos dos campos</strong>, para la busqueda del niño/a.</p>
+        </c:when>
+
+        <c:otherwise>
+
+		<c:choose>
+			<c:when test="${empty personaList}">
+				<p class="alert">No se ha encontrado ninguna coincidencia. <a href="registromanual/formulario.do" class="btn">Registrar al niño/a sin DNI en el padron nominal</a></p>
+			</c:when>
+<!--            <c:when test="${not empty camposInsuficientes}">
+                <p class="alert alert-danger">Debe ingresar <strong>al menos dos campos</strong>, para la busqueda del menor.</p>
+            </c:when>-->
+
+            <!--<c:when test="${cantidadResultados > cantidadFilas }">
+                <p class="alert alert-danger">Especifique más los términos de búsqueda, número de registros encontrados: ${cantidadResultados}</p>
+            </c:when>-->
+			<c:otherwise>
+				<blockquote>
+					<!--<div>Cantidad de resultados: <em>Aproximadamente(*) <strong>${cantidadResultados}</strong></em> registros en el <strong class="text-info">Padrón Nominal</strong> y la base de datos de <strong class="text-warning">RENIEC</strong></div>
+					<small class="muted">(*) Es la suma de los registros encontrados en el Padrón Nominal y la base de datos de RENIEC, por separado</small>-->
+					<div>Para obtener mejores resultados pruebe afinando los términos de búsqueda</div>
+				</blockquote>
+				<c:forEach var="persona" items="${personaList}">
+					<c:if test="${persona.baseDatosOrigen=='PN'}">
+						<c:set var="panelId" value="${persona.codigoPadronNominal}"/>
+					</c:if>
+					<c:if test="${persona.baseDatosOrigen=='ANI'}">
+						<c:set var="panelId" value="${persona.dni}"/>
+					</c:if>
+
+					<div class="search-item" id="busmen-ava-menor-panel-${panelId}">
+						<div>
+							<c:if test="${persona.baseDatosOrigen=='PN'}">
+								<span class="label label-info">Padrón Nominal</span>&#160;
+							</c:if>
+							<c:if test="${persona.baseDatosOrigen=='ANI'}">
+								<span class="label label-warning">RENIEC</span>&#160;
+							</c:if>
+							<c:choose>
+								<c:when test="${persona.edad>=6}">
+									<span class="text-error"><strong class="text-error">${persona.primerApellido} ${persona.segundoApellido}</strong>, ${persona.nombres}</span>
+								</c:when>
+								<c:otherwise>
+									<strong>${persona.primerApellido} ${persona.segundoApellido}</strong>, ${persona.nombres}
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<hr/>
+						<div class="row-fluid text-small">
+							<div class="span3">
+								<c:if test="${persona.baseDatosOrigen=='PN'}">
+									<c:if test="${empty persona.dni}">
+										<div>DNI: <strong>Sin DNI</strong></div>
+										<div>Padrón Nominal: <strong>${persona.codigoPadronNominal}</strong></div>
+									</c:if>
+									<c:if test="${not empty persona.dni}">
+										<div>DNI: <strong>${persona.dni}</strong></div>
+									</c:if>
+                                    <c:if test="${not empty persona.nuCui and empty persona.dni}">
+                                        <div>CUI: <strong>${persona.nuCui}</strong></div>
+                                    </c:if>
+								</c:if>
+								<c:if test="${persona.baseDatosOrigen=='ANI'}">
+									<div>DNI: <strong>${persona.dni}</strong></div>
+								</c:if>
+
+								<div>Fecha de Nacimiento: <strong>${persona.fechaNacimiento}</strong></div>
+								<div>Edad: <strong>${persona.edadEscrita}</strong></div>
+								<div>Sexo: <strong>${persona.genero}</strong></div>
+							</div>
+							<div class="span5">
+								<div>
+									<c:choose>
+										<c:when test="${persona.baseDatosOrigen=='PN'}">
+											<!--${persona.padreTipoVinculo}: <strong>${persona.padrePrimerApellido} ${persona.padreSegundoApellido}, ${persona.padreNombres}</strong> | DNI.<strong>${persona.padreDni}</strong>-->
+											TITULAR: <util:persona primerApellido="${persona.padrePrimerApellido}" segundoApellido="${persona.padreSegundoApellido}" nombres="${persona.padreNombres}" dni="${persona.padreDni}" vinculo="${persona.padreTipoVinculo}"/>
+										</c:when>
+										<c:otherwise>
+											<!--${persona.padreTipoVinculo}: <strong>${persona.padrePrimerApellido} ${persona.padreSegundoApellido}, ${persona.padreNombres}</strong> | DNI.<strong>${persona.padreDni}</strong>-->
+											${persona.padreTipoVinculo}: <util:persona primerApellido="${persona.padrePrimerApellido}" segundoApellido="${persona.padreSegundoApellido}" nombres="${persona.padreNombres}" dni="${persona.padreDni}" vinculo="${persona.padreTipoVinculo}"/>
+										</c:otherwise>
+									</c:choose>
+								</div>
+
+								<div>
+									<c:choose>
+										<c:when test="${persona.baseDatosOrigen=='PN'}">
+											<!--${persona.madreTipoVinculo}: <strong>${persona.madrePrimerApellido} ${persona.madreSegundoApellido}, ${persona.madreNombres}</strong> | DNI. <strong>${persona.madreDni}</strong>-->
+											MADRE: <util:persona primerApellido="${persona.madrePrimerApellido}" segundoApellido="${persona.madreSegundoApellido}" nombres="${persona.madreNombres}" dni="${persona.madreDni}"/>
+										</c:when>
+										<c:otherwise>
+											<!--${persona.madreTipoVinculo}: <strong>${persona.madrePrimerApellido} ${persona.madreSegundoApellido}, ${persona.madreNombres}</strong> | DNI. <strong>${persona.madreDni}</strong>-->
+											${persona.madreTipoVinculo}: <util:persona primerApellido="${persona.madrePrimerApellido}" segundoApellido="${persona.madreSegundoApellido}" nombres="${persona.madreNombres}" dni="${persona.madreDni}"/>
+										</c:otherwise>
+									</c:choose>
+								</div>
+
+								<c:if test="${persona.baseDatosOrigen=='PN'}">
+									<a href="busquedademenor/informacionadicionalmenor.do?coPadronNominal=${persona.codigoPadronNominal}#busmen-ava-menor-panel-${persona.codigoPadronNominal}">Más información &#187;</a>
+								</c:if>
+								<c:if test="${persona.baseDatosOrigen=='ANI'}">
+									<a href="busquedademenor/informacionadicionalmenor.do?nuDniMenor=${persona.dni}#busmen-ava-menor-panel-${persona.dni}">Más información &#187;</a>
+								</c:if>
+							</div>
+							<div class="offset1 span3">
+								<c:if test="${persona.edad ge 6}">
+									<p class="text-error">El niño/a tiene más de 6 años de edad. No se puede registrar en el Padrón Nominal.</p>
+								</c:if>
+								<c:if test="${persona.edad lt 6}">
+									<c:if test="${persona.baseDatosOrigen=='PN'}">
+										<c:choose>
+                                            <c:when test="${persona.esPadron=='1' or persona.esPadron=='2'}">
+                                                <a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}" class="btn btn-info btn-mini">Actualizar Información</a>
+                                            </c:when>
+                                            <c:otherwise>
+												<c:choose>
+													<c:when test="${persona.coRestri eq '1'}"> <!--fallecimiento por el procedimiento-->
+														<p class="text-error">El niño/a tiene la siguiente restricción: <strong>FALLECIMIENTO</strong>. <br/> <!--No se puede registrar en el Padrón Nominal.--></p>
+													</c:when>
+													<c:otherwise>
+														<p class="text-muted">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
+													</c:otherwise>
+												</c:choose>
+                                            </c:otherwise>
+										</c:choose>
+									</c:if>
+                                    <c:if test="${persona.baseDatosOrigen=='ANI'}">
+                                            <c:if test="${not empty persona.coRestri}">
+                                                <p class="text-error">El niño/a tiene la siguiente restricción: <strong>${persona.deRestri}</strong>. <br/> <!--No se puede registrar en el Padrón Nominal.--></p>
+                                            </c:if>
+
+                                            <!--<c:if test="${empty persona.coRestri}">-->
+                                                <a href="registromanual/formulario.do?nuDniMenor=${persona.dni}" class="btn btn-info btn-mini">Registrar Información</a>
+                                            <!--</c:if>-->
+                                    </c:if>
+                                    <!--<c:if test="${not empty persona.coRestri and not empty persona.deRestri}">
+                                    </c:if>-->
+                                    <!--<p class="text-error">El menor tiene la siguiente restricción: <strong>${persona.deRestri}</strong>. <br/> No se puede registrar en el Padrón Nominal.</p>-->
+								</c:if>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+                <br/>
+                <util:paginador-busqueda-menor nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="busquedademenor/buscaravanzadamenor.do?nuPagina=" urlDespuesNuPagina="&amp;apPrimerMenor=${apPrimerMenor}&amp;apSegundoMenor=${apSegundoMenor}&amp;prenombreMenor=${prenombreMenor}#busmen-ava-menor-panel"></util:paginador-busqueda-menor>
+                <br/>
+                <br/>
+				<p class="alert">¿Ningún resultado coincide con los datos del niño/a buscado?. <a class="btn" href="registromanual/formulario.do">Registrar al niño/a sin DNI en el padron nominal</a></p>
+			</c:otherwise>
+		</c:choose>
+        </c:otherwise>
+        </c:choose>
+	</fieldset>
+</jsp:root>

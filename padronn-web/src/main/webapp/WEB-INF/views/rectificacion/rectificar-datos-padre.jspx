@@ -1,0 +1,129 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 31/10/13
+  Time: 04:17 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+    xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <p class="lead text-info">Padron nominal</p>
+    <form:form action="rectificacion/set_datos_padre.do#datos-padre-padron" method="post" modelAttribute="padre">
+<!--        <c:choose>
+            <c:when test="${empty coDniJefeFam}">
+                <div class="control-group">
+                    <label class="control-label">DNI:</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <form:input path="coDniJefeFam" id="coDniJefeFam" cssStyle="width: 167px;" />
+                            <button class="btn btn-buscar-padre-dni" type="button"><i class="icon-white icon-search">&#160;</i></button>
+                        </div>
+                        <form:errors path="coDniJefeFam" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="control-group success">
+                    <label class="control-label">DNI:</label>
+                    <div class="controls">
+                        <span class="input-small uneditable-input">${coDniJefeFam}</span>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>-->
+
+        <div class="control-group">
+            <label class="control-label">DNI:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <form:input path="coDniJefeFam" id="coDniJefeFam" cssStyle="width: 167px;" />
+                    <button class="btn btn-buscar-padre-dni" type="button"><i class="icon-white icon-search">&#160;</i></button>
+                </div>
+                <form:errors path="coDniJefeFam" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="padre.tiVinculoJefe">
+            <c:if test="${status.error}">
+                <c:set var="tiVinculoJefeError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${tiVinculoJefeError}">
+            <label class="control-label" for="tiVinculoJefe">Vinculo Familiar</label>
+            <div class="controls">
+                <form:select path="tiVinculoJefe" id="tiVinculoJefe">
+                    <form:option value="" label="Ninguno"/>
+                    <form:options itemLabel="deDom" itemValue="coDominio" items="${vinculoFamiliarItems}" />
+                </form:select>
+                &#160;
+                <!--<util:btn-restablecer selector="#tiVinculoJefe" val="${padronNominal.tiVinculoJefe}"/>-->
+                <form:errors path="tiVinculoJefe" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="padre.apPrimerJefe">
+            <c:if test="${status.error}">
+                <c:set var="apPrimerJefeError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${apPrimerJefeError}">
+            <label class="control-label">Apellido paterno:</label>
+            <div class="controls">
+                <form:input path="apPrimerJefe" id="apPrimerJefe"/>
+                <form:errors path="apPrimerJefe" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="padre.apSegundoJefe">
+            <c:if test="${status.error}">
+                <c:set var="apSegundoJefeError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${apSegundoJefeError}">
+            <label class="control-label">Apellido materno:</label>
+            <div class="controls">
+                <form:input path="apSegundoJefe" id="apSegundoJefe"/>
+                <form:errors path="apSegundoJefe" cssClass="text-error" element="div" />
+            </div>
+        </div>
+
+        <spring:bind path="padre.prenomJefe">
+            <c:if test="${status.error}">
+                <c:set var="prenombreJefeError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${prenombreJefeError}">
+            <label class="control-label">Nombres:</label>
+            <div class="controls">
+                <form:input path="prenomJefe" id="prenomJefe"/>
+                <form:errors path="prenomJefe" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <spring:bind path="padre.deRectificacion">
+            <c:if test="${status.error}">
+                <c:set var="deRectificacionError" value="error"/>
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${deRectificacionError}">
+            <label class="control-label">Detalle de rectificación:</label>
+            <div class="controls">
+                <!--<form:textarea path="deRectificacion" id="deRectificacion"  cssStyle="height: 75px;" maxlength="500"/>-->
+                <form:input path="deRectificacion" id="deRectificacion"  cssStyle="width: 300px;" maxlength="500"/>
+                <form:errors path="deRectificacion" cssClass="text-error" element="div"/>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <form:hidden path="coPadronNominal" id="coPadronNominal"/>
+            <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>&#160;Guardar</button>&#160;&#160;
+            <a href="rectificacion/get_datos_padre.do?coPadronNominal=${coPadronNominal}#datos-padre-padron" class="btn btn-danger"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+        </div>
+
+    </form:form>
+
+    <jsp:include page="rectificar-datos-padre-script.jspx"/>
+
+</jsp:root>

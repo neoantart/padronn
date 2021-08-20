@@ -1,0 +1,75 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 09/09/13
+  Time: 09:29 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+        >
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <div class="row-fluid">
+        <div class="span12">
+
+            <div class="row">
+                <div class="span4">
+                    <h1>Permisos:</h1>
+                    <hr />
+                </div>
+                <div class="span3 offset5" style="margin-top: 20px;">
+                    <a href="signup/form_grupo_permiso.do" class="btn btn-success"><i class=" icon-plus-sign icon-white">&#160;</i>&#160;Agregar Permiso</a>
+                </div>
+            </div>
+
+            <c:choose>
+                <c:when test="${not empty success}">
+                    <c:set var="classAlert" value="success" />
+                </c:when>
+                <c:otherwise>
+                    <c:set var="classAlert" value="danger" />
+                </c:otherwise>
+            </c:choose>
+            <c:if test="${not empty mensaje}">
+                <div class="alert alert-${classAlert}">${mensaje}</div>
+            </c:if>
+            <br />
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th style="width: 50px;">Codigo</th>
+                    <th style="width:80px;">ROL</th>
+                    <th style="width: 100px;">URL*</th>
+                    <th>Modulo</th>
+                    <th style="width: 60px;">Permiso</th>
+                    <th style="width:50px;">Editar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${grupoPermisos}" var="grupoPermiso">
+                    <tr>
+                        <td>${grupoPermiso.coGrupo}</td>
+                        <td>${grupoPermiso.deGrupo}</td>
+                        <td>${grupoPermiso.dePermiso}</td>
+                        <td>${grupoPermiso.noModulo}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${fn:startsWith(grupoPermiso.esPermiso, '1')}">
+                                    <span class="text-success">SI</span>
+                                </c:when>
+                                <c:when test="${fn:startsWith(grupoPermiso.esPermiso, '0')}">
+                                    <span class="text-error">NO</span>
+                                </c:when>
+                            </c:choose>
+                        </td>
+                        <td><a href="signup/edit_grupo_permiso.do?coGrupo=${grupoPermiso.coGrupo}&amp;dePermiso=${grupoPermiso.dePermiso}" class="btn">
+                            <i class="icon-edit icon-white">&#160;</i></a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</jsp:root>

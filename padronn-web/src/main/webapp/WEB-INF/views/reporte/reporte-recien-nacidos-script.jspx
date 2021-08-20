@@ -1,0 +1,323 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: paguilar
+  Date: 20/08/2014
+  Time: 10:42 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <script type='text/javascript'>
+        <![CDATA[
+
+        $(function(){
+
+            //entidades
+            var $coUbigeo = $('#coUbigeo').select2({
+                //multiple: true,
+                //data: data.entidades,
+
+                placeholder: 'Buscar ubigeo',
+                minimumInputLength: 2,
+                allowClear: true,
+                ajax: {
+                    url: 'reporte/buscar_ubigeo.do',
+                    dataType: 'json',
+
+                    data: function (term, page) {
+                        return {
+                            deUbigeo: term,
+                            page_limit: 3
+                        };
+                    },
+
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+
+
+                formatResult: function (item) {
+                    return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+                },
+
+                formatSelection: function (item) {
+                    //$('#deEstSalud').val(item.deLugar);
+                    $('#deUbigeo').val(item.deLugar);
+
+                    return item.deLugar;
+                },
+
+                id: function (object) {
+                    return object.coLugar;
+                },
+
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    //console.log(codigo);
+                    if (codigo !== "") {
+                        $.ajax("reporte/get_ubigeo.do", {
+                            data: {
+                                coUbigeo: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                            var data = [];
+                            data.push({coLugar: res.coLugar, deLugar: res.deLugar});
+                            $('#s2id_coUbigeo >a span').text(res.deLugar);
+                            $('#deUbigeo').val(res.deLugar);
+                            //callback(data);
+                        });
+                    }
+                }
+
+
+            });
+
+            //entidades
+            var $coEstSalud = $('#coEstSalud').select2({
+                //multiple: true,
+                //data: data.entidades,
+                placeholder: 'Buscar Establecimiento de salud',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'reporte/buscar_establecimiento_salud_recien_nacidos.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        return {
+                            deEstSalud: term,
+                            coUbigeoInei: $('#coUbigeo').val()
+                        };
+                    },
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+
+
+                formatResult: function (item) {
+                    if(item.text){
+                        return "<div>"+item.text+" (<em>"+item.children.length+" resultados</em>)</div>";
+                    }else{
+                        return '<div class="title"><strong>' + item.deEstSalud + '</strong> (Cod. RENAES ' + item.coEstSalud + ')</div><div class="body">' +
+                            /*'<div><em>' + item.tiEstSalud + '</em></div>' +*/
+                            '<div><strong>' + item.deDepartamento + ', ' + item.deProvincia + ', ' + item.deDistrito + '</strong>, ' + item.deDireccion + '</div>' +
+                            '</div>';
+                    }
+                },
+
+
+                formatSelection: function (item) {
+                    $('#deEstSalud').val(item.deEstSalud);
+                    return item.deEstSalud + ' (' + item.coEstSalud + ', ' + item.deDepartamento + ', ' + item.deProvincia + ', ' + item.deDistrito + ')';
+                },
+
+                id: function (object) {
+                    return object.coEstSalud;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val() + '_' + $('#nuSecuenciaLocal').val();
+                    //console.log(codigo);
+                    if (codigo !== "") {
+                        $.ajax("reporte/get_establecimiento_salud.do", {
+                            data: {
+                                coEstSalud: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                            if (res.coEstSalud && res.deEstSalud) {
+                                callback(res);
+                            }
+                            /*var data = [];
+                             /!*$.each(res, function(i, v){*!/
+                             data.push({coEstSalud: res.coEstSalud, deEstSalud: res.deEstSalud});
+
+                             $('#s2id_coEstSalud >a span').text(res.deEstSalud);*/
+                            //callback(data);
+                        });
+                    }
+                }
+            });
+
+            $coEstSalud.on('select2-selecting', function(e) {
+                $('#nuSecuenciaLocal').val(e.object.nuSecuenciaLocal);
+            });
+
+            //Modificado por Jose Vidal FLores
+            $coUbigeo.on('select2-open', function(e){
+                $('.select2-input').inputmask('ubigeo');
+                $coEstSalud.select2("val", "");
+                $coEstSalud.select2('close');
+            });
+
+            //Modificado por Jose Vidal Flores
+            $coEstSalud.on("select2-open", function(e) {
+                if($coUbigeo.val()===''){
+                    alert('Ingrese el ubigeo, antes del establecimiento de salud.');
+                    /*$coEstSalud.select2('close');*/
+                    $coEstSalud.select2("val", "");
+                    $coEstSalud.select2('close');
+                    $coUbigeo.select2('open');
+                }
+                $('.select2-input').inputmask('entidad');
+            })
+
+            var $deEdad = $('#deEdad'),
+                $hastaEdad = $('#hastaEdad');
+
+            var previous, previousHasta;
+
+            $($deEdad).focus(function () {
+                previous = this.value;
+            }).change(function() {
+                //document.getElementById("log").innerHTML = "<b>Previous: </b>"+previous;
+                //previous = this.value;
+                if($hastaEdad.val() != '') {
+                    if($deEdad.val()> $hastaEdad.val()){
+                        $deEdad.val(previous);
+
+                    }
+                }
+            });
+
+            $($hastaEdad).focus(function () {
+                previousHasta = this.value;
+            }).change(function() {
+                if($hastaEdad.val() != '') {
+                    if($deEdad.val()> $hastaEdad.val()){
+                        $hastaEdad.val(previousHasta);
+                    }
+                }
+            });
+
+            /*$('#feIni')
+             .keypress(function(e){
+             if (event.which == 13) {
+             e.preventDefault();
+             }
+             })
+             .datepicker({format: 'dd/mm/yyyy'})
+             .on('changeDate', function(e){
+             $('#feIni').datepicker('hide');
+             })
+             .inputmask("dd/mm/yyyy")
+
+
+             $('#feFin')
+             .keypress(function(e){
+             if (event.which == 13) {
+             e.preventDefault();
+             }
+             })
+             .datepicker({format: 'dd/mm/yyyy'})
+             .on('changeDate', function(e){
+             $('#feFin').datepicker('hide');
+             })
+             .inputmask("dd/mm/yyyy")*/
+
+
+            /*        $($deEdad).change(function(e){
+             if($hastaEdad.val() != '') {
+             if($deEdad.val()> $hastaEdad.val()){
+             $deEdad.val('0');
+             }
+             }
+             });
+
+             $($hastaEdad).change(function(e){
+             if($deEdad.val()> $hastaEdad.val()){
+             $deEdad.val('0');
+             }
+             });*/
+
+            $('#feNacIni')
+                .keypress(function (e) {
+                    if (event.which == 13) {
+                        e.preventDefault();
+                    }
+                })
+                /*.datepicker({format: 'dd/mm/yyyy'})*/
+                /*.on('changeDate', function(e){
+                 $('#feIni').datepicker('hide');
+                 })*/
+                .inputmask("dd/mm/yyyy");
+
+            $('#feNacFin')
+                .keypress(function (e) {
+                    if (event.which == 13) {
+                        e.preventDefault();
+                    }
+                })
+                /*.datepicker({format: 'dd/mm/yyyy'})*/
+                /*.on('changeDate', function(e){
+                 $('#feFin').datepicker('hide');
+                 })*/
+                .inputmask("dd/mm/yyyy");
+
+            var nowTemp = new Date();
+            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+            var feIniDatePicker = $('#feNacIniButton')
+                .datepicker({format: 'dd/mm/yyyy'})
+                .on('changeDate', function (ev) {
+                    if (ev.date.valueOf() <= now) {
+                        if (ev.viewMode == 'days') {
+                            feIniDatePicker.hide();
+                            //$('#feNacMenor').ev.date.valueOf();
+                            $('#feNacIni').val($('#feNacIniButton').data('date'));
+                            //$('#feNacMenor').change();
+                        }
+                    }
+                    else {
+                        feIniDatePicker.hide();
+                        feIniDatePicker.setValue(now);
+                        //$('#feNacMenor').val('');
+                    }
+                })
+                .on('show', function (ev) {
+                    var left = feIniDatePicker.picker.position().left - $('#feIniButton').width();
+                    feIniDatePicker.picker.css('left', left);
+                })
+                .data('datepicker');
+
+            var feFinDatePicker = $('#feNacFinButton')
+                .datepicker({format: 'dd/mm/yyyy'})
+                .on('changeDate', function (ev) {
+                    if (ev.date.valueOf() <= now) {
+                        if (ev.viewMode == 'days') {
+                            feFinDatePicker.hide();
+                            //$('#feNacMenor').ev.date.valueOf();
+                            $('#feNacFin').val($('#feNacFinButton').data('date'));
+                            //$('#feNacMenor').change();
+                        }
+                    }
+                    else {
+                        feFinDatePicker.hide();
+                        feFinDatePicker.setValue(now);
+                        //$('#feNacMenor').val('');
+                    }
+                })
+                .on('show', function (ev) {
+                    var left = feFinDatePicker.picker.position().left - $('#feNacFinButton').width();
+                    feFinDatePicker.picker.css('left', left);
+                })
+                .data('datepicker');
+
+            var ubigeoReadOnly = '${ubigeoReadOnly}';
+            if (ubigeoReadOnly==='true'){
+                $('#s2id_coUbigeo').hide();
+                $('#forCoUbigeo')
+                    .find('span')
+                    .remove();
+                document.getElementById("coUbigeo").parentNode.style.marginTop = "4px";
+            }
+
+        });
+        ]]>
+    </script>
+</jsp:root>

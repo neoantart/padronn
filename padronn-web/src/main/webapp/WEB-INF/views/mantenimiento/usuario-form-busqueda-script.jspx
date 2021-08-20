@@ -1,0 +1,50 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 08/08/13
+  Time: 05:03 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+            $(function(){
+                $('#coUsuario').focus();
+                $('#clean-input').click(function(e){
+                    e.preventDefault();
+                    $('#form-busqueda-nombres').find('input').val('');
+                    $('#result-form-busqueda-nombres').html('');
+                });
+
+                $('input[name=coUsuario]').inputmask('dni');
+
+                $('input[name=apPrimer]')
+                        .inputmask('apellido')
+                    /*.keyfilter(validCharsRegex)*/
+                        .on('change', function(){
+                            /*e.preventDefault();*/
+                            var str = $(this).val();
+                            $(this).val(str.replace(/\s+/g,' '));
+                        });
+
+                $('input[name=apSegundo]')
+                        .inputmask('apellido')
+                        .on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#apSegundoMenor').val();
+                            $('#apSegundoMenor').val(str.replace(/\s+/g,' '));
+                        })
+                        .inputmask('apellido');
+
+                $('input[name=preNombres]')
+                        .inputmask('nombre')
+                        .on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#prenombreMenor').val();
+                            $('#prenombreMenor').val(str.replace(/\s+/g,' '));
+                        });
+            });
+        ]]>
+    </script>
+</jsp:root>

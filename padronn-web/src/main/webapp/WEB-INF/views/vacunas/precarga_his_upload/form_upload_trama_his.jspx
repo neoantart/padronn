@@ -1,0 +1,99 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 08/01/2016
+  Time: 11:43 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Precarga desde el El Sistema de Información en Salud – HIS</h1>
+        </div>
+        <div class="pull-right">
+            <a href="vacunas/home_vacunas.do" class="btn button-back"><i class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <label>
+                    Seleccione el archivo <i>.txt</i> para subirlo y programarlo para precarga de datos
+                    <span data-trigger="tooltip"
+                          data-content="El proceso de precarga verificará la información registrada con la base de datos del PADRON NOMINAL y/o RENIEC, este proceso puede tomar entre 10 minutos y 1 hora."
+                          data-position="e" class="label label-info">?</span>
+                </label>
+                <c:if test="${not empty mensajeExito}">
+                    <div class="alert alert-success"><span class="icon-ok"></span>&#160;Archivo <strong>${precargahis.noArchivo}</strong> subido exitosamente! por favor verificar el estado.</div>
+                </c:if>
+                <form:form action="precarga_his_upload/send_form_upload_trama_his.do" class="form-horizontal"
+                           modelAttribute="precargaHis" method="post" enctype="multipart/form-data" >
+                    <form:hidden path="coUbigeoInei" />
+                    <spring:bind path="*">
+                        <c:if test="${status.errors.errorCount > 0}">
+                            <div class="row-fluid">
+                                <!--<div class="span7 offset2">-->
+                                <div class="alert alert-block alert-danger span7 offset2">
+                                    <button type="button" class="close" data-dismiss="alert"><i
+                                            class="icon-remove">&amp;nbsp;</i></button>
+                                    <h4><i class="icon-remove-circle"><!----></i> Archivo no válido</h4>
+                                    <ul>
+                                        <c:forEach var="error" items="${status.errors.allErrors}">
+                                            <li>
+                                                <spring:message message="${error}">&amp;nbsp;</spring:message>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                                <!--</div>-->
+                            </div>
+                        </c:if>
+                    </spring:bind>
+
+                    <div class="control-group">
+                        <label class="control-label">Arhivo de trama:</label>
+                        <div class="controls">
+                            <div style="position:relative;">
+                                <a class='btn btn-primary' href='javascript:;'>
+                                    Seleccione archivo...
+                                    <input type="file"
+                                           style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'
+                                           name="file" size="40"
+                                           onchange='$("#upload-file-info").html($(this).val());'/>
+                                </a>
+                                <span class='label label-info' id="upload-file-info"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-success"><span class="icon-ok icon-white"></span>&#160;Enviar
+                            </button>
+                            &#160;&#160;
+                            <a href="vacunas/home_vacunas.do" class="btn btn-danger"><span
+                                    class="icon-remove icon-white"></span>&#160;Cancelar</a>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="span9"><h2 class="header smaller lighter blue">Lista de Archivos Enviados</h2></div>
+            <div class="span3" style="margin-top: 15px;">
+                <a href="precarga_his_upload/list_precarga_his.do#precarga_list" class="btn"><i class="icon-refresh icon-white">&#160;</i>&#160;Actualizar Lista</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12" id="precarga_list">
+                <jsp:include page="precarga_his_list.jspx"/>
+            </div>
+        </div>
+    </div>
+</jsp:root>

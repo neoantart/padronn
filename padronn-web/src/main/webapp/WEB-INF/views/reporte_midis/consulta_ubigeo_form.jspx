@@ -1,0 +1,287 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 01/12/2014
+  Time: 12:53 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Consulta por Ubigeo</h1>
+            <c:if test="${empty ubigeoReadOnly}">
+                <span>Los campos con asterisco <span class="text-error required">(*)</span> son obligatorios y deben llenarse</span>
+            </c:if>
+        </div>
+        <div class="pull-right"><a href="reporte_midis/home_reporte_midis.do" class="btn btn-small" style="margin-top: 22px;"><span
+                class="icon-arrow-left icon-white">&#160;</span>Volver</a></div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <span class="pull-left"><i
+                            class="icon-filter icon-white"><!-- --></i>&#160;Formulario de consulta de menores activos</span>
+                    <span class="pull-right">...</span>
+                </div>
+
+                <form:form action="reporte_midis/sendFormListarMenores.do" modelAttribute="consultaUbigeoForm" cssClass="form-horizontal" method="get">
+                    <div class="panel-body">
+                        <c:if test="${empty ubigeoReadOnly}">
+                            <div class="alert">
+                                El ubigeo se considera en el siguiente orden:
+                                <strong>Departamento, Provincia, Distrito.</strong><br/>
+                            </div>
+                        </c:if>
+                        <form:hidden path="urlVolver" id="urlVolver"/>
+
+                        <div class="control-group clearfix" style="margin-bottom: 20px;">
+                            <label class="control-label" id="forCoUbigeo" title="requerido" style="width: 170px">Ubicación Geografica:<span title="requerido" class="text-error required">*</span></label>
+
+                            <div class="controls">
+                                <div class="span6 clearfix">
+                                    <c:choose>
+                                        <c:when test="${ubigeoReadOnly}">
+                                            ${deUbigeoReadOnly}
+                                            <form:hidden path="coUbigeo" id="coUbigeo" cssStyle="width: 450px;" val="${coUbigeoReadOnly}" value="${coUbigeoReadOnly}"/>
+                                            <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form:input path="coUbigeo" id="coUbigeo" cssStyle="width: 450px;" val="${coUbigeo}" value="${coUbigeo}"/>
+                                            <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group clearfix" >
+                            <label class="control-label" style="width: 162px">Tipo de Documento del Niño/a</label>
+
+                            <div class="controls ">
+                                <div class="span3">
+                                    <form:select path="tiDocMenor" id="tiDocMenor" cssStyle="width: 160px">
+                                        <form:option value="" label="-- TODOS --"/>
+                                        <form:options items="${tipoDocs}" itemLabel="deDom" itemValue="coDominio"/>
+                                    </form:select>
+                                </div>
+                            </div>
+                            <div class="clearfix right">
+<!--                                <label class="control-label" style="width: 80px ">Genero del Niño/a</label>-->
+                                <label class="control-label" style="width: 80px ">Género</label>
+
+                                <div class="span3">
+                                    <form:select path="coGeneroMenor" id="coGeneroMenor" cssStyle="width: 160px">
+                                        <form:option value="" label="-- TODOS --"/>
+                                        <form:options items="${generos}" itemLabel="deDom" itemValue="coDominio"/>
+                                    </form:select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group clearfix">
+                            <label class="control-label" style="width: 162px">Programa Social</label>
+
+                            <div class="controls">
+                                <div class="span6">
+                                    <form:select path="coProgramaSocial">
+                                        <form:option value="" label="-- TODOS --" selected="selected"/>
+                                        <form:options items="${programasSociales}"/>
+                                    </form:select>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <div class="control-group clearfix">
+                            <label class="control-label" style="width: 162px">Tipo Seguro del Niño/a</label>
+
+                            <div class="controls">
+                                <div class="span6">
+                                    <form:select path="tiSeguro">
+                                        <form:option value="" label="-- TODOS --" selected="selected"/>
+                                        <form:options items="${tiposSeguro}" itemValue="coDominio" itemLabel="deDom"/>
+                                    </form:select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group clearfix">
+                            <label class="control-label" style="margin-top: 20px; width: 162px">Rango de edades</label>
+
+                            <div class="controls">
+                                <div class="clearfix">
+                                    <div class="span2">
+                                        <span class="text-info">De:</span>
+                                        <form:select path="deEdad" id="deEdad" cssClass="span2">
+                                            <form:option value="" label="Edad" selected="selected"/>
+                                            <form:options items="${edadAnios}"/>
+                                        </form:select>
+                                    </div>
+                                    &#160;&#160;
+                                    <div class="span2">
+                                        <span class="text-info">Hasta</span>
+                                        <form:select path="hastaEdad" id="hastaEdad" cssClass="span2">
+                                            <form:option value="" label="Edad" selected="selected"/>
+                                            <form:options items="${edadAnios}"/>
+                                        </form:select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <div class="control-group clearfix">
+                            <label class="control-label">Tipo de registro: </label>
+                            <div class="controls">
+                                <form:select path="tiRegFecha" id="tiRegFecha" cssClass="span2" cssStyle="margin-left: 20px;">
+                                    <form:option value="" label="Seleccione..." />
+                                    <form:option value="T" label="Todos" />
+                                    <form:option value="N" label="Nuevo" />
+                                    <form:option value="U" label="Actualizado"/>
+                                </form:select>
+                                <form:errors path="tiRegFecha" cssClass="text-error " element="div" cssStyle="margin-left: 20px;"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group clearfix" style="margin-bottom: 20px;">
+                            <label class="control-label"
+                                   style="margin-top: 18px; width: 162px">Periodo de registro:</label>
+
+                            <div class="controls">
+                                <div class="span3">
+                                    <span class="text-info">Desde</span><br/>
+
+                                    <div class="input-append">
+                                        <form:input path="feIni" id="feIni" cssStyle="width: 150px;"/>
+                                        <button id="feIniButton" type="button" class="btn" data-date=""
+                                                data-date-format="dd/mm/yyyy"><i
+                                                class="icon-calendar icon-white"><!-- --></i>&#160;
+                                        </button>
+                                    </div>
+                                    <form:errors path="feIni" cssClass="text-error " element="div"/>
+                                </div>
+                                <div class="span3">
+                                    <span class="text-info">Hasta</span><br/>
+
+                                    <div class="input-append">
+                                        <form:input path="feFin" id="feFin" cssStyle="width: 150px;"/>
+                                        <button id="feFinButton" type="button" class="btn" data-date=""
+                                                data-date-format="dd/mm/yyyy"><i
+                                                class="icon-calendar icon-white"><!-- --></i>&#160;
+                                        </button>
+                                    </div>
+                                    <form:errors path="feFin" cssClass="text-error " element="div"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
+
+                            <div class="controls">
+                                <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
+                                <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 20px;">
+                                    <!--<form:option value="3" label="Todos" selected="selected" />-->
+                                    <form:option value="1" label="Activos" />
+                                    <form:option value="2" label="Activos-Observados" />
+                                    <!--<form:option value="0" label="Inactivos"/>-->
+                                </form:select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <button class="btn btn-success" id="submit" type="submit">
+                                <i class="icon-list-alt icon-white"><!-- --></i>&#160;Consultar
+                            </button>
+                            &#160;&#160;
+                            <a href="reporte_midis/consulta_ubigeo_form.do" class="btn"><span class="icon-trash icon-white"></span>&#160;Limpiar</a>
+                            &#160;&#160;
+                            <a class="btn btn-danger" id="reset" href="reporte_midis/home_reporte_midis.do">
+                                <i class="icon-remove icon-white"><!-- --></i>&#160;Cerrar
+                            </a>
+                        </div>
+                    </div>
+
+                </form:form>
+            </div>
+
+            <div id="result">
+                <c:if test="${empty initLoad }">
+                <c:if test="${not empty coUbigeo }">
+                    <c:choose>
+                        <c:when test="${not empty padronList}">
+                            <h3>Resultado de la consulta por ubigeo</h3>
+                            <hr/>
+                            <div class="alert">
+                                <strong>La descarga del reporte es en formato excel.</strong>&#160;&#160;&#160;
+                                <a class="noAjax btn btn-success"
+                                   href="reporte_midis/result_listar_menores_xlsx.do?coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;tiSeguro=${tiSeguro}&amp;coProgramaSocial=${coProgramaSocial}&amp;tiRegFecha=${tiRegFecha}&amp;esPadron=${esPadron}">
+                                    <i class="icon-download icon-white"><!-- --></i>&#160;<strong>Descargar</strong>
+                                </a>&#160;&#160;
+                                <c:if test="${filas gt 1}"><c:set value="s" var="plural"></c:set></c:if>
+                                <span class="p_numRegFound">Se encontró <strong><span class="s_size14">${filas}</span></strong> Registro${plural}</span>
+                            </div>
+                            <table class="table table-striped table-bordered table-hover"  style="width: auto;">
+                                <thead>
+                                <tr valign="middle" align="center">
+                                    <th>#</th>
+                                    <th style="width: 50px;  font-size: 10.5px;font-weight: bold;">Cod. Padron/DNI/CUI</th>
+                                    <th style="width: 100px; font-size: 12px;">Ap. Paterno</th>
+                                    <th style="width: 100px; font-size: 12px;">Ap. Materno</th>
+                                    <th style="width: 150px; font-size: 12px;">Prenombres</th>
+                                    <th style="width: 55px;  font-size: 12px;">Fec. Nac.</th>
+                                    <th style="width: 205px; font-size: 12px;">Ubigeo</th>
+                                    <th style="width: 78px; font-size: 12px;">Ficha</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--<c:set var="count" value="${contador}" scope="page"/>-->
+                                <c:forEach items="${padronList}" var="padron" >
+                                    <tr>
+                                        <td>${padron.fila}</td>
+                                        <td>${padron.coPadronNominal}</td>
+                                        <td>${padron.apPrimerMenor}</td>
+                                        <td>${padron.apSegundoMenor}</td>
+                                        <td>${padron.prenombreMenor}</td>
+                                        <!--<td>${padron.edadEscrita}</td>-->
+                                        <td>${padron.feNacMenor}</td>
+                                        <td>${padron.deUbigeoInei}
+                                        </td>
+                                        <td>
+                                            <a title="Ver Ficha del menor" class="btn btn-mini btn-primary"
+                                               href="reporte_midis/fichaPadron.do?coPadronNominal=${padron.coPadronNominal}&amp;nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolver=${urlVolver}&amp;urlVolverFicha=${urlVolverFicha}">
+                                                <i class=" icon-user icon-white"><!-- --></i>&#160;ver ficha
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
+                                            urlAntesNuPagina="reporte_midis/sendFormListarMenores.do?nuPagina="
+                                            urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;tiSeguro=${tiSeguro}&amp;coProgramaSocial=${coProgramaSocial}&amp;tiRegFecha=${tiRegFecha}&amp;esPadron=${esPadron}">
+                            </util:paginador>
+                        </c:when>
+                        <c:otherwise>
+<!--                            <div class="alert alert-danger"><strong>No hay registros con la consulta.</div></strong>-->
+                            <div class="alert alert-danger"><strong>No existen registros</strong> para la consulta realizada.
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+                </c:if>
+            </div>
+
+        </div>
+    </div>
+    <jsp:include page="../reporte/fechas_periodo_script.jspx"/>
+    <jsp:include page="consulta_ubigeo_form_script.jspx"/>
+</jsp:root>

@@ -1,0 +1,158 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: lmamani
+  Date: 23/07/13
+  Time: 11:26 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+    <c:set var="localResourcesImgURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+    <c:choose>
+
+        <c:when test="${empty persona}">
+            <p class="text-error">
+                Seleccionar otro tipo de documento o ingresar otro número de documento para realizar la búsqueda </p>
+            <a class="btn btn-info" onclick="$('#dni').focus().select();">Buscar con <br/> otro DNI</a>&#160;
+            <!--<a class="btn btn-info" href="busquedademenor/avanzadoform.do">Buscar por <br/> datos personales</a>&#160;-->
+            <!--<a class="btn btn-info" href="busquedademenor/avanzadoform.do?tipo=madre">Buscar por <br/> datos de la madre</a>-->
+        </c:when>
+
+        <c:otherwise>
+            <div class="pull-right" style="padding:5px; border:1px solid #dddddd;margin-left:10px;">
+                <c:choose>
+                    <c:when test="${persona.origenFoto=='PN'}">
+                        <util:applet-image width="120" height="140" imageSource="PN"
+                                           imageCode="${persona.codigoPadronNominal}"/>
+                    </c:when>
+                    <c:when test="${persona.origenFoto=='ANI'}">
+                        <!--<util:applet-image width="120" height="140" imageSource="ANI" imageCode="${persona.dni}"/>-->
+                        <img src="data:image/png;base64,${img}" width="120" height="140" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:choose>
+                            <c:when test="${persona.genero == 'Masculino'}">
+                                <img src="${localResourcesImgURL}/img/sin_foto_masculino.jpg" width="120" height="140" />
+                            </c:when>
+                            <c:when test="${persona.genero == 'Femenino'}">
+                                <img src="${localResourcesImgURL}/img/sin_foto_femenino.jpg" width="120" height="140" />
+                            </c:when>
+                            <c:otherwise>
+                                <div style="width:120px;height:140px;text-align:center;line-height:30px;">
+                                    <em>El niño/a no <br/> tiene foto <br/>registrada</em>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <div>
+                <p>El <c:choose>
+                    <c:when test="${buscarMenorDocumento.tiDoc eq '0'}">número de DNI </c:when>
+                    <c:when test="${buscarMenorDocumento.tiDoc eq '1'}">número de CUI </c:when>
+                    <c:when test="${buscarMenorDocumento.tiDoc eq '2'}">número de CNV </c:when>
+                    <c:when test="${buscarMenorDocumento.tiDoc eq '3'}">CODIGO PADRON NOMINAL </c:when>
+                </c:choose> <strong>${nuDoc}</strong> corresponde al niño/a:</p>
+
+                <p class="lead text-center">
+                    <strong>${persona.nombres} ${persona.primerApellido} ${persona.segundoApellido}</strong></p>
+                <dl class="dl-horizontal">
+                    <dt>Edad:</dt>
+                    <dd>${persona.edadEscrita}</dd>
+
+                    <dt>Fecha de nacimiento:</dt>
+                    <dd>${persona.fechaNacimiento}</dd>
+
+                    <dt>Sexo:</dt>
+                    <dd>${persona.genero}</dd>
+
+                    <c:choose>
+                        <c:when test="${not empty persona.padreTipoVinculo and not empty persona.padrePrimerApellido}">
+                            <dt>${persona.padreTipoVinculo}:</dt>
+                            <dd>${persona.padreNombres} ${persona.padrePrimerApellido} ${persona.padreSegundoApellido}</dd>
+                        </c:when>
+                        <c:otherwise>
+                            <dt>Padre o titular:</dt>
+                            <dd><em>El niño/a no tiene registrado un padre o titular</em></dd>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${not empty persona.padreDni}">
+                            <c:if test="${fn:toUpperCase(persona.padreTipoVinculo) eq 'PADRE' or fn:toUpperCase(persona.padreTipoVinculo) eq 'HERMANO'}">
+                                <dt><strong style="float: right;">DNI del ${fn:toLowerCase(persona.padreTipoVinculo)}</strong></dt>
+                            </c:if>
+                            <c:if test="${fn:toUpperCase(persona.padreTipoVinculo) ne 'PADRE' and fn:toUpperCase(persona.padreTipoVinculo) ne 'HERMANO'}">
+                                <dt><strong style="float: right;">DNI de ${fn:toLowerCase(persona.padreTipoVinculo)}</strong></dt>
+                            </c:if>
+                            <dd>${persona.padreDni}</dd>
+                        </c:when>
+                        <c:otherwise>
+                            <dt>DNI del Padre o titular:</dt>
+                            <dd><em>El padre o titular no tiene DNI</em></dd>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${not empty persona.madreTipoVinculo and not empty persona.madrePrimerApellido}">
+                            <dt>${persona.madreTipoVinculo}:</dt>
+                            <dd>${persona.madreNombres} ${persona.madrePrimerApellido} ${persona.madreSegundoApellido}</dd>
+                        </c:when>
+                        <c:otherwise>
+                            <dt>Madre:</dt>
+                            <dd><em>El niño/a no tiene registrado una madre</em></dd>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <dt>DNI de la Madre:</dt>
+                    <c:choose>
+                        <c:when test="${not empty persona.madreDni}">
+                            <dd>${persona.madreDni}</dd>
+                        </c:when>
+                        <c:otherwise>
+                            <dd><em>Sin Dato</em></dd>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <dt>Ubigeo de dirección:</dt>
+                    <dd>${persona.ubigeo}</dd>
+
+                    <c:if test="${not empty persona.codigoCentroPoblado}">
+                        <dt>Centro poblado:</dt>
+                        <dd>${persona.deCentroPoblado}</dd>
+                    </c:if>
+
+                    <dt>Dirección:</dt>
+                    <dd>${persona.direccion}</dd>
+
+                </dl>
+
+                <c:if test="${persona.edad ge 6}">
+                    <p class="text-error">El niño/a tiene más de 6 años de edad. No se puede registrar en el Padrón Nominal.</p>
+                </c:if>
+
+                <c:if test="${persona.edad lt 6}">
+
+                    <c:if test="${persona.baseDatosOrigen=='PN'}">
+                        <div id="padronn-form-resultado-espadron" class="center">
+                            <jsp:include page="padronn-form-resultado-espadron.jspx"/>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${persona.baseDatosOrigen=='ANI'}">
+                        <p><strong class="text-success">NO ESTÁ REGISTRADO</strong> en el Padrón Nominal.</p>
+                    </c:if>
+
+                </c:if>
+            </div>
+
+        </c:otherwise>
+    </c:choose>
+</jsp:root>

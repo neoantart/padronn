@@ -1,0 +1,124 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 23/05/13
+  Time: 02:36 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+		  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<c:if test="${empty persona}">
+		<div>No hay información adicional disponible</div>
+	</c:if>
+	<c:if test="${not empty persona}">
+		<c:choose>
+			<c:when test="${not empty hijosRegistrados}">
+				<div>Ubigeo: <strong>${persona.ubigeo}</strong></div>
+				<div>Dirección: <strong>${persona.direccion}</strong></div>
+				<c:set var="numeroHijos" value="${fn:length(hijosRegistrados)}" />
+				<div><strong>${numeroHijos}</strong> ${numeroHijos==1?'Hijo registrado':'Hijos registrados'}</div>
+				<c:choose>
+					<c:when test="${empty hijosRegistrados}">
+						<div>No tiene hijos registrados</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="hijoRegistrado" items="${hijosRegistrados}">
+							<div class="search-item">
+								<div class="row-fluid">
+									<div class="span4">
+										<c:if test="${hijoRegistrado.baseDatosOrigen=='PN'}">
+											<span class="label label-info">Padrón Nominal</span>&#160;
+											<c:choose>
+												<c:when test="${hijoRegistrado.edad ge 6}">
+													<span class="text-error"><strong>${hijoRegistrado.primerApellido} ${hijoRegistrado.segundoApellido},</strong> ${hijoRegistrado.nombres}</span>
+												</c:when>
+												<c:otherwise>
+													<strong>${hijoRegistrado.primerApellido} ${hijoRegistrado.segundoApellido},</strong> ${hijoRegistrado.nombres}
+												</c:otherwise>
+											</c:choose>
+											<c:if test="${empty hijoRegistrado.dni}">
+												<div>DNI: <strong>Sin DNI</strong></div>
+												<div>Padrón Nominal: <strong>${hijoRegistrado.codigoPadronNominal}</strong></div>
+											</c:if>
+											<c:if test="${not empty hijoRegistrado.dni}">
+												<div>DNI: <strong>${hijoRegistrado.dni}</strong></div>
+											</c:if>
+                                            <c:if test="${not empty hijoRegistrado.nuCui and empty hijoRegistrado.dni}">
+                                                <div>CUI: <strong>${hijoRegistrado.nuCui}</strong></div>
+                                            </c:if>
+										</c:if>
+										<c:if test="${hijoRegistrado.baseDatosOrigen=='ANI'}">
+											<span class="label label-warning">RENIEC</span>&#160;
+											<c:choose>
+												<c:when test="${hijoRegistrado.edad>=6}">
+													<span class="text-error"><strong>${hijoRegistrado.primerApellido} ${hijoRegistrado.segundoApellido},</strong> ${hijoRegistrado.nombres}</span>
+													<p class="text-error">El niño/a tiene más de 6 años de edad</p>
+												</c:when>
+												<c:otherwise>
+													<strong>${hijoRegistrado.primerApellido} ${hijoRegistrado.segundoApellido},</strong> ${hijoRegistrado.nombres}
+												</c:otherwise>
+											</c:choose>
+											<div>DNI: <strong>${hijoRegistrado.dni}</strong></div>
+										</c:if>
+										<c:if test="${hijoRegistrado.baseDatosOrigen=='CNV'}">
+											<span class="label label-important">CNV</span>&#160;
+											<c:choose>
+												<c:when test="${hijoRegistrado.edad>=6}">
+													<span class="text-error"><em>Niño/a sin nombres</em></span>
+													<p class="text-error">El Niño/a tiene más de 6 años de edad</p>
+												</c:when>
+												<c:otherwise>
+													<em>Niño/a sin nombres</em>
+												</c:otherwise>
+											</c:choose>
+											<div>CNV: <strong>${hijoRegistrado.cnv}</strong></div>
+										</c:if>
+									</div>
+									<div class="span4">
+										<div>Fecha de Nacimiento: <strong>${hijoRegistrado.fechaNacimiento}</strong></div>
+										<div>Edad: <strong>${hijoRegistrado.edadEscrita}</strong></div>
+										<div>Sexo: <strong>${hijoRegistrado.genero}</strong></div>
+									</div>
+									<div class="span4">
+										<c:if test="${hijoRegistrado.edad ge 6}">
+											<p class="text-error">El niño/a tiene más de 6 años de edad. No se puede registrar en el Padrón Nominal.</p>
+										</c:if>
+										<c:if test="${hijoRegistrado.edad lt 6}">
+												<c:if test="${hijoRegistrado.baseDatosOrigen=='PN'}">
+
+													<c:choose>
+													<c:when test="${hijoRegistrado.esPadron=='1' or hijoRegistrado.esPadron=='2'}">
+															<a href="registromanual/formulario.do?coPadronNominal=${hijoRegistrado.codigoPadronNominal}" class="btn btn-info btn-mini pull-right">Actualizar información</a>&#160;
+													</c:when>
+													<c:otherwise>
+														<p class="text-muted">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
+													</c:otherwise>
+													</c:choose>
+
+												</c:if>
+												<c:if test="${hijoRegistrado.baseDatosOrigen=='ANI'}">
+                                                    <c:if test="${empty hijoRegistrado.coRestri}">
+													    <a href="registromanual/formulario.do?nuDniMenor=${hijoRegistrado.dni}" class="btn btn-info btn-mini pull-right">Registrar información</a>&#160;
+                                                    </c:if>
+                                                    <c:if test="${not empty hijoRegistrado.coRestri}">
+                                                        <p class="text-error">El niño/a tiene la siguiente restricción: <strong>${hijoRegistrado.deRestri}</strong>. <br/>No se puede registrar en el Padrón Nominal.</p>
+                                                    </c:if>
+												</c:if>
+												<c:if test="${hijoRegistrado.baseDatosOrigen=='CNV'}">
+													<a href="registromanual/formulario.do?cnv=${hijoRegistrado.cnv}" class="btn btn-info btn-mini pull-right">Registrar información</a>&#160;
+												</c:if>
+										</c:if>
+									</div>
+								</div>
+								<hr/>
+							</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				La persona indicada no tiene hijos registrados
+			</c:otherwise>
+		</c:choose>
+	</c:if>
+</jsp:root>

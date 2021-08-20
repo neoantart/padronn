@@ -1,0 +1,81 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+          xmlns:base64="http://www.reniec.gob.pe/Tlds">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<jsp:directive.attribute name="width" type="java.lang.String" required="true" rtexprvalue="true" description="Applet width" />
+	<jsp:directive.attribute name="height" type="java.lang.String" required="true" rtexprvalue="true" description="Applet height" />
+	<jsp:directive.attribute name="imageSource" type="java.lang.String" required="true" rtexprvalue="true" description="Image source" />
+	<jsp:directive.attribute name="imageCode" type="java.lang.String" required="true" rtexprvalue="true" description="Code" />
+
+	<spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+	<c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>
+	<!--<p>
+		[${pageContext.request.requestURL}][${pageContext.request.requestURI}]
+		[<c:url value="/home" />]
+	</p>-->
+	<c:if test="${imageSource=='PN'}">
+		<c:set var="URL" value="${fn:replace(pageContext.request.requestURL, pageContext.request.requestURI, '')}" scope="request"/><!--HOST-->
+		<c:set var="imageUrl" value="${URL}${pageContext.servletContext.contextPath}/padronimg/mostrarmenor.do?coPadronNominal=${imageCode}" />
+	</c:if>
+	<c:if test="${imageSource=='ANI'}">
+		<!--<c:set var="imageUrl" value="http://sio2.reniec.gob.pe/imagen/imagen?tiFicha=E&#38;nuDni=${imageCode}&#38;tiImg=0" />-->
+		<c:set var="imageUrl" value="imagen_ciudadano/img_menor.do?nu_dni=${base64:encodeBase64(imageCode)}" />
+		<!--<c:set var="imageUrl" value="${imageCode}" />-->
+	</c:if>
+
+
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+
+            //al cargar la página
+            var drawImage = function(url, t) {
+                var PintaCanvas = document.getElementById('cimage-${imageCode}');
+
+                if(PintaCanvas && PintaCanvas.getContext) {
+                    // inicializo para "dibujar" en 2D
+                    var contexto = PintaCanvas.getContext('2d');
+
+                    //cargo la imagen y lo asigno al canvas
+                    var ImagenHTML5 = new Image();
+                    ImagenHTML5.src = url;
+
+                    //uso una función onload para que pinte la imagen una vez que ha sido descargada en el navegador
+                    ImagenHTML5.onload = function() {
+                        //uso el contexto del canvas y el metodo drawimage para cargar el objeto y la posición x e y
+                        if(t=='lock'){
+                            contexto.drawImage(ImagenHTML5,0,0,120,140);
+                        }
+                        if(t=='foto') {
+                            contexto.drawImage(ImagenHTML5,0,-10,120,168);
+                        }
+                    }
+                }
+            }
+            drawImage("${localResourcesURL}/img/lock.jpg",'lock');
+            $('#cimage-${imageCode}').hover(
+                    function(){
+                        drawImage('${imageUrl}', 'foto');
+                    },
+                    function(){
+                        drawImage('${localResourcesURL}/img/lock.jpg','lock');
+                    }
+            );
+        });
+        ]]>
+    </script>
+    <canvas id="cimage-${imageCode}" width="120" height="140" ></canvas>
+    <!--<canvas id="cimage-${imageCode}" width="160" height="224" ></canvas>-->
+
+	<!--<object type="application/x-java-applet" height="${height}" width="${width}">
+		<param name="codebase" value="${pageContext.servletContext.contextPath}/${localResourcesURL}/applet"/>
+		<param name="code" value="pe.gob.reniec.applets.imageviewer.ImageApplet"/>
+		&lt;!&ndash;<param name="archive" value="ImageViewer-1.0-jar-with-dependencies.jar"/>&ndash;&gt;
+		<param name="archive" value="ImageViewer-1.0-jar-with-dependencies.jar"/>
+		<param name="u" value="${imageUrl}"/>
+		<param name="scriptable" value="true"/>
+		<param name="mayscript" value="true"/>
+		No se puede mostrar la imagenn
+	</object>-->
+</jsp:root>

@@ -1,0 +1,39 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jllamas
+  Date: 17/07/13
+  Time: 10:14 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:useBean id="now" class="java.util.Date" scope="page"/>
+    <fmt:formatDate value="${now}" pattern="MM.dd.yyyy" var="fecha"/>
+
+    <form action="actas/consulta.do#consulta-modulo-div" class="well form-inline" id="">
+
+        <label for="nuEnvio">Envío</label>
+        <input type="text" name="nuEnvio" class="span2" placeholder="Número de Envío" id="nuEnvio" style="margin-left: 10px; margin-right: 20px;"/>
+
+        <label for="feInicio">Desde</label>
+
+        <div id="feInicioDate" class="input-append" data-date="${fecha}" data-date-format="dd/mm/yyyy" style="margin-left: 10px; margin-right: 20px;">
+            <input class="input-small" name="feInicio" id="feInicio" type="text" placeholder="Desde"/>
+            <button class="add-on btn" type="button" style="padding-left: 13px;padding-right: 11px;height: 30px;">
+                <i class="icon-calendar icon-white">&amp;nbsp;</i></button>
+        </div>
+
+        <label for="feFin">Hasta</label>
+
+        <div id="feFinDate" class="input-append" data-date="${fecha}" data-date-format="dd/mm/yyyy" style="margin-left: 10px; ">
+            <input class="input-small" name="feFin" id="feFin" type="text" placeholder="Hasta"/>
+            <button class="add-on btn" type="button" style="padding-left: 13px;padding-right: 11px;height: 30px;">
+                <i class="icon-calendar icon-white">&amp;nbsp;</i></button>
+        </div>
+
+        <button class="btn btn-success" type="submit" style="margin-left: 10px;"><i class="icon-search">&amp;nbsp;</i>
+        </button>
+        <button class="btn btn-danger limpiar" style="margin-left: 10px;">Ver Todo<!-- Limpiar <i class="icon-remove icon-white"></i>--></button>
+    </form>
+
+</jsp:root>

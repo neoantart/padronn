@@ -1,0 +1,33 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row">
+        <div class="span12">
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h1><span class="icon-th-large"></span>&#160;Rectificar Datos del Niño/a</h1>
+                </div>
+                <div class="pull-right"><a
+                        href="bandeja_observado/bandeja_observados.do?coTipoObservacion=7&amp;nuPagina=${nuPagina}"
+                        class="btn button-back"><i
+                        class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+            </div>
+            <div class="alert ">
+                <p>La informacion mostrada en el formulario fue cargada del Sistema de Hechos Vitales - Certificado de Nacido Vivo En Linea.</p>
+                <p>Usted puede rectificar los datos del niño/a; como: DNI del niño/a, Nombres del Niño/a y Primer Apellido del Niño/a.</p>
+                <p>Si los padres del niño/a tramitan su acta de nacimiento en Linea, el registro no se mostrara en la bandeja de observados.</p>
+            </div>
+        </div>
+        <div class="span12">
+            <div id="form_menor_cnv">
+                <jsp:include page="form_menor_cnv.jspx"/>
+            </div>
+        </div>
+
+        <div class="span6">
+            <div id="datos-ani-menor"></div>
+        </div>
+
+    </div>
+</jsp:root>

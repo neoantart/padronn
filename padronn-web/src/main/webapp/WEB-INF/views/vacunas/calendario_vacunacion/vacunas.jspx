@@ -1,0 +1,172 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <form:form action="calendario_vacunacion/send_vacunas.do" method="post"
+               modelAttribute="calendarioVacunacion">
+        <ul class="nav nav-tabs">
+            <li><a href="#datos_menor"><span class="badge badge-info uno">1</span>&#160;Datos del Menor</a></li>
+            <li><a href="#"><span class="badge badge-info dos">2</span>&#160;Datos Apoderados</a></li>
+            <li class="active"><a href=""><span class="badge badge-info tres">3</span>&#160;Calendario Vacunación</a></li>
+        </ul>
+
+        <div class="tab-content clearfix">
+            <div class="tab-pane active" id="datos_menor">
+                <p>Leyenda:</p>
+                <ul class="inline">
+                    <li>
+                        <a class="btn btn-minier  btn-danger"><span class="icon-calendar icon-white"></span>dd/mm/aaaa</a>&#160;Indica fechas de proximas dosis
+                    </li>
+                    <li>
+                        <a class="btn btn-minier btn-success"><span class="icon-calendar icon-white"></span>dd/mm/aaaa</a>&#160;Indica fecha de dosis administrada
+                    </li>
+                </ul>
+
+                <c:choose>
+                    <c:when test="${not empty calendarioVacunacion.dosis}">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <th style="width: 142px;">Tipo Vacuna</th>
+                                <c:forEach var="tipoDosis" items="${tiposDosis}">
+                                    <td>
+                                        <strong>${tipoDosis.deTipoDosis}</strong>
+                                    </td>
+                                </c:forEach>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:set var="count" value="0"/>
+                            <c:forEach var="tipoVacuna" items="${tiposVacunas}">
+                                <tr style="height: 43px;">
+                                    <td style="font-size: 12px;vertical-align: middle;text-align: right;">${tipoVacuna.deTipoVacunaAbr}</td>
+                                    <c:forEach var="tipoDosis" items="${tiposDosis}">
+                                        <c:set var="encontrado" value="0"/>
+                                        <c:forEach var="dosis" items="${calendarioVacunacion.dosis}">
+                                            <c:choose>
+                                                <c:when test="${tipoVacuna.coTipoVacuna eq dosis.coTipoVacuna and tipoDosis.coTipoDosis eq dosis.coTipoDosis}">
+                                                    <c:set var="encontrado" value="1"/>
+                                                    <td style="vertical-align: middle;text-align: center;">
+                                                        <c:choose>
+                                                            <c:when test="${dosis.nuEdad gt 0}">
+                                                                <c:set var="edad" value="${dosis.nuEdad} año y ${dosis.nuEdadMeses} mes(es)"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <c:set var="edad" value="${dosis.nuEdadMeses} mes(es)"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <c:choose>
+                                                            <c:when test="${dosis.tiDosis eq 'C'}">
+                                                                <div class="btn-group">
+                                                                    <a class="btn btn-small btn-danger" href="calendario_vacunacion/establecer_dosis.do?nuSecuencia=${dosis.nuSecuencia}&amp;coTipoVacuna=${dosis.coTipoVacuna}&amp;coPadronNominal=${dosis.coPadronNominal}&amp;count=${count}&amp;tiDosis=${dosis.tiDosis}&amp;feVacuna=${dosis.feVacuna}&amp;coTipoDosis=${dosis.coTipoDosis}#modal"
+                                                                       data-trigger="tooltip" data-content="${edad}"><i class="icon-calendar icon-white"></i>&#160;
+                                                                        <span id="btn_dosis_${count}">${dosis.feVacuna}</span>
+                                                                    </a>
+                                                                    <a id="btn_dosis_options_${count}_1" class="btn btn-small btn-danger dropdown-toggle hover_btn" data-toggle="dropdown" href="#"
+                                                                       data-trigger="tooltip" data-content="REGISTRAR PRORROGA" data-position="ne">
+                                                                        <span class="caret"></span>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu" id="btn_dosis_options_${count}_2">
+                                                                        <li>
+                                                                            <a id="" href="calendario_vacunacion/registrar_prorroga.do?count=${count}&amp;feVacuna=${dosis.feVacuna}&amp;tiDosis=${dosis.tiDosis}&amp;coTipoVacuna=${dosis.coTipoVacuna}#modal_prorroga">
+                                                                            <i class="icon-pencil"></i>&#160;Prorroga</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <form:hidden path="dosis[${count}].nuSecuencia" value="${dosis.nuSecuencia}"/>
+                                                                <form:hidden path="dosis[${count}].coTipoVacuna" value="${dosis.coTipoVacuna}"/>
+                                                                <form:hidden path="dosis[${count}].coPadronNominal" value="${dosis.coPadronNominal}"/>
+                                                                <form:hidden path="dosis[${count}].coRenaes" value="${dosis.coRenaes}"/>
+                                                                <form:hidden path="dosis[${count}].coTipoDosis" value="${dosis.coTipoDosis}"/>
+                                                                <form:hidden path="dosis[${count}].coCaptacion" value="${dosis.coCaptacion}"/>
+                                                                <form:hidden path="dosis[${count}].feDosis" value="${dosis.feDosis}"/>
+                                                                <form:hidden path="dosis[${count}].feVacuna" value="${dosis.feVacuna}"/>
+                                                                <form:hidden path="dosis[${count}].tiDosis" value="${dosis.tiDosis}"/>
+                                                                <form:hidden path="dosis[${count}].feProrroga" value="${dosis.feProrroga}"/>
+                                                                <form:hidden path="dosis[${count}].deProrroga" value="${dosis.deProrroga}"/>
+                                                                <form:hidden path="dosis[${count}].nuEdad" value="${dosis.nuEdad}"/>
+                                                                <form:hidden path="dosis[${count}].nuEdadMeses" value="${dosis.nuEdadMeses}"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="btn-group">
+                                                                    <a href="calendario_vacunacion/establecer_dosis.do?nuSecuencia=${dosis.nuSecuencia}&amp;coTipoVacuna=${dosis.coTipoVacuna}&amp;coPadronNominal=${dosis.coPadronNominal}&amp;count=${count}&amp;tiDosis=${dosis.tiDosis}&amp;feVacuna=${dosis.feVacuna}&amp;coTipoDosis=${dosis.coTipoDosis}#modal"
+                                                                       data-trigger="tooltip" data-content="${edad}"
+                                                                       class="btn btn-small btn-success"><span
+                                                                            class="icon-calendar icon-white"></span>&#160;<span
+                                                                            id="btn_dosis_${count}">${dosis.feDosis}</span>
+                                                                    </a>
+                                                                </div>
+                                                                <form:hidden path="dosis[${count}].nuSecuencia" value="${dosis.nuSecuencia}"/>
+                                                                <form:hidden path="dosis[${count}].coTipoVacuna" value="${dosis.coTipoVacuna}"/>
+                                                                <form:hidden path="dosis[${count}].coPadronNominal" value="${dosis.coPadronNominal}"/>
+                                                                <form:hidden path="dosis[${count}].coRenaes" value="${dosis.coRenaes}"/>
+                                                                <form:hidden path="dosis[${count}].coTipoDosis" value="${dosis.coTipoDosis}"/>
+                                                                <form:hidden path="dosis[${count}].coCaptacion" value="${dosis.coCaptacion}"/>
+                                                                <form:hidden path="dosis[${count}].feDosis" value="${dosis.feDosis}"/>
+                                                                <form:hidden path="dosis[${count}].feVacuna" value="${dosis.feVacuna}"/>
+                                                                <form:hidden path="dosis[${count}].tiDosis" value="${dosis.tiDosis}"/>
+                                                                <form:hidden path="dosis[${count}].feProrroga" value="${dosis.feProrroga}"/>
+                                                                <form:hidden path="dosis[${count}].deProrroga" value="${dosis.deProrroga}"/>
+                                                                <form:hidden path="dosis[${count}].nuEdad" value="${dosis.nuEdad}"/>
+                                                                <form:hidden path="dosis[${count}].nuEdadMeses" value="${dosis.nuEdadMeses}"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <c:set var="count" value="${count+1}"/>
+                                                </c:when>
+                                            </c:choose>
+                                        </c:forEach>
+                                        <c:choose>
+                                            <!--TODO: UI para dosis adicionales-->
+                                            <c:when test="${encontrado eq '0'}">
+                                                <td>&#160;</td>
+                                            </c:when>
+                                        </c:choose>
+                                    </c:forEach>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="alert alert-danger">No se registra dosis</div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <hr style="clear:both;"/>
+            <div class="wizard-actions row-fluid">
+                <button id="anterior" type="submit" class="btn btn-primary" style="width: 105px;"><span
+                        class="icon-arrow-left icon-white"></span>&#160;Anterior
+                </button>
+                &#160;
+                <button type="submit" class="btn btn-success" id="btn_guardar" style="width: 108px;"><span
+                        class="icon-ok icon-white"></span>&#160;Guardar
+                </button>
+                &#160;
+                <a href="busqueda_menor/buscar_menor.do" class="btn btn-danger" style="width: 78px;"><span
+                        class="icon-remove icon-white"></span>&#160;Cancelar</a>
+            </div>
+        </div>
+    </form:form>
+    <div id="overlay" class="modal-backdrop hide"></div>
+    <div id="modal"></div>
+    <div id="modal_prorroga"></div>
+
+
+    <div id="modal_confirma_guardar" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="modal_confirma_guardar" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close close-modal" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Confirmar Información del calendario de vacunas</h3>
+        </div>
+        <div class="modal-body">
+            <div class="alert">
+            <p>Por favor verifique la información registrada.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger close-modal" data-dismiss="modal" aria-hidden="true"><span class="icon-remove icon-white"></span>&#160;Cancelar</button>
+            <button class="btn btn-success btn-primary" id="guardar_cambios"><span class="icon-ok icon-white"></span>&#160;Guardar cambios</button>
+        </div>
+    </div>
+
+    <jsp:include page="vacunas_script.jspx"/>
+</jsp:root>

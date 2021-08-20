@@ -1,0 +1,98 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: paguilar
+  Date: 26/05/2014
+  Time: 09:31 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+
+            var nuDoc = $('#nuDoc');
+            nuDoc.focus();
+
+            var tiDoc = $('#tiDoc');
+
+            nuDoc.keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+
+            function setLengthNuDoc() {
+                if (tiDoc.val() != '2') {
+                    nuDoc.attr('maxlength', '8');
+                } else {
+                    nuDoc.attr('maxlength', '10');
+                }
+            }
+
+            setLengthNuDoc();
+            tiDoc.on('change', function (e) {
+                nuDoc.val('').focus();
+                $('#result_buscar_menor').html('');
+                $('input').val('');
+                setLengthNuDoc();
+            });
+
+            $('#coUsuario').inputmask('dni').focus();
+            $('#apPrimerMenor').inputmask("apellido");
+            $('#apSegundoMenor').inputmask('apellido');
+            $('#prenombresMenor').inputmask('nombre');
+
+//            $('#nuDoc').inputmask('cnv');
+
+            $('#btn-clean').click(function(e){
+                e.preventDefault();
+                $('input').val('');
+                $('#result_buscar_menor').html('');
+                $('#msj_error').hide('');
+                $('#no_result').hide('');
+
+                $('.text-error').hide();
+                $('input').css({'borderColor':'#d5d5d5'});
+            })
+            /*$('#clean-input').click(function(e){
+                e.preventDefault();
+                $('input').val('');
+                $('#result_buscar_menor').html('');
+
+            });
+
+             $('input[name=apPrimerMenor]')
+                    .inputmask('apellido')
+
+                    .focus();
+
+            $('input[name=apSegundoMenor]')
+                    .inputmask('apellido')
+
+            $('input[name=prenombresMenor]')
+                    .inputmask('nombre')
+
+            $('input[name=codigoPadron]')
+                    .inputmask('dni')*/
+            /*se agrego trim*/
+            $('#buscarMenorGrias').on ('submit',function(e){
+
+                if($('#nuDoc').val() !=''){
+                    if(tiDoc.val()==''){
+                        alert('¡Seleccione tipo de documento!');
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
+                        return false;
+                    }
+                    else if(tiDoc.val()!=''){
+                        $('#apPrimerMenor').val($('#apPrimerMenor').val().trim());
+                        $('#apSegundoMenor').val($('#apSegundoMenor').val().trim());
+                        $('#prenombresMenor').val($('#prenombresMenor').val().trim());
+                        return true;
+                    }
+                }
+
+
+            })
+
+       });
+        ]]>
+    </script>
+</jsp:root>

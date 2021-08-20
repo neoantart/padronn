@@ -1,0 +1,72 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: aquispej
+  Date: 27/02/2019
+  Time: 11:49 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="ficha-confirmacion">
+        <script type="text/javascript">
+            $(function () {
+                RegistroManual.mostrarFichaConfirmacion();
+            });
+        </script>
+
+        <div class="page-header">
+            <!--<h1>Confirmar Información de Niño/a</h1>-->
+        </div>
+        <div class="row">
+            <c:forEach items="${registrosDuplicadosInactivos}" var="registroDuplicado">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <strong>Niño/a dado de baja</strong>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="span5">
+                                <span class="b_line"><strong>Cod. Padron:</strong>${registroDuplicado.coPadronNominal}</span>
+                                <span class="b_line"><strong>Dni del Menor:</strong>${empty registroDuplicado.nuDniMenor?"SIN DATO":registroDuplicado.nuDniMenor}</span>
+                                <span class="b_line"><strong>Apellidos y Nombres:</strong>${registroDuplicado.apPrimerMenor} ${registroDuplicado.apSegundoMenor}${empty registroDuplicado.apPrimerMenor and empty registroDuplicado.apSegundoMenor?"":", "}${registroDuplicado.prenombreMenor}</span>
+                                <span class="b_line"><strong>Motivo:</strong>${registroDuplicado.motivoBaja}</span>
+                            </div>
+                            <div class="span6">
+                                <span class="b_line"><strong>Fecha de Nacimiento:</strong>${registroDuplicado.feNacMenor}</span>
+                                <span class="b_line"><strong>Ubigeo del Menor:</strong>${registroDuplicado.deDistrito}/${registroDuplicado.deProvincia}/${registroDuplicado.deDepartamento}</span>
+                                <span class="b_line"><strong>Observacion:</strong>${registroDuplicado.observacionBaja}</span>
+                            </div>
+
+<!--                            <p>
+                                &lt;!&ndash;<strong>Advertencia:</strong> El niño/a <strong>&ndash;&gt;
+                                <util:persona-duplicidad
+                                    dni="${registroDuplicado.nuDniMenor}"
+                                    codpadron="${registroDuplicado.coPadronNominal}"
+                                    nombres="${registroDuplicado.prenombreMenor}"
+                                    primerApellido="${registroDuplicado.apPrimerMenor}"
+                                    segundoApellido="${registroDuplicado.apSegundoMenor}"
+                                    fenac="${registroDuplicado.feNacMenor}"/>&lt;!&ndash;</strong>, se encuentra <strong>dado de baja</strong>&ndash;&gt;
+                            </p>
+                            <p style="margin-bottom: 2px;"><strong>(${registroDuplicado.deDistrito}/${registroDuplicado.deProvincia}/${registroDuplicado.deDepartamento})</strong></p>
+                            <p style="margin-bottom: 2px;"><strong>${empty registroDuplicado.motivoBaja?"":"Motivo:"}</strong> ${registroDuplicado.motivoBaja} </p>
+                            <p style="margin-bottom: 2px;"><strong>${empty registroDuplicado.motivoBaja?"":"Observación:"}</strong> ${registroDuplicado.observacionBaja}</p>-->
+                        </div>
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <p class="pull-right">
+                           <!-- <a href="registromanual/formulario.do?coPadronNominal=${registroDuplicado.coPadronNominal}" class="btn btn-success"><i
+                                    class="icon-ok icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Ir a registro</a>&#160;&#160;-->
+                            <!--<a href="#" class="btn btn-mini btn-danger" onclick="RegistroManual.corregirInformacion()"><i class="icon-remove icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Corregir registro ingresado</a>-->
+                            <a href="registromanual/formulario.do" class="btn">Volver al formulario de registro</a>
+                        </p>
+                    </div>
+                </div>
+            </c:forEach>
+
+            <p><strong>Datos ingresados:</strong> </p>
+            <util:datosMenor-tabla padronNominal="${padronNominal}" tableClass="table table-condensed"/>
+        </div>
+    </div>
+</jsp:root>

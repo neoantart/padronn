@@ -1,0 +1,102 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 25/10/13
+  Time: 10:36 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div id="datos-ani-madre">
+        <c:choose>
+            <c:when test="${not empty madreAni}">
+                    <p class="lead text-info">Datos de RENIEC</p>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <td>DNI:</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty madreAni.dni}">
+                                        ${madreAni.dni}
+                                    </c:when>
+                                    <c:otherwise>&#160;</c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Apellido paterno:</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty madreAni.primerApellido}">
+                                        ${madreAni.primerApellido}
+                                    </c:when>
+                                    <c:otherwise>&#160;</c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Apellido materno:</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty madreAni.segundoApellido}">
+                                        ${madreAni.segundoApellido}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:otherwise>&#160;</c:otherwise>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <c:if test="${not empty madreAni.casadaApellido}">
+                            <tr>
+                                <td>Apellido Casada:</td>
+                                <td>${madreAni.casadaApellido}</td>
+                            </tr>
+                        </c:if>
+                        <tr>
+                            <td>Nombres:</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty madreAni.nombres}">
+                                        ${madreAni.nombres}
+                                    </c:when>
+                                    <c:otherwise>&#160;</c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                       <!-- <c:if test="${not empty madreAni.nuTelefono or not empty madrePadron.nuCelMadre}">
+                            <tr>
+                                <td>Celular:</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty madreAni.nuTelefono}">
+                                            ${madreAni.nuTelefono}
+                                        </c:when>
+                                        <c:otherwise><span class="label label-important">NO TIENE</span></c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${not empty madreAni.deEmail or not empty madrePadron.diCorreoMadre}">
+                            <tr>
+                                <td>Correo Electrónico:</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${not empty madreAni.deEmail}">
+                                            ${madreAni.deEmail}
+                                        </c:when>
+                                        <c:otherwise><span class="label label-important">NO TIENE</span></c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                        </c:if>-->
+                    </table>
+            </c:when>
+            <c:otherwise>
+                <!--<h4>Madre no tiene asignado DNI en el padron</h4>-->
+                <h4 style="color:red;">Madre no tiene DNI asignado o el DNI no es valido</h4>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</jsp:root>

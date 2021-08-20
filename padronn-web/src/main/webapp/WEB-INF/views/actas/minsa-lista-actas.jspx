@@ -1,0 +1,66 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 19/08/13
+  Time: 12:00 PM
+  To change this template use File | Settings | File Templates.
+-->
+
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <h2>Listado de actas enviadas por entidades:</h2>
+    <br />
+    <div class="row-fluid">
+        <div class="span12">
+            <c:choose>
+                <c:when test="${not empty actas}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <!--<th style="width: 50px;">Código</th>-->
+                            <th>Periodo de conciliacion</th>
+                            <th>Fecha de subida</th>
+                            <th>Usuario</th>
+                            <th>Entidad</th>
+                            <th>Archivos subidos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${actas}" var="acta">
+                            <tr>
+                                <!--<td>${acta.coActa}</td>-->
+                                <fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feIni}" var="feIniDate" />
+                                <fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feFin}" var="feFinDate" />
+                                <td><span class="text-info"> Del <fmt:formatDate pattern="dd/MM/yy" value="${feIniDate}"/> al <fmt:formatDate pattern="dd/MM/yy" value="${feFinDate}" /> </span></td>
+                                <fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feCreaAudi}" var="feCreaAudiDate" />
+                                <td><fmt:formatDate pattern="dd/MM/yy" value="${feCreaAudiDate}"/></td>
+                                <td>${acta.usCreaAudi}</td>
+                                <td>${acta.deEntidad}</td>
+                                <td>
+                                    <c:forEach items="${acta.actaArchivos}" var="actaArchivo">
+                                        <a class="noAjax" href="actas/download.do?coActaArchivo=${actaArchivo.coActaArchivo}">
+                                                <span class="badge badge-info" style="margin-right: 5px;">
+                                                    <i class="icon-file icon-white"></i>&#160;${actaArchivo.noActaArchivo}
+                                                </span>
+                                        </a>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <br />
+                    <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="minsa/lista-actas.do?nuPagina=" urlDespuesNuPagina=""></util:paginador>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-info">No existen actas registradas</div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+
+</jsp:root>

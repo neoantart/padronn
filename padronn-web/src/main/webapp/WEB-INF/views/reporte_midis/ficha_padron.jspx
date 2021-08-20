@@ -1,0 +1,57 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 26/05/2014
+  Time: 11:49 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="row">
+        <div class="span12">
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h1>Ficha del Niño/a</h1>
+                </div>
+                <div class="pull-right">
+                    <a href="${urlVolverFicha}?nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}&amp;urlVolver=${urlVolver}&amp;apPrimerMenor=${apPrimerMenor}&amp;apSegundoMenor=${apSegundoMenor}&amp;prenombresMenor=${prenombresMenor}&amp;nuDoc=${nuDoc}&amp;tiDoc=${tiDoc}&amp;dni=${dni}&amp;apPrimer=${apPrimer}&amp;apSegundo=${apSegundo}&amp;prenombre=${prenombre}&amp;esPadron=${esPadron}"
+                       class="btn button-back"><i
+                            class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+                </div>
+            </div>
+<!--            <div class="pull-right">
+                <a href="reporte_midis/result_listar_menores.do?nuPagina=${nuPagina}&amp;coUbigeo=${coUbigeo}&amp;deEdad=${deEdad}&amp;hastaEdad=${hastaEdad}&amp;deUbigeo=${deUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;tiDocMenor=${tiDocMenor}&amp;coGeneroMenor=${coGeneroMenor}"
+                   class="btn button-back"><i
+                        class="icon-arrow-left icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Volver</a>
+            </div>-->
+        </div>
+        <p class="text-center">
+            <a class="btn btn-success noAjax"
+               href="reporte_midis/fichaPadronPDF.pdf?coPadronNominal=${coPadronNominal}&amp;download=1"><span
+                    class="icon-download icon-white"><!-- --></span>&#160;Descargar ficha</a>&#160;&#160;&#160;&#160;
+            <a class="btn btn-primary noAjax" target="_blank" id="imprimir_ficha" href="reporte_midis/fichaPadronPDF.pdf?coPadronNominal=${coPadronNominal}&amp;imprimir=1"><span class="icon-print icon-white"><!-- --></span>&#160;Imprimir ficha</a>
+        </p>
+        <input id="name" type="hidden"
+               value="${padronNominal.prenombreMenor} ${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor} - ${padronNominal.deDireccion}"/>
+        <input id="address" type="hidden"
+               value="PERU / ${padronNominal.deDepartamento} / ${padronNominal.deProvincia} / ${padronNominal.deDistrito} - ${padronNominal.deDireccion}"/>
+
+        <div id="fichaPadron"><!-- --></div>
+
+        <div class="page-header">
+            <h2>Mapa de ubicación referencial del niño/a:
+                <small>${padronNominal.deDepartamento} / ${padronNominal.deProvincia} / ${padronNominal.deDistrito} - ${padronNominal.deDireccion}</small>
+            </h2>
+        </div>
+        <p>El mapa que se muestra no es exacto, es una aproximación en base a la dirección del niño/a y ubicacion geografica(ubigeo)</p>
+
+        <!-- <p style="text-align: center;">
+             <a class="btn btn-success" onclick="PrintElem('#cmapa')">Imprimir mapa</a>
+         </p>-->
+
+        <div id="cmapa"><!-- --></div>
+    </div>
+    <jsp:include page="ficha_padron_script.jspx"/>
+</jsp:root>

@@ -1,0 +1,26 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 09/09/13
+  Time: 10:29 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            // check de activo e inactivo
+            $('#esPermiso')
+                    .hide()
+                    .after(
+                            $(document.createElement('input'))
+                                    .attr({type: "checkbox", checked: ($('#esPermiso').val() == 1) ? true : false})
+                                    .change(function (e) {
+                                        $('#esPermiso').val(this.checked ? '1' : '0');
+                                    })
+                    );
+        });
+        ]]>
+    </script>
+</jsp:root>

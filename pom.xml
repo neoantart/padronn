@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<name>padronn</name>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>pe.gob.reniec.padronn</groupId>
+	<artifactId>padronn</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>padronn-base-application</module>
+		<module>padronn-logic</module>
+		<module>padronn-web</module>
+	</modules>
+</project>

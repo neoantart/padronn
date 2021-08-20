@@ -1,0 +1,15 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <c:if test="${empty persona}">
+        <p class="text-warning" id="mensaje_busqueda_jefe_familia">${mensaje}</p>
+    </c:if>
+    <c:if test="${not empty persona}">
+        <script type="text/javascript">
+            $(function () {
+                $('#apPrimerJefe').val("${persona.primerApellido}");
+                $('#apSegundoJefe').val("${persona.segundoApellido}");
+                $('#prenomJefe').val("${persona.nombres}");
+            });
+        </script>
+    </c:if>
+</jsp:root>

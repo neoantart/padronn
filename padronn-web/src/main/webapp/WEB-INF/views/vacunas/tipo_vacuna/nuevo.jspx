@@ -1,0 +1,107 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="modal_editar" class="modal" style="width: 640px;">
+        <div class="modal-header">
+            <a type="button" class="close" href="tipo_vacuna/listar.do">×</a>
+
+            <h3><span class="icon-edit"></span>&#160;Nuevo registro de Tipo de Vacuna</h3>
+        </div>
+
+        <form:form action="tipo_vacuna/send_nuevo.do#modal" modelAttribute="tipoVacuna" cssClass="form-horizontal">
+            <div class="modal-body">
+                <c:if test="${not empty msgError}">
+                    <div class="alert alert-danger"><span class="icon-remove"></span>&#160;${msgError}</div>
+                </c:if>
+                <spring:bind path="tipoVacuna.coTipoVacuna">
+                    <c:if test="${status.error}">
+                        <c:set var="coTipoVacunaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${coTipoVacunaError}">
+                    <label class="control-label" for="coTipoVacuna">Codigo de vacuna</label>
+                    <div class="controls">
+                        <form:input path="coTipoVacuna" placeholder="Codigo de vacuna" cssClass="span2"/>
+                        <form:errors path="coTipoVacuna" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+                <spring:bind path="tipoVacuna.deTipoVacuna">
+                    <c:if test="${status.error}">
+                        <c:set var="deTipoVacunaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${deTipoVacunaError}">
+                    <label class="control-label" for="deTipoVacuna">Detalle de vacuna</label>
+
+                    <div class="controls">
+                        <form:input path="deTipoVacuna" placeholder="Detalle de vacuna" cssClass="span4"/>
+                        <form:errors path="deTipoVacuna" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+                <spring:bind path="tipoVacuna.deTipoVacunaAbr">
+                    <c:if test="${status.error}">
+                        <c:set var="deTipoVacunaAbrError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${deTipoVacunaAbrError}">
+                    <label class="control-label" for="deTipoVacunaAbr">Abreviación de vacuna</label>
+
+                    <div class="controls">
+                        <form:input path="deTipoVacunaAbr" placeholder="Abreviación de vacuna" cssClass="span4"/>
+                        <form:errors path="deTipoVacunaAbr" cssClass="text-error" element="div"/>
+
+                    </div>
+                </div>
+
+                <spring:bind path="tipoVacuna.esTipoVacuna">
+                    <c:if test="${status.error}">
+                        <c:set var="esTipoVacunaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${esTipoVacunaError}">
+                    <label class="control-label" for="esTipoVacuna">Estado del registro</label>
+
+                    <div class="controls">
+                        <form:select path="esTipoVacuna" cssClass="span2">
+                            <form:option value="1" label="ACTIVO"/>
+                            <form:option value="0" label="INACTIVO"/>
+                        </form:select>
+                        <form:errors path="esTipoVacuna" cssClass="text-error" element="div"/>
+
+                    </div>
+                </div>
+
+                <spring:bind path="tipoVacuna.nuOrden">
+                    <c:if test="${status.error}">
+                        <c:set var="nuOrdenError" value="error"/>
+                    </c:if>
+                </spring:bind>
+
+                <div class="control-group ${nuOrdenError}">
+                    <label class="control-label" for="nuOrden">Orden</label>
+
+                    <div class="controls">
+                        <form:input path="nuOrden" cssClass="span1"/>
+                        <span class="help-inline">Orden para visualizar en el aplicativo</span>
+                        <form:errors path="nuOrden" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer center">
+                <button class="btn btn-primary"><span class="icon-check icon-white"></span>&#160;Guardar</button>
+                <a class="btn btn-danger btn-small" href="tipo_vacuna/listar.do"><span
+                        class="icon-remove icon-white"></span>&#160;Cancelar</a>
+            </div>
+        </form:form>
+    </div>
+
+    <jsp:include page="editar_script.jspx" />
+</jsp:root>

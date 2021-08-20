@@ -1,0 +1,48 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 13/11/13
+  Time: 12:34 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row-fluid">
+        <div class="page-header" style="height: 50px;">
+            <div class="pull-left">
+                <h1>Acerca de</h1>
+            </div>
+            <div class="pull-right" style="margin-top: 14px;">
+                <a href="home.do#main-content" class="btn"><i class="icon-arrow-left icon-white">&#160;</i>&#160;Volver</a>
+            </div>
+        </div>
+        <p>El sistema de padron nominal ha sido desarrollado por el equipo de servicios de Gobierno Electrónico de la Sub-Gerencia de Ingeniería de Software de la Gerencia de Informática del RENIEC. </p>
+        <br/>
+        <p>Miembros del equipo de desarrollo:</p>
+        <dl class="dl-horizontal">
+            <dt>Jefe de proyecto:</dt>
+            <dd>Cesar Roberto Rosales Maquera</dd>
+            <dt>Analista Programador:</dt>
+            <dd>Victor Dino Flores Velizario</dd>
+            <dt>Analista Programador:</dt>
+            <dd>Luis Miguel Mamani Humpiri</dd>
+            <dt>Analista de sistemas:</dt>
+            <dd>Yoselin Marin Apaza</dd>
+        </dl>
+        <br/>
+    </div>
+
+
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            if($('.nav').size() == 0){
+                $('#header').css({
+                    height: '96px',
+                    marginBottom: '18px'
+                });
+            }
+        });
+        ]]>
+    </script>
+</jsp:root>

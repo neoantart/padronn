@@ -1,0 +1,76 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 08/08/13
+  Time: 05:03 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <script type="text/javascript">
+        <![CDATA[
+            $(function() {
+                $('#clean-input').click(function(e){
+                    e.preventDefault();
+                    $('input').val('');
+                    $('#result-form-busqueda-nombres').html('');
+                });
+                $('#buscarRectificacion').on('submit', function () {
+                    $('input[name=apPrimerMenor]').val($('input[name=apPrimerMenor]').val().trim());
+                    $('input[name=apSegundoMenor]').val($('input[name=apSegundoMenor]').val().trim());
+                    $('input[name=prenombresMenor]').val($('input[name=prenombresMenor]').val().trim());
+                });
+
+                $('input[name=apPrimerMenor]')
+                        .inputmask('apellido')
+                        /*.on("keydown", function (e) {
+                            var $input = $(this).val();
+                            if(e.which===32) {
+                                if($input.slice(-1) ===' ')
+                                    e.preventDefault();
+                                else if($input.slice(-1) === ''){
+                                    e.preventDefault();
+                                }
+                            }
+                        })*/
+/*                        .on('change', function(e){
+                            $(this).val($(this).val().trim());
+                        })*/
+                        .focus();
+
+                $('input[name=apSegundoMenor]')
+                        .inputmask('apellido')
+                        /*.on("keydown", function (e) {
+                            var $input = $(this).val();
+                            if(e.which===32) {
+                                if($input.slice(-1) ===' ')
+                                    e.preventDefault();
+                                else if($input.slice(-1) === ''){
+                                    e.preventDefault();
+                                }
+                            }
+                        })*/
+                        /*.on('change', function(e){
+                            $(this).val($(this).val().trim());
+                        });*/
+
+                $('input[name=prenombresMenor]')
+                        .inputmask('nombre')
+                        /*.on("keydown", function (e) {
+                            var $input = $(this).val();
+                            if(e.which===32) {
+                                if($input.slice(-1) ===' ')
+                                    e.preventDefault();
+                                else if($input.slice(-1) === ''){
+                                    e.preventDefault();
+                                }
+                            }
+                        })*/
+                        /*.on('change', function(e){
+                            $(this).val($(this).val().trim());
+                        });*/
+            });
+        ]]>
+    </script>
+</jsp:root>

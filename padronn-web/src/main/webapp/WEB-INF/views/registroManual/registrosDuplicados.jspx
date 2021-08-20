@@ -1,0 +1,56 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 12/06/2014
+  Time: 03:07 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="ficha-confirmacion">
+        <script type="text/javascript">
+            $(function () {
+                RegistroManual.mostrarFichaConfirmacion();
+            });
+        </script>
+
+        <div class="page-header">
+            <!--<h1>Confirmar Información de Niño/a</h1>-->
+        </div>
+        <div class="row">
+            <c:forEach items="${registrosDuplicados}" var="registroDuplicado">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <strong>Registro duplicado</strong>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert">
+                            <p>
+                                <strong>Advertencia:</strong> El niño/a <strong>
+                                   <util:persona
+                                    dni="${registroDuplicado.nuDniMenor}"
+                                    codpadron="${registroDuplicado.coPadronNominal}"
+                                    nombres="${registroDuplicado.prenombreMenor}"
+                                    primerApellido="${registroDuplicado.apPrimerMenor}"
+                                    segundoApellido="${registroDuplicado.apSegundoMenor}"
+                                    fenac="${registroDuplicado.feNacMenor}"/></strong>, ya se encuentra registrado en el distrito de <strong>${registroDuplicado.deDistrito}</strong>, provincia de <strong>${registroDuplicado.deProvincia}</strong>, departamento de <strong>${registroDuplicado.deDepartamento}</strong>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <p class="pull-right">
+                            <a href="registromanual/formulario.do?coPadronNominal=${registroDuplicado.coPadronNominal}" class="btn btn-success"><i
+                                    class="icon-ok icon-white"><!-- --></i>&#160;Ir a registro</a>&#160;&#160;
+                            <a href="#" class="btn btn-mini btn-danger" onclick="RegistroManual.corregirInformacion()"><i class="icon-remove icon-white"><!-- --></i>&#160;Corregir registro ingresado</a>
+                        </p>
+                    </div>
+                </div>
+            </c:forEach>
+
+            <p><strong>Datos ingresados:</strong> </p>
+            <util:datosMenor-tabla padronNominal="${padronNominal}" tableClass="table table-condensed"/>
+        </div>
+    </div>
+</jsp:root>

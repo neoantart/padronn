@@ -1,0 +1,180 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <script type="text/javascript">
+        <![CDATA[
+        $(function () {
+            $('.search-dni').click(function (e) {
+                e.preventDefault();
+                var coUsuario = $('#coUsuario');
+                if (coUsuario.val() != '') {
+                    Util.ajax('signup/get_usuario_ani.do', {coUsuario: coUsuario.val()}, function (data) {
+                        $('#apPrimer').val(data.apPrimer);
+                        $('#apSegundo').val(data.apSegundo);
+                        $('#prenombres').val(data.prenombres);
+                        /*$('#coUsuario').attr('readonly','readonly');*/
+                    });
+                }
+            });
+
+            // check de activo e inactivo
+            $('#esUsuario')
+                .hide()
+                .after(
+                    $(document.createElement('input'))
+                        .attr({type: "checkbox", checked: ($('#esUsuario').val() == 1) ? true : false})
+                        .change(function (e) {
+                            $('#esUsuario').val(this.checked ? '1' : '0');
+                        })
+                );
+            // grupos
+            var esMinsa = $('#esMinsa').val();
+
+            Util.ajax("signup/tipo_entidades.do", {}, function (data) {
+
+                $('#tipoEntidades').select2({
+                    multiple: true,
+                    data: data,
+                    maximumSelectionSize: 3
+                });
+
+                if (esMinsa === "1") {
+                    $('#tipoEntidades').select2("readonly", true);
+                }
+
+                var cantidad = $('#s2id_tipoEntidades ul.select2-choices li').size();
+
+                if(cantidad>1 && cantidad !=null) {
+                    $('#entidades').select2("readonly", false);
+                } else {
+                    $('#entidades').select2("readonly", true);
+                }
+
+
+            });
+
+            Util.ajax("signup/grupos.do", {}, function (data) {
+
+                $('#grupos').select2({
+                    multiple: true,
+                    data: data
+                });
+
+                if (esMinsa === "1") {
+                    $('#grupos').select2("readonly", true);
+                }
+            });
+
+
+            $('#entidades').select2({
+                multiple: true,
+                //data: data.entidades,
+                placeholder: 'Buscar entidad',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'signup/buscar_entidad.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        var tipoEntidades = $('#tipoEntidades').val();
+
+                        return {
+                            parteDeEntidad: term,
+                            tipoEntidades: tipoEntidades
+                            /*tipoEntidades: JSON.stringify(tipoEntidades)*/
+                        };
+                    },
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+                formatResult: function (item) {
+                    if (item.text) {
+                        return "<div>" + item.text + " (<em>" + item.children.length + " resultados</em>)</div>";
+                    } else {
+                        if (item.coUbigeoInei != null)
+                            return '<div class="title"><strong>' + item.deEntidad + '</strong> (Cod. Ubigeo ' + item.coUbigeoInei + ') | (Cod. Renaes '+ item.coRenaes+') </div>' +
+                                '<div class="body">' +
+                                '<div><strong>' + item.deUbigeoInei + '</strong></div>' +
+                                '</div>';
+                        else
+                            return '<div class="title"><strong>' + item.deEntidad + '</strong></div>';
+                    }
+                },
+                formatSelection: function (item) {
+
+                    if (item.coUbigeoInei != null)
+                        return item.deEntidad + ' (' + item.deUbigeoInei + ')';
+                    else
+                        return item.deEntidad;
+                },
+                id: function (object) {
+                    return object.coEntidad;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+
+                    if (codigo !== "") {
+                        $.ajax("signup/get_entidad.do", {
+                            data: {
+                                coEntidad: codigo//,
+                                //coTipoEntidad: $('#tiposEntidad').val()
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                            var data = [];
+                            $(res).each(function () {
+                                data.push({
+                                    coEntidad: this.coEntidad,
+                                    deEntidad: this.deEntidad,
+                                    deUbigeoInei: this.deUbigeoInei,
+                                    coTipoEntidad: this.coTipoEntidad
+                                });
+                            });
+                            //console.log(data);
+                            callback(data);
+                        });
+                    }
+                }
+
+            }).on('removed', function (val, object) {  });
+
+            //-----------------------------------------------------------------------------------------
+            $('#tipoEntidades').on('change', function(){
+                var cantidad = $('#s2id_tipoEntidades ul.select2-choices li').length;
+                if(cantidad>1 && cantidad !=null) {
+                   $('#entidades').select2("readonly", false);
+                }
+                else {
+                   /*$('#entidades').prev('#s2id_entidades').find('ul.select2-choices').find('li.select2-search-choice').remove();
+                   $('#entidades').val('');*/
+                   $('#entidades').select2("readonly", true);
+                }
+            });
+
+            //-----------------------------------------------------------------------------------------
+
+            if (esMinsa === "1") {
+               $('#entidades').select2("readonly", true);
+            }
+
+            $('#coUsuario').focus().inputmask('dni');
+
+            $("#nuTelefono").inputmask({
+                mask: "u",
+                repeat: 9,
+                placeholder: ""
+            });
+
+            $("#deEmail").inputmask('email');
+            $("#prenombres").inputmask('nombre');
+            $("#apSegundo").inputmask('apellido');
+            $("#apPrimer").inputmask('apellido');
+            $('#deObservacion').inputmask('observacion');
+
+            $('#s2id_autogen2').inputmask('entidad');
+            $('.select2-input').inputmask('entidad');
+
+        });
+        ]]>
+    </script>
+</jsp:root>

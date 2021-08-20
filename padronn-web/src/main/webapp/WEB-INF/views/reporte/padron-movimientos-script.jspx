@@ -1,0 +1,59 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 20/09/13
+  Time: 10:12 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+<script type="text/javascript">
+    <![CDATA[
+    $(function(){
+/*        var nowTemp = new Date(),
+                startDate,
+                endDate;
+        if($('#feIni').val() != ''){
+            var split =$('#feIni').val().split('/');
+            startDate = new Date(parseInt(split[2]), parseInt(split[1])-1, split[0]);
+            $('#feIniText').text($('#feIni').val());
+        }
+        else
+            startDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+        if($('#feFin').val() != ''){
+            var split =$('#feFin').val().split('/');
+            endDate = new Date(parseInt(split[2]), parseInt(split[1])-1, parseInt(split[0]));
+            $('#feFinText').text($('#feFin').val());
+        }
+        else
+            endDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+        $('#feIni-date').datepicker()
+                .on('changeDate', function(ev){
+                    if (ev.date.valueOf() > endDate.valueOf()){
+                        $('#alert').show().find('strong').text('La Fecha Inicial no puede ser mayor que la fecha final');
+                    } else {
+                        $('#alert').hide();
+                        startDate = new Date(ev.date);
+                        $('#feIniText').text($('#feIni-date').data('date'));
+                        $('#feIni').val($('#feIni-date').data('date'));
+                    }
+                    $('#feIni-date').datepicker('hide');
+                });
+
+        $('#feFin-date').datepicker()
+                .on('changeDate', function(ev){
+                    if (ev.date.valueOf() < startDate.valueOf()){
+                        $('#alert').show().find('strong').text('La Fecha Final no puede ser menor que la fecha inicial');
+                    } else {
+                        $('#alert').hide();
+                        endDate = new Date(ev.date);
+                        $('#feFinText').text($('#feFin-date').data('date'));
+                        $('#feFin').val($('#feFin-date').data('date'));
+                    }
+                    $('#feFin-date').datepicker('hide');
+                });*/
+    });
+    ]]>
+</script>
+</jsp:root>

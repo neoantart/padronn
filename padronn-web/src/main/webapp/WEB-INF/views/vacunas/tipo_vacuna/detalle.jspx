@@ -1,0 +1,74 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="modal_editar" class="modal" style="width: 640px;">
+        <div class="modal-header">
+            <a type="button" class="close" href="tipo_vacuna/listar.do">×</a>
+
+            <h3><span class="icon-edit"></span>&#160;Datos de Tipo de Vacuna</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="alert alert-success"><span class="icon-ok"></span>&#160; El tipo de vacuna se guardo correctamente!</div>
+            <div class="form-horizontal">
+                <fieldset disabled="disabled">
+                    <div class="control-group">
+                        <label class="control-label">Codigo de vacuna</label>
+
+                        <div class="controls">
+                            <input class="span2" type="text" value="${tipoVacuna.coTipoVacuna}" style="color: black!important;"/>
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <label class="control-label">Detalle de vacuna</label>
+
+                        <div class="controls">
+                            <input class="span4" type="text" value="${tipoVacuna.deTipoVacuna}" style="color: black!important;"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="deTipoVacunaAbr">Abreviación de vacuna</label>
+
+                        <div class="controls">
+                            <input class="span4" type="text" value="${tipoVacuna.deTipoVacunaAbr}" style="color: black!important;" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="esTipoVacuna">Estado del registro</label>
+
+                        <div class="controls">
+                            <c:choose>
+                                <c:when test="${tipoVacuna.esTipoVacuna eq '1'} ">
+                                    <c:set var="esTipoVacunaDetalle" value="ACTIVO"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="esTipoVacunaDetalle" value="INACTIVO"/>
+                                </c:otherwise>
+                            </c:choose>
+                            <input class="span2" type="text" value="${esTipoVacunaDetalle}" style="color: black!important;" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="nuOrden">Orden</label>
+
+                        <div class="controls">
+                            <input class="span2" type="text" value="${tipoVacuna.nuOrden}" style="color: black!important;"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <a class="btn btn-danger btn-small" href="tipo_vacuna/listar.do"><span
+                    class="icon-remove icon-white"></span>&#160;Cerrar</a>
+        </div>
+    </div>
+    <jsp:include page="editar_script.jspx"/>
+</jsp:root>

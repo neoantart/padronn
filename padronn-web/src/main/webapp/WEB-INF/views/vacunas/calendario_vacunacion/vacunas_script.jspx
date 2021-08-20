@@ -1,0 +1,46 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+        <script type="text/javascript">
+        <![CDATA[
+        $(function () {
+            vacunas={
+                init:function(){
+
+                    // botones de navegacion
+                    $('#anterior').on('click', function (e) {
+                        e.preventDefault();
+                        var formVacunas = $('#calendarioVacunacion');
+                        formVacunas.attr('action', 'calendario_vacunacion/send_vacunas_ant.do');
+                        formVacunas.append('<input type="hidden" value="anterior" name="anterior"/>');
+                        Util.enviarFormTarget($('#calendarioVacunacion'), '#wizard_calendario_vac');
+                    });
+                    vacunas.guardar();
+                },
+                guardar: function(){
+                    $('#btn_guardar').on('click', function(e) {
+                        e.preventDefault();
+                        $('#overlay').removeClass("hide");
+                        $('#modal_confirma_guardar').modal({
+                            backdrop: false,
+                            keyboard: false
+                        });
+
+                        $('.close-modal').on('click', function (e) {
+                            e.preventDefault();
+                            $('#modal_confirma_guardar').modal('hide');
+                            $('#overlay').addClass("hide");
+                        })
+
+                        // boton de confirmacion de cambios
+                        $('#guardar_cambios').on('click', function(e) {
+                            e.preventDefault();
+                            Util.enviarFormTarget($('#calendarioVacunacion'), '#wizard_calendario_vac');
+                        });
+                    });
+                }
+            }
+            vacunas.init();
+        });
+        ]]>
+        </script>
+</jsp:root>

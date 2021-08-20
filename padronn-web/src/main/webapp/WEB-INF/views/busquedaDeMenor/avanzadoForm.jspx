@@ -1,0 +1,121 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 22/05/13
+  Time: 02:47 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<c:if test="${empty tabmadre}">
+		<script type="text/javascript">
+			$(function(){
+				var validCharsRegex=/[\w\dÄ-ÜÁ-ÚÀ-ÙÂ-ÛÃÕÑä-üá-úà-ùâ-ûãõñ\-' \.]/i
+                        ,noFirstChars = "-' .0123456789";
+
+
+				/*$('#apPrimerMenor').focus();
+				$('#apPrimerMenor').keyfilter(validCharsRegex);
+				$('#apSegundoMenor').keyfilter(validCharsRegex);
+				$('#prenombreMenor').keyfilter(validCharsRegex);
+				$('#apPrimer').keyfilter(validCharsRegex);
+				$('#apSegundo').keyfilter(validCharsRegex);
+				$('#prenombre').keyfilter(validCharsRegex);*/
+
+                $('#apPrimerMenor')
+                        .focus()
+                        .keyfilter(validCharsRegex)
+                        .inputmask('apellido')
+
+                        /*.on('change', function(e){
+                            $(this).val($(this).val().trim());
+                        })*/
+                        /*.on('change', function(){
+                            *//*e.preventDefault();*//*
+                            var str = $(this).val();
+                            $(this).val(str.replace(/\s+/g,' '));
+                        });*/
+
+                $('#apSegundoMenor')
+                        /*.on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#apSegundoMenor').val();
+                            $('#apSegundoMenor').val(str.replace(/\s+/g,' '));
+                        })*/
+                        .keyfilter(validCharsRegex)
+                        .inputmask('apellido')
+/*                        .on('change', function(e) {
+                            $(this).val($(this).val().trim());
+                        })*/
+
+                $('#prenombreMenor')
+                        .keyfilter(validCharsRegex)
+                        .inputmask('nombre')
+                        /*.on('change', function(e) {
+                            $(this).val($(this).val().trim());
+                        })*/
+/*                        .on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#prenombreMenor').val();
+                            $('#prenombreMenor').val(str.replace(/\s+/g,' '));
+                        })*/
+
+
+                $('#apPrimer')
+                        .keyfilter(validCharsRegex)
+                        /*.on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#apPrimer').val();
+                            $('#apPrimer').val(str.replace(/\s+/g,' '));
+                        })*/
+                        .inputmask('apellido');
+
+                $('#apSegundo')
+                        .keyfilter(validCharsRegex)
+                        /*.on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#apSegundo').val();
+                            $('#apSegundo').val(str.replace(/\s+/g,' '));
+                        })*/
+                        .inputmask('apellido');;
+
+                $('#prenombre')
+                        .keyfilter(validCharsRegex)
+                        /*.on('change', function(e){
+                            e.preventDefault();
+                            var str = $('#prenombre').val();
+                            $('#prenombre').val(str.replace(/\s+/g,' '));
+                        })*/
+                        .inputmask('nombre');;
+
+			});
+		</script>
+	</c:if>
+	<c:if test="${not empty tabmadre}">
+		<script type="text/javascript">
+			$(function(){
+				$('#dni').focus();
+			});
+		</script>
+	</c:if>
+
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Búsquedas</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+	<div>
+		<ul id="busava-tabs" class="nav nav-tabs">
+			<li class="${tabmenor}"><a href="#busmen-ava-menor-tabpane" data-toggle="tab">Búsqueda por datos del Niño/a</a></li>
+			<li class="${tabmadre}"><a href="#busmen-ava-madre-tabpane" data-toggle="tab">Búsqueda por datos de la Madre</a></li>
+		</ul>
+		<div id="" class="tab-content">
+			<div class="tab-pane ${tabmenor}" id="busmen-ava-menor-tabpane">
+				<jsp:include page="avanzadoFormMenor.jspx"/>
+			</div>
+			<div class="tab-pane ${tabmadre}" id="busmen-ava-madre-tabpane">
+				<jsp:include page="avanzadoFormMadre.jspx" />
+			</div>
+		</div>
+	</div>
+</jsp:root>

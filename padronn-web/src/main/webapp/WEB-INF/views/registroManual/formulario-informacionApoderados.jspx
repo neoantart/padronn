@@ -1,0 +1,240 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<div class="row-fluid">
+		<div class="span6">
+			<fieldset>
+				<legend>
+					Jefe de Familia o Titular <span data-trigger="tooltip" data-content="Se refiere a la persona a cargo de la cual esta el menor, normalmente el padre" data-position="e" class="label label-info">?</span>
+				</legend>
+				<c:if test="${not empty PadronTitularFamilia}">
+					<p class="text-error">
+						<spring:message code="${PadronTitularFamilia.code}" arguments="${PadronTitularFamilia.arguments}" text="${PadronTitularFamilia.defaultMessage}"/>
+					</p>
+				</c:if>
+				<c:if test="${not empty PadronApoderado}">
+					<p class="text-error">
+						<spring:message code="${PadronApoderado.code}" arguments="${PadronApoderado.arguments}" text="${PadronApoderado.defaultMessage}"/>
+					</p>
+				</c:if>
+				<div id="regman-form-message-jefe">&#160;</div>
+				<div class="control-group">
+					<label class="control-label" for="tiVinculoJefe">Vinculo Familiar</label>
+					<div class="controls">
+						<form:select path="tiVinculoJefe" id="tiVinculoJefe"  >
+							<form:option value="" label="Ninguno"/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${vinculoFamiliarItems}" />
+						</form:select>
+						&#160;<util:btn-restablecer selector="#tiVinculoJefe" val="${padronNominal.tiVinculoJefe}"/>
+						<form:errors path="tiVinculoJefe" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="coDniJefeFam">DNI</label>
+					<div class="controls">
+						<div class="input-append">
+							<!--<form:input path="coDniJefeFam" id="coDniJefeFam" placeholder="" data-inputmask="'mask': '99999999'" href="registromanual/buscarJefeFamiliaPorDni.do#regman-form-message-jefe" />-->
+							<form:input path="coDniJefeFam" id="coDniJefeFam" placeholder="" data-inputmask="'mask': '99999999'" />
+							<button type="button" id="coDniJefeFam-button" class="btn"><i class="icon-white icon-search">&#160;</i></button>
+						</div>
+						&#160;<util:btn-restablecer selector="#coDniJefeFam" val="${padronNominal.coDniJefeFam}"/>
+						<form:errors path="coDniJefeFam" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="apPrimerJefe">Primer Apellido</label>
+					<div class="controls">
+						<form:input path="apPrimerJefe" id="apPrimerJefe" placeholder="" readonly="true" maxlength="25"/>
+						&#160;<util:btn-restablecer selector="#apPrimerJefe" val="${padronNominal.apPrimerJefe}"/>
+						<form:errors path="apPrimerJefe" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="apSegundoJefe">Segundo Apellido</label>
+					<div class="controls">
+						<form:input path="apSegundoJefe" id="apSegundoJefe" placeholder="" readonly="true" maxlength="25"/>
+						&#160;<util:btn-restablecer selector="#apSegundoJefe" val="${padronNominal.apSegundoJefe}"/>
+						<form:errors path="apSegundoJefe" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="prenomJefe">Nombres</label>
+					<div class="controls">
+						<form:input path="prenomJefe" id="prenomJefe" placeholder="" readonly="true" maxlength="35"/>
+						&#160;<util:btn-restablecer selector="#prenomJefe" val="${padronNominal.prenomJefe}"/>
+						<form:errors path="prenomJefe" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+
+		<div class="span6">
+			<fieldset>
+				<legend>
+					Madre <span data-trigger="tooltip" data-content="La madre biológica del menor" data-position="e" class="label label-info">?</span>
+				</legend>
+
+				<c:set var="esIndocumentada" value="${((empty padronNominal.coDniMadre) and (not empty padronNominal.apPrimerMadre or not empty padronNominal.apSegundoMadre or not empty padronNominal.prenomMadre))?'1':'0'}" />
+
+				<c:if test="${not empty PadronMadreFamilia}">
+					<p class="text-error">
+						<spring:message code="${PadronMadreFamilia.code}" arguments="${PadronMadreFamilia.arguments}" text="${PadronMadreFamilia.defaultMessage}"/>
+					</p>
+				</c:if>
+				<div id="regman-form-message-madre">&#160;</div>
+
+				<div class="control-group form-inline">
+					<label class="control-label" for="noDniMadre"> Es Indocumentada</label>
+					<div class="controls">
+						<c:if test="${esIndocumentada=='1'}">
+							<input id="noDniMadre" name="noDniMadre" type="checkbox" value="1" style="margin-top: 9px;" onclick="RegistroManual.modificarEstadoCamposMadre(this);" checked="checked"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<input id="noDniMadre" name="noDniMadre" type="checkbox" value="1" style="margin-top: 9px;" onclick="RegistroManual.modificarEstadoCamposMadre(this);" />
+						</c:if>
+					</div>
+				</div>
+
+				<c:if test="${not empty errores['coDniMadre']}">
+					<c:set var="errorCoDniMadre" value="error"></c:set>
+				</c:if>
+				<div class="control-group ${errorCoDniMadre}">
+					<!--<label class="control-label" for="coDniMadre">DNI <span class="text-error required" title="requerido">*</span></label>-->
+					<label class="control-label" for="coDniMadre"> DNI</label>
+					<div class="controls">
+						<div class="input-append">
+							<c:if test="${esIndocumentada=='1'}">
+								<form:input path="coDniMadre" id="coDniMadre" placeholder="" data-inputmask="'mask': '99999999'" /> <!--href="registromanual/buscarMadreApoderadoPorDni.do#regman-form-message-madre" disabled="true"/>-->
+							</c:if>
+							<c:if test="${esIndocumentada=='0'}">
+								<form:input path="coDniMadre" id="coDniMadre" placeholder="" data-inputmask="'mask': '99999999'" /> <!--href="registromanual/buscarMadreApoderadoPorDni.do#regman-form-message-madre"-->
+							</c:if>
+							<button type="button" id="coDniMadre-button" class="btn"> <!--href="registromanual/buscarMadreApoderadoPorDni.do?coDniMadre#regman-form-message-madre"-->
+								<i class="icon-white icon-search">&#160;</i>
+							</button>
+						</div>
+						&#160;<util:btn-restablecer selector="#coDniMadre" val="${padronNominal.coDniMadre}"/>
+						<form:errors path="coDniMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<c:if test="${not empty errores['apPrimerMadre']}">
+					<c:set var="errorApPrimerMadre" value="error"></c:set>
+				</c:if>
+				<div class="control-group ${errorApPrimerMadre}">
+					<label class="control-label" for="apPrimerMadre">Primer Apellido</label>
+					<div class="controls">
+						<c:if test="${esIndocumentada=='1'}">
+							<form:input path="apPrimerMadre" id="apPrimerMadre" placeholder="" maxlength="25"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<form:input path="apPrimerMadre" id="apPrimerMadre" placeholder="" readonly="true" maxlength="25"/>
+						</c:if>
+						&#160;<util:btn-restablecer selector="#apPrimerMadre" val="${padronNominal.apPrimerMadre}"/>
+						<form:errors path="apPrimerMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+            <c:if test="${not empty errores['apSegundoMadre']}">
+               <c:set var="errorApSegundoMadre" value="error"></c:set>
+            </c:if>
+				<div class="control-group ${errorApSegundoMadre}">
+					<!--<label class="control-label" for="apSegundoMadre">Segundo Apellido <span class="text-error required" title="requerido">*</span></label>-->
+					<label class="control-label" for="apSegundoMadre">Segundo Apellido</label>
+					<div class="controls">
+						<c:if test="${esIndocumentada=='1'}">
+							<form:input path="apSegundoMadre" id="apSegundoMadre" placeholder="" maxlength="25"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<form:input path="apSegundoMadre" id="apSegundoMadre" placeholder="" readonly="true" maxlength="25"/>
+						</c:if>
+						&#160;<util:btn-restablecer selector="#apSegundoMadre" val="${padronNominal.apSegundoMadre}"/>
+						<form:errors path="apSegundoMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+                <c:if test="${not empty errores['prenomMadre']}">
+                    <c:set var="errorPrenomMadre" value="error"></c:set>
+                </c:if>
+				<div class="control-group ${errorPrenomMadre}">
+					<label class="control-label" for="prenomMadre">Nombres</label>
+					<div class="controls">
+						<c:if test="${esIndocumentada=='1'}">
+							<form:input path="prenomMadre" id="prenomMadre" placeholder="" maxlength="35"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<form:input path="prenomMadre" id="prenomMadre" placeholder="" readonly="true" maxlength="35"/>
+						</c:if>
+						&#160;<util:btn-restablecer selector="#prenomMadre" val="${padronNominal.prenomMadre}"/>
+						<form:errors path="prenomMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<c:if test="${not empty padronNominal.deGraInstMadreCnv and empty padronNominal.deGraInstMadreReniec}">
+					<div class="control-group">
+						<label class="control-label">Grado de Instrucción CNV</label>
+						<div class="controls">
+							<span>${padronNominal.deGraInstMadreCnv}</span>
+						</div>
+					</div>
+				</c:if>
+
+                <c:if test="${not empty errores['coGraInstMadre']}">
+                    <c:set var="errorCoGraInstMadre" value="error"></c:set>
+                </c:if>
+                <div class="control-group ${errorCoGraInstMadre}">
+					<label class="control-label" for="coGraInstMadre">Grado Instrucción Declarado<span class="label-grado-instruccion text-error required" title="requerido">*</span></label>
+					<div class="controls">
+						<form:select path="coGraInstMadre" id="coGraInstMadre">
+							<form:option value="" label="Seleccione..."/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${gradoInstruccionItems}" />
+						</form:select>
+						&#160;<util:btn-restablecer selector="#coGraInstMadre" val="${padronNominal.coGraInstMadre}"/>
+						<form:errors path="coGraInstMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<c:if test="${not empty errores['nuCelMadre']}">
+					<c:set var="errorNuCelMadre" value="error"></c:set>
+				</c:if>
+				<div class="control-group ${errorNuCelMadre}">
+					<label class="control-label" for="nuCelMadre">Celular<span class="text-error required hidden" title="requerido" id="span-celular-required">*</span></label>
+					<div class="controls">
+						<form:input path="nuCelMadre" id="nuCelMadre" placeholder="" data-inputmask="'mask': '999999999'" val="${padronNominal.nuCelMadre}" maxlength="9"/>
+						<form:errors path="nuCelMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">Correo Electrónico</label>
+					<div class="controls">
+						<form:input path="diCorreoMadre" id="diCorreoMadre" style="text-transform: none !important;" spellcheck="false" val="${padronNominal.diCorreoMadre}" placeholder="" maxlength="100"/>
+						<form:errors path="diCorreoMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<c:if test="${not empty errores['coLenMadre']}">
+					<c:set var="errorCoLenMadre" value="error"></c:set>
+				</c:if>
+				<div class="control-group ${errorCoLenMadre}">
+					<label class="control-label" for="coLenMadre">Lengua Habitual <span class="text-error required label-lengua-habitual" title="requerido">*</span></label>
+					<div class="controls">
+						<form:select path="coLenMadre" id="coLenMadre">
+							<form:option value="" label="Seleccione..."/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${lenguajeHabitualItems}" />
+						</form:select>
+						&#160;<util:btn-restablecer selector="#coLenMadre" val="${padronNominal.coLenMadre}"/>
+						<form:errors path="coLenMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+</jsp:root>

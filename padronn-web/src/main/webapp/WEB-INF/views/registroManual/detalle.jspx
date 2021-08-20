@@ -1,0 +1,28 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 09/08/13
+  Time: 06:14 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <c:if test="${not empty padronNominal.nuDniMenor or not empty padronNominal.coPadronNominal}">
+        <div class="row">
+            <div class="span8">
+                <!--<h1>Detalles del registro del menor ${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor}, ${padronNominal.prenombreMenor}</h1>-->
+                <h1>Detalles del registro</h1>
+                <a class="btn btn-info" href="registromanual/formulario.do?coPadronNominal=${padronNominal.coPadronNominal}&amp;nuEnvio=${nuEnvio}&amp;nuPagina=${nuPagina}#precarga-modulo-div"><span class="icon-pencil icon-white"></span> Actualizar en el Padrón Nominal</a>
+            </div>
+            <div class="span3 pull-right" style="margin-top: 15px;">
+                <a href="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=${nuPagina}#precarga-modulo-div" class="btn">
+                    <i class="icon-arrow-left icon-white"></i> Volver</a>
+            </div>
+        </div>
+        <hr/>
+        <util:datosMenor-tabla padronNominal="${padronNominal}" tableClass="table table-condensed"/>
+        <br/>
+        <!--<hr style="clear:both;"/>-->
+    </c:if>
+</jsp:root>

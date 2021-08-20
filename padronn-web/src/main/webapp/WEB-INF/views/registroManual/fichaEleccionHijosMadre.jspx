@@ -1,0 +1,166 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div id="ficha-confirmacion">
+        <script type="text/javascript">
+            $(function(){
+                RegistroManual.mostrarFichaConfirmacion();
+            });
+        </script>
+        <div class="page-header">
+            <h1>Verificar y/o Confirmar Información de Niño/a</h1>
+        </div>
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <div class="alert alert-block" style="padding-right: 14px;">
+                    <c:if test="${empty personaListCoincidencias and empty personaListCoincidenciasInactivos}">
+                        <form action="registromanual/guardarconfirmado.do" style="margin-bottom: 0px;" method="post">
+                            <h4>
+                                <span>Antes de confirmar debe verificar lo siguiente:</span>
+                            </h4>
+                            <div class="row" style="margin-bottom: 0px;margin-top: 10px; margin-left: 0px">
+                                <div class="span8">
+                                    <ul class="listaguion" style="margin-bottom: 0px;margin-top: 0px">
+                                        <li>La información ingresada corresponde a un niño/a que <strong>NO TIENE NINGÚN REGISTRO</strong>
+                                            en la base de datos del <strong>PADRÓN NOMINAL</strong> ni del <strong>RENIEC</strong>.</li>
+                                        <li>Al hacer clic en el botón de <strong>CONFIRMAR,</strong> expresa su consentimiento para dar <strong>ALTA DE UN NUEVO REGISTRO</strong>.</li>
+                                    </ul>
+                                </div>
+                                <div class="span4">
+                                    <a href="#" style="margin-top: 40px;" class="btn btn-medium btn-danger pull-right" onclick="RegistroManual.corregirInformacion()"><span class="icon icon-remove icon-white">&#160;</span> Corregir</a>
+                                    <button class="btn btn-medium btn-success pull-right" style="margin-right: 10px;margin-top: 40px;"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </c:if>
+
+                    <c:if test="${not empty personaListCoincidencias or not empty personaListCoincidenciasInactivos}">
+                        <form action="registromanual/guardarconfirmado.do" method="post">
+                            <h4>
+                                <span>Verifique y confirme la información registrada</span>
+                            </h4>
+                            <div class="row" style="margin-bottom: 0px;margin-top: 10px; margin-left: 0px">
+                                <div class="span8">
+                                    <ul class="listaguion" style="margin-bottom: 0px;margin-top: 0px">
+                                        <li>La información ingresada corresponde a un niño/a que ya se encuentra registrado en la base de datos
+                                            del <strong>Padrón Nominal</strong> o del <strong>RENIEC</strong>.</li> <!--, o finalmente un menor indocumentado.-->
+                                        <li>Al hacer clic en el botón de <strong>CONFIRMAR,</strong> expresa su consentimiento para dar <strong>ALTA DE UN NUEVO REGISTRO</strong>.</li>
+                                    </ul>
+                                </div>
+                                <div class="span4">
+                                    <a href="#" style="margin-top: 40px;" class="btn btn-medium btn-danger pull-right" onclick="RegistroManual.corregirInformacion()"><span class="icon icon-remove icon-white">&#160;</span> Corregir</a>
+                                    <button class="btn btn-medium btn-success pull-right" style="margin-right: 10px; margin-top: 40px;"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <c:if test="${not empty personaListCoincidencias }">
+                <form action="registromanual/seleccionarnuevomenor.do" id="regmen-fichaeleccion">
+                    <div class="span8">
+                        <h4>Lista de hijos activos de la madre.</h4>
+                        <p style="margin-bottom: 5px;margin-top: 0px;">Verifique si uno de los hijos/as de la madre <strong>${padronNominal.apPrimerMadre} ${padronNominal.apSegundoMadre}${empty padronNominal.apPrimerMadre and empty padronNominal.apSegundoMadre?"":", "}${padronNominal.prenomMadre}</strong> con DNI<strong> ${padronNominal.coDniMadre}</strong>, corresponde a los datos del niño/a registrado:</p>
+                        <table class="t_menores table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cod. Padron</th>
+                                    <th>Nro. Cnv</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Nombres</th>
+                                    <th>Fec. Nac.</th>
+                                    <th>Genero</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="persona" items="${personaListCoincidencias}">
+                                <c:if test="${persona.baseDatosOrigen=='PN'}">
+                                       <!-- <label class="radio">-->
+                                            <!--<input type="radio" name="codigoMenorCoincidente" value="pn=${persona.codigoPadronNominal}"/>-->
+                                            <util:menores
+                                                    codpadron="${persona.codigoPadronNominal}"
+                                                    nombres="${persona.nombres}"
+                                                    primerApellido="${persona.primerApellido}"
+                                                    segundoApellido="${persona.segundoApellido}"
+                                                    fenac="${persona.fechaNacimiento}"
+                                                    genero="${persona.genero}"
+                                                    dni="${persona.dni}"
+                                                    nuCnv="${persona.cnv}" />
+
+                                        <!--</label>-->
+                                </c:if>
+                                <c:if test="${persona.baseDatosOrigen=='ANI'}">
+                                        <!--<label class="radio">-->
+                                            <!-- TODO verificar que "dni=${persona.codigoPadronNominal}" es correcto! -->
+                                            <!--<input type="radio" name="codigoMenorCoincidente" value="dni=${persona.dni}"/>-->
+                                            <util:menores
+                                                    dni="${persona.dni}"
+                                                    nombres="${persona.nombres}"
+                                                    primerApellido="${persona.primerApellido}"
+                                                    segundoApellido="${persona.segundoApellido}"
+                                                    fenac="${persona.fechaNacimiento}"
+                                                    genero="${persona.genero}"
+                                                    ubigeo="${persona.descUbigeo}"
+                                                    nuCnv="${persona.cnv}" />
+                                        <!--</label>-->
+                                </c:if>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <button style="margin-bottom: 20px;" class="btn btn-medium btn-success center-block" type="button" onclick="RegistroManual.seleccionarCoincidenciaMenor()"><span class="icon icon-ok icon-white">&#160;</span> Usar niño/a seleccionado</button>
+                    </div>
+                </form>
+            </c:if>
+        </div>
+        <div class="row-fluid" style="margin-bottom: 15px;">
+            <c:if test="${not empty personaListCoincidenciasInactivos }">
+                <div class="span11">
+                    <h4 style="color: #de5050;font-size: 15px;">Lista de Hijos dados de baja de la madre <strong>${padronNominal.apPrimerMadre} ${padronNominal.apSegundoMadre}${empty padronNominal.apPrimerMadre and empty padronNominal.apSegundoMadre?"":", "}${padronNominal.prenomMadre}</strong>  con DNI <strong>${padronNominal.coDniMadre}</strong>.</h4>
+                    <!--<ul class="">-->
+                    <table class="t_menores table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Cod. Padron</th>
+                            <th>Nro. Cnv</th>
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Nombres</th>
+                            <th>Fec. Nac.</th>
+                            <th>Genero</th>
+                            <th>Motivo Baja</th>
+                            <th>Observacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="persona" items="${personaListCoincidenciasInactivos}">
+                            <c:if test="${persona.baseDatosOrigen=='PN'}">
+                        <!--        <li>-->
+                                    <!--<label class="radio" style="color:#ce4747; padding-left: 0px;">-->
+                                        <!--<input type="radio" name="codigoMenorCoincidente" value="pn=${persona.codigoPadronNominal}"/>-->
+                                        <util:menores
+                                              codpadron="${persona.codigoPadronNominal}"
+                                              nombres="${persona.nombres}"
+                                              primerApellido="${persona.primerApellido}"
+                                              segundoApellido="${persona.segundoApellido}"
+                                              fenac="${persona.fechaNacimiento}"
+                                              genero="${persona.genero}"
+                                              motivoBaja="${persona.motivoBaja}"
+                                              observacionBaja="${persona.observacionBaja}"
+                                              nuCnv="${persona.cnv}"  />
+                                    <!--</label>-->
+                                <!--</li>-->
+                            </c:if>
+                        </c:forEach>
+                    </tbody>
+                    </table>
+                    <!--</ul>-->
+                </div>
+            </c:if>
+        </div>
+        <util:datosMenor-tabla padronNominal="${padronNominal}" tableClass="table table-condensed"/>
+    </div>
+</jsp:root>

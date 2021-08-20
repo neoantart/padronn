@@ -1,0 +1,68 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 25/04/2016
+  Time: 02:57 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="page-header clearfix">
+        <div class="pull-left" style="margin-left: -20px;">
+            <h1><span class="icon-th-large"></span>&#160;Bandeja de registros observados</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i
+                class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+    <div class="row">
+        <div id="content_observados">
+            <c:choose>
+                <c:when test="${not empty padronObservados}">
+                    <div class="alert alert-success clearfix">
+                        <div class="span3">
+                            <p><span class="icon-refresh"></span>&#160;Listado&#160;<a
+                                    href="bandeja_observado/descargar_bandeja_observados.do"
+                                    class="noAjax btn btn-success" id="descargar"><span
+                                    class="icon-download icon-white"></span>&#160;Descargar</a>
+                            </p>
+                        </div>
+                        <div class="span8">
+                            Filtrar por Tipo Observación:
+                            <select id="tipo_observacion" style="width: 390px;">
+                                <option value="0">-- TODOS --</option>
+                                <c:forEach var="tipoObservacion" items="${tiposObservacion}">
+                                    <c:choose>
+                                        <c:when test="${tipoObservacion.coTipoObservacion eq coTipoObservacion}">
+                                            <option value="${tipoObservacion.coTipoObservacion}" selected="selected">${tipoObservacion.deTipoObservacion}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${tipoObservacion.coTipoObservacion}">${tipoObservacion.deTipoObservacion}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="listado_observados">
+                        <c:choose>
+                            <c:when test="${not empty coTipoObservacion and coTipoObservacion eq '7'}">
+                                <jsp:include page="listado_observados_cnv.jspx"/>
+                            </c:when>
+                            <c:otherwise>
+                                <jsp:include page="listado_observados.jspx"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-success">
+                        <p style="margin-left: 25px;"><span
+                                class="icon-ok"></span>&#160;La ${usuario.deEntidad} (${ubigeo.deDepartamento} / ${ubigeo.deProvincia} / ${ubigeo.deDistrito}) no tiene registros observados
+                        </p>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+</jsp:root>

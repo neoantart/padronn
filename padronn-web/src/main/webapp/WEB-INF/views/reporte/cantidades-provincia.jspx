@@ -1,0 +1,59 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 17/09/13
+  Time: 09:50 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <table class="table table-bordered  table-condensed table-hover table-striped" id="depas">
+        <caption>
+            Número de registros por provincia - <span class="text-info">fuente: padron nominal</span><br/>
+            <span class="text-info" style="margin-bottom: 10px;">Fecha de generación de consolidado: ${fechaConsolidado}</span>
+            <a class="btn btn-success btn-mini" href="reporte/cantidades_departamentos_total.do" style="margin-bottom: 10px;">
+                <i class=" icon-arrow-left icon-white"></i>&#160;Volver a departamentos
+            </a>
+        </caption>
+
+        <tr>
+            <!--<th>Codigo</th>-->
+            <th>Provincia</th>
+            <th>Con DNI</th>
+            <th>Sin DNI</th>
+            <th>Con CUI</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+        <c:set var="total" value='0' />
+        <c:set var="total1" value='0' />
+        <c:set var="total2" value='0' />
+        <c:set var="total3" value='0' />
+        <c:forEach items="${provincias}" var="prov">
+            <c:set var="total" value="${total+prov.nuConDni}" />
+            <c:set var="total1" value="${total1+prov.nuCui}" />
+            <c:set var="total2" value="${total2+prov.nuSinDni}" />
+            <c:set var="total3" value="${total3+prov.nuTotal}" />
+            <tr id="${prov.coUbigeo}">
+                <!--<td>${depa.coUbigeo}</td>-->
+                <td>${prov.deUbigeo}</td>
+                <td style="text-align: right;"><fmt:formatNumber value="${prov.nuConDni}" pattern="###,###,###" /></td>
+                <td style="text-align: right;"><fmt:formatNumber value="${prov.nuSinDni}" pattern="###,###,###" /></td>
+                <td style="text-align: right;"><fmt:formatNumber value="${prov.nuCui}" pattern="###,###,###" /></td>
+                <td style="text-align: right;background-color: #fcefa1;"><fmt:formatNumber value="${prov.nuTotal}" pattern="###,###,###" /></td>
+                <td style="text-align: center;"><a href="reporte/cantidades_distrito.do?coUbigeo=${prov.coUbigeo}#cantidades"
+                                                   class="btn btn-mini btn-primary" title="Ver distritos"><i
+                        class="icon-search icon-white"><!-- --></i>&#160;Distritos</a>&#160;&#160;
+                </td>
+            </tr>
+        </c:forEach>
+        <tr>
+            <th>Total:</th>
+            <td style="text-align: right;"><fmt:formatNumber value="${total}" pattern="###,###,###" /></td>
+            <td style="text-align: right;"><fmt:formatNumber value="${total2}" pattern="###,###,###" /></td>
+            <td style="text-align: right;"><fmt:formatNumber value="${total1}" pattern="###,###,###" /></td>
+            <td style="text-align: right;background-color: #fcefa1;"><fmt:formatNumber value="${total3}" pattern="###,###,###" /></td>
+        </tr>
+    </table>
+</jsp:root>

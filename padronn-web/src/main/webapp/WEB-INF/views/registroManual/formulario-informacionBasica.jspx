@@ -1,0 +1,425 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<div class="row-fluid">
+		<div class="span6" style="padding-left: 19px;">
+            <c:if test="${not empty padronNominal.coPadronNominal}">
+                <div class="control-group">
+                    <label class="control-label">Código Padron Nominal</label>
+                    <div class="controls">
+                        <span class="text-control">${padronNominal.coPadronNominal}</span>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test="${not empty padronNominal.nuCnv}">
+                <div class="control-group">
+                    <label class="control-label">CNV (Certificado de Nacido Vivo)</label>
+                    <div class="controls">
+                        <span class="text-control">${padronNominal.nuCnv}</span>
+                    </div>
+                </div>
+            </c:if>
+
+            <c:if test="${not empty errores['apPrimerMenor']}">
+                <c:set var="errorApPrimerMenor" value="error"></c:set>
+            </c:if>
+			<div class="control-group ${errorApPrimerMenor}">
+				<form:hidden path="coPadronNominal" id="coPadronNominal"/>
+				<form:hidden path="nuDniMenor" id="nuDniMenor"/>
+				<form:hidden path="nuCnv" id="nuCnv"/>
+
+                <input id="nuCui" name="nuCui" type="hidden" value="${padronNominal.nuCui}" />
+                <input id="isPrecarga" name="isPrecarga" type="hidden" value="${isPrecarga}" />
+                <label class="control-label" for="apPrimerMenor" title="requerido">Primer Apellido <span class="text-error required" title="requerido">*</span></label>
+
+				<div class="controls">
+					<form:input path="apPrimerMenor" id="apPrimerMenor" placeholder="" maxlength="40" />
+					<form:errors path="apPrimerMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+
+            <c:if test="${not empty errores['apSegundoMenor']}">
+                <c:set var="errorApSegundoMenor" value="error"></c:set>
+            </c:if>
+			<div class="control-group ${errorApSegundoMenor}">
+				<label class="control-label" for="apSegundoMenor" title="requerido">Segundo Apellido <span class="text-error required" title="requerido">*</span></label>
+                <div class="controls">
+                     <form:input path="apSegundoMenor" id="apSegundoMenor" placeholder="" maxlength="40"/>
+                     <form:errors path="apSegundoMenor" cssClass="text-error" element="div"/>
+                </div>
+			</div>
+            <c:if test="${not empty errores['prenombreMenor']}">
+                <c:set var="errorPrenombreMenor" value="error"></c:set>
+            </c:if>
+			<div class="control-group ${errorPrenombreMenor}">
+				<label class="control-label" for="prenombreMenor" title="requerido">Nombres <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<form:input path="prenombreMenor" id="prenombreMenor" placeholder="" maxlength="60"/>
+					<form:errors path="prenombreMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+		</div>
+		<div class="span6">
+            <c:choose>
+                <c:when test="${baseDatosOrigen=='CNV'}">
+                    <div class="control-group">
+                        <form:hidden path="feNacMenor" id="feNacMenor"/>
+                        <label class="control-label">Fecha Nacimiento</label>
+                        <div class="controls">
+                            <span class="text-control">${padronNominal.feNacMenor}</span>
+                        </div>
+                    </div>
+                    <c:if test="${not empty padronNominal.edadEscrita}">
+                        <div class="control-group">
+                            <label class="control-label">Edad</label>
+                            <div class="controls">
+                                <span class="text-control">${padronNominal.edadEscrita}</span>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${not empty errores['feNacMenor']}">
+                        <c:set var="errorFeNacMenor" value="error"></c:set>
+                    </c:if>
+                    <div class="control-group ${errorFeNacMenor}">
+                        <label class="control-label" for="feNacMenor" title="requerido">Fecha Nacimiento <span class="text-error required" title="requerido">*</span></label>
+                        <div class="controls">
+                            <form:input path="feNacMenor" id="feNacMenor" cssStyle="width: 127px;"/>
+                            <div class="input-append date" id="feNacMenor-date" data-date="${padronNominal.feNacMenor}" data-date-format="dd/mm/yyyy">
+                                <button type="button" id="feNacMenor-button" class="btn add-on"><i class="icon-white icon-calendar"><!-- --></i></button>
+                            </div>
+                            <form:errors path="feNacMenor" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
+            <c:if test="${not empty errores['coGeneroMenor']}">
+                <c:set var="errorCoGeneroMenor" value="error"></c:set>
+            </c:if>
+			<div class="control-group ${errorCoGeneroMenor}">
+				<label class="control-label" title="requerido">Sexo <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+                    <c:choose>
+                        <c:when test="${baseDatosOrigen=='CNV'}">
+                            <form:hidden path="coGeneroMenor"/>
+                            <span class="text-control">${padronNominal.deGeneroMenor}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <label class="radio inline"><form:radiobutton path="coGeneroMenor" value="1"/>Masculino</label>
+                            <label class="radio inline"><form:radiobutton path="coGeneroMenor" value="2"/>Femenino</label>
+                            <form:errors path="coGeneroMenor" cssClass="text-error" element="div"/>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+			</div>
+
+			<c:if test="${empty padronNominal.nuDniMenor}">
+				<c:if test="${not empty errores['imgFotoMenor']}">
+					<c:set var="errorImgFotoMenor" value="error"></c:set>
+				</c:if>
+			<div class="control-group ${errorImgFotoMenor}">
+				<label class="control-label" for="imgFotoMenor">Foto del Menor</label>
+				<div class="controls">
+					<input type="file" name="imgFotoMenor" id="imgFotoMenor"/>&amp;nbsp;&amp;nbsp;<a href="#" class="noAjax del-img" onclick="$('#imgFotoMenor').filestyle('clear')"><i class="icon-remove">&amp;nbsp;</i></a>
+					<form:errors path="imgFotoMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+			</c:if>
+
+		</div>
+	</div>
+
+
+    <c:choose>
+        <c:when test="${not empty padronNominal.nuDniMenor or not empty padronNominal.nuCui}">
+            <c:if test="${not empty padronNominal.deUbigeoDomReniec}">
+                <div class="row-fluid">
+                    <div class="span8" style="padding-left: 19px;">
+                        <div class="control-group">
+                            <label class="control-label" for="coUbigeoInei" title="requerido">Ubigeo de Domicilio RENIEC</label>
+                            <div class="controls">
+                                <c:choose>
+                                    <c:when test="${not empty padronNominal.deUbigeoDomReniec}">
+                                        <span>${padronNominal.deUbigeoDomReniec}</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span></span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="coUbigeoInei" title="requerido">Dirección de Domicilio RENIEC</label>
+                            <div class="controls">
+                                <c:choose>
+                                    <c:when test="${not empty padronNominal.deDireccionDomReniec}">
+                                        <span>${padronNominal.deDireccionDomReniec}</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span></span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+        </c:when>
+        <c:otherwise>
+            <c:choose>
+                <c:when test="${not empty padronNominal.nuCnv and baseDatosOrigen eq 'CNV'}">
+                    <div class="row-fluid">
+                        <div class="span8" style="padding-left: 19px;">
+                            <div class="control-group">
+                                <label class="control-label" for="coUbigeoInei" title="requerido">Ubigeo de Domicilio CNV</label>
+                                <div class="controls">
+                                    <span>${padronNominal.deUbigeoDomCnv}</span>
+                                    <form:hidden path="deUbigeoDomCnv" id="deUbigeoDomCnv" value="${padronNominal.deUbigeoDomCnv}"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="coUbigeoInei" title="requerido">Dirección de Domicilio CNV</label>
+                                <div class="controls">
+                                    <span>${padronNominal.deDireccionDomCnv}</span>
+                                    <form:hidden path="deDireccionDomCnv" id="deDireccionDomCnv" value="${padronNominal.deDireccionDomCnv}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:when>
+            </c:choose>
+        </c:otherwise>
+    </c:choose>
+
+    <div class="row-fluid">
+        <div class="well">
+            <div class="control-group form-inline">
+                <label class="control-label">Menor visitado </label>
+                <div class="controls">
+                    <c:choose>
+                        <c:when test="${padronNominal.inMenorVisitado eq '1'}">
+                            <label class="radio-inline" style="margin-left:20px !important; margin-top:5px !important;"><form:radiobutton id="menorVisitOpt1" path="inMenorVisitado" value="1" style="margin-top: 5px !important; left: 213px !important;" onclick="RegistroManual.modificarMenorVisitado(this);" checked="checked"/>Sí</label>
+                            <label class="radio-inline" style="margin-left:35px !important; margin-top:5px !important;"><form:radiobutton id="menorVisitOpt2" path="inMenorVisitado" value="0" style="margin-top: 5px !important; left: 262px !important;" onclick="RegistroManual.modificarMenorVisitado(this);"/>No</label>
+                        </c:when>
+                        <c:otherwise>
+                            <label class="radio-inline" style="margin-left:20px !important; margin-top:5px !important;"><form:radiobutton id="menorVisitOpt1" path="inMenorVisitado" value="1" style="margin-top: 5px !important; left: 213px !important;" onclick="RegistroManual.modificarMenorVisitado(this);" />Sí</label>
+                            <label class="radio-inline" style="margin-left:35px !important; margin-top:5px !important;"><form:radiobutton id="menorVisitOpt2" path="inMenorVisitado" value="0" style="margin-top: 5px !important; left: 262px !important;" onclick="RegistroManual.modificarMenorVisitado(this);" checked="checked"/>No</label>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${existeError}">
+                            <c:set var="existeErrorVal" value="${existeError}"></c:set>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="existeErrorVal" value="false"></c:set>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <form:hidden path="inMenorVisitadoBefore" id="inMenorVisitadoBefore" value="${padronNominal.inMenorVisitadoBefore}"/>
+            <input type="hidden" name="existeError" id="existeError" value="${existeErrorVal}"/>
+
+            <div id="ficha-menor-visitado">
+                <div id="section-fuente-datos">
+                    <c:if test="${not empty errores['coFuenteDatos']}">
+                        <c:set var="errorCoFuenteDatos" value="error"></c:set>
+                    </c:if>
+                    <div class="control-group ${errorCoFuenteDatos}">
+                        <label class="control-label" for="coFuenteDatos">Fuente de datos (Padrones) <span class="text-error required" title="requerido">*</span></label>
+                        <div class="controls">
+                            <form:select path="coFuenteDatos" itemValue="${padronNominal.coFuenteDatos}" cssStyle="width: 300px;" id="coFuenteDatos">
+                                <form:option value="" cssStyle="color: graytext;" label="Seleccionar fuente de datos"/>
+                                <c:forEach var="fuenteDatos" items="${fuenteDatosList}">
+                                    <form:option value="${fuenteDatos.coFuenteDatos}"
+                                                 label="${fuenteDatos.deFuenteDatos}"/>
+                                </c:forEach>
+                            </form:select>
+                            <form:errors path="coFuenteDatos" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <c:if test="${not empty errores['feUltimaTomaDatos']}">
+                        <c:set var="errorFeUltimaTomaDatos" value="error"></c:set>
+                    </c:if>
+
+                    <div class="control-group ${errorFeUltimaTomaDatos}" id="feUltimaTomaDatosGroup">
+                        <label class="control-label" for="feUltimaTomaDatos">Fecha de fuente de datos <span class="text-error required" title="requerido">*</span></label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <form:input path="feUltimaTomaDatos" id="feUltimaTomaDatos" cssStyle="width: 150px;"/>
+                                <button id="feUltimaTomaDatosButton" type="button" class="btn" data-date=""
+                                        data-date-format="dd/mm/yyyy"><i
+                                        class="icon-calendar icon-white"><!-- --></i>&#160;</button>
+                                <span data-trigger="tooltip" id="mensajeFechaFuenteDatos"
+                                      data-content="Fecha de obtención del Padrón (mediante reunión de homologación)"
+                                      data-position="sw" class="label label-info">?</span>
+                                <form:errors path="feUltimaTomaDatos" cssClass="text-error " element="div"/>
+                            </div>
+                        </div>
+                    </div>
+                    <form:hidden path="feUltimaTomaDatosBefore" id="feUltimaTomaDatosBefore" value="${padronNominal.feUltimaTomaDatosBefore}"/>
+                    <div id="section-feUltimaTomaDatos-before"></div>
+                </div>
+
+                <div id="section-menor-visitado">
+                    <c:if test="${not empty errores['feVisita']}">
+                        <c:set var="errorFeVisita" value="error"></c:set>
+                    </c:if>
+                    <div class="control-group ${errorFeVisita}" id="feVisitaGroup">
+                        <label class="control-label" for="feVisita">Fecha de visita <span class="text-error required" title="requerido">*</span></label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <form:input path="feVisita" id="feVisita" value="${padronNominal.feVisita}" cssStyle="width: 150px;"/>
+                                <button id="feVisitaButton" type="button" class="btn" data-date=""
+                                        data-date-format="dd/mm/yyyy"><i
+                                        class="icon-calendar icon-white"><!-- --></i>&#160;</button>
+                                <span data-trigger="tooltip" id="mensajeFechaVisita"
+                                      data-content="Si desea actualizar la fecha de visita debe ser 60 días anteriores a la fecha actual."
+                                      data-position="sw" class="label label-info">?</span>
+                                <form:errors path="feVisita" cssClass="text-error " element="div"/>
+                            </div>
+                        </div>
+                    </div>
+                    <form:hidden path="feVisitaBefore" id="feVisitaBefore" value="${padronNominal.feVisitaBefore}"/>
+
+                    <div id="section-feVisita-before"></div>
+
+                    <c:if test="${not empty errores['coMenorEncontrado']}">
+                        <c:set var="errorCoMenorEncontrado" value="error"></c:set>
+                    </c:if>
+                    <div class="control-group ${errorCoMenorEncontrado}" id="coMenorEncError">
+                        <label class="control-label" for="coMenorEncontrado">¿Menor encontrado? <span class="text-error required" title="requerido">*</span></label>
+                        <div class="controls">
+                            <form:select path="coMenorEncontrado" itemValue="${padronNominal.coMenorEncontrado}" id="coMenorEncontrado">
+                                <form:option value="1" label="SI"/>
+                            </form:select>
+                            <form:errors path="coMenorEncontrado" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <c:if test="${not empty errores['coUbigeoInei']}">
+                <c:set var="errorCoUbigeoInei" value="error"></c:set>
+            </c:if>
+            <c:if test="${empty padronNominal.coUbigeoInei and (fn:length(ubigeoUsuario) eq 6)}">
+                <c:set var="coUbigeoUsuario" value="${ubigeoUsuario}"></c:set>
+            </c:if>
+            <c:if test="${not empty UbigeoIneiJurisdiccion}">
+                <c:set var="errorUbigeoIneiJuris" value="error"></c:set>
+            </c:if>
+            <div class="control-group ${errorCoUbigeoInei} ${errorUbigeoIneiJuris}" id="fieldUbigeo">
+                <label class="control-label" for="coUbigeoInei" title="requerido">Ubigeo Declarado<span
+                        class="text-error required" title="requerido">*</span></label>
+                <div class="controls ">
+                    <form:hidden path="coUbigeoInei" value="${coUbigeoUsuario}" id="coUbigeoInei" class="large-select span10"/>
+                    <span data-trigger="tooltip"
+                          data-content="Lugar donde reside actualmente el menor. Ingrese el nombre de la provincia o distrito al cual pertenece el menor. Si el ubigeo del menor se encuentra en su jurisdicción el campo no es editable."
+                          data-position="sw" class="label label-info">?</span>
+                    <form:errors path="coUbigeoInei" cssClass="text-error" element="div" style="clear:both;"/>
+                    <c:if test="${not empty UbigeoIneiJurisdiccion}">
+                        <div class="text-error" style="clear:both;">
+                            <spring:message code="${UbigeoIneiJurisdiccion.code}" arguments="${UbigeoIneiJurisdiccion.arguments}" text="${UbigeoIneiJurisdiccion.defaultMessage}"/>
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+
+            <div style="width: 600px;float:left;">
+                <div class="control-group">
+                    <label class="control-label" for="coCentroPoblado" id="fieldCentroPoblado">Centro Poblado Declarado<span
+                            class="text-error required" title="requerido">*</span></label>
+                    <div class="controls">
+                        <form:hidden path="coCentroPoblado" id="coCentroPoblado" class="large-select span12"/>
+                        <form:errors path="coCentroPoblado" cssClass="text-error" element="div" style="both;"/>
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 185px;float:left;">
+                <fieldset disabled="disabled">
+                    <span data-trigger="tooltip" data-content="Centro poblado, campo obligatorio" data-position="sw"
+                          class="label label-info">?</span>
+                    <span style="margin-left: 5px;">Area:</span>
+                    <form:input path="deAreaCcpp" cssStyle="width: 88px;"/>
+                </fieldset>
+            </div>
+
+            <label style="margin-left: 16px;display: block;width: 256px;clear: both;height: 20px;float: left;">Dirección Declarada</label>
+            <div style="border: 2px dotted #001fff;padding: 0px;margin-top: 3px;margin-bottom: 11px;padding-bottom: 7px;padding-top: 12px;display: block;clear: both;">
+            <div style="width: 700px;" id="eje_vial" class="hide">
+            <!--<div style="width: 700px;" id="eje_vial">-->
+                <div class="control-group">
+                    <label class="control-label" for="coVia">Eje Vial</label>
+                    <div class="controls">
+                        <div>
+                            <div style="float: left;">
+                                <form:hidden path="coVia" id="coVia" style="width:500px;"/>
+                            </div>
+                            <div style="float: left;">
+                        <span data-trigger="tooltip"
+                              data-content="Eje vial es el nombre del JIRON, CALLE, AVENIDA, PASAJE, CARRETERA, OTROS, campo opcional"
+                              data-position="sw" class="label label-info">?</span>
+                            </div>
+                        </div>
+                        <form:errors path="coVia" cssClass="text-error" element="div" style="both;"/>
+                    </div>
+                </div>
+            </div>
+
+                <c:if test="${not empty errores['deDireccion']}">
+                    <c:set var="errorDeDireccion" value="error"></c:set>
+                </c:if>
+                <div class="control-group ${errorDeDireccion}" id="fieldDireccion">
+                    <label class="control-label" for="deDireccion" title="requerido">Descripción<span
+                            class="text-error required" title="requerido">*</span></label>
+
+                    <div class="controls">
+                        <form:input path="deDireccion" id="deDireccion"  maxlength="100" style="width: 490px;"/>
+                    <span data-trigger="tooltip" data-content="Dirección del lugar donde reside actualmente el menor"
+                          data-position="sw" class="label label-info">?</span>
+                        <form:errors path="deDireccion" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="control-group hide" id="deRefDirWrap">-->
+            <div class="control-group" id="deRefDirWrap">
+                <label class="control-label" for="deRefDir" title="requerido">Referencia de Dirección</label>
+                <div class="controls">
+                    <form:input path="deRefDir" id="deRefDir" cssClass="span10" maxlength="100" cssStyle="width: 500px;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            var coUbigeoUsuario = '${coUbigeoUsuario}';
+            var coMenorEncontradoGet =  $('#coMenorEncontrado');
+            var classCoMenorEnc = $('#coMenorEncError')[0].className;
+            if (coMenorEncontradoGet.val() === '' || coMenorEncontradoGet.val() == null){
+                if (classCoMenorEnc.indexOf('error')=== -1){
+                    coMenorEncontradoGet.val('1');
+                }
+            }
+            if (coUbigeoUsuario.length===6){
+                RegistroManual.setDefaultCentroPoblado(coUbigeoUsuario);
+            }
+        });
+    </script>
+    <jsp:include page="fecha_script.jspx"/>
+</jsp:root>

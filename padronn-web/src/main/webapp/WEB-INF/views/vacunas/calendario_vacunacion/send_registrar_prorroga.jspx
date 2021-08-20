@@ -1,0 +1,96 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 29/12/2015
+  Time: 10:07 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:spring="http://www.springframework.org/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_SUMINISTRADA']" var="TI_DOSIS_SUMINISTRADA"/>
+    <spring:eval expression="@applicationProps['VACUNAS.TI_DOSIS_CRONOGRAMA']" var="TI_DOSIS_CRONOGRAMA"/>
+    <spring:eval expression="@applicationProps['VACUNAS.NU_DOSIS']" var="NU_DOSIS"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function() {
+            var registrarProrroga = {
+                init: function() {
+                    registrarProrroga.setFeProrrogaBoton();
+                    registrarProrroga.setFeProrrogaFechasMayores();
+                },
+                // establece prorroga del boton presionado
+                setFeProrrogaBoton: function() {
+                    $('#dosis${dosis.count}\\.feProrroga').val('${dosis.feProrroga}');
+                    $('#dosis${dosis.count}\\.deProrroga').val('${dosis.deProrroga}');
+                    $('#dosis${dosis.count}\\.feVacuna').val('${dosis.feProrroga}');
+                    var btnCalendario = $('#btn_dosis_${dosis.count}')
+                            .html('${dosis.feProrroga}')
+
+
+                    var $aOption = $('#btn_dosis_options_${dosis.count}_2').find('a'),
+                            a_href = $aOption.attr('href');
+                    // reemplaza valor del parametro feVacuna en href
+                    a_href = a_href.replace(/(feVacuna=)[^\&]+/, '$1' + '${dosis.feProrroga}');
+                    $aOption.attr('href', a_href);
+
+                    $('#overlay').addClass("hide");
+                },
+                // establece prorroga de las fechas posteriores de la misma vacuna
+                setFeProrrogaFechasMayores: function() {
+                    var feVacunaStr = '${dosis.feVacuna}',
+                            feProrrogaStr = '${dosis.feProrroga}',
+                            feVacuna = registrarProrroga.stringToDate(feVacunaStr),
+                            feProrroga = registrarProrroga.stringToDate(feProrrogaStr),
+                            diffDays = registrarProrroga.diffDays(feVacuna, feProrroga);
+                    for(var i=1; i<parseInt('${NU_DOSIS}'); i++) {
+                        var index = parseInt('${dosis.count}') + i;
+                        if($('#dosis' + index + '\\.coTipoVacuna').val() == '${dosis.coTipoVacuna}' && $('#dosis' + index + '\\.tiDosis').val() == '${TI_DOSIS_CRONOGRAMA}') {
+                            var feVacunaPosteriorStr = $('#dosis' + index + '\\.feVacuna').val(),
+                                    feVacunaPosterior = registrarProrroga.stringToDate(feVacunaPosteriorStr);
+
+                            // incrementamos los dias de la prorroga
+                            feVacunaPosterior = registrarProrroga.addDays(feVacunaPosterior, diffDays);
+                            feVacunaPosteriorStr = registrarProrroga.dateToString(feVacunaPosterior);
+                            $('#dosis' + index + '\\.feProrroga').val(feVacunaPosteriorStr);
+                            $('#dosis' + index + '\\.feVacuna').val(feVacunaPosteriorStr);
+                            $('#btn_dosis_'+index).html(feVacunaPosteriorStr)
+
+                            // establece la fecha en la url de la prorroga
+                            var $aOption = $('#btn_dosis_options_' + index + '_2').find('a'),
+                                    a_href = $aOption.attr('href');
+                            // reemplaza valor del parametro feVacuna en href
+                            a_href = a_href.replace(/(feVacuna=)[^\&]+/, '$1' + feVacunaPosteriorStr);
+                            $aOption.attr('href', a_href);
+                        }
+                    }
+                },
+                // convierte fecha de cadena a date
+                stringToDate:function(dateStr) {
+                    var parts = dateStr.split("/");
+                    return new Date(parts[2], parts[1] - 1, parts[0]);
+                },
+                dateToString:function(date) {
+                    var dd = date.getDate(),
+                    mm = date.getMonth() + 1,
+                    y = date.getFullYear();
+                    if(dd<10) dd = '0' + dd;
+                    if(mm<10) mm = '0' + mm;
+                    return dd + '/'+ mm + '/'+ y;
+                },
+                // obtene la direfencia de dos fechas
+                diffDays:function(date1, date2) {
+                    var timeDiff = Math.abs(date2.getTime() - date1.getTime()),
+                    diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    return diffDays;
+                },
+                addDays:function(date, numDays) {
+                    date.setDate(date.getDate() + numDays);
+                    return date;
+                }
+            };
+            registrarProrroga.init();
+        });
+        ]]>
+    </script>
+</jsp:root>

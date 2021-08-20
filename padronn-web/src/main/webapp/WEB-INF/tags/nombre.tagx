@@ -1,0 +1,13 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: lmamani
+  Date: 25/07/13
+  Time: 02:15 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+	<jsp:directive.attribute name="primerApellido" type="java.lang.String" required="false" />
+	<jsp:directive.attribute name="segundoApellido" type="java.lang.String" required="false" />
+	<jsp:directive.attribute name="nombres" type="java.lang.String" required="false" />
+	${primerApellido} ${segundoApellido}${empty primerApellido and empty segundoApellido ? "" : ", "}${nombres}
+</jsp:root>

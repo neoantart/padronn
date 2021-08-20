@@ -1,0 +1,51 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 20/05/13
+  Time: 10:52 AM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Usuarios</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i
+                class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+
+
+    <div style="margin: 0 auto;width: 550px;" class="clearfix">
+        <c:if test="${esMinsa ne '1'}">
+            <div style="float:left; margin-right: 20px;">
+                <a href="signup/buscar_usuario.do?resetear=1#mantenimiento-modulo-div" class="">
+                    <i class="ico_usuario_resetear"></i>
+                </a>
+            </div>
+
+            <div style="float:left; margin-right: 20px;">
+                <a href="signup/nuevo_usuario.do#mantenimiento-modulo-div" class="">
+                    <i class="ico_usuarios_nuevo_usuario"></i>
+                </a>
+            </div>
+        </c:if>
+
+        <div style="float:left; margin-right: 20px;">
+            <a href="signup/buscar_usuario.do?buscar=1#mantenimiento-modulo-div" class="">
+                <i class="ico_usuarios_buscar_usuario"></i>
+            </a>
+        </div>
+
+        <div style="float:left; margin-right: 20px;">
+            <a href="signup/lista_usuarios.do#mantenimiento-modulo-div" class="">
+                <i class="ico_usuarios_lista_usuario"></i>
+            </a>
+        </div>
+    </div>
+    <hr/>
+    <div id="mantenimiento-modulo-div"></div>
+
+    <!--<div id="usuarios-modulo-div"></div>-->
+</jsp:root>

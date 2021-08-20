@@ -1,0 +1,40 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags">
+    <jsp:output omit-xml-declaration="yes"/>
+    <jsp:output doctype-root-element="HTML" doctype-system=""/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <spring:eval expression="@applicationProps['application.timer-session']" var="timer_session"/>
+
+    <div id="header">
+        <div class="container-narrow">
+            <div class="navbar">
+                <div id="logo" class="pull-left "><!----></div>
+            </div>
+        </div>
+        <jsp:include page="${menu}"/>
+    </div>
+    <c:if test="${not empty usuario.login}">
+        <div class="container-narrow">
+            <div class="muni_nombre clearfix">
+                <c:choose>
+                    <c:when test="${not empty ubigeo.deDepartamento}">
+                        <span class="pull-right">${usuario.deEntidad} (${ubigeo.deDepartamento} / ${ubigeo.deProvincia} / ${ubigeo.deDistrito})</span>
+                    </c:when>
+                    <c:otherwise>
+                        <span>&#160;</span>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <!--<div>${usuario}</div>-->
+        </div>
+    </c:if>
+
+    <div class="container-narrow">
+        <div id="main-content">
+            <!--<div id="main-content2">-->
+            <jsp:include page="${mainContent}"/>
+            <!--</div>-->
+        </div>
+    </div>
+
+</jsp:root>

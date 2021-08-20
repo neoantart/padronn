@@ -1,0 +1,42 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jllamas
+  Date: 17/07/13
+  Time: 10:12 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            // CONSULTA
+            var feInicio = $('#feInicioDate').datepicker()
+                    .on('changeDate', function (ev) {
+                        if(ev.viewMode=='days'){
+                            feInicio.hide();
+                            $('#feInicio').val($('#feInicioDate').data('date'));
+                        }
+                    })
+                    .data('datepicker');
+            var feFin = $('#feFinDate').datepicker()
+                    .on('changeDate', function (ev) {
+                        if(ev.viewMode=='days'){
+                            feFin.hide();
+                            $('#feFin').val($('#feFinDate').data('date'));
+                        }
+                    })
+                    .data('datepicker');
+
+            // LIMPIAR
+            $('.limpiar').click(function (e) {
+                e.preventDefault();
+                $('form').find('input[type=text]').val('');
+                $('form').submit();
+            });
+        });
+        ]]>
+
+    </script>
+</jsp:root>

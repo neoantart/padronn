@@ -1,0 +1,38 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<ul class="breadcrumb">
+		<li><a href="registromanual.do">Registro en Linea</a> <span class="divider">/</span></li>
+		<li class="active">Registro de Niño/a</li>
+	</ul>
+	<h1>Resumen de Registro de Niño/a</h1>
+	<c:if test="${empty padronNominal}">
+		<p class="alert alert-success">No se pudo guardar la información del niño/a. Por favor intentelo luego</p>
+	</c:if>
+	<c:if test="${not empty padronNominal}">
+		<p class="alert alert-success">La información del niño/a se guardo exitosamente</p>
+		<h2>Resumen de la información guardada</h2>
+		<table>
+			<tbody>
+			<tr>
+				<th>Número de DNI</th>
+				<td>${padronNominal.nuDniMenor}</td>
+			</tr>
+			<tr>
+				<th>Nombres</th>
+				<td>${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor} ${padronNominal.prenombreMenor}</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td></td>
+			</tr>
+			</tbody>
+		</table>
+	</c:if>
+</jsp:root>

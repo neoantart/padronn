@@ -1,0 +1,63 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 06/09/13
+  Time: 05:53 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <div class="row-fluid">
+       <div class="span12">
+           <div class="row">
+               <div class="span4">
+                   <h1>Agregar grupo</h1>
+               </div>
+               <div class="span3 offset5" style="margin-top: 20px;">
+                    <a href="signup/lista_grupos.do" class="btn"><i class="icon-arrow-left icon-white">&#160;</i>&#160;Ver el listado de grupos</a>
+               </div>
+           </div>
+           <hr/>
+
+           <form:form action="${action}" method="post" class="form-horizontal" modelAttribute="grupo">
+              <form:errors path="*" element="div" cssClass="alert alert-error"/>
+              <fieldset>
+                  <spring:bind path="grupo.deGrupo">
+                      <c:if test="${status.error}">
+                          <c:set var="classDeGrupo" value="error"/>
+                      </c:if>
+                  </spring:bind>
+                  <div class="control-group ${classDeGrupo}">
+                    <label class="control-label">Nombre del grupo</label>
+                    <div class="controls">
+                        <form:input path="deGrupo" id="deGrupo" />
+                        <form:errors path="deGrupo" cssClass="text-error" element="div"/>
+                    </div>
+                  </div>
+
+                  <spring:bind path="grupo.deDetalle">
+                      <c:if test="${status.error}">
+                        <c:set var="classDeDetalle" value="error"></c:set>
+                      </c:if>
+                  </spring:bind>
+                  <div class="control-group ${classDeDetalle}">
+                      <label class="control-label">Detalle</label>
+                      <div class="controls">
+                        <form:textarea path="deDetalle" id="deDetalle" cssStyle="width: 400px;" rows="4"/>
+                        <form:errors path="deDetalle" cssClass="text-error" element="div"/>
+                      </div>
+                  </div>
+                  <div class="form-actions">
+                      <c:if test="${not empty coGrupo}">
+                          <form:hidden path="coGrupo" value="${coGrupo}"/>
+                      </c:if>
+                      <button class="btn " type="submit"><i class="icon-ok icon-white"></i>&#160;Guardar</button>&#160;&#160;
+                      <a href="signup/lista_grupos.do" class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i>&#160;Cancelar</a>
+                  </div>
+              </fieldset>
+           </form:form>
+       </div>
+    </div>
+</jsp:root>

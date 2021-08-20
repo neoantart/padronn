@@ -1,0 +1,166 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 18/07/13
+  Time: 03:11 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+		>
+	<script type="text/javascript">
+		<![CDATA[
+		$(function () {
+			//var $input =$('#esUsuario');
+//            var str = JSON.parse($('#tiposEntidad').val());
+            /*var tiposEntidades = [];
+            if($('#tiposEntidad').val() != '')
+                tiposEntidades = $('#tiposEntidad').val().split(',');//convertimos a array*/
+            $('.search-dni').click(function(e) {
+                e.preventDefault();
+                var coUsuario = $('#coUsuario');
+                if(coUsuario.val() != '' ) {
+                    Util.ajax('signup/get_usuario_ani.do', {coUsuario:coUsuario.val()}, function(data){
+                        /*$('#apPrimer').val(data.apPrimer).attr("disabled", "disabled");
+                        $('#apSegundo').val(data.apSegundo).attr("disabled", "disabled");
+                        $('#prenombres').val(data.prenombres).attr("disabled", "disabled");*/
+
+                        $('#apPrimer').val(data.apPrimer);
+                        $('#apSegundo').val(data.apSegundo);
+                        $('#prenombres').val(data.prenombres);
+                    });
+                }
+            });
+
+            // check de activo e inactivo
+			$('#esUsuario')
+					.hide()
+					.after(
+							$(document.createElement('input'))
+									.attr({type: "checkbox", checked: ($('#esUsuario').val() == 1) ? true : false})
+									.change(function (e) {
+										$('#esUsuario').val(this.checked ? '1' : '0');
+									})
+					);
+
+            // grupos
+			Util.ajax("signup/grupos.do", {}, function (data) {
+				$('#grupos').select2({
+					multiple: true,
+					data: data
+				});
+			});
+
+            //entidades
+			$('#entidades').select2({
+				multiple: true,
+				//data: data.entidades,
+				placeholder: 'Buscar entidad',
+				minimumInputLength: 2,
+				//allowClear: true,
+				ajax: {
+					url: 'signup/buscar_entidad.do',
+					dataType: 'json',
+					data: function (term, page) {
+						return {
+							parteDeEntidad: term
+						};
+					},
+					results: function (data, page) {
+						//return {results:data}
+						return {results: data};
+					}
+				},
+				formatResult: function (item) {
+					/*return '<div class="title"><strong>' + item.deEntidad + ')</div></strong></div>';*/
+                    if(item.text){
+                        return "<div>"+item.text+" (<em>"+item.children.length+" resultados</em>)</div>";
+                    }else{
+                        if(item.coUbigeoInei != null)
+                        return '<div class="title"><strong>' + item.deEntidad + '</strong> (Cod. Ubigeo ' + item.coUbigeoInei + ')</div>' +
+                                '<div class="body">' +
+                                '<div><strong>' + item.deUbigeoInei + '</strong></div>' +
+                                '</div>';
+                        else
+                            return '<div class="title"><strong>' + item.deEntidad + '</strong></div>';
+                    }
+				},
+				formatSelection: function (item) {
+                    /*if(item.coTipoEntidad !== undefined) {
+                        tiposEntidades.push(item.coTipoEntidad);
+                        $('#tiposEntidad').val(tiposEntidades);
+                    }*/
+                    if(item.coUbigeoInei != null)
+					    return item.deEntidad + ' (' + item.deUbigeoInei + ')';
+                    else
+                        return item.deEntidad;
+				},
+				id: function (object) {
+					return object.coEntidad;
+				},
+				initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    //console.log(codigo);
+                    //console.log();
+					if (codigo !== "") {
+						$.ajax("signup/get_entidad.do", {
+							data: {
+								coEntidad: codigo//,
+                                //coTipoEntidad: $('#tiposEntidad').val()
+							},
+							dataType: "json"
+						}).done(function (res) {
+                                    //console.log(res);
+									var data = [];
+									$(res).each(function () {
+										data.push({coEntidad: this.coEntidad, deEntidad: this.deEntidad, deUbigeoInei: this.deUbigeoInei, coTipoEntidad: this.coTipoEntidad});
+									});
+                                    //console.log(data);
+									callback(data);
+								});
+					}
+				}
+
+			}).on('removed',function(val, object) {
+
+                        //console.log($('#entidades').val());
+//                    console.log(val);
+//                        console.log(object);
+                        /*if(val.choice.coTipoEntidad !== undefined){
+                            console.log(val.choice.coTipoEntidad);
+                            var indx = tiposEntidades.indexOf(val.choice.coTipoEntidad);
+                            if(indx > -1)
+                                tiposEntidades.splice(indx, 1);
+                            $('#tiposEntidad').val(tiposEntidades);
+                        }*/
+            });
+
+
+            $('#coUsuario')
+                    .focus()
+                    .inputmask('dni');
+
+            $("#nuTelefono").inputmask({
+                mask: "u",
+                repeat: 30,
+                placeholder: ""
+            });
+
+            //$("#deEmail").inputmask("[a-zA-Z0-9._%-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}");
+
+
+            /*$("#deEmail").inputmask({
+                mask: "@",
+                repeat: 65,
+                placeholder: ""
+            });*/
+
+
+            $("#deEmail").inputmask('email');
+            $("#prenombres").inputmask('nombre');
+            $("#apSegundo").inputmask('apellido');
+            $("#apPrimer").inputmask('apellido');
+
+		});
+		]]>
+	</script>
+</jsp:root>

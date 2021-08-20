@@ -1,0 +1,50 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 04/12/2014
+  Time: 09:13 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="page-header" style="height: 42px">
+        <div class="pull-left">
+            <h1>REPORTES MIDIS</h1>
+        </div>
+        <div class="pull-right"><a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+    </div>
+
+    <div style="margin: 0 auto;width: 556px;margin-top: 50px;" class="clearfix">
+        <div style="float:left; margin-right: 20px;">
+            <a href="reporte_midis/consolidado.do" class="" style="line-height: 64px;">
+                <i class="ico_stats_64 pull-left"><!-- --></i>
+            </a>
+        </div>
+        <div style="float:left; margin-right: 20px;">
+            <a href="reporte_midis/consulta_ubigeo_form.do" class="" style="line-height: 64px;">
+                <i class="ico_ubigeo_64 pull-left"><!-- --></i>
+            </a>
+        </div>
+        <div style="float:left; margin-right: 20px;">
+            <a href="reporte_midis/form_buscar_menor.do" class="" style="line-height: 64px;">
+                <i class="ico_hijo_64 pull-left"><!-- --></i>
+            </a>
+        </div>
+        <div style="float:left; margin-right: 20px;">
+            <a href="reporte_midis/form_buscar_madre.do" class="" style="line-height: 64px;">
+                <i class="ico_madre_64 pull-left"><!-- --></i>
+            </a>
+        </div>
+        <!--<div style="float:left; margin-right: 20px;">
+            <a href="/reporte_midis/consulta_europan.do" class="" style="line-height: 64px;">
+                <i class="reportes_europan pull-left">&lt;!&ndash; &ndash;&gt;</i>
+            </a>
+        </div>-->
+
+        <div style="float:left; margin-right: 20px;">
+            <a href="reporte_midis/padron_movimientos.do" class="" style="line-height: 64px;">
+                <i class="reportes_mov_ubigeos_menor_midis pull-left"><!-- --></i>
+            </a>
+        </div>
+    </div>
+</jsp:root>

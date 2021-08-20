@@ -1,0 +1,57 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: paguilar
+  Date: 02/06/2014
+  Time: 09:19 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+    xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:include page="form_buscar_madre_grias.jspx"/>
+
+    <script type="text/javascript">
+        $(function(){
+            $('#dni').val('');
+        })
+    </script>
+    <div id="result_busqueda_madre">
+    <fieldset>
+        <legend>Resultados de la búsqueda usando <strong>Datos de la Madre</strong></legend>
+        <c:if test="${empty personaList}">
+            <div class="alert alert-danger">
+                <p>No se ha encontrado ninguna coincidencia</p>
+            </div>
+        </c:if>
+        <c:if test="${not empty personaList}">
+            <div class="alert">
+                <div>Cantidad de resultados: <em><strong>${cantidadResultados}</strong></em> registros en la base de datos de <strong class="text-warning">RENIEC</strong></div>
+<!--                <div>Para obtener mejores resultados pruebe afinando los términos de búsqueda</div>-->
+            </div>
+            <c:forEach var="persona" items="${personaList}">
+                <div class="search-item">
+                    <div>
+                        <strong>${persona.primerApellido} ${persona.segundoApellido}</strong>, ${persona.nombres}
+                    </div>
+                    <hr/>
+                    <div class="row-fluid text-small">
+                        <div class="span3">
+                            <div>DNI: <strong>${persona.dni}</strong></div>
+                            <div>Fecha de Nacimiento: <strong>${persona.fechaNacimiento}</strong></div>
+                        </div>
+                        <div class="span9" id="busmen-ava-madredetalle-panel-${persona.dni}">
+                            <a href="grias/informacionadicionalmadre.do?nuDni=${persona.dni}#busmen-ava-madredetalle-panel-${persona.dni}">Ver hijos registrados &#187;</a>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+            <br/>
+            <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="grias/buscar_madre_grias.do?nuPagina=" urlDespuesNuPagina="&amp;dni=${dni}&amp;apPrimer=${apPrimer}&amp;apSegundo=${apSegundo}&amp;prenombre=${prenombre}"></util:paginador>
+
+            <br/>
+            <br/>
+        <!--    <p class="alert">¿Ningún resultado coincide con los datos del menor buscado?. <a class="btn" href="registromanual/formulario.do">Registrar al menor sin DNI en el padron nominal</a></p>-->
+        </c:if>
+    </fieldset>
+    </div>
+</jsp:root>

@@ -1,0 +1,83 @@
+<!--
+ * Archivo precotejoform-upload.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 02/08/13 04:15 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<script type="text/javascript">
+		$(function () {
+			CotejoRegObsEditForm.inicializarFormulario();
+            $('#nuEnvio').val(Math.floor($('#nuEnvio').val()));
+		});
+	</script>
+
+	<style type="text/css">
+		#s2id_coUbigeoInei, #s2id_coEstSalud, #s2id_coInstEducativa {
+			margin-left: 0px;
+		}
+	</style>
+
+	<form:form commandName="precotejoRegistro" id="precotejoRegistro" class="form-horizontal" action="${precotejoRegistro.successAction}">
+		<!--
+		<c:if test="${baseDatosOrigen=='PN' and existenDatos and ubigeoUsuario!=precotejoRegistro.coUbigeoInei}">
+			<p class="alert alert-error">
+				<strong>Advertencia: </strong>
+				El menor ${precotejoRegistro.prenombreMenor} ${precotejoRegistro.apPrimerMenor} ${precotejoRegistro.apSegundoMenor},
+				ya se encuentra registrado en el distrito de ${ubigeoMenor.deDistrito}, provincia de ${ubigeoMenor.deProvincia}, departamento de ${ubigeoMenor.deDepartamento}.
+			</p>
+		</c:if>
+		-->
+		<form:hidden path="nuEnvio" id="nuEnvio"/>
+		<form:hidden path="nuRegistro" id="nuRegistro"/>
+		<form:hidden path="successAction" id="successAction"/>
+		<form:hidden path="cancelAction" id="cancelAction"/>
+
+		<div class="row-fluid" id="observacion-editform-div-informacionBasica">
+			<div class="span6 offset3">
+				<jsp:include page="observacion-editform-informacionbasica.jspx"/>
+			</div>
+		</div>
+
+		<div class="row-fluid" id="observacion-editform-div-informacionAdicional">
+			<div class="span6 offset3">
+				<jsp:include page="observacion-editform-informacionadicional.jspx"/>
+			</div>
+		</div>
+
+		<div class="row-fluid" id="observacion-editform-div-informacionApoderados">
+			<div class="span6 offset3">
+				<jsp:include page="observacion-editform-informacionapoderados.jspx"/>
+			</div>
+		</div>
+
+		<!--<hr style="clear:both;"/>-->
+
+		<!--
+		<div class="wizard-actions row-fluid">
+			<button type="button" class="btn btn-primary" onclick="$('#regman-form-tab-informacionAdicional').tab('show');">Siguiente <span class="icon-arrow-right icon-white"></span></button>
+			&#160;
+			<a href="registromanual/buscarmenorform.do" class="btn btn-danger"><span class="icon-remove icon-white"></span> Cancelar</a>
+		</div>
+
+		-->
+
+		<div class="span6 offset2">
+
+			<div class="control-group">
+				<!--<span class="span6">&amp;nbsp;</span>-->
+				<div class="controls pull-right">
+
+					<button type="submit" class="btn btn-success" style="padding-right: 10px;"><i class="icon-ok icon-white">&amp;nbsp;</i> Guardar</button>
+					<a href="${precotejoRegistro.cancelAction}" class="btn btn-danger"><i class="icon-remove icon-white">&amp;nbsp;</i> Cancelar</a>
+
+				</div>
+			</div>
+		</div>
+
+	</form:form>
+</jsp:root>

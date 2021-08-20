@@ -1,0 +1,68 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 22/05/13
+  Time: 02:47 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<form action="busquedademenor/buscaravanzadamenor.do#busmen-ava-menor-panel" id="buscaravanzadamenor">
+		<div class="row-fluid">
+			<div class="span2">
+				<label for="apPrimerMenor">Apellido Paterno</label>
+				<input type="text" id="apPrimerMenor" name="apPrimerMenor" class="span12 mask-alpha" />
+			</div>
+			<div class="span2">
+				<label for="apSegundoMenor">Apellido Materno</label>
+				<input type="text" id="apSegundoMenor" name="apSegundoMenor" class="span12 mask-alpha" />
+			</div>
+			<div class="span2">
+				<label for="prenombreMenor">Nombres</label>
+				<input type="text" id="prenombreMenor" name="prenombreMenor" class="span12 mask-alpha" />
+			</div>
+			<div class="span4">
+				<label>&#160;</label>
+				<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+                &#160;
+                <button id="clean-input" class="btn btn-danger"><i class="icon-remove icon-white">&#160;</i>Limpiar</button>
+			</div>
+		</div>
+		<div>
+			<strong><small>Buscar niños y niñas utilizando sus datos personales</small></strong>
+		</div>
+	</form>
+	<div id="busmen-ava-menor-panel"></div>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            $('#clean-input').click(function(e){
+                e.preventDefault();
+                $('#buscaravanzadamenor')
+                        .find('input')
+                        .val('');
+                $('#busmen-ava-menor-panel').html('');
+            });
+
+/*            $('#buscaravanzadamenor').submit(function(e){
+                e.preventDefault();
+                if( $('#apPrimerMenor').val().length > 0 && $('#apSegundoMenor').val().length > 0)
+                    $(this).submit();
+                if( $('#apPrimerMenor').val().length > 0 && $('#prenombreMenor').val().length > 0)
+                    $(this).submit();
+                if( $('#apSegundoMenor').val().length > 0 && $('#prenombreMenor').val().length > 0)
+                    $(this).submit();
+
+                if( $('#apPrimerMenor').val().length > 0&& $('#apSegundoMenor').val().length > 0 && $('#prenombreMenor').val().length > 0)
+                    $(this).submit();
+
+                $('#busmen-ava-menor-panel').html(
+                        $(document.createElement('div'))
+                                .addClass('alert')
+                                .text('Indique minimo dos campos como entrada!')
+                );
+            });*/
+
+        });
+        ]]>
+    </script>
+</jsp:root>

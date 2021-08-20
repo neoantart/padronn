@@ -1,0 +1,161 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:base64="http://www.reniec.gob.pe/Tlds">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+
+    <div id="wizard_calendario_vac">
+        <!--<c:if test="${empty showTitle}">-->
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h1>Gestionar Calendario de Vacunas</h1>
+                </div>
+                <!--<div class="pull-right">
+                    <a href="vacunas/home_vacunas.do" class="btn button-back"><i
+                            class="icon-arrow-left icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Volver</a>
+                </div>-->
+            </div>
+        <!--</c:if>-->
+
+        <!--Bloque que muestra el detalle de menor duplicado encontrado-->
+        <c:if test="${not empty duplicados}">
+            <div class="alert alert-danger">
+                <p>El menor(es) que esta tratando de registrar ya se encuentra registrado en el padron Nominal, con los siguientes datos:</p>
+            </div>
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>DNI/Codigo Padron</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Nombres</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>...</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="calendarioVac" items="${duplicados}">
+                    <tr>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty calendarioVac.nuDniMenor}">${calendarioVac.nuDniMenor}</c:when>
+                                <c:otherwise>${calendarioVac.coPadronNominal}</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>${calendarioVac.apPrimerMenor}</td>
+                        <td>${calendarioVac.apSegundoMenor}</td>
+                        <td>${calendarioVac.prenombreMenor}</td>
+                        <td>${calendarioVac.feNacMenor}</td>
+                        <td>
+                            <a href="calendario_vacunacion/formulario.do?coPadronNominal=${calendarioVac.coPadronNominal}" class="btn btn-success">
+                                <span class="icon-ok icon-white"></span>&#160;Ver datos
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
+        <form:form action="calendario_vacunacion/send_datos_menor.do#wizard_calendario_vac" method="post"
+                   modelAttribute="calendarioVacunacion">
+            <form:hidden path="coPadronNominal"/>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#"><span class="badge badge-info uno">1</span>&#160;Datos del Menor</a>
+                </li>
+                <li><a href="#"><span class="badge badge-info dos">2</span>&#160;Datos Apoderados</a></li>
+                <li><a href="#"><span class="badge badge-info tres">3</span>&#160;Calendario Vacunación</a></li>
+            </ul>
+
+            <div class="tab-content clearfix">
+                <div class="tab-pane active" id="datos_menor">
+                    <div class="span4"
+                         style="background-color: #CFF7CC;padding-left: 20px;margin-left: 0;padding-bottom: 10px;padding-top: 20px;">
+                        <label for="apPrimerMenor">Primer Apellido</label>
+                        <form:input path="apPrimerMenor" id="apPrimerMenor" placeholder="Primer Apellido"/>
+                        <form:errors path="apPrimerMenor" element="div" cssClass="text-error"/>
+
+                        <label for="apSegundoMenor">Segundo Apellido</label>
+                        <form:input path="apSegundoMenor" id="apSegundoMenor" placeholder="Segundo Apellido"/>
+                        <form:errors path="apSegundoMenor" element="div" cssClass="text-error"/>
+
+                        <label for="prenombreMenor">Nombres</label>
+                        <form:input path="prenombreMenor" id="prenombreMenor" placeholder="Nombres"/>
+                        <form:errors path="prenombreMenor" element="div" cssClass="text-error"/>
+
+                        <label for="feNacMenor">Fecha de Nacimiento</label>
+                        <form:input path="feNacMenor" id="feNacMenor" cssStyle="width: 163px;"/>
+                        <div class="input-append">
+                            <button id="feNacButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i class="icon-calendar icon-white"></i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feNacMenor" element="div" cssClass="text-error"/>
+
+                        <label>Sexo</label>
+                        <label class="radio inline"><form:radiobutton path="coGeneroMenor" value="1"/>Masculino</label>
+                        <label class="radio inline"><form:radiobutton path="coGeneroMenor" value="2"/>Femenino</label>
+                        <form:errors path="coGeneroMenor" cssClass="text-error" element="div"/>
+                    </div>
+
+                    <div class="span6"
+                         style="background: #A9D1FF;padding-left: 20px;padding-bottom: 10px;padding-top: 20px;">
+
+                        <label for="coUbigeoInei">Ubigeo</label>
+                        <form:input path="coUbigeoInei" id="coUbigeoInei" placeholder="Ubigeo Declarado"
+                                    cssStyle="width: 400px;"/>
+                        <form:errors path="coUbigeoInei" element="div" cssClass="text-error"/>
+
+                        <label for="coCentroPoblado">Centro Poblado</label>
+                        <form:input path="coCentroPoblado" id="coCentroPoblado" placeholder="Centro Poblado"
+                                    cssStyle="width: 400px;"/>
+                        <form:errors path="coCentroPoblado" element="div" cssClass="text-error"/>
+
+                        <label for="deDireccion">Dirección</label>
+                        <form:textarea path="deDireccion" id="deDireccion" htmlEscape="true" cssStyle="width: 386px;"/>
+                        <form:errors path="deDireccion" element="div" cssClass="text-error"/>
+
+                        <label for="coEstSalud">Establecimiento</label>
+                        <form:input path="coEstSalud" id="coEstSalud" placeholder="Establecimiento"
+                                    cssStyle="width: 400px;"/>
+
+                        <form:hidden path="nuSecuenciaLocal"/>
+                        <form:errors path="coEstSalud" element="div" cssClass="text-error"/>
+
+                        <label for="tiProSocial">Programa de apoyo social</label>
+                        <form:select path="tiProSocial" id="tiProSocial" multiple="multiple" title="Seleccione..."
+                                     cssStyle="width: 400px; margin-bottom: 12px;">
+                            <form:options itemLabel="dePrograma" itemValue="coProgramaSocial"
+                                          items="${programasSociales}"/>
+                        </form:select>
+                        <form:errors path="tiProSocial" cssClass="text-error" element="div"/>
+
+                    </div>
+
+                    <div class="">
+                        <c:if test="${not empty calendarioVacunacion.nuDniMenor}">
+                            <img style="width: 116px;display: inline-block;margin-left: 20px;border: 1px solid #ccc;padding: 5px;"
+                                 src="imagen_ciudadano/img_menor.do?nu_dni=${base64:encodeBase64(calendarioVacunacion.nuDniMenor)}"/>
+                        </c:if>
+                    </div>
+                </div>
+
+                <hr style="clear:both;"/>
+                <div class="wizard-actions row-fluid">
+                    <button type="submit" class="btn btn-primary" style="width: 114px;">Siguiente&#160;<span
+                            class="icon-arrow-right icon-white"></span></button>
+                    &#160;
+                    <a href="busqueda_menor/buscar_menor.do" class="btn btn-danger" style="width: 78px;"><span
+                            class="icon-remove icon-white"></span>&#160;Cancelar</a>
+                </div>
+            </div>
+            <form:hidden path="nuCnv"/>
+            <form:hidden path="nuCui"/>
+        </form:form>
+    </div>
+    <div id="overlay" class="modal-backdrop hide"></div>
+    <div id="modal"></div>
+
+    <jsp:include page="datos_menor_script.jspx"/>
+</jsp:root>

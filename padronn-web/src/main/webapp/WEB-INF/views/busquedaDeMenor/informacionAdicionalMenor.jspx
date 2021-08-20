@@ -1,0 +1,185 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 23/05/13
+  Time: 02:36 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<c:if test="${empty persona}">
+		<div>No se encontró la información del niño/a</div>
+	</c:if>
+	<c:if test="${not empty persona}">
+		<div class="foto pull-right">
+			<c:if test="${persona.baseDatosOrigen=='ANI'}">
+				<!--<spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+				<c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>-->
+				<img src="data:image/png;base64,${img}" width="120" height="140" />
+                <!--<util:applet-image width="120" height="140" imageSource="ANI" imageCode="${persona.dni}" />-->
+				<!--<object type="application/x-java-applet" height="140" width="120">
+					<param name="codebase" value="${pageContext.servletContext.contextPath}/${localResourcesURL}/applet"/>
+					<param name="code" value="pe.gob.reniec.applets.imageviewer.ImageApplet"/>
+					<param name="archive" value="ImageViewer-1.0-jar-with-dependencies.jar"/>
+					<param name="u" value="http://sio2.reniec.gob.pe/imagen/imagen?tiFicha=E&#38;nuDni=${persona.dni}&#38;tiImg=0"/>
+					<param name="scriptable" value="true"/>
+					<param name="mayscript" value="true"/>
+					No se puede mostrar la imagen
+				</object>-->
+			</c:if>
+
+			<c:if test="${persona.baseDatosOrigen=='PN'}">
+				<c:choose>
+					<c:when test="${persona.origenFoto!='EMPTY'}">
+                        <c:choose>
+                            <c:when test="${not empty persona.dni}">
+                                <!--<spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+                                <c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>-->
+                                <!--<util:applet-image width="120" height="140" imageSource="ANI" imageCode="${persona.dni}" />-->
+								<img src="data:image/png;base64,${img}" width="120" height="140" />
+                            </c:when>
+                            <c:otherwise>
+                                <!--<spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+                                <c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>-->
+                                <util:applet-image width="120" height="140" imageSource="PN" imageCode="${persona.codigoPadronNominal}" />
+                            </c:otherwise>
+                        </c:choose>
+
+						<!--<object type="application/x-java-applet" height="140" width="120">
+							<param name="codebase" value="${pageContext.servletContext.contextPath}/${localResourcesURL}/applet"/>
+							<param name="code" value="pe.gob.reniec.applets.imageviewer.ImageApplet"/>
+							<param name="archive" value="ImageViewer-1.0-jar-with-dependencies.jar"/>
+							<c:if test="${persona.origenFoto=='PN'}">
+								<c:set var="URL" value="${fn:replace(pageContext.request.requestURL, pageContext.request.requestURI, '')}" scope="request"/>
+								<param name="u" value="${URL}${pageContext.servletContext.contextPath}/padronimg/mostrarmenor.do?coPadronNominal=${persona.codigoPadronNominal}"/>
+							</c:if>
+							<c:if test="${persona.origenFoto=='ANI'}">
+								<param name="u" value="http://sio2.reniec.gob.pe/imagen/imagen?tiFicha=E&#38;nuDni=${persona.dni}&#38;tiImg=0"/>
+							</c:if>
+							<param name="scriptable" value="true"/>
+							<param name="mayscript" value="true"/>
+							No se puede mostrar la imagen
+						</object>-->
+
+					</c:when>
+					<c:otherwise>
+						<div style="width:120px;height:140px;text-align: center;line-height: 30px;">El niño/a no <br/> tiene foto <br/>registrada</div>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+
+		</div>
+		<div>
+			<c:if test="${persona.baseDatosOrigen=='PN'}">
+				<span class="label label-info">Padrón Nominal</span>&#160;
+			</c:if>
+			<c:if test="${persona.baseDatosOrigen=='ANI'}">
+				<span class="label label-warning">RENIEC</span>&#160;
+			</c:if>
+			<c:choose>
+				<c:when test="${persona.edad>=6}">
+					<span class="text-error"><strong>${persona.primerApellido} ${persona.segundoApellido}</strong>, ${persona.nombres}</span>
+				</c:when>
+				<c:otherwise>
+					<strong>${persona.primerApellido} ${persona.segundoApellido}</strong>, ${persona.nombres}
+				</c:otherwise>
+			</c:choose>
+		</div>
+		<hr/>
+		<div class="row-fluid text-small">
+			<div class="span3">
+				<c:if test="${persona.baseDatosOrigen=='PN'}">
+					<c:if test="${empty persona.dni}">
+						<div>DNI: <strong>Sin DNI</strong></div>
+						<div>Padrón Nominal: <strong>${persona.codigoPadronNominal}</strong></div>
+					</c:if>
+					<c:if test="${not empty persona.dni}">
+						<div>DNI: <strong>${persona.dni}</strong></div>
+					</c:if>
+                    <c:if test="${not empty persona.nuCui and empty persona.dni}">
+                        <div>CUI: <strong>${persona.nuCui}</strong></div>
+                    </c:if>
+				</c:if>
+				<c:if test="${persona.baseDatosOrigen=='ANI'}">
+					<div>DNI: <strong>${persona.dni}</strong></div>
+				</c:if>
+				<div>Fecha de Nacimiento: <strong>${persona.fechaNacimiento}</strong></div>
+				<div>Edad: <strong>${persona.edadEscrita}</strong></div>
+				<div>Sexo: <strong>${persona.genero}</strong></div>
+			</div>
+			<div class="span5">
+				<div>
+					<!--
+					${persona.padreTipoVinculo}: <strong>${persona.padrePrimerApellido} ${persona.padreSegundoApellido}, ${persona.padreNombres}</strong> | DNI.
+					<strong>${persona.padreDni}</strong>
+					-->
+					<c:choose>
+						<c:when test="${persona.baseDatosOrigen=='PN'}">
+							<!--${persona.padreTipoVinculo}: <strong>${persona.padrePrimerApellido} ${persona.padreSegundoApellido}, ${persona.padreNombres}</strong> | DNI.<strong>${persona.padreDni}</strong>-->
+							TITULAR: <util:persona primerApellido="${persona.padrePrimerApellido}" segundoApellido="${persona.padreSegundoApellido}" nombres="${persona.padreNombres}" dni="${persona.padreDni}" vinculo="${persona.padreTipoVinculo}"/>
+						</c:when>
+						<c:otherwise>
+							<!--${persona.padreTipoVinculo}: <strong>${persona.padrePrimerApellido} ${persona.padreSegundoApellido}, ${persona.padreNombres}</strong> | DNI.<strong>${persona.padreDni}</strong>-->
+							${persona.padreTipoVinculo}: <util:persona primerApellido="${persona.padrePrimerApellido}" segundoApellido="${persona.padreSegundoApellido}" nombres="${persona.padreNombres}" dni="${persona.padreDni}" vinculo="${persona.padreTipoVinculo}"/>
+						</c:otherwise>
+					</c:choose>
+				</div>
+
+				<div>
+					<!--
+					${persona.madreTipoVinculo}: <strong>${persona.madrePrimerApellido} ${persona.madreSegundoApellido}, ${persona.madreNombres}</strong> | DNI.
+					<strong>${persona.madreDni}</strong>
+					-->
+					<c:choose>
+						<c:when test="${persona.baseDatosOrigen=='PN'}">
+							<!--${persona.madreTipoVinculo}: <strong>${persona.madrePrimerApellido} ${persona.madreSegundoApellido}, ${persona.madreNombres}</strong> | DNI. <strong>${persona.madreDni}</strong>-->
+							MADRE: <util:persona primerApellido="${persona.madrePrimerApellido}" segundoApellido="${persona.madreSegundoApellido}" nombres="${persona.madreNombres}" dni="${persona.madreDni}"/>
+						</c:when>
+						<c:otherwise>
+							<!--${persona.madreTipoVinculo}: <strong>${persona.madrePrimerApellido} ${persona.madreSegundoApellido}, ${persona.madreNombres}</strong> | DNI. <strong>${persona.madreDni}</strong>-->
+							${persona.madreTipoVinculo}: <util:persona primerApellido="${persona.madrePrimerApellido}" segundoApellido="${persona.madreSegundoApellido}" nombres="${persona.madreNombres}" dni="${persona.madreDni}"/>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<!--
+				<div>Ubigeo: <strong>${persona.ubigeo}</strong></div>
+				<div>Dirección: <strong>${persona.direccion}</strong></div>
+				-->
+				<div>Ubigeo: ${persona.ubigeo}</div>
+                <c:if test="${not empty persona.codigoCentroPoblado}">
+                <div>Centro poblado: ${persona.deCentroPoblado}</div>
+                </c:if>
+				<div>Dirección: ${persona.direccion}</div>
+			</div>
+			<div class="span2">
+				<c:if test="${persona.edad ge 6}">
+					<p class="text-error">El niño/a tiene más de 6 años de edad. No se puede registrar en el Padrón Nominal.</p>
+				</c:if>
+				<c:if test="${persona.edad lt 6}">
+					<c:if test="${persona.baseDatosOrigen=='PN'}">
+
+						<c:choose>
+						<c:when test="${persona.esPadron eq '1' or persona.esPadron eq '2'}">
+							<a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}" class="btn btn-info btn-mini">Actualizar Información</a>
+						</c:when>
+						<c:otherwise>
+                            <div class="alert alert-danger">
+							    <p>El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
+                            </div>
+						</c:otherwise>
+						</c:choose>
+
+					</c:if>
+					<c:if test="${persona.baseDatosOrigen=='ANI'}">
+                        <!--<c:if test="${empty persona.coRestri }">-->
+                            <a href="registromanual/formulario.do?nuDniMenor=${persona.dni}" class="btn btn-info btn-mini">Registrar Información</a>
+                        <!--</c:if>-->
+                        <c:if test="${not empty persona.coRestri }">
+                            <p class="text-error">El niño/a tiene la siguiente restricción: <strong>${persona.deRestri}</strong>. <br/><!--No se puede registrar en el Padrón Nominal.--></p>
+                        </c:if>
+					</c:if>
+				</c:if>
+			</div>
+		</div>
+	</c:if>
+</jsp:root>

@@ -1,0 +1,129 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+        <script>
+        <![CDATA[
+        $(function () {
+            datosApoderados = {
+                init: function(){
+                    // botones de navegacion
+                    $('#anterior').on('click', function (e) {
+                        e.preventDefault();
+                        var formCalendarioVacunacion = $('#calendarioVacunacion');
+                        formCalendarioVacunacion.attr('action', 'calendario_vacunacion/send_datos_apoderados_ant.do');
+                        formCalendarioVacunacion.append('<input type="hidden" value="anterior" name="anterior"/>');
+                        Util.enviarFormTarget($('#calendarioVacunacion'), '#wizard_calendario_vac');
+                    });
+                    // establecer formato de entrada a los campos
+                    datosApoderados.formatoInputs();
+                    datosApoderados.esIndocumentada();
+                    datosApoderados.selectTipoVinculoJefe();
+                    datosApoderados.buscarPorDniJefeFam();
+                    datosApoderados.buscarPorDniMadre();
+                    datosApoderados.preventSendSubmitFormInput();
+                },
+                formatoInputs:function(){
+                    $('#coDniJefeFam').inputmask('dni');
+                    $('#apPrimerJefe').inputmask('apellido');
+                    $('#apSegundoJefe').inputmask('apellido');
+                    $('#prenomJefe').inputmask('nombre');
+
+                    $('#coDniMadre').inputmask('dni');
+                    $('#apPrimerMadre').inputmask('apellido');
+                    $('#apSegundoMadre').inputmask('apellido');
+                    $('#prenomMadre').inputmask('nombre');
+                },
+                esIndocumentada: function() {
+                    var fnActivarCamposMadre = function () {
+                        if($('input[name=noDniMadre]').is(':checked')) {
+                            $('input[name=noDniMadre]').val('1');
+
+                            $('#coDniMadre').prop('disabled', true);
+                            $('#apPrimerMadre').prop('readonly', false);
+                            $('#apSegundoMadre').prop('readonly', false);
+                            $('#prenomMadre').prop('readonly', false);
+                        } else {
+
+                            $('input[name=noDniMadre]').val('0');
+
+                            $('#coDniMadre').prop('disabled', false);
+                            $('#apPrimerMadre').prop('readonly', true);
+                            $('#apSegundoMadre').prop('readonly', true);
+                            $('#prenomMadre').prop('readonly', true);
+                        }
+                    };
+
+                    fnActivarCamposMadre();
+                    $('input[name=noDniMadre]').on('change', function(e){
+                        fnActivarCamposMadre();
+                    });
+                },
+
+                selectTipoVinculoJefe: function(){
+                    var fnActivarCamposJefeFamilia = function() {
+                        if ($('#tiVinculoJefe').val() == '5') { // OTRO
+
+                            $('#coDniJefeFam').val('');
+                            $('#apPrimerJefe').val('');
+                            $('#apSegundoJefe').val('');
+                            $('#prenomJefe').val('');
+
+                            $('#coDniJefeFam').attr("readonly", "readonly");
+                            $('#apPrimerJefe').removeAttr("readonly");
+                            $('#apSegundoJefe').removeAttr("readonly");
+                            $('#prenomJefe').removeAttr("readonly");
+
+                            $('#coDniJefeFam-button').off('click');
+
+                        } else {
+                            $('#coDniJefeFam-button').on('click', function (e) {
+                                e.preventDefault();
+                                fnBuscarJefeFamiliaPorDni();
+                            });
+                            $('#coDniJefeFam').removeAttr("readonly");
+                            $('#apPrimerJefe').attr("readonly", "readonly");
+                            $('#apSegundoJefe').attr("readonly", "readonly");
+                            $('#prenomJefe').attr("readonly", "readonly");
+                        }
+                    };
+
+                    fnActivarCamposJefeFamilia();
+                    $('#tiVinculoJefe').change(function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        fnActivarCamposJefeFamilia();
+                    });
+                },
+
+                buscarPorDniJefeFam: function() {
+
+                    $('#btnBuscarDniJefe').on('click', function(e){
+                        e.preventDefault();
+                         var $form = $('<form action="calendario_vacunacion/buscar_jefe_familia_dni.do">')
+                             .append($('<input name="tiVinculoJefe">').val($('#tiVinculoJefe').val()))
+                             .append($('<input name="coDniJefeFam">').val($('#coDniJefeFam').val()));
+                         Util.enviarFormTarget($form, '#regman-form-message-jefe');
+                    });
+                },
+                buscarPorDniMadre: function() {
+                    $('#btnBuscarDniMadre').on('click', function(e){
+                        e.preventDefault();
+                         var $form = $('<form action="calendario_vacunacion/buscar_madre_dni.do">')
+                             .append($('<input name="coDniMadre">').val($('#coDniMadre').val()));
+                         Util.enviarFormTarget($form, '#regman-form-message-madre');
+                    });
+                },
+                preventSendSubmitFormInput:function(){
+                    $("input").keypress(function(e){
+                        var k=e.keyCode || e.which;
+                        if(k==13){
+                            e.preventDefault();
+                        }
+                    });
+                },
+            }
+            datosApoderados.init();
+        });
+        ]]>
+        </script>
+</jsp:root>

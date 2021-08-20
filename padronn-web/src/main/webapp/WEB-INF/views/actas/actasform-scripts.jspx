@@ -1,0 +1,104 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jllamas
+  Date: 12/07/13
+  Time: 05:53 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <style>
+        .fs-icon{
+            width: 16px;
+        }
+        .fs-input{
+            margin-right: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        <![CDATA[
+
+        //function fromJSON(jsonstring) {
+        //	//return jsonstring;
+        //	arr = JSON.parse(jsonstring),
+        //	len = arr.length;
+        //
+        //	$ul = $('<ul></ul>');
+        //	/*while(len--) {
+        //		$('<li>', {
+        //			text: arr[len] + arr[len]
+        //		}).appendTo($ul);
+        //	}*/
+        //	for(var key in arr) {
+        //		//console.log(x + ": " + arr[x]);
+        //		$('<li>', {
+        //			text: key +":"+ arr[key]
+        //		}).appendTo($ul);
+        //	}
+        //	return $ul;
+        //}
+
+        $(function(){
+            /* agregar archivo */
+            $('#add-file').click(function (evt) {
+                //$('input[name*="files"]').attr('data-bfi-disabled', 'data-bfi-disabled');
+                if($('#fileTable tr:visible').length >= 2) {
+                    evt.preventDefault();
+                    return;
+                }
+
+                var fileIndex = $('#fileTable tr').length;
+                $('#fileTable').append('<tr><td style="width: 40px;">&nbsp;</td><td><div class="form-inline"><a href="#" class="noAjax del-file btn btn-small" style="background: #d15b47!important; margin-right: 10px; border:4px solid #d15b47;"><i class="icon-remove">&nbsp;</i></a><input type="file" name="files['+fileIndex+']"/></div></td></tr>');
+                $(":file").filestyle({input: true, icon: true, buttonText: "Seleccione Archivo...", classButton: 'btn btn-small', classInput: 'input-large fs-input', classIcon: 'icon-folder-open fs-icon'});
+                $('.del-file').click(function (evt) {
+                    if(!$(this).is('.first')) {
+                        //$(this).closest("tr").remove();
+                        $(this).parent().find(':file').filestyle('clear');
+                        $(this).closest('tr').hide();
+                    } else {
+                        //$(this).nextAll(':file').first().filestyle('clear');
+                        $(this).parent().find(':file').filestyle('clear');
+                    }
+                    evt.preventDefault();
+                });
+                evt.preventDefault();
+            });
+            $(":file").filestyle({input: true, icon: true, buttonText: "Seleccione Archivo...", classButton: 'btn btn-small', classInput: 'input-large fs-input', classIcon: 'icon-folder-open fs-icon'});
+            /* eliminar archivo */
+            $('.del-file').click(function (evt) {
+                if(!$(this).is('.first')) {
+                    //$(this).closest('tr').remove();
+                    $(this).parent().find(':file').filestyle('clear');
+                    $(this).closest('tr').hide();
+                } else {
+                    //$(this).nextAll(':file').first().filestyle('clear');
+                    $(this).parent().find(':file').filestyle('clear');
+                }
+                evt.preventDefault();
+            });
+            /*
+             // PAGINACION
+             paginar();
+
+             // CONSULTA
+             var feInicio = $('#feInicioDate').datepicker()
+             .on('changeDate', function (ev) {
+             if(ev.viewMode=='days'){
+             feInicio.hide();
+             $('#feInicio').val($('#feInicioDate').data('date'));
+             }
+             })
+             .data('datepicker');
+             var feFin = $('#feFinDate').datepicker()
+             .on('changeDate', function (ev) {
+             if(ev.viewMode=='days'){
+             feFin.hide();
+             $('#feFin').val($('#feFinDate').data('date'));
+             }
+             })
+             .data('datepicker');
+             */
+        });
+        ]]>
+
+    </script>
+</jsp:root>

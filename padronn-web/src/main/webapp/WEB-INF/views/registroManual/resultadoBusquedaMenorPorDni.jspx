@@ -1,0 +1,33 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<c:if test="${empty persona}">
+		<p class="text-warning">${mensaje}</p>
+		<script type="text/javascript">
+			$(function () {
+				$('#nuDniMenor').val("");
+				$('#apPrimerMenor').val("");
+				$('#apSegundoMenor').val("");
+				$('#prenombreMenor').val("");
+				$('#feNacMenor').val("");
+			});
+		</script>
+	</c:if>
+	<c:if test="${not empty persona}">
+		<!--<p class="text-success">${mensaje}</p>-->
+		<script type="text/javascript">
+			$(function () {
+				$('#apPrimerMenor').val("${persona.primerApellido}");
+				$('#apSegundoMenor').val("${persona.segundoApellido}");
+				$('#prenombreMenor').val("${persona.nombres}");
+				$('#feNacMenor').val("${persona.fechaNacimiento}");
+			});
+		</script>
+	</c:if>
+</jsp:root>

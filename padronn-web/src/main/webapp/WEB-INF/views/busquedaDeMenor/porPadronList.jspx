@@ -1,0 +1,88 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+		  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<fieldset>
+		<legend>Resultados de la búsqueda</legend>
+		<table class="table table-bordered table-condensed">
+			<thead>
+			<tr>
+				<th>DNI del niño/a</th>
+				<th>Nombre del niño/a</th>
+				<th>Fecha nacimiento</th>
+				<th>Detalles</th>
+			</tr>
+			</thead>
+			<tbody>
+			<c:choose>
+				<c:when test="${empty padronNominalList}">
+					<tr>
+						<td colspan="4">No se ha registrado ningún padron</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="padronNominal" items="${padronNominalList}">
+						<tr>
+							<td>${padronNominal.nuDniMenor}</td>
+							<td>
+								${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor} ${padronNominal.prenombreMenor}
+								<div class="muted"><small>${padronNominal.tiVinculoJefe}: <strong>${padronNominal.apPrimerJefe} ${padronNominal.apSegundoJefe} ${padronNominal.apPrimerJefe} (DNI. ${padronNominal.coDniJefeFam})</strong></small></div>
+								<div class="muted"><small>${padronNominal.tiVinculoMadre}: <strong>${padronNominal.apPrimerMadre} ${padronNominal.apSegundoJefe} ${padronNominal.apPrimerMadre} (DNI. ${padronNominal.coDniMadre})</strong></small></div>
+								<div class="muted"><small>${padronNominal.coUbigeoInei}</small></div>
+								<div class="muted"><small>${padronNominal.deDireccion}</small></div>
+							</td>
+							<td>${padronNominal.feNacMenor}</td>
+							<td>
+								<div class="btn-group">
+									<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-list"><!-- --></i> <span class="caret"></span></button>
+									<ul class="dropdown-menu">
+										<li><a href="registromanual/detalles.do?coPadronNominal=${padronNominal.coPadronNominal}">Ver detalles</a></li>
+										<li><a href="registromanual/editar.do?coPadronNominal=${padronNominal.coPadronNominal}">Editar información</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			</tbody>
+		</table>
+		<c:if test="${not empty paginaActual and not empty cantidadPorPagina and not empty cantidadRegistros}">
+			<c:set var="temp" value="${cantidadRegistros/cantidadPorPagina}"/>
+			<c:set var="maxPage" value="${temp+(1-(temp%1))%1}" />
+			<div class="pagination">
+				<ul>
+					<c:if test="${paginaActual==1}">
+						<li class="disabled"><a href="#">Anterior</a></li>
+					</c:if>
+					<c:if test="${paginaActual>1}">
+						<spring:eval expression="T(String).format(urlPaginationBase, paginaActual-1)" var="paginaUrl" />
+						<li><a href="${paginaUrl}">Anterior</a></li>
+					</c:if>
+					<c:forEach begin="1" end="${maxPage}" var="numeroPagina">
+						<c:if test="${numeroPagina==paginaActual}">
+							<li class="disabled"><a href="#">${numeroPagina}</a></li>
+						</c:if>
+						<c:if test="${numeroPagina!=paginaActual}">
+							<spring:eval expression="T(String).format(urlPaginationBase, numeroPagina)" var="paginaUrl" />
+							<li><a href="${paginaUrl}">${numeroPagina}</a></li>
+						</c:if>
+					</c:forEach>
+					<c:if test="${paginaActual==maxPage}">
+						<li class="disabled"><a href="#">Siguiente</a></li>
+					</c:if>
+					<c:if test="${paginaActual lt maxPage}">
+						<spring:eval expression="T(String).format(urlPaginationBase, paginaActual+1)" var="paginaUrl" />
+						<li><a href="${paginaUrl}">Siguiente</a></li>
+					</c:if>
+				</ul>
+			</div>
+		</c:if>
+	</fieldset>
+</jsp:root>

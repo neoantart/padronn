@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="precotejoformato.xls" class="pe.gob.reniec.padronn.logic.web.view.FormatoPreCotejoView"/>
+
+    <bean id="reportePadron.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronView"/>
+
+    <bean id="reportePadronRangoFecha.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronRangoFechaView"/>
+
+    <bean id="reportePadronBajas.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronBajasView"/>
+
+    <bean id="reportePadronEdad.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronEdadView"/>
+
+    <bean id="reportePadronMovimientos.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronMovimientoView"/>
+
+    <bean id="reportePadronTotalDistritos.xls"
+          class="pe.gob.reniec.padronn.logic.web.view.ReportePadronTotalDistritosView"/>
+
+    <bean id="reporteObservados.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronObservadosView"/>
+
+    <bean id="reportePadronActas.xls" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronActasView"/>
+
+    <bean id="reporteUsuarios.xls" class="pe.gob.reniec.padronn.logic.web.view.ReporteUsuariosView "/>
+
+
+    <bean id="fichaPadronView" class="pe.gob.reniec.padronn.logic.web.view.FichaPadronView"/>
+
+    <bean id="fichaPadronMidisView" class="pe.gob.reniec.padronn.logic.web.view.FichaPadronMidisView"/>
+
+
+    <bean id="fichaPadronEmptyView" class="pe.gob.reniec.padronn.logic.web.view.FichaPadronEmptyView"/>
+
+    <bean id="fichaPadronDownloadView" class="pe.gob.reniec.padronn.logic.web.view.FichaPadronDownloadView"/>
+
+    <bean id="reportePadronEdadGrias.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronEdadGriasView"/>
+
+    <bean id="reportePadronEdadMidis.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReportePadronEdadMidisView"/>
+
+
+    <bean id="reportePadronProcSocMidisView.xlsx"
+          class="pe.gob.reniec.padronn.logic.web.view.ReportePadronProcSocMidisView"/>
+    <bean id="reportePadronEdadesMidisView.xlsx"
+          class="pe.gob.reniec.padronn.logic.web.view.ReportePadronEdadesMidisView"/>
+    <bean id="reportePadronTiSeguroMidisView.xlsx"
+          class="pe.gob.reniec.padronn.logic.web.view.ReportePadronTiSeguroMidisView"/>
+
+    <bean id="bandejaObservados.xlsx" class="pe.gob.reniec.padronn.logic.web.view.BandejaObservadosView"></bean>
+
+    <!--Desde aqui agregado por Jose Vidal Flores-->
+    <bean id="reporteResumenEdadEESS.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteResumenEdadEESSView"></bean>
+    <bean id="reporteDetalleEdadEESS.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteDetalleEdadEESSView"></bean>
+    <!--Adicional para frecuencia de atencion-->
+    <bean id="reporteResumenEdadEESSatencion.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteResumenEdadEESSatencion"></bean>
+    <bean id="reporteDetalleEdadEESSatencion.xlsx" class="pe.gob.reniec.padronn.logic.web.view.ReporteDetalleEdadEESSatencion"></bean>
+
+</beans>

@@ -1,0 +1,55 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 17/05/13
+  Time: 11:47 AM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<c:if test="${empty padronNominal.nuDniMenor and empty padronNominal.coPadronNominal}">
+		<h1>Detalles de Padrón Nominal del niño/a</h1>
+		<hr/>
+		<div class="row-fluid">
+			<div class="span10 offset1">
+				<div class="alert alert-block" style="padding-right: 14px;">
+					<h4>No se pudo registrar la información del niño/a en el Padrón Nominal
+						<!--<a href="registromanual/buscarmenorform.do" class="btn btn-medium btn-success pull-right"><span class="icon-pencil icon-white"></span> Formulario de Registro</a>-->
+					</h4>
+					<p style="margin-bottom: 0px;margin-top: 10px">
+						Ahora, puede ir al <a href="registromanual/buscarmenorform.do" class="text-info">Formulario de Registro</a>,
+						o ir al <a href="busquedademenor/avanzadoform.do" class="text-info">Formulario de Búsqueda de Niño/a</a>,
+						o ir al <a href="busquedademenor/avanzadoform.do?tipo=madre" class="text-info">Formulario de Búsqueda de Madre</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+		<!--<p class="alert">No se encontró la información del padrón Nominal del menor</p>-->
+	</c:if>
+
+	<c:if test="${not empty padronNominal.nuDniMenor or not empty padronNominal.coPadronNominal}">
+		<h1>Detalles del registro del menor ${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor}, ${padronNominal.prenombreMenor}</h1>
+		<hr/>
+
+		<div class="row-fluid">
+			<div class="span10 offset1">
+				<div class="alert alert-block" style="padding-right: 14px;">
+					<h4>
+						${mensaje}
+						<!--<a href="registromanual/buscarmenorform.do" class="btn btn-medium btn-success pull-right"><span class="icon-pencil icon-white"></span> Ir al Formulario de Registro</a>-->
+					</h4>
+					<p style="color: #2d6987; font-weight: bold;">${msgRestriccion}</p>
+					<p style="margin-bottom: 0px;margin-top: 10px">
+						Ahora, puede ir al <a href="registromanual/buscarmenorform.do" class="text-info">Formulario de Registro</a>,
+						o ir al <a href="busquedademenor/avanzadoform.do" class="text-info">Formulario de Búsqueda de Niño/a</a>,
+						o ir al <a href="busquedademenor/avanzadoform.do?tipo=madre" class="text-info">Formulario de Búsqueda de Madre</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<util:datosMenor-tabla padronNominal="${padronNominal}" tableClass="table table-condensed"/>
+		<br/>
+		<!--<hr style="clear:both;"/>-->
+	</c:if>
+</jsp:root>

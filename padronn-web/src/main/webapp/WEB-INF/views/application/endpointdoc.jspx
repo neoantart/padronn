@@ -1,0 +1,69 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 26/02/14
+  Time: 01:59 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="container">
+        <!--        <h1>Spring MVC 3.1 Demo Endpoints</h1>-->
+        <c:forEach items="${handlerMethods}" var="entry">
+            <!-- <div>
+                 <hr/>
+                 <p><strong>${entry.value}</strong></p>
+             </div>-->
+
+            <!--<span class="alt">Patterns:</span><br/>-->
+            <c:if test="${not empty entry.key.patternsCondition.patterns}">
+                <c:forEach items="${entry.key.patternsCondition.patterns}" var="item">
+                    ${item}<br/>
+                </c:forEach>
+            </c:if>
+
+            <!--<div class="span-3 colborder">
+                <p>
+                    <span class="alt">Request Methods:</span><br/>
+                    <c:if test="${not empty entry.key.methodsCondition.methods}">>
+                        ${entry.key.methodsCondition.methods}
+                    </c:if>
+                </p>
+            </div>
+            <div class="span-3 colborder">
+                <p>
+                    <span class="alt">Headers:</span><br/>
+                    <c:if getConvenioFechaVigenciaInicial="${not empty entry.key.headersCondition.expressions}">
+                        ${entry.key.headersCondition.expressions}
+                    </c:if>
+                </p>
+            </div>
+            <div class="span-3 colborder">
+                <p>
+                    <span class="alt">Parameters:</span><br/>
+                    <c:if getConvenioFechaVigenciaInicial="${not empty entry.key.paramsCondition.expressions}">
+                        ${entry.key.paramsCondition.expressions}
+                    </c:if>
+                </p>
+            </div>
+            <div class="span-3 colborder">
+                <p>
+                    <span class="alt">Consumes:</span><br/>
+                    <c:if getConvenioFechaVigenciaInicial="${not empty entry.key.consumesCondition.expressions}">
+                        ${entry.key.consumesCondition.expressions}
+                    </c:if>
+                </p>
+            </div>
+            <div class="span-3 last">
+                <p>
+                    <span class="alt">Produces:</span><br/>
+                    <c:if getConvenioFechaVigenciaInicial="${not empty entry.key.producesCondition.expressions}">
+                        ${entry.key.producesCondition.expressions}
+                    </c:if>
+                </p>
+            </div>-->
+        </c:forEach>
+    </div>
+
+</jsp:root>

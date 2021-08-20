@@ -1,0 +1,65 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  Date: 22/05/13
+  Time: 02:47 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<script type="text/javascript">
+		$(function(){
+			$('#dni').inputmask();
+		});
+	</script>
+	<form action="busquedademenor/buscaravanzadamadre.do#busmen-ava-madre-panel" id="busquedaavanzadamadre">
+		<div class="row-fluid">
+			<div class="span2">
+				<label for="dni">DNI</label>
+				<input type="text" id="dni" name="dni" class="span12" placeholder="DNI" data-inputmask="'mask': '99999999'" />
+			</div>
+			<div class="span1 text-center" style="font-size: 15px;"><strong>O</strong></div>
+			<div class="span2">
+				<label for="apPrimer">Apellido Paterno</label>
+				<input type="text" id="apPrimer" name="apPrimer" class="span12 mask-alpha" />
+			</div>
+			<div class="span2">
+				<label for="apSegundo">Apellido Materno</label>
+				<input type="text" id="apSegundo" name="apSegundo" class="span12 mask-alpha" />
+			</div>
+			<div class="span2">
+				<label for="prenombre">Nombres</label>
+				<input type="text" id="prenombre" name="prenombre" class="span12 mask-alpha" />
+			</div>
+			<div class="span3">
+				<label>&#160;</label>
+				<button type="submit" class="btn"><i class="icon-white icon-search">&#160;</i>Buscar</button>
+                &#160;
+                <button id="clean-input-form-madre" class="btn btn-danger"><i class="icon-remove icon-white">&#160;</i>Limpiar</button>
+			</div>
+		</div>
+		<div>
+			<strong><small>Buscar niños y niñas utilizando el DNI de la madre <strong>O</strong> los datos de la madre</small></strong>
+		</div>
+	</form>
+	<div id="busmen-ava-madre-panel"><!-- --></div>
+
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            $('#clean-input-form-madre').click(function(e){
+                e.preventDefault();
+                $('#busquedaavanzadamadre')
+                        .find('input')
+                        .val('');
+                $('#busmen-ava-madre-panel').html('');
+            });
+
+			$('#busquedaavanzadamadre').submit(function(e) {
+				$('#apPrimer').val($('#apPrimer').val().trim());
+				$('#apSegundo').val($('#apSegundo').val().trim());
+				$('#prenombre').val($('#prenombre').val().trim());
+			});
+        });
+        ]]>
+    </script>
+</jsp:root>

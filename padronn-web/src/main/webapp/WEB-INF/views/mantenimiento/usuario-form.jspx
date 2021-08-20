@@ -1,0 +1,307 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 18/07/13
+  Time: 05:35 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:forn="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:input="http://www.springframework.org/tags/form">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+<div id="mantenimiento-modulo-div">
+<div class=" page-header">
+    <div class="span6">
+        <h2>${titulo}</h2>
+        <span style="padding-left: 10px; font-size: 12px;" class="text-error">La información marcada con (<strong
+                title="requerido" class="text-error required">*</strong>) es requerida</span>
+    </div>
+    <div class="clearfix"></div>
+    <div class="alert">
+        <p>Para ingresar la entidad/entidades podra ingresar los siguientes tipos de entidades.</p>
+        <ul>
+            <li>Municipios: ejemplo <strong>MUNICIPALIDAD PROVINCIAL DE AZANGARO</strong></li>
+            <!--<li>Establecimientos de salud: ejemplo <strong>PUESTO DE SALUD INGENIO BAJO</strong></li>-->
+            <li>Direcciones de salud: ejemplo <strong>DISA PUNO</strong></li>
+            <li>Redes de salud: ejemplo <strong>RED DE SALUD LUCANAS</strong></li>
+            <li>Microredes de salud: ejemplo <strong>MICRORED OCOBAMBA</strong></li>
+        </ul>
+    </div>
+</div>
+<c:if test="${not empty mensajeSuccessInsert}">
+    <div class="alert alert-success">
+        <strong>${mensajeSuccessInsert}</strong>.
+    </div>
+</c:if>
+
+<c:if test="${not empty mensajeErrorInsert}">
+    <div class="alert alert-danger">
+        <strong>${mensajeErrorInsert}</strong>
+    </div>
+</c:if>
+
+
+<c:if test="${not empty mensajeSuccessUpdate}">
+    <div class="alert alert-success">
+        <strong>${mensajeSuccessUpdate}.</strong>
+    </div>
+</c:if>
+
+<c:if test="${not empty mensajeError}">
+    <div class="alert alert-danger">
+        <strong>${mensajeError}</strong>
+    </div>
+</c:if>
+
+<form:form action="signup/${action}#mantenimiento-modulo-div" method="post" class="form-horizontal"
+           modelAttribute="signupForm"> <!--con modelAttribute enlazamos nuestro modelo con la vista-->
+    <!--<form:errors path="*" element="div" cssClass="alert alert-error"/>-->
+    <spring:bind path="signupForm.errorMessage">
+        <c:if test="${status.error}">
+            <div class="alert alert-danger">
+                <form:errors path="errorMessage" element="div" />
+            </div>
+        </c:if>
+    </spring:bind>
+
+    <div class="row-fluid">
+        <div class="span7">
+            <c:choose>
+                <c:when test="${action eq 'update.do'}">
+                    <fieldset disabled="disabled">
+                        <spring:bind path="signupForm.coUsuario">
+                            <c:if test="${status.error}">
+                                <c:set var="coUsuarioError" value="error" />
+                            </c:if>
+                        </spring:bind>
+                        <div class="control-group ${coUsuarioError}">
+                            <label class="control-label">DNI <span title="requerido" class="text-error required">*</span></label>
+                            <div class="controls">
+                                <div class="input-append">
+                                    <form:input path="coUsuario" id="coUsuario" placeholder="" data-inputmask="'mask': '99999999'" readonly="true"/>
+                                    <button class="btn search-dni"><i class="icon-search icon-white"></i></button>
+                                </div>
+                                <form:errors path="coUsuario" element="div" cssClass="text-error" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </c:when>
+                <c:otherwise>
+                    <spring:bind path="signupForm.coUsuario">
+                        <c:if test="${status.error}">
+                            <c:set var="coUsuarioError" value="error" />
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${coUsuarioError}">
+                        <label class="control-label">DNI <span title="requerido" class="text-error required">*</span></label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <form:input path="coUsuario" id="coUsuario" placeholder="" data-inputmask="'mask': '99999999'"/>
+                                <button class="btn search-dni"><i class="icon-search icon-white"></i></button>
+                            </div>
+                            <form:errors path="coUsuario" element="div" cssClass="text-error" />
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <fieldset disabled="disabled">
+            <spring:bind path="signupForm.apPrimer">
+                <c:if test="${status.error}">
+                    <c:set var="apPrimerError" value="error" />
+                </c:if>
+            </spring:bind>
+            <div class="control-group ${apPrimerError}">
+                <label class="control-label">Primer Apellido <span title="requerido"
+                                                                    class="text-error required">*</span></label>
+                <div class="controls">
+                    <form:input path="apPrimer" id="apPrimer" placeholder=""
+                                data-inputmask="'mask':'w', 'repeat':25, 'greedy':'false', 'placeholder':''" readonly="true"/>
+                    <form:errors path="apPrimer" element="div" cssClass="text-error" />
+                </div>
+            </div>
+            </fieldset>
+
+            <fieldset disabled="disabled">
+                <spring:bind path="signupForm.apSegundo">
+                   <!-- <c:if test="${status.error}">
+                        <c:set var="apSegundoError" value="error" />
+                    </c:if>-->
+                </spring:bind>
+                <div class="control-group ${apSegundoError}">
+                    <label class="control-label">Segundo Apellido <!--<span title="requerido" class="text-error required">* </span>--> </label>
+                    <div class="controls">
+                        <form:input path="apSegundo" id="apSegundo"
+                                    data-inputmask="'mask':'w', 'repeat':25, 'greedy':'false', 'placeholder':''" readonly="true"/>
+                        <form:errors path="apSegundo" element="div" cssClass="text-error" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset disabled="disabled">
+                <spring:bind path="signupForm.prenombres">
+                    <c:if test="${status.error}">
+                        <c:set var="prenombresError" value="error" />
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${prenombresError}">
+                    <label class="control-label">Pre Nombres <span title="requerido"
+                                                               class="text-error required">*</span></label>
+                    <div class="controls">
+                        <form:input path="prenombres" id="prenombres"
+                                    data-inputmask="'mask':'w', 'repeat':35, 'greedy':'false', 'placeholder':''" readonly="true"/>
+                        <form:errors path="prenombres" element="div" cssClass="text-error" />
+                    </div>
+                </div>
+            </fieldset>
+            <c:if test="${action eq 'update.do'}">
+                <spring:bind path="signupForm.nuTelefono">
+                    <c:if test="${status.error}">
+                        <c:set var="nuTelefonoError" value="error" />
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${nuTelefonoError}">
+                    <label class="control-label">Teléfono: </label>
+                    <div class="controls">
+                        <form:input path="nuTelefono" id="nuTelefono" placeholder=""
+                                    data-inputmask="'mask': 'u', 'repeat':9"/>
+                        <form:errors path="nuTelefono" element="div" cssClass="text-error" />
+                    </div>
+                </div>
+
+                <spring:bind path="signupForm.deEmail">
+                    <c:if test="${status.error}">
+                        <c:set var="deEmailError" value="error"/>
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${deEmailError}">
+                    <label class="control-label">Email: </label>
+                    <div class="controls">
+                        <!--<form:input path="deEmail" id="deEmail" placeholder="" data-inputmask="'mask':'@', 'repeat':65, 'greedy':'false', 'placeholder':''"/>-->
+                        <form:input path="deEmail" id="deEmail" maxlength="80"/>
+                        <form:errors path="deEmail" element="div" cssClass="text-error" />
+                    </div>
+                </div>
+            </c:if>
+        </div>
+        <div class="span3">
+            <c:if test="${not empty coUsuario}">
+                <a class="pull-right" href="#">
+                    <!--<img class="media-object"
+                                                    src="http://sio2.reniec.gob.pe/imagen/imagen?tiFicha=E&amp;nuDni=${coUsuario}&amp;tiImg=0"
+                                                    style="padding:5px; border:1px solid #dddddd; width: 110px;"/> -->
+                    <img  class="borderImg1" src="data:image/png;base64,${img}" width="120" height="140" />
+                </a>
+            </c:if>
+        </div>
+    </div>
+
+    <spring:bind path="signupForm.grupos">
+        <c:if test="${status.error}">
+            <c:set var="gruposError" value="error"/>
+        </c:if>
+    </spring:bind>
+    <div class="control-group ${gruposError}">
+        <label class="control-label">Perfil de usuario <span title="requerido"  class="text-error required">*</span></label>
+        <div class="controls">
+            <form:input path="grupos" id="grupos" class="span6" />
+            <!--TODO: Code select and options(selected) to initialiaze select2 after on javascript-->
+            <form:errors path="grupos" element="div" cssClass="text-error" />
+        </div>
+    </div>
+<!--   -->
+
+    <spring:bind path="signupForm.tipoEntidades">
+        <c:if test="${status.error}">
+            <c:set var="deTipoEntidadError" value="error" />
+        </c:if>
+    </spring:bind>
+    <div class="control-group ${deTipoEntidadError}">
+        <label class="control-label" for="tipoEntidades">Tipo de Entidad<span title="requerido" class="text-error required">*</span></label>
+        <div class="controls">
+            <form:input path="tipoEntidades" id="tipoEntidades" class="span6" />
+            <!--<form:select path="tipoEntidad" id="tipoEntidad"  style="width:250px;">
+                <form:option value="" label="Seleccione tipo de entidad..."/>
+                <form:options itemLabel="deDom" itemValue="coDominio" items="${tipoEntidadItems}" />
+            </form:select>-->
+            <form:errors path="tipoEntidades" cssClass="text-error" element="div"/>
+        </div>
+    </div>
+
+
+    <spring:bind path="signupForm.entidades">
+        <c:if test="${status.error}">
+            <c:set var="entidadesError" value="error"/>
+        </c:if>
+    </spring:bind>
+    <div class="control-group ${entidadesError}">
+        <label class="control-label">Entidad <span title="requerido" class="text-error required">*</span></label>
+        <div class="controls">
+            <form:input path="entidades" id="entidades" class="span8" />
+            <span data-trigger="tooltip" data-content="Para habilitar este campo, debe seleccionar el tipo de entidad" data-position="sw" class="label label-info label-inf-adicional">?</span>
+            <form:errors path="entidades" element="div" cssClass="text-error" />
+            <c:choose>
+                <c:when test="${action eq 'update.do'}">
+                </c:when>
+                <c:otherwise>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+
+    <spring:bind path="signupForm.esUsuario">
+        <c:if test="${status.error}">
+            <c:set var="esUsuarioError" value="error" />
+        </c:if>
+    </spring:bind>
+    <div class="control-group ${esUsuarioError}">
+        <label class="control-label">Estado <span title="requerido" class="text-error required">*</span><br/>
+            <span style="margin-left: 5px;">(activo/inactivo)</span></label>
+        <div class="controls">
+
+            <form:input path="esUsuario" id="esUsuario"/>
+            <form:errors path="esUsuario" element="div" cssClass="text-error" />
+        </div>
+    </div>
+
+    <c:if test="${action eq 'update.do'}">
+
+        <spring:bind path="signupForm.deObservacion">
+            <c:if test="${status.error}">
+                <c:set var="deObservacionError" value="error" />
+            </c:if>
+        </spring:bind>
+        <div class="control-group ${deObservacionError}">
+            <label class="control-label">Detalle observación
+                <span class="text-error required" title="requerido">*</span>
+            </label>
+            <div class="controls">
+                <form:input path="deObservacion" id="deObservacion" cssStyle="width: 430px;"/>
+                <form:errors path="deObservacion" element="div" cssClass="text-error" />
+            </div>
+        </div>
+    </c:if>
+
+    <div class="form-actions">
+        <c:choose>
+            <c:when test="${action eq 'update.do'}">
+                <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>&#160;Modificar</button>
+                &#160;&#160;<a href="signup/detalle_usuario.do?coUsuario=${coUsuario}&amp;buscar=1#mantenimiento-modulo-div" class="btn btn-danger"><i
+                    class="icon-remove icon-white"></i>&#160;Cancelar</a>
+            </c:when>
+            <c:otherwise>
+                 <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>&#160;Guardar</button>
+                 &#160;&#160;<a href="mantenimiento/maestros.do" class="btn btn-danger"><i
+                     class="icon-remove icon-white"></i>&#160;Cancelar</a>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
+    <input type="hidden" id="esMinsa" value="${esMinsa}"></input>
+    <input type="hidden" id="esSoporte" value="${esSoporte}"></input>
+</form:form>
+
+</div>
+<jsp:include page="usuario-form-scripts.jspx"/>
+</jsp:root>

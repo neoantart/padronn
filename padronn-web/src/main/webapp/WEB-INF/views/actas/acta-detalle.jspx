@@ -1,0 +1,116 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 14/08/13
+  Time: 10:04 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="row-fluid">
+        <div class="span6">
+            <c:if test="${not empty volver}">
+                <a href="actas/list.do?nuPagina=${nuPagina}" class="btn"><i class="icon-arrow-left icon-white"></i>Volver</a>&#160;&#160;&#160;&#160;
+            </c:if>
+        </div>
+        <!--<div class="pull-right  span3">
+            <a href="actas/form.do" class="btn btn-success">
+                <i class="icon-plus-sign icon-white">&#160;</i>&#160;&#160;Nueva acta
+            </a>
+        </div>-->
+    </div>
+    <div class="row-fluid">
+        <c:if test="${mensaje}">
+            <div class="alert">${mensaje}</div>
+        </c:if>
+        <div id="confirma-dar-baja"></div>
+
+        <h1>Detalle del acta</h1>
+        <hr />
+        <div class="span8">
+            <table class="table">
+                <c:if test="${not empty acta.deEstSalud}">
+                    <tr>
+                        <td>Establecimiento de salud:</td>
+                        <td>${acta.deEstSalud}</td>
+                    </tr>
+                    <tr>
+                        <td>Codigo RENAES</td>
+                        <td>${acta.coEstSalud}</td>
+                    </tr>
+                </c:if>
+
+                <tr>
+                    <td><strong>Periodo de conciliación: </strong> </td>
+                    <!--<fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feIni}" var="feIniDate" />
+                    <fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feFin}" var="feFinDate" />-->
+                    <td class="text-success">
+                        <strong>del ${acta.feIni} al ${acta.feFin}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Descripción: </strong></td>
+                    <td>${acta.deActa}</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha de registro: </strong></td>
+                    <!--<fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feCreaAudi}" var="feCreaAudiDate" />-->
+                    <td>${acta.feCreaAudi}</td>
+                </tr>
+                <tr>
+                    <td><strong>Usuario que subio el acta:</strong></td>
+                    <td><strong class="text-success">${acta.apPrimer} ${acta.apSegundo} ${acta.prenombres}</strong> <br/> <span class="text-success">DNI: ${acta.usCreaAudi}</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Estado del acta:</strong></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${acta.esActa != '0'}">
+                                <span class="label labe-info">publicado</span>
+                            </c:when>
+                        </c:choose>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Dar de baja el acta</strong></td>
+                    <td><a href="actas/dar_baja.do?coActa=${acta.coActa}&amp;nuPagina=${nuPagina}#confirma-dar-baja" class="btn btn-danger btn-small" title="Dar de baja el acta"><span class="icon-remove icon-white"><!-- --></span>&#160;Dar de baja el acta</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <p><strong>Archivos</strong></p>
+        <c:forEach items="${acta.actaArchivos}" var="actaArchivo">
+        <div class="span4">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td><strong>Nombre: </strong></td>
+                    <td>${actaArchivo.noActaArchivo}</td>
+                </tr>
+                <tr>
+                    <td><strong>Tamaño: </strong></td>
+                    <td>${actaArchivo.sizeActaArchivoFormat}</td>
+
+                </tr>
+                <tr>
+                    <td><strong>Tipo de archivo: </strong></td>
+                    <td>${actaArchivo.contentType}</td>
+                </tr>
+                <tr>
+                    <td><strong>Descargar: </strong></td>
+                    <td>
+                        <a href="actas/download.do?coActaArchivo=${actaArchivo.coActaArchivo}" class="noAjax btn btn-small">${actaArchivo.noActaArchivo}&#160;<!--<i class="icon-download icon-white">&lt;!&ndash; &ndash;&gt;</i>--></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </c:forEach>
+    </div>
+</jsp:root>

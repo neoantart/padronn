@@ -1,0 +1,308 @@
+<!--
+ * Archivo precotejoform-upload.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 02/08/13 04:15 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!--
+	<div class="row-fluid">
+		<div class="span6">
+	-->
+
+			<h4>Información de los Apoderados</h4>
+			<hr/>
+
+			<fieldset>
+				<span style="font-size: large;">
+					Jefe de Familia o Titular
+					<!--<span data-trigger="tooltip" data-content="Se refiere a la persona a cargo de la cual esta el menor, normalmente el padre" data-position="e" class="label label-info">?</span>-->
+				</span>
+
+				<hr style="border: none;"/>
+
+				<!--
+				<c:if test="${not empty PadronTitularFamilia}">
+					<p class="text-error">
+						<spring:message code="${PadronTitularFamilia.code}" arguments="${PadronTitularFamilia.arguments}" text="${PadronTitularFamilia.defaultMessage}"/>
+					</p>
+				</c:if>
+				<c:if test="${not empty PadronApoderado}">
+					<p class="text-error">
+						<spring:message code="${PadronApoderado.code}" arguments="${PadronApoderado.arguments}" text="${PadronApoderado.defaultMessage}"/>
+					</p>
+				</c:if>
+				-->
+				<div id="obsedit-form-message-jefe"></div>
+
+				<spring:bind path="precotejoRegistro.tiVinculoJefe">
+					<c:if test="${status.error}">
+						<c:set var="errorTiVinculoJefe" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorTiVinculoJefe}">
+					<label class="control-label" for="tiVinculoJefe">Vinculo Familiar</label>
+					<div class="controls">
+						<form:select path="tiVinculoJefe" id="tiVinculoJefe" >
+							<form:option value="" label="Ninguno"/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${vinculoFamiliarItems}" />
+						</form:select>
+						&#160;<util:btn-restablecer selector="#tiVinculoJefe" val="${precotejoRegistro.tiVinculoJefe}"/>
+						<form:errors path="tiVinculoJefe" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+                <div id="form-jefe-fam">
+                    <spring:bind path="precotejoRegistro.coDniJefeFam">
+                        <c:if test="${status.error}">
+                            <c:set var="errorCoDniJefeFam" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${errorCoDniJefeFam}">
+                        <label class="control-label" for="coDniJefeFam">DNI</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <!--<form:input path="coDniJefeFam" id="coDniJefeFam" placeholder="" data-inputmask="'mask': '99999999'" href="registromanual/buscarJefeFamiliaPorDni.do#obsedit-form-message-jefe" />-->
+                                <form:input path="coDniJefeFam" id="coDniJefeFam" placeholder="Número de DNI" data-inputmask="'mask': '99999999'" />
+                                <button type="button" id="coDniJefeFam-button" class="btn" href="registromanual/buscarJefeFamiliaPorDni.do?coDniJefeFam#obsedit-form-message-jefe"><i class="icon-white icon-search">&#160;</i></button>
+                            </div>
+                            &#160;<util:btn-restablecer selector="#coDniJefeFam" val="${precotejoRegistro.coDniJefeFam}"/>
+                            <form:errors path="coDniJefeFam" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="precotejoRegistro.apPrimerJefe">
+                        <c:if test="${status.error}">
+                            <c:set var="errorApPrimerJefe" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${errorApPrimerJefe}">
+                        <label class="control-label" for="apPrimerJefe">Primer Apellido</label>
+                        <div class="controls">
+                            <form:input path="apPrimerJefe" id="apPrimerJefe" placeholder="Primer Apellido" maxlength="25"/>
+                            &#160;<util:btn-restablecer selector="#apPrimerJefe" val="${precotejoRegistro.apPrimerJefe}"/>
+                            <form:errors path="apPrimerJefe" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="precotejoRegistro.apSegundoJefe">
+                        <c:if test="${status.error}">
+                            <c:set var="errorApSegundoJefe" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${errorApSegundoJefe}">
+                        <label class="control-label" for="apSegundoJefe">Segundo Apellido</label>
+                        <div class="controls">
+                            <form:input path="apSegundoJefe" id="apSegundoJefe" placeholder="Segundo Apellido" maxlength="25"/>
+                            &#160;<util:btn-restablecer selector="#apSegundoJefe" val="${precotejoRegistro.apSegundoJefe}"/>
+                            <form:errors path="apSegundoJefe" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="precotejoRegistro.prenomJefe">
+                        <c:if test="${status.error}">
+                            <c:set var="errorPrenomJefe" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${errorPrenomJefe}">
+                        <label class="control-label" for="prenomJefe">Nombres</label>
+                        <div class="controls">
+                            <form:input path="prenomJefe" id="prenomJefe" placeholder="Nombres" maxlength="35"/>
+                            &#160;<util:btn-restablecer selector="#prenomJefe" val="${precotejoRegistro.prenomJefe}"/>
+                            <form:errors path="prenomJefe" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+                </div>
+			</fieldset>
+
+
+			<fieldset>
+				<span style="font-size: large;">
+					Madre
+					<!--<span data-trigger="tooltip" data-content="La madre biológica del menor" data-position="e" class="label label-info">?</span>-->
+				</span>
+
+				<hr style="border: none;"/>
+
+				<!--
+				<c:set var="esIndocumentada" value="${((empty padronNominal.coDniMadre) and (not empty padronNominal.apPrimerMadre or not empty padronNominal.apSegundoMadre or not empty padronNominal.prenomMadre))?'1':'0'}" />
+				-->
+
+				<!--
+				<c:if test="${not empty PadronMadreFamilia}">
+					<p class="text-error">
+						<spring:message code="${PadronMadreFamilia.code}" arguments="${PadronMadreFamilia.arguments}" text="${PadronMadreFamilia.defaultMessage}"/>
+					</p>
+				</c:if>
+				-->
+
+				<div id="obsedit-form-message-madre"></div>
+
+				<!--
+				<div class="control-group form-inline">
+					<label class="control-label" for="noDniMadre"> Es Indocumentada</label>
+					<div class="controls">
+						<c:if test="${esIndocumentada=='1'}">
+							<input id="noDniMadre" type="checkbox" value="1" style="margin-top: 9px;" onclick="RegistroManual.modificarEstadoCamposMadre(this);" checked="checked"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<input id="noDniMadre" type="checkbox" value="1" style="margin-top: 9px;" onclick="RegistroManual.modificarEstadoCamposMadre(this);" />
+						</c:if>
+					</div>
+				</div>
+				-->
+
+				<!--
+				<div class="control-group">
+					<label class="control-label">Vinculo Familiar <span class="text-error required" title="requerido">*</span></label>
+					<div class="controls">
+						<form:select path="tiVinculoMadre" id="tiVinculoMadre">
+							<form:option value="" label="Seleccione..."/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${vinculoFamiliarItems}" />
+						</form:select>
+						<form:errors path="tiVinculoMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+				-->
+
+				<spring:bind path="precotejoRegistro.coDniMadre">
+					<c:if test="${status.error}">
+						<c:set var="errorCoDniMadre" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorCoDniMadre}">
+					<label class="control-label" for="coDniMadre"> DNI</label>
+					<div class="controls">
+						<div class="input-append">
+							<!--
+							<c:if test="${esIndocumentada=='1'}">
+								<form:input path="coDniMadre" id="coDniMadre" placeholder="" data-inputmask="'mask': '99999999'" href="registromanual/buscarMadreApoderadoPorDni.do#obsedit-form-message-madre" disabled="true"/>
+							</c:if>
+							<c:if test="${esIndocumentada=='0'}">
+								<form:input path="coDniMadre" id="coDniMadre" placeholder="" data-inputmask="'mask': '99999999'" href="registromanual/buscarMadreApoderadoPorDni.do#obsedit-form-message-madre"/>
+							</c:if>
+							-->
+							<!--<form:input path="coDniMadre" id="coDniMadre" placeholder="" data-inputmask="'mask': '99999999'" href="registromanual/buscarMadreApoderadoPorDni.do#obsedit-form-message-madre"/>-->
+							<form:input path="coDniMadre" id="coDniMadre" placeholder="Número de DNI" data-inputmask="'mask': '99999999'" />
+							<button type="button" id="coDniMadre-button" class="btn" href="registromanual/buscarMadreApoderadoPorDni.do?coDniMadre#obsedit-form-message-madre">
+								<i class="icon-white icon-search">&#160;</i>
+							</button>
+						</div>
+						&#160;<util:btn-restablecer selector="#coDniMadre" val="${precotejoRegistro.coDniMadre}"/>
+						<form:errors path="coDniMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<spring:bind path="precotejoRegistro.apPrimerMadre">
+					<c:if test="${status.error}">
+						<c:set var="errorApPrimerMadre" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorApPrimerMadre}">
+					<label class="control-label" for="apPrimerMadre">Primer Apellido</label>
+					<div class="controls">
+						<!--
+						<c:if test="${esIndocumentada=='1'}">
+							<form:input path="apPrimerMadre" id="apPrimerMadre" placeholder="" maxlength="25"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<form:input path="apPrimerMadre" id="apPrimerMadre" placeholder="" readonly="true" maxlength="25"/>
+						</c:if>
+						-->
+						<form:input path="apPrimerMadre" id="apPrimerMadre" placeholder="Primer Apellido" maxlength="25"/>
+						&#160;<util:btn-restablecer selector="#apPrimerMadre" val="${precotejoRegistro.apPrimerMadre}"/>
+						<form:errors path="apPrimerMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<spring:bind path="precotejoRegistro.apSegundoMadre">
+					<c:if test="${status.error}">
+						<c:set var="errorApSegundoMadre" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorApSegundoMadre}">
+					<label class="control-label" for="apSegundoMadre">Segundo Apellido</label>
+					<div class="controls">
+						<!--
+						<c:if test="${esIndocumentada=='1'}">
+							<form:input path="apSegundoMadre" id="apSegundoMadre" placeholder="" maxlength="25"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<form:input path="apSegundoMadre" id="apSegundoMadre" placeholder="" readonly="true" maxlength="25"/>
+						</c:if>
+						-->
+						<form:input path="apSegundoMadre" id="apSegundoMadre" placeholder="Segundo Apellido" maxlength="25"/>
+						&#160;<util:btn-restablecer selector="#apSegundoMadre" val="${precotejoRegistro.apSegundoMadre}"/>
+						<form:errors path="apSegundoMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<spring:bind path="precotejoRegistro.prenomMadre">
+					<c:if test="${status.error}">
+						<c:set var="errorPrenomMadre" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorPrenomMadre}">
+					<label class="control-label" for="prenomMadre">Nombres</label>
+					<div class="controls">
+						<!--
+						<c:if test="${esIndocumentada=='1'}">
+							<form:input path="prenomMadre" id="prenomMadre" placeholder="" maxlength="35"/>
+						</c:if>
+						<c:if test="${esIndocumentada=='0'}">
+							<form:input path="prenomMadre" id="prenomMadre" placeholder="" readonly="true" maxlength="35"/>
+						</c:if>
+						-->
+						<form:input path="prenomMadre" id="prenomMadre" placeholder="Nombres" maxlength="35"/>
+						&#160;<util:btn-restablecer selector="#prenomMadre" val="${precotejoRegistro.prenomMadre}"/>
+						<form:errors path="prenomMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<spring:bind path="precotejoRegistro.coGraInstMadre">
+					<c:if test="${status.error}">
+						<c:set var="errorCoGraInstMadre" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorCoGraInstMadre}">
+					<!--<label class="control-label" for="coGraInstMadre">Grado Instrucción</label>-->
+                    <label class="control-label" for="coGraInstMadre">Grado Instrucción <span class="text-error required" title="requerido">*</span></label>
+					<div class="controls">
+						<form:select path="coGraInstMadre" id="coGraInstMadre">
+							<form:option value="" label="Seleccione..."/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${gradoInstruccionItems}" />
+						</form:select>
+						&#160;<util:btn-restablecer selector="#coGraInstMadre" val="${precotejoRegistro.coGraInstMadre}"/>
+						<form:errors path="coGraInstMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+
+				<spring:bind path="precotejoRegistro.coLenMadre">
+					<c:if test="${status.error}">
+						<c:set var="errorCoLenMadre" value="error"/>
+					</c:if>
+				</spring:bind>
+				<div class="control-group ${errorCoLenMadre}">
+					<!--<label class="control-label" for="coLenMadre">Lengua Habitual</label>-->
+                    <label class="control-label" for="coLenMadre">Lengua Habitual <span class="text-error required" title="requerido">*</span></label>
+					<div class="controls">
+						<form:select path="coLenMadre" id="coLenMadre">
+							<form:option value="" label="Seleccione..."/>
+							<form:options itemLabel="deDom" itemValue="coDominio" items="${lenguajeHabitualItems}" />
+						</form:select>
+						&#160;<util:btn-restablecer selector="#coLenMadre" val="${precotejoRegistro.coLenMadre}"/>
+						<form:errors path="coLenMadre" cssClass="text-error" element="div"/>
+					</div>
+				</div>
+			</fieldset>
+
+	<!--
+		</div>
+	</div>
+	-->
+
+</jsp:root>

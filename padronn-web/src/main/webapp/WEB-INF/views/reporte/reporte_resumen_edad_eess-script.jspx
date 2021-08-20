@@ -1,0 +1,108 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: paguilar
+  Date: 20/08/2014
+  Time: 10:42 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:output omit-xml-declaration="yes"/>
+
+<script type='text/javascript'>
+<![CDATA[
+
+$(function(){
+
+    //entidades
+    var $coUbigeo = $('#coUbigeo').select2({
+        //multiple: true,
+        //data: data.entidades,
+
+        placeholder: 'Buscar ubigeo',
+        minimumInputLength: 2,
+        allowClear: true,
+        ajax: {
+            url: 'reporte/buscar_ubigeo.do',
+            dataType: 'json',
+
+            data: function (term, page) {
+                return {
+                    deUbigeo: term,
+                    page_limit: 3
+                };
+            },
+
+            results: function (data, page) {
+                //return {results:data}
+                return {results: data};
+            }
+        },
+
+
+        formatResult: function (item) {
+            return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+        },
+
+        formatSelection: function (item) {
+            //$('#deEstSalud').val(item.deLugar);
+            $('#deUbigeo').val(item.deLugar);
+
+            return item.deLugar;
+        },
+
+        id: function (object) {
+            return object.coLugar;
+        },
+
+        initSelection: function (element, callback) {
+            var codigo = $(element).val();
+            //console.log(codigo);
+            if (codigo !== "") {
+                $.ajax("reporte/get_ubigeo.do", {
+                    data: {
+                        coUbigeo: codigo
+                    },
+                    dataType: "json"
+                }).done(function (res) {
+                    var data = [];
+                    data.push({coLugar: res.coLugar, deLugar: res.deLugar});
+                    $('#s2id_coUbigeo >a span').text(res.deLugar);
+                    $('#deUbigeo').val(res.deLugar);
+                    //callback(data);
+                });
+            }
+        }
+
+
+    });
+
+    $coUbigeo.on('select2-open', function(e){
+        $('.select2-input').inputmask('ubigeo');
+    });
+
+    var ubigeoReadOnly = '${ubigeoReadOnly}';
+    if (ubigeoReadOnly==='true'){
+        $('#s2id_coUbigeo').hide();
+        $('#forCoUbigeo')
+            .find('span')
+            .remove();
+        document.getElementById("coUbigeo").parentNode.style.marginTop = "4px";
+    }
+
+
+});
+
+    function cambiaFrecuencia(obj) {
+        var frecuenciaAtencion = document.getElementById("frecuenciaAtencionSelect");
+        var selectTipoEstablecimiento = obj.value;
+        if (selectTipoEstablecimiento == "1"){
+            frecuenciaAtencion.style.display="block";
+        } else{
+            frecuenciaAtencion.style.display="none";
+        }
+
+    }
+]]>
+</script>
+</jsp:root>

@@ -1,0 +1,47 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<script type="text/javascript">
+		$(function(){
+			$("#nuDniMenor").inputmask();
+		});
+	</script>
+	<ul class="breadcrumb">
+		<li><a href="registromanual.do">Registro en Linea</a> <span class="divider">/</span></li>
+		<li class="active">Búsqueda de Padrones Nominales Registrados</li>
+	</ul>
+	<h1>Búsqueda de padrones nominales registrados</h1>
+	<hr/>
+	<form class="inline-form" action="busquedademenor/buscarenpadronnominal.do#busmen-padnom-list">
+		<div class="row-fluid">
+			<div class="span2">
+				<label class="control-label" for="nuDniMenor">DNI</label>
+				<input type="text" id="nuDniMenor" name="nuDniMenor" data-inputmask="'mask': '99999999'" class="span12"/>
+			</div>
+			<div class="span2">
+				<label for="apPrimerMenor">Apellidos paterno</label>
+				<input type="text" id="apPrimerMenor" name="apPrimerMenor" class="span12" />
+			</div>
+			<div class="span2">
+				<label for="apSegundoMenor">Apellidos materno</label>
+				<input type="text" id="apSegundoMenor" name="apSegundoMenor" class="span12" />
+			</div>
+			<div class="span2">
+				<label for="prenombreMenor">Nombres</label>
+				<input type="text" id="prenombreMenor" name="prenombreMenor" class="span12" />
+			</div>
+			<div class="span2">
+				<label>&#160;</label>
+				<button type="submit" class="btn"><i class="icon-search">&#160;</i></button>
+			</div>
+		</div>
+	</form>
+	<div id="busmen-padnom-list">
+	</div>
+</jsp:root>

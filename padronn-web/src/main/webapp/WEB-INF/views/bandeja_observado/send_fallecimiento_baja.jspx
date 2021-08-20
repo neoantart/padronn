@@ -1,0 +1,42 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 09/05/2016
+  Time: 04:20 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div id="modal_send_fallecimiento_baja" class="modal" style="width: 450px;">
+        <div class="modal-header">
+            <a type="button" class="close"
+               href="bandeja_observado/bandeja_observados.do?coTipoObservacion=4&amp;nuPagina=${nuPagina}">×</a>
+            <h3><span class="icon-edit"></span>&#160;Se dio de baja correctamente</h3>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-success">
+                <p>Se dio de baja correctamente al niño/a: <br/>
+                    <strong>${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor} ${padronNominal.prenombreMenor}</strong></p>
+                <p>Codigo Padron: <strong>${padronNominal.coPadronNominal}</strong></p>
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <a class="btn btn-primary" href="bandeja_observado/bandeja_observados.do?coTipoObservacion=5&amp;nuPagina=${nuPagina}"><span class="icon-check icon-white"></span>&#160;Aceptar</a>
+        </div>
+    </div>
+
+    <script>
+        <![CDATA[
+        $(function () {
+
+            // muestra ventana modal
+            $('#overlay').removeClass("hide");
+            $('#modal_send_fallecimiento_baja').modal({
+                backdrop: false
+            });
+        });
+        ]]>
+    </script>
+</jsp:root>

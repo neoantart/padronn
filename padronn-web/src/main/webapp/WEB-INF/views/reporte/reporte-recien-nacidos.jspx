@@ -1,0 +1,278 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: paguilar
+  Date: 20/08/2014
+  Time: 10:41 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+<div class="page-header clearfix">
+    <div class="pull-left">
+        <h1><span class="icon-user">&#160;</span>&#160;Reporte de niños y niñas menores de 6 años sin nombre</h1>
+<!--        <br/>-->
+            <span  class="ml0_left">Los campos con asterisco <span class="text-error required">(*)</span> son obligatorios y deben llenarse</span>
+    </div>
+    <div class="pull-right">
+        <a href="reporte/reporte_panel.do" class="btn button-back"><i
+                class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <span>Formulario de consulta de menores activos</span>
+    </div>
+    <c:if test="${empty ubigeoReadOnly}">
+        <div class="alert no-remove">
+            <!--La busqueda de ubigeo se considera en el siguiente orden:
+            <strong>Departamento, Provincia, Distrito.</strong><br/>-->
+            La busqueda se realiza por departamento, provincia, distrito. Ejemplo para el departamento escriba:
+            <strong>Huanuco</strong>
+        </div>
+    </c:if>
+    <form:errors path="*" element="div" cssClass="alert alert-error"/>
+
+    <form:form action="reporte/consulta_reporte_recien_nacidos.do" method="get" class="form-horizontal"
+               modelAttribute="reportePadronRecienNacidos">
+        <div class="panel-body">
+            <div class="control-group">
+                <label class="control-label" title="requerido" id="forCoUbigeo" style="width:180px;">Ubigeo: <span title="requerido"
+                                                                                                  class="text-error required">*</span></label>
+                <div class="controls">
+                    <div class="span6 clearfix">
+                        <c:choose>
+                            <c:when test="${ubigeoReadOnly}">
+                                ${deUbigeoReadOnly}
+                                <form:hidden path="coUbigeo" value="${coUbigeoReadOnly}" id="coUbigeo" cssStyle="width: 450px;"/>
+                                <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
+                            </c:when>
+                            <c:otherwise>
+                                <form:input path="coUbigeo" id="coUbigeo" cssStyle="width: 450px;"/>
+                                <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+            &#160;
+            <div class="control-group">
+                <label class="control-label" title="requerido" style="width:180px;padding-top: 0;margin-bottom: 10px;">Ultimo Establecimiento de Salud de Atención:</label>
+                <div class="controls">
+                    <div class="span6 clearfix">
+                        <form:input path="coEstSalud" id="coEstSalud" cssStyle="width: 450px;"/>
+                        <form:errors path="coEstSalud" cssClass="text-error " element="div"/>
+                        <form:hidden path="nuSecuenciaLocal" id="nuSecuenciaLocal" />
+                    </div>
+                </div>
+            </div>
+            <!--<div class="control-group clearfix" style="margin-bottom: 20px;">
+                <label class="control-label" style="margin-top: 18px; width:180px;">Periodo de Nacimiento:</label>
+                <div class="controls">
+                    <div class="span3">
+                        <span class="text-info">Desde</span><br/>
+                        <div class="input-append">
+                            <form:input path="feNacIni" id="feNacIni" cssStyle="width: 150px;"/>
+                            <button id="feNacIniButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i
+                                    class="icon-calendar icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feNacIni" cssClass="text-error " element="div"/>
+                    </div>
+                    <div class="span3">
+                        <span class="text-info">Hasta</span><br/>
+                        <div class="input-append">
+                            <form:input path="feNacFin" id="feNacFin" cssStyle="width: 150px;"/>
+                            <button id="feNacFinButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i
+                                    class="icon-calendar icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feNacFin" cssClass="text-error " element="div"/>
+                    </div>
+                </div>
+            </div>-->
+            <div class="control-group">
+                <label class="control-label" style="width: 180px;">Tipo de registro: <span title="requerido" class="text-error required">*</span></label>
+                <div class="controls">
+                    <form:select path="tiRegFecha" id="tiRegFecha" cssClass="span2" cssStyle="margin-left: 20px;">
+                        <form:option value="" label="Seleccione..." />
+                        <form:option value="T" label="Todos" />
+                        <form:option value="N" label="Nuevo" />
+                        <form:option value="U" label="Actualizado"/>
+                    </form:select>
+                    <form:errors path="tiRegFecha" cssClass="text-error " element="div" cssStyle="margin-left: 20px;"/>
+                </div>
+            </div>
+
+            <div class="control-group clearfix" style="margin-bottom: 20px;">
+                <label class="control-label" style="margin-top: 18px; width:180px;">Periodo de Registro: <span title="requerido"
+                                                                                                              class="text-error required">*</span></label>
+                <div class="controls">
+                    <div class="span3">
+                        <span class="text-info">Desde</span><br/>
+                        <div class="input-append">
+                            <form:input path="feIni" id="feIni" cssStyle="width: 150px;"/>
+                            <button id="feIniButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i
+                                    class="icon-calendar icon-white"><!-- --></i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feIni" cssClass="text-error " element="div"/>
+                    </div>
+                    <div class="span3">
+                        <span class="text-info">Hasta</span><br/>
+                        <div class="input-append">
+                            <form:input path="feFin" id="feFin" cssStyle="width: 150px;"/>
+                            <button id="feFinButton" type="button" class="btn" data-date=""
+                                    data-date-format="dd/mm/yyyy"><i
+                                    class="icon-calendar icon-white"><!-- --></i>&#160;
+                            </button>
+                        </div>
+                        <form:errors path="feFin" cssClass="text-error " element="div"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Estado de registros: <span class="text-error required">*</span></label>
+
+                <div class="controls">
+                    <!-- <form:input path="esPadron" id="esPadron" class="span1"/>-->
+                    <form:select path="esPadron" id="esPadron" cssClass="span2" cssStyle="margin-left: 20px;">
+                        <!--<form:option value="3" label="Todos" selected="selected" />-->
+                        <form:option value="1" label="Activos" />
+                        <form:option value="2" label="Activos-Observados" />
+                        <!--<form:option value="0" label="Inactivos"/>-->
+                    </form:select>
+                </div>
+            </div>
+
+            <!--<div class="control-group">
+                <label class="control-label" style="margin-top: 18px; width:180px;">Edad en Meses:</label>
+                <div class="controls">
+                    <div class="clearfix">
+                        <div class="span2">
+                            <span class="text-info">menor que:</span>
+                            <form:select path="deEdad" id="deEdad" cssClass="span2">
+                                <form:option value="" label="Edad" selected="selected"/>
+                                <form:options items="${edadMeses}"/>
+                            </form:select>
+                        </div>
+                        &#160;&#160;
+                        &lt;!&ndash; <div class="span2">
+                             <span class="text-info">Hasta</span>
+                             <form:select path="hastaEdad" id="hastaEdad" cssClass="span2">
+                                 <form:option value="" label="Meses" selected="selected"/>
+                                 <form:options items="${edadMeses}"/>
+                             </form:select>
+                         </div>&ndash;&gt;
+                    </div>
+                </div>
+            </div>-->
+           <!-- &#160;&#160;
+            <div class="control-group clearfix">
+                <label class="control-label" for="tiRegistro" style="width:180px;">Tipo de registro:</label>
+                <div class="controls">
+                    <div class="span3">
+                        <form:select path="tiRegistro" id="tiRegistro" cssStyle="width: 205px;">
+                            <form:option value="0" label="Todos"/>
+                            <form:option value="1" label="Registro manual"/>
+                            <form:option value="2" label="Precarga"/>
+                        </form:select>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        <div class="panel-footer clearfix">
+            <!--<input type="hidden" name="deUbigeo" id="deUbigeo"/>-->
+            <form:hidden path="deUbigeo"/>
+            <div class="pull-right">
+                <button class="btn btn-success" id="submit" value="Consultar" type="submit">
+                    <i class="icon-ok icon-white">&#160;</i>Consultar
+                </button>
+                &#160;&#160;
+                <a href="reporte/reporte-recien-nacidos.do" class="btn"><span class="icon-trash icon-white"></span>&#160;Limpiar</a>
+                &#160;&#160;
+                <a class="btn btn-danger" id="reset" href="reporte/reporte_panel.do">
+                    <i class="icon-remove icon-white"><!-- --></i>&#160;Cerrar
+                </a>
+            </div>
+        </div>
+    </form:form>
+</div>
+
+<c:if test="${not empty coUbigeo}">
+    <c:choose>
+        <c:when test="${not empty padronActivos and empty limitSize}">
+            <h2 style="font-size: 19px;">Resultado de la consulta niños y niñas sin nombre - <code style="font-size: 17px">${deUbigeo}</code>
+                <c:if test="${not empty feIni and not empty feFin}"> del <code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;"> ${feFin}</code></c:if>
+            </h2>
+            <hr/>
+            <div class="alert">
+                <!--<strong>Reporte de recien nacidos:
+                    <code>${deUbigeo}</code></strong>
+                <br/><br/>-->
+                <!--<div>Número de registros encontrados: <strong>${filas}</strong></div>-->
+                <strong>Descargar reporte en formato Excel.</strong>&#160;&#160;&#160;
+                <a class="noAjax btn btn-success"
+                   href="reporte/reporte_recien_nacidos_xls.do?coUbigeo=${coUbigeo}&amp;coEstSalud=${coEstSalud}&amp;deEdad=${deEdad}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;deUbigeo=${deUbigeo}&amp;esPadron=${esPadron}&amp;tiRegistro=${tiRegistro}&amp;tiRegFecha=${tiRegFecha}">
+                    <i class="icon-download icon-white">&#160;</i>&#160;
+                    <strong>Descargar&#160;${registros}&#160;registros</strong>
+                </a>&#160;&#160;
+                <c:if test="${filas gt 1}"><c:set value="s" var="plural"></c:set></c:if>
+                <span class="p_numRegFound">Se encontró <strong><span class="s_size14">${filas}</span></strong> Registro${plural}</span>
+            </div>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Ítem</th>
+                    <th width="90px;">Cod. Padron</th>
+                    <th width="90px;">Ap. paterno</th>
+                    <th width="90px;">Ap. materno</th>
+                    <th>Nombres</th>
+                    <th>Fe. Nac.</th>
+                    <th>Edad</th>
+                    <th>Ubigeo</th>
+                    <th>Ultimo Establecimiento de Salud de atención</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:set var="count" value="${contador}" scope="page"/>
+                <c:forEach items="${padronActivos}" var="padron" varStatus="padronLoop">
+                    <tr>
+                        <td>${count}</td>
+                        <c:set var="count" value="${count + 1}" scope="page"/>
+                        <td>${padron.coPadronNominal}</td>
+                        <td>${padron.apPrimerMenor}</td>
+                        <td>${padron.apSegundoMenor}</td>
+                        <td>${padron.prenombreMenor}</td>
+                        <td>${padron.feNacMenor}</td>
+                        <td>${padron.edadEscrita}</td>
+                        <td>${padron.deUbigeoInei}</td>
+                        <td>${padron.deEstSalud}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <br/>
+            <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
+                            urlAntesNuPagina="reporte/consulta_reporte_recien_nacidos.do?nuPagina="
+                            urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;coEstSalud=${coEstSalud}&amp;nuSecuenciaLocal=${nuSecuenciaLocal}&amp;deEdad=${deEdad}&amp;feNacIni=${feNacIni}&amp;feNacFin=${feNacFin}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;deUbigeo=${deUbigeo}&amp;esPadron=${esPadron}&amp;tiRegistro=${tiRegistro}&amp;tiRegFecha=${tiRegFecha}"></util:paginador>
+        </c:when>
+        <c:when test="${not empty limitSize and empty padronActivos}">
+            <div class="alert alert-danger"><strong>${limitSize}</strong></div>
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-danger"><strong>No existen registros</strong>  para la consulta realizada.<!--con el Ubigeo:
+                <code>${deUbigeo}</code>--></div>
+        </c:otherwise>
+    </c:choose>
+</c:if>
+<jsp:include page="reporte-recien-nacidos-script.jspx"/>
+<jsp:include page="fechas_periodo_script.jspx"/>
+</jsp:root>

@@ -1,0 +1,93 @@
+<!--
+ * Archivo precotejoform-scripts.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 16/05/13 04:57 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<style>
+		.fs-icon{
+			width: 16px!important;
+		}
+		.fs-input{
+			margin-right: 10px;
+		}
+	</style>
+
+	<script type="text/javascript">
+		<![CDATA[
+		$(function(){
+			/* agregar archivo */
+			$('#add-file').click(function (evt) {
+				//$('input[name*="files"]').attr('data-bfi-disabled', 'data-bfi-disabled');
+				if($('#fileTable tr:visible').length >= 3) {
+					evt.preventDefault();
+					return;
+				}
+
+				var fileIndex = $('#fileTable tr').length;
+				$('#fileTable').append('<tr><td style="width: 40px;">&nbsp;</td><td><div class="form-inline"><a href="#" class="noAjax del-file btn btn-small" style="background: #d15b47!important; margin-right: 10px; border:4px solid #d15b47;"><i class="icon-remove">&nbsp;</i></a><input type="file" name="files['+fileIndex+']"/></div></td></tr>');
+				$(":file").filestyle({input: true, icon: true, buttonText: "Seleccione Archivo...", classButton: 'btn btn-small', classInput: 'input-large fs-input', classIcon: 'icon-folder-open fs-icon'});
+				$('.del-file').click(function (evt) {
+					if(!$(this).is('.first')) {
+						//$(this).closest("tr").remove();
+						$(this).parent().find(':file').filestyle('clear');
+						$(this).closest('tr').hide();
+					} else {
+						//$(this).nextAll(':file').first().filestyle('clear');
+						$(this).parent().find(':file').filestyle('clear');
+					}
+					evt.preventDefault();
+				});
+				evt.preventDefault();
+			});
+			$(":file").filestyle({input: true, icon: true, buttonText: "Seleccione Archivo...", classButton: 'btn btn-small', classInput: 'input-large fs-input', classIcon: 'icon-folder-open fs-icon'});
+			/* eliminar archivo */
+			$('.del-file').click(function (evt) {
+				if(!$(this).is('.first')) {
+					//$(this).closest('tr').remove();
+					$(this).parent().find(':file').filestyle('clear');
+					$(this).closest('tr').hide();
+				} else {
+					//$(this).nextAll(':file').first().filestyle('clear');
+					$(this).parent().find(':file').filestyle('clear');
+				}
+				evt.preventDefault();
+			});
+		});
+
+
+        /*var fnRecargarPagina = function() {
+            if($('#precarga-modulo-div').size()>0 &&  $('#listado-archivos-enviados').size()>0 ) {
+                $.ajax({
+                    type: "GET",
+                    url: 'precotejo/registros.do',
+                    success: function(html){
+                        setTimeout($.blockUI(), 3000);
+                        $('#precarga-modulo-div').html(html);
+                        Aplicacion.InicializarAcciones();
+
+
+                        setTimeout($.unblockUI(), 3000);
+                    },
+                    error:function(){
+                        $.unblockUI();
+                    }
+                });
+            }
+            return true;
+        }
+
+        setInterval(fnRecargarPagina, 180000); // cada tres minutos 180000
+          */
+        //var idInterval;
+        //idInterval = setInterval(fnRecargarPagina, 180000); // cada tres minutos 180000
+        //Interval = setInterval(fnRecargarPagina, 5000); // cada tres minutos 180000
+		]]>
+
+	</script>
+</jsp:root>

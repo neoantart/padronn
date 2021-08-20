@@ -1,0 +1,14 @@
+<!--
+ * Archivo consulta-registros-detalle-menor.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 26/05/13 03:56 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+	<html>
+	<head><title>Simple jspx page</title></head>
+	<body>Place content here</body>
+	</html>
+</jsp:root>

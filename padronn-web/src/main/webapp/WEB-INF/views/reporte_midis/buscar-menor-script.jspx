@@ -1,0 +1,126 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: paguilar
+  Date: 26/05/2014
+  Time: 09:31 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function() {
+
+            var nuDoc = $('#nuDoc');
+            nuDoc.focus();
+
+            var tiDoc = $('#tiDoc');
+
+            nuDoc.keypress({perm: sets.DNI, func: null}, fnRestringirCaracteres);
+
+            function setLengthNuDoc() {
+                if (tiDoc.val() != '2') {
+                    nuDoc.attr('maxlength', '8');
+                } else {
+                    nuDoc.attr('maxlength', '10');
+                }
+            }
+
+            setLengthNuDoc();
+            tiDoc.on('change', function (e) {
+                nuDoc.val('').focus();
+                $('#result_buscar_menor').html('');
+                $('input').html('');
+                setLengthNuDoc();
+            });
+
+
+          $('#clean-input').click(function(e){
+                e.preventDefault();
+                $('input').val('');
+                $('#result_buscar_menor').html('');
+
+            });
+
+            /*$('#buscarMenorGrias').on('submit', function () {
+
+               $('input[name=apPrimerMenor]').val($('input[name=apPrimerMenor]').val().trim());
+                $('input[name=apSegundoMenor]').val($('input[name=apSegundoMenor]').val().trim());
+                $('input[name=prenombresMenor]').val($('input[name=prenombresMenor]').val().trim());
+                $('input[name=codigoPadron]').val($('input[name=codigoPadron]').val().trim());
+            });*/
+            $('input[name=apPrimerMenor]')
+                    .inputmask('apellido')
+                /*.on("keydown", function (e) {
+                 var $input = $(this).val();
+                 if(e.which===32) {
+                 if($input.slice(-1) ===' ')
+                 e.preventDefault();
+                 else if($input.slice(-1) === ''){
+                 e.preventDefault();
+                 }
+                 }
+                 })*/
+                /*                        .on('change', function(e){
+                 $(this).val($(this).val().trim());
+                 })*/
+                    .focus();
+
+            $('input[name=apSegundoMenor]')
+                    .inputmask('apellido')
+            /*.on("keydown", function (e) {
+             var $input = $(this).val();
+             if(e.which===32) {
+             if($input.slice(-1) ===' ')
+             e.preventDefault();
+             else if($input.slice(-1) === ''){
+             e.preventDefault();
+             }
+             }
+             })*/
+            /*.on('change', function(e){
+             $(this).val($(this).val().trim());
+             });*/
+
+            $('input[name=prenombresMenor]')
+                    .inputmask('nombre')
+            /*.on("keydown", function (e) {
+             var $input = $(this).val();
+             if(e.which===32) {
+             if($input.slice(-1) ===' ')
+             e.preventDefault();
+             else if($input.slice(-1) === ''){
+             e.preventDefault();
+             }
+             }
+             })*/
+            /*.on('change', function(e){
+             $(this).val($(this).val().trim())
+             });*/
+
+            $('input[name=codigoPadron]').inputmask('dni')
+
+            $('#buscarMenorGrias').on ('submit',function(e){
+
+                if($('#nuDoc').val() !=''){
+                    if(tiDoc.val()==''){
+                        alert('¡Seleccione tipo de documento!');
+                        e.stopImmediatePropagation();//no remaining handlers events will be called
+                        e.preventDefault();//and cancel event action
+                        return false;
+                    }
+                    else if(tiDoc.val()!=''){
+                        $('#apPrimerMenor').val($('#apPrimerMenor').val().trim());
+                        $('#apSegundoMenor').val($('#apSegundoMenor').val().trim());
+                        $('#prenombresMenor').val($('#prenombresMenor').val().trim());
+                        return true;
+                    }
+                }
+
+
+            })
+
+        });
+        ]]>
+    </script>
+</jsp:root>

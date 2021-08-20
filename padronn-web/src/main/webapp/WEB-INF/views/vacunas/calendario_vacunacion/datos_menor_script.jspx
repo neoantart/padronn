@@ -1,0 +1,254 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script>
+        <![CDATA[
+        $(function () {
+            var datosMenor = {
+                init: function () {
+                    datosMenor.preventSendSubmitFormInput();
+                    datosMenor.formatoInputs();
+                    datosMenor.buscarUbigeoInei();
+                    datosMenor.buscarCentroPoblado();
+                    datosMenor.buscarRenaes();
+                    datosMenor.mostrarProgramasSociales();
+
+                    // formato para los elementos select2
+                    $('.select2-input').inputmask('ubigeo');
+                    datosMenor.busquedaMenor();
+                },
+                preventSendSubmitFormInput:function(){
+                    $("input").keypress(function(e){
+                        var k=e.keyCode || e.which;
+                        if(k==13){
+                            e.preventDefault();
+                        }
+                    });
+                },
+                formatoInputs: function() {
+                    $('#nuDniMenor').inputmask('dni');
+
+                    // script para el control fecha de nacimiento
+                    $('#feNacMenor').inputmask('dd/mm/yyyy');
+                    var nowTemp = new Date();
+                    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+                    var menorDatePicker = $('#feNacButton')
+                            .datepicker()
+                            .on('changeDate', function (ev) {
+                                if (ev.date.valueOf() <= now) {
+                                    if (ev.viewMode == 'days') {
+                                        menorDatePicker.hide();
+                                        //$('#feNacMenor').ev.date.valueOf();
+                                        $('#feNacMenor').val($('#feNacButton').data('date'));
+                                        //$('#feNacMenor').change();
+                                    }
+                                }
+                                else {
+                                    menorDatePicker.show();
+                                    //$('#feNacMenor').val('');
+                                }
+                            })
+                            .on('show', function (ev) {
+                                var left = menorDatePicker.picker.position().left - $('#feNacMenor').width();
+                                menorDatePicker.picker.css('left', left);
+                            })
+                            .data('datepicker');
+
+                    $('#apPrimerMenor').inputmask('apellido');
+                    $('#apSegundoMenor').inputmask('apellido');
+                    $('#prenombreMenor').inputmask('nombre');
+                    $('#deDireccion').inputmask('direccion');
+                    $('#deTelefono').inputmask('telefono');
+                },
+                buscarUbigeoInei: function () {
+                    $('#coUbigeoInei').select2({
+                        placeholder: "Buscar Ubigeo de Domicilio",
+                        minimumInputLength: 2,
+                        allowClear: true,
+                        ajax: {
+                            url: "ubigeo/buscar_ubigeo_inei.do",
+                            dataType: 'json',
+                            type: 'post',
+                            quietMillis: 250,
+                            data: function (term, page) { // page is the one-based page number tracked by Select2
+                                return {
+                                    parteDeUbigeo: term, //search term
+                                    nuPagina: page // page number
+                                };
+                            },
+                            results: function (data, page) {
+                                var more = (page * 30) < data.total_count; // whether or not there are more results available
+                                // notice we return the value of more so Select2 knows if more results can be loaded
+                                return {results: data.items, more: more};
+                            }
+                        },
+                        formatSelection: function (item) {
+                            return "<strong>" + item.deUbigeoInei + "</strong>";
+                        },
+                        formatResult: function (item) {
+                            return '<strong>' + item.deUbigeoInei + '</strong>';
+                        },
+                        id: function (object) {
+                            return object.coUbigeoInei;
+                        },
+                        escapeMarkup: function (m) {
+                            return m;
+                        }, // we do not want to escape markup since we are displaying html in results
+                        initSelection: function (element, callback) {
+                            var codigo = $(element).val();
+                            if (codigo !== "") {
+                                $.ajax("ubigeo/get_ubigeo_inei.do", {
+                                    data: {
+                                        coUbigeoInei: codigo
+                                    },
+                                    dataType: "json"
+                                }).done(function (data) {
+                                    if (data.coUbigeoInei) {
+                                        callback(data);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                },
+                buscarCentroPoblado: function () {
+                    $('#coCentroPoblado').select2({
+                        placeholder: "Buscar Centro Poblado",
+                        minimumInputLength: 2,
+                        allowClear: true,
+                        ajax: {
+                            url: "ubigeo/buscar_centro_poblado.do",
+                            dataType: 'json',
+                            type: 'post',
+                            quietMillis: 250,
+                            data: function (term, page) { // page is the one-based page number tracked by Select2
+                                return {
+                                    parteNoCentroPoblado: term, //search term
+                                    nuPagina: page,
+                                    coUbigeoInei: $('#coUbigeoInei').val()// page number
+                                };
+                            },
+                            results: function (data, page) {
+                                var more = (page * 30) < data.total_count; // whether or not there are more results available
+                                // notice we return the value of more so Select2 knows if more results can be loaded
+                                return {results: data.items, more: more};
+                            }
+                        },
+                        formatSelection: function (item) {
+                            return "<strong>" + item.noCentroPoblado + "</strong>";
+                        },
+                        formatResult: function (item) {
+                            return '<strong>' + item.noCentroPoblado + '</strong>';
+                        },
+                        id: function (object) {
+                            return object.coCentroPoblado;
+                        },
+                        escapeMarkup: function (m) {
+                            return m;
+                        }, // we do not want to escape markup since we are displaying html in results
+                        initSelection: function (element, callback) {
+                            var codigo = $(element).val();
+                            if (codigo !== "") {
+                                $.ajax("ubigeo/get_centro_poblado.do", {
+                                    data: {
+                                        coCentroPoblado: codigo
+                                    },
+                                    dataType: "json"
+                                }).done(function (data) {
+                                    if (data.coCentroPoblado) {
+                                        callback(data);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                },
+                buscarRenaes: function () {
+                    var $coEstSalud = $('#coEstSalud')
+                            .select2({
+                                placeholder: "Buscar Nombre de Establecimiento Salud",
+                                minimumInputLength: 3,
+                                allowClear: true,
+                                ajax: {
+                                    url: "renaes/buscar_renaes.do",
+                                    dataType: 'json',
+                                    type: 'post',
+                                    quietMillis: 250,
+                                    data: function (term, page) {
+                                        return {
+                                            parteDeRenaes: term,
+                                            nuPagina: page
+                                        };
+                                    },
+                                    results: function (data, page) {
+                                        var more = (page * 30) < data.total_count;
+                                        return {results: data.items, more: more};
+                                    }
+                                },
+                                formatSelection: function (item) {
+                                    return "<strong>" + item.deRenaes + "</strong>";
+                                },
+                                formatResult: function (item) {
+                                    return '<strong>' + item.deRenaes + '</strong>';
+                                },
+                                id: function (object) {
+                                    return object.coRenaes;
+                                },
+                                escapeMarkup: function (m) {
+                                    return m;
+                                }, // we do not want to escape markup since we are displaying html in results
+                                initSelection: function (element, callback) {
+
+                                    var codigo = $(element).val() + '_' +  $('#nuSecuenciaLocal').val();
+                                    if (codigo !== "") {
+                                        $.ajax("renaes/obtener_renaes.do", {
+                                            data: {
+                                                codigo: codigo
+                                            },
+                                            dataType: "json"
+                                        }).done(function (data) {
+                                            if (data.coRenaes && data.deRenaes) {
+                                                callback(data);
+                                            }
+                                        });
+                                    }
+
+                                }
+                            });
+
+
+                    $coEstSalud.off('select2-selecting');
+                    $coEstSalud.on('select2-selecting', function(e) {
+                        $('#nuSecuenciaLocal').val(e.object.nuSecuenciaLocal);
+                    });
+                },
+                mostrarProgramasSociales: function(){
+                    $('#tiProSocial')
+                            .multiselect({
+                                header: "Seleccionar uno o más programas sociales ",
+                                noneSelectedText: "Seleccionar uno o más programas sociales",
+                                selectedList: 200,
+                                selectedText: function(numChecked, numTotal, checkedItems){
+                                    var list = '';
+                                    $.each(checkedItems, function(index, item){
+                                        list += '<div><strong>' + item.title + '</strong></div>';
+                                        //console.log(item.title);
+                                    });
+                                    //console.log(checkedItems);
+                                    //return numChecked + ' of ' + numTotal + ' checked';
+                                    return list;
+                                }
+                            });
+                },
+                busquedaMenor:function(){
+                    $('#buscar_menor_btn').on('click', function(e){
+                        e.preventDefault();
+                        Util.load("calendario_vacunacion/buscar_menor", {nuDniMenor: $('#nuDniMenor')}, 'modal');
+                    });
+                }
+            }
+            datosMenor.init();
+        });
+        ]]>
+    </script>
+
+</jsp:root>

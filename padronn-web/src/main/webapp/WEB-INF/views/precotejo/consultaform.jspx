@@ -1,0 +1,32 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: lmamani
+  Date: 03/07/13
+  Time: 06:58 PM
+  To change this template use File | Settings | File Templates.
+-->
+<!--
+ * Archivo precotejoform.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 16/05/13 04:55 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:include page="consultaform-scripts.jspx"/>
+	<h1>Consulta y Búsqueda de Precargas</h1>
+	<hr/>
+	<div class="span12">
+		<div class="row-fluid">
+			<jsp:include page="consultaform-formulario.jspx"/>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span12" id="consulta-modulo-div">
+				<jsp:include page="consultaform-registros.jspx"/>
+			</div>
+		</div>
+	</div>
+</jsp:root>

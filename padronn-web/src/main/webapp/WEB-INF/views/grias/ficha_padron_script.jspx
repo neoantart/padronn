@@ -1,0 +1,104 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 27/05/2014
+  Time: 09:36 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<script type="text/javascript">
+    <![CDATA[
+    var gmarkers = [];
+    var geocoder;
+    var map;
+    var bounds;
+
+    function CargarApi(){
+        $.getScript("https://www.google.com/jsapi?key=AIzaSyB0LLsPobs4_1XAgY8p8vhyAERziU2U-Zw&callback=AbrirMapas");
+    }
+    function AbrirMapas(){
+        google.load("maps", "2.x", {
+            "callback" : MapaAbierto,
+            "language" : "es"
+        });
+    }
+
+    function MapaAbierto(){
+
+        var mapOptions = {
+            googleBarOptions : {
+                style : "new",
+                adsOptions: {
+                    client: "partner-google-maps-api",
+                    channel: "AdSense for Search channel",
+                    adsafe: "high",
+                    language: "es"
+                }
+            },
+            zoom: 8
+        }
+
+        map = new GMap2($("#cmapa")[0],mapOptions);
+        //map.addControl(new GLargeMapControl());
+        //map.addControl(new GMapTypeControl());
+        //map.addControl(new GOverviewMapControl());
+        //map.enableScrollWheelZoom();
+
+        geocoder = new GClientGeocoder();
+
+        name = $("#name").val();
+        address = $("#address").val();
+
+        //alert(name);
+        //alert(address);
+        //address = "";
+        name=name.replace(/^"/,"");
+        name=name.replace(/"$/,"");
+        address=address.replace(/^"/,"");
+        address=address.replace(/"$/,"");
+
+        geocoder.getLatLng(address,
+                function(point){
+                    if(!point){
+
+                    }else{
+                        map.setUIToDefault();
+                        map.setCenter(point,13);
+                        marker = new GMarker(point, {
+                            draggable: true
+                        });
+                        map.addOverlay(marker);
+                        info="<div style='font-size:12px;'><b>"+name+"</b></div>";
+                        marker.openInfoWindowHtml(info);
+                    }
+                });
+    }
+
+    $(function(){
+        //pdf
+        $('#fichaPadron').media({
+            width:960,
+            height:1132,
+            id:'ficha_pdf',
+            src:'grias/fichaPadronPDF.pdf?coPadronNominal=${coPadronNominal}'
+        });
+
+        //mapa
+        CargarApi();
+
+        // imprimir
+//        $('#imprimir_ficha').on('click', function (e) {
+//            $('#fichaPadron > iframe').get(0).contentWindow.print();
+//            document.getElementById('fichaPadron').childNodes[0].contentWindow.document.execCommand('print', false, null);
+//            document.getElementById('fichaPadron').childNodes[0].contentWindow.print();
+                /*document.getElementById('fichaPadron').childNodes[0].focus();
+                document.getElementById('fichaPadron').childNodes[0].contentWindow.document.execCommand('print', false, null);*/
+//        })
+
+
+
+    });
+    ]]>
+</script>
+</jsp:root>

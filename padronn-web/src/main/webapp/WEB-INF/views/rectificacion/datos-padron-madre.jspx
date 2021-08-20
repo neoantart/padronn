@@ -1,0 +1,154 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 23/10/13
+  Time: 06:51 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div id="datos-madre-padron">
+        <p class="lead text-info">Padron nominal</p>
+        <c:if test="${not empty mensajeError}">
+            <div class="alert alert-danger">
+                <p><strong>${mensajeError}</strong></p>
+            </div>
+        </c:if>
+
+        <c:if test="${not empty mensajeSuccess}">
+            <div class="alert alert-success">
+                <p><strong>${mensajeSuccess}</strong></p>
+            </div>
+        </c:if>
+        <table class="table table-striped table-hover">
+            <c:if test="${madrePadron.coDniMadre ne madreAni.dni}">
+                <c:set var="coDniMadreError" value="error"/>
+            </c:if>
+            <tr class="${coDniMadreError}">
+                <td>DNI:</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty madrePadron.coDniMadre}">
+                            ${madrePadron.coDniMadre}
+                        </c:when>
+                        <c:otherwise>
+                            <span class="label label-important">NO TIENE</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <c:if test="${not empty madreAni and madrePadron.apPrimerMadre ne madreAni.primerApellido}">
+                <c:set var="apPrimerMadreError" value="error"/>
+            </c:if>
+            <tr class="${apPrimerMadreError}">
+                <td>Apellido paterno:</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty madrePadron.apPrimerMadre}">
+                            ${madrePadron.apPrimerMadre}
+                        </c:when>
+                        <c:otherwise>
+                            <span class="label label-important">NO TIENE</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <c:if test="${not empty madreAni and madrePadron.apSegundoMadre ne madreAni.segundoApellido}">
+                <c:set var="apSegundoMadreError" value="error" />
+            </c:if>
+            <tr class="${apSegundoMadreError}">
+                <td>Apellido materno:</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty madrePadron.apSegundoMadre}">
+                            ${madrePadron.apSegundoMadre}
+                        </c:when>
+                        <c:otherwise>
+                            <span class="label label-important">NO TIENE</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <c:if test="${not empty madreAni and madrePadron.prenomMadre ne madreAni.nombres}">
+                <c:set var="prenomMadreError" value="error"/>
+            </c:if>
+            <tr class="${prenomMadreError}">
+                <td>Nombres:</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty madrePadron.prenomMadre}">
+                            ${madrePadron.prenomMadre}
+                        </c:when>
+                        <c:otherwise>
+                            <span class="label label-important">NO TIENE</span>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+<!--            <c:if test="${not empty madreAni and madrePadron.nuCelMadre ne madreAni.nuTelefono}">
+                <c:set var="nuCelMadreError" value="error"/>
+            </c:if>
+            <c:if test="${not empty madreAni.nuTelefono or not empty madrePadron.nuCelMadre}">
+                <tr class="${nuCelMadreError}">
+                    <td>Celular:</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty madrePadron.nuCelMadre}">
+                                ${madrePadron.nuCelMadre}
+                            </c:when>
+                            <c:otherwise>
+                                <span class="label label-important">NO TIENE</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </c:if>
+            <c:if test="${not empty madreAni and madrePadron.diCorreoMadre ne madreAni.deEmail}">
+                <c:set var="diCorreoMadreError" value="error"/>
+            </c:if>
+            <c:if test="${not empty madreAni.deEmail or not empty madrePadron.diCorreoMadre}">
+                <tr class="${diCorreoMadreError}">
+                    <td>Correo Electrónico:</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty madrePadron.diCorreoMadre}">
+                                ${madrePadron.diCorreoMadre}
+                            </c:when>
+                            <c:otherwise>
+                                <span class="label label-important">NO TIENE</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </c:if>-->
+        </table>
+        <p class="text-center">
+            <a href="rectificacion/rectificar_datos_madre.do?coPadronNominal=${madrePadron.coPadronNominal}#datos-madre-padron" class="btn"><i class="icon-pencil icon-white"></i>&#160;Rectificar</a>
+        </p>
+
+        <c:if test="${not empty rectificacionesMadre}">
+            <br/>
+            <br/>
+            <p class="text-center">Historico de Rectificaciones</p>
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th>Orden</th>
+                    <th>Detalle retificación</th>
+                    <th>Ap. paterno anterior.</th>
+                    <th>Ap. materno anterior</th>
+                    <th>Nombres anterior</th>
+                </tr>
+                <c:forEach var="rectificacion" items="${rectificacionesMadre}">
+                    <tr class="info">
+                        <td>${rectificacion.nuSec}</td>
+                        <td>${rectificacion.deRectificacion}</td>
+                        <td>${rectificacion.apPrimerAnt}</td>
+                        <td>${rectificacion.apSegundoAnt}</td>
+                        <td>${rectificacion.prenombresAnt}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
+    </div>
+</jsp:root>

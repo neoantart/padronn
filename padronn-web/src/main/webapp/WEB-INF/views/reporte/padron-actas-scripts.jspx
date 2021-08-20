@@ -1,0 +1,140 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 23/08/13
+  Time: 05:36 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function(){
+            $('#coEntidad').select2({
+                //multiple: true,
+                //data: data.entidades,
+                placeholder: 'Nombre de municipio',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'reporte/buscar_entidad.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        return {
+                            deEntidad: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+                /*formatResult: function (item) {
+                    return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+                },*/
+                formatResult: function (item) {
+                    if(item.text){
+                        return "<div>"+item.text+" (<em>"+item.children.length+" resultados</em>)</div>";
+                    }else{
+                        return '<div class="title"><strong>' + item.deLugar + '</strong> (Cod. Ubigeo ' + item.coUbigeo + ')</div>' +
+                                '<div class="body">' +
+                                '<div><strong>' + item.deUbigeo + '</strong></div>' +
+                                '</div>';
+                    }
+                },
+                formatSelection: function (item) {
+                    $('#deEntidad').val(item.deLugar + ' - ' + item.deUbigeo);
+                    return item.deLugar + ' - ' + item.deUbigeo;
+                },
+                id: function (object) {
+                    return object.coLugar;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    //console.log(codigo);
+                    if (codigo !== "") {
+                        $.ajax("reporte/get_entidad.do", {
+                            data: {
+                                coEntidad: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                                    var data = [];
+                                    data.push({coLugar: res.coLugar, deLugar: res.deLugar});
+                                    $('#s2id_coEntidad >a span').text(res.deLugar);
+                                    $('deEntidad').val(res.deLugar);
+                                    //callback(data);
+                                });
+                    }
+                }
+            });
+
+            /*var nowTemp = new Date(),
+                    startDate,
+                    endDate;
+            if($('#feIni').val() != ''){
+                var split =$('#feIni').val().split('/');
+                startDate = new Date(parseInt(split[2]), parseInt(split[1])-1, split[0]);
+                $('#feIniText').text($('#feIni').val());
+            }
+            else
+                startDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+            if($('#feFin').val() != ''){
+                var split =$('#feFin').val().split('/');
+                endDate = new Date(parseInt(split[2]), parseInt(split[1])-1, parseInt(split[0]));
+                $('#feFinText').text($('#feFin').val());
+            }
+            else
+                endDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+            $('#feIni-date').datepicker()
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() > endDate.valueOf()){
+                            $('#alert').show().find('strong').text('La Fecha Inicial no puede ser mayor que la fecha final');
+                        } else {
+                            $('#alert').hide();
+                            startDate = new Date(ev.date);
+                            $('#feIniText').text($('#feIni-date').data('date'));
+                            $('#feIni').val($('#feIni-date').data('date'));
+                        }
+                        $('#feIni-date').datepicker('hide');
+                    });
+
+            $('#feFin-date').datepicker()
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() < startDate.valueOf()){
+                            $('#alert').show().find('strong').text('La Fecha Final no puede ser menor que la fecha inicial');
+                        } else {
+                            $('#alert').hide();
+                            endDate = new Date(ev.date);
+                            $('#feFinText').text($('#feFin-date').data('date'));
+                            $('#feFin').val($('#feFin-date').data('date'));
+                        }
+                        $('#feFin-date').datepicker('hide');
+                    });*/
+
+            $('.select2-input').inputmask('direccion');
+
+            $('#reset').click(function(e){
+                e.preventDefault();
+                $('#coEntidad').val('');
+                $('#deEntidad').val('');
+                $('#s2id_coEntidad >a span').text('');
+                $('#resultadoReporteActas').html('');
+            });
+
+            var municipioReadOnly = '${municipioReadOnly}';
+            if (municipioReadOnly==='true'){
+                $('#s2id_coEntidad').hide();
+                $('#forCoEntidad')
+                    .find('span')
+                    .remove();
+                document.getElementById("coEntidad").parentNode.style.marginTop = "4px";
+            }
+        });
+        ]]>
+    </script>
+</jsp:root>

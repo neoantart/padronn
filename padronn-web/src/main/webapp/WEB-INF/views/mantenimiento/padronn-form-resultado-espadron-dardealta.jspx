@@ -1,0 +1,103 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: lmamani
+  Date: 23/07/13
+  Time: 11:26 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <c:choose>
+
+        <c:when test="${not empty padronNominalBaja}">
+
+            <div class="alert alert-block">
+                <h4 style="margin-bottom: 10px;">Confirmar Alta del niño/a*</h4>
+
+                <form:form commandName="padronNominalBaja"
+                           action="registromanual/padronnalta.do#padronn-form-resultado-espadron-confirmar">
+                    <form:hidden path="coPadronNominal"/>
+
+                    <spring:bind path="coMotivoBaja">
+                        <c:if test="${status.error}">
+                            <c:set var="errorCoMotivoBaja" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${errorCoMotivoBaja}">
+                        <label for="coMotivoBaja" class="input-block-level center control-label"
+                               style="min-height: 12px;font-weight: normal;">Seleccione el motivo de alta del registro</label>
+                        <div class="controls">
+                            <form:select path="coMotivoBaja" id="coMotivoBaja" cssClass="input-block-level" onchange="">
+                                <form:option value="" label="Seleccione..." selected="selected"/>
+                                <form:options itemLabel="deDom" itemValue="coDominio" items="${coMotivoAltaItems}"/>
+                            </form:select>
+                            <form:errors path="coMotivoBaja" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <spring:bind path="deObservacion">
+                        <c:if test="${status.error}">
+                            <c:set var="errorDeObservacion" value="error"/>
+                        </c:if>
+                    </spring:bind>
+                    <div class="control-group ${errorDeObservacion}">
+                        <label for="deObservacion" class="input-block-level center control-label"
+                               style="min-height: 12px;font-weight: normal;">Detalle del motivo</label>
+                        <div class="controls">
+                            <form:input path="deObservacion" id="deObservacion" cssClass="input-block-level" cssStyle=""
+                                        maxlength="100"/>
+                            <form:errors path="deObservacion" cssClass="text-error" element="div"/>
+                        </div>
+                    </div>
+
+                    <!--<a style="margin-right: 10px;margin-top: 10px;" class="btn btn-medium btn-success " href="signup/padronnbaja.do?coPadronNominal=${persona.codigoPadronNominal}#padronn-form-resultado-espadron"><span class="icon-ok icon-white"></span> Confirmar</a>-->
+                    <button style="margin-right: 10px;margin-top: 10px;" class="btn btn-medium btn-success"
+                            type="submit"><span class="icon-ok icon-white">&#160;</span> Confirmar
+                    </button>
+                    <a href="#" class="btn btn-medium btn-danger"
+                       onclick="$('#padronn-form-resultado-espadron-confirmar').hide();"
+                       style="margin-left: 10px;margin-top: 10px;"><span
+                            class="icon-remove icon-white">&#160;</span> Cancelar</a>
+                </form:form>
+
+                <p class="text-center">
+                    <small>(*) Los campos marcados con (*) son obligatorios.</small>
+                </p>
+                <p class="text-center">
+                    <small>(*) Esta operación quedará registrado en los historicos del sistemas.</small>
+                </p>
+            </div>
+        </c:when>
+
+
+        <c:when test="${alta}">
+            <script type="text/javascript">
+                $('#padronn-form-resultado-espadron-confirmar-header').hide();
+            </script>
+            <p class="text-muted text-info">El niño/a ha sido dado de alta en el Padrón Nominal.</p>
+            <!--<a href="signup/padronnbaja.do?coPadronNominal=${coPadronNominal}#padronn-form-resultado-espadron" class="btn btn-danger"><span class="icon-pencil icon-white"></span> Dar de baja del Padrón Nominal</a>-->
+        </c:when>
+
+
+        <c:otherwise>
+            <script type="text/javascript">
+                $('#padronn-form-resultado-espadron-confirmar-header').hide();
+            </script>
+            <p class="text-muted text-error">Ha ocurrido un error al intentar actualizar los datos del niño/a en el Padrón Nominal.</p>
+        </c:otherwise>
+
+    </c:choose>
+
+    <script type="text/javascript">
+        <![CDATA[
+        $('#deObservacion').inputmask({
+            mask: "w",
+            repeat: 100,
+            placeholder: ""
+        })
+        ]]>
+    </script>
+</jsp:root>

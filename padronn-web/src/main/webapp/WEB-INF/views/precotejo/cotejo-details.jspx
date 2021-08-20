@@ -1,0 +1,81 @@
+<!--
+ * Archivo precotejoform-upload.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 16/05/13 05:13 PM
+ * @version 1.0.0
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="span8">
+        <h2>Detalle del pre-cotejo con código de envío <strong>#<fmt:formatNumber type="number" pattern="00000" value="${nuEnvio}" /></strong></h2>
+    </div>
+
+    <div class="span3 pull-right">
+        <a href="precotejo/registros.do#precarga-modulo-div" class="btn"><i class="icon-arrow-left icon-white">&amp;nbsp;</i>&amp;nbsp;Volver</a>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="well well-large" style="background-color: transparent; padding-top: 6px;padding-left: 6px;padding-right: 6px;padding-bottom: 6px;">
+                <table class="table table-hover js-paginate" style="margin-bottom: 6px;">
+                    <thead>
+                    <tr>
+                        <th style="width: 20px; text-align: center;">&#35;</th>
+                        <th>DNI Niño/a</th>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>PreNombres</th>
+                        <th>Fecha de Nacimiento</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:choose>
+                        <c:when test="${empty cotejoRegistrosList}">
+                            <tr>
+                                <td colspan="6">No existen registros dentro de este archivo de pre-carga.</td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="registro" items="${cotejoRegistrosList}" varStatus="loop">
+                                <c:set var="classCss" value="success" />
+                                <c:if test="{precotejoRegistro.esRegistro == '23'}">
+                                    <c:set var="classCss" value="error" />
+                                </c:if>
+                                <tr class="${classCss} ${registro.esRegistro}">
+                                    <td style="text-align: center;">${loop.index+1}</td>
+                                    <!--https://lmamani.reniec.gob.pe:8443/padronn/registromanual/formulario.do?coPadronNominal=70000399-->
+
+
+                                    <td><a href="precotejo/detallespadron.do?codigo=${registro.nuDniMenor}">${registro.nuDniMenor}</a></td>
+
+
+                                    <!--<td>${precotejoRegistro.nuDniMenor}</td>-->
+                                    <td>${registro.apPrimerMenor}</td>
+                                    <td>${registro.apSegundoMenor}</td>
+                                    <td>${registro.prenombreMenor}</td>
+                                    <td>${registro.feNacMenor}</td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span8 js-pager"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function(){
+            // PAGINACION
+            paginar();
+        });
+    </script>
+
+</jsp:root>

@@ -1,0 +1,26 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: lmamani
+  Date: 13/08/13
+  Time: 11:37 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<jsp:directive.attribute name="text" type="java.lang.String" required="true" />
+	<jsp:directive.attribute name="numberOfFirstChars" type="java.lang.Integer" required="false" />
+	<jsp:directive.attribute name="numberOfLastChars" type="java.lang.Integer" required="false" />
+	<jsp:directive.attribute name="firstChars" type="java.lang.String" required="false" />
+	<jsp:directive.attribute name="lastChars" type="java.lang.String" required="false" />
+	<c:set var="numberOfFirstChars" value="${empty numberOfFirstChars ? 16 : numberOfFirstChars}"/>
+	<c:choose>
+		<c:when test="${fn:length(text)>numberOfFirstChars+1}">
+			<c:set var="firstChars" value="${empty firstChars ? fn:substring(text, 0, numberOfFirstChars) : firstChars}"/>
+			<c:set var="numberOfLastChars" value="${empty numberOfLastChars ? 3 : numberOfLastChars}"/>
+			<c:set var="lastChars" value="${empty lastChars ? fn:substring(text, fn:length(text)-numberOfLastChars, fn:length(text)) : lastChars}"/>
+			${firstChars}<a href="#" title="${text}" onClick="return false;">...</a>${lastChars}
+		</c:when>
+		<c:otherwise>
+			${text}
+		</c:otherwise>
+	</c:choose>
+</jsp:root>

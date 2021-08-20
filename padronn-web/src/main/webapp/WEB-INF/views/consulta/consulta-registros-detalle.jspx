@@ -1,0 +1,80 @@
+<!--
+ * Archivo menorporentidadform-consulta-details.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 26/05/13 02:39 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!--<span class="pull-left"><strong><a href="precotejo/registros.do#precarga-modulo-div" class="btn"><i class="icon-refresh">&amp;nbsp;</i>&amp;nbsp;Actualizar Lista</a></strong></span>-->
+	<span class="pull-right lead">Lista de Entidades</span>
+
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="well well-large" style="background-color: transparent; padding-top: 6px;padding-left: 6px;padding-right: 6px;padding-bottom: 6px;">
+				<table class="table table-hover js-paginate" style="margin-bottom: 6px;">
+					<thead>
+					<tr>
+						<th style="width: 60px; text-align: center;">&#35;</th>
+						<th>Estado</th>
+						<th>Código de Padrón</th>
+						<th>Apellido Paterno</th>
+						<th>Apellido Materno</th>
+						<th>Nombres</th>
+						<th>Fecha de Nacimiento</th>
+						<th>Ubicación/Dirección</th>
+					</tr>
+					</thead>
+					<tbody>
+					<c:choose>
+						<c:when test="${empty menorList}">
+							<tr>
+								<td colspan="8">No se encontraron registros.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="precotejo" items="${menorList}" varStatus="loop">
+								<tr>
+									<td style="text-align: center;">
+										<fmt:formatNumber type="number" pattern="0000" value="${loop.index+1}" />
+									</td>
+									<td>
+										<c:if test="${precotejo.coEstado==1}">
+											<span class="text-info">ACTIVO</span>
+										</c:if>
+										<c:if test="${precotejo.coEstado==0}">
+											<span class="text-warning">INACTIVO</span>
+										</c:if>
+									</td>
+									<td><strong>${precotejo.coPadronNominal}</strong></td>
+									<td>${precotejo.deApPrimerMenor}</td>
+									<td>${precotejo.deApSegundoMenor}</td>
+									<td>${precotejo.dePrenombreMenor}</td>
+									<td>${precotejo.feNacMenor}</td>
+									<td>
+										${precotejo.deUbigeoInei}<br/>
+										<span class="text-small"><a href="consulta/menor.do?=${precotejo.coEntidad}#consulta-registros-div" class="btn"><i class="icon-list">&amp;nbsp;</i>&amp;nbsp;${precotejo.deDireccion}</a></span>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span8 js-pager"></div>
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			paginar();
+		});
+	</script>
+</jsp:root>

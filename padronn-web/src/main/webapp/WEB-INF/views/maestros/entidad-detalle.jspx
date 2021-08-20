@@ -1,0 +1,42 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 21/09/13
+  Time: 02:37 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>${titulo}</h1>
+            <hr/>
+            <div class="alert alert-success">${mensaje}</div>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>Nombre Entidad corta</td>
+                    <td>${entidad.deEntidad}</td>
+                </tr>
+
+                <tr>
+                    <td>Nombre Entidad larga</td>
+                    <td>${entidad.deEntidadLarga}</td>
+                </tr>
+
+                <tr>
+                    <td>Tipo entidad</td>
+                        <c:choose>
+                            <c:when test="${entidad.coTipoEntidad eq '1'}"><td>Municipio</td></c:when>
+                            <c:when test="${entidad.coTipoEntidad eq '2'}"><td>Entidad Minsa</td></c:when>
+                            <c:when test="${entidad.coTipoEntidad eq '3'}"><td>Otras entidades</td></c:when>
+                        </c:choose>
+                </tr>
+                <tr>
+                    <td>Ubigeo</td>
+                    <td>${entidad.deUbigeoInei}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</jsp:root>

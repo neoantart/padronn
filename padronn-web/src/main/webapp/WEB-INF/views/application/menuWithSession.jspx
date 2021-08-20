@@ -1,0 +1,401 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:base64="http://www.reniec.gob.pe/Tlds">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+<c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+<div id="nav">
+<div id="menu" class="navbar">
+<div id="menu-content">
+<!--<div class="container">-->
+<div class="nav-collapse collapse">
+<ul class="nav">
+
+<li class="">
+    <a href="home.do#main-content" id="home" class=""><i class="icon-home icon-white"><!-- --></i>&#160;Inicio</a>
+</li>
+    <!-- solución quick&dirty -->
+    <c:set var="registromanual" value="false"/>
+    <c:set var="precotejo" value="false"/>
+    <c:set var="actas" value="false"/>
+    <c:set var="reportegrafico" value="false"/>
+    <c:set var="upload" value="false"/>
+    <c:set var="minsa" value="false"/>
+    <c:set var="reporte" value="false"/>
+    <c:set var="maestros" value="false"/>
+    <c:set var="grias" value="false"/>
+    <c:set var="midis" value="false"/>
+    <c:set var="bandejaObservados" value="false" />
+
+    <c:forEach var="item" items="${usuario.authorities}">
+        <c:if test="${fn:startsWith(item, '/registromanual')}">
+            <c:set var="registromanual" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/precotejo')}">
+            <c:set var="precotejo" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/actas')}">
+            <c:set var="actas" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/minsa')}">
+            <c:set var="minsa" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/upload')}">
+            <c:set var="upload" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/reportegrafico')}">
+            <c:set var="reportegrafico" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/signup')}">
+            <c:set var="signup" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/reporte')}">
+            <c:set var="reporte" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/maestros')}">
+            <c:set var="maestros" value="true"/>
+        </c:if>
+        <c:if test="${fn:startsWith(item, '/grias')}">
+            <c:set var="grias" value="true"/>
+        </c:if>
+
+        <c:if test="${fn:startsWith(item, '/reporte_midis')}">
+            <c:set var="midis" value="true"/>
+        </c:if>
+
+        <c:if test="${fn:startsWith(item, '/bandeja_observado')}">
+            <c:set var="bandejaObservados" value="true" />
+        </c:if>
+
+    </c:forEach>
+    <c:if test="${registromanual}">
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle noAjax" role="button" href="#">
+                <i class="icon-pencil icon-white">&#160;</i> Registro en Línea <b class="caret">&#160;</b></a>
+            <ul role="menu" class="dropdown-menu">
+                <li role="presentation">
+                    <a href="registromanual/buscarmenorform.do" tabindex="-1" role="menuitem"><i
+                            class="icon-edit"><!-- --></i>&#160;Formulario de Registro</a>
+                </li>
+                <li role="presentation">
+                    <a href="busquedademenor/avanzadoform.do" tabindex="-1" role="menuitem"><i
+                            class="icon-search"><!-- --></i>&#160;Búsquedas</a>
+                </li>
+                <li role="presentation" class="divider"></li>
+                <li class=""><a href="registromanual/padronnform.do"><i
+                        class="icon-thumbs-down"><!-- --></i>&#160;Dar de Baja/Alta al Niño/a</a></li>
+                <li role="presentation" class="divider"></li>
+
+                <!--<li class=""><a href="registromanual/padron_municipio.do">Reporte de niños ${usuario.deEntidad}</a></li>-->
+                <li class=""><a href="registromanual/padron_municipio.do"><i
+                        class="icon-download-alt"><!-- --></i>&#160;Padron de niños - Registrador</a></li>
+                <li class=""><a href="registromanual/padron_municipio_precarga.do"><i
+                        class="icon-download-alt"><!-- --></i>&#160;Padron de niños - Precarga</a></li>
+                <li role="presentation" class="divider"></li>
+                <li class=""><a href="rectificacion/index.do"><i
+                        class="icon-edit"><!-- --></i>&#160;Rectificación de datos del niño/a</a></li>
+
+                <li role="presentation" class="divider"></li>
+                <c:if test="${bandejaObservados}">
+                <li class=""><a href="bandeja_observado/bandeja_observados.do"><i
+                        class="icon-zoom-out "><!-- --></i>&#160;Bandeja de observados</a></li>
+                </c:if>
+
+            </ul>
+        </li>
+    </c:if>
+    <c:if test="${precotejo}">
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle noAjax" role="button" href="#">
+                <i class="icon-hdd icon-white">&#160;</i> Precarga del Padrón <b class="caret">&#160;</b></a>
+            <ul role="menu" class="dropdown-menu">
+                <li role="presentation">
+                    <a href="precotejo/precotejoform.do" tabindex="-1" role="menuitem"><i
+                            class="icon-folder-open"><!-- --></i>&#160;Formulario de Precarga</a>
+                </li>
+                <!--
+                <li role="presentation">
+                    <a href="precotejo/consultaform.do" tabindex="-1" role="menuitem">Consulta y Búsqueda</a>
+                </li>
+                -->
+                <li role="presentation" class="divider"></li>
+                <li role="presentation">
+                    <a href="precotejo/precotejoformato.do" tabindex="-1" role="menuitem" class="noAjax"><i
+                            class="icon-download-alt">&#160;</i>&#160;Descarga de Formato</a>
+                </li>
+            </ul>
+        </li>
+    </c:if>
+    <c:if test="${actas}">
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#">
+                <i class="icon-folder-close icon-white"><!-- --></i>&#160;Actas de Reunión
+                <b class="caret"><!-- --></b>
+            </a>
+            <ul role="menu" class="dropdown-menu">
+                <!--<li class=""><a href="reportegrafico/show" tabindex="-1">Graficos</a></li>-->
+                <!--<li class=""><a href="actas/actasform.do" tabindex="-1" title="">Adjuntar Acta de Verificación</a></li>
+                <li class=""><a href="actas/detalleform.do" tabindex="-1">Búsqueda de Actas</a></li>-->
+                <li><a href="actas/form.do">
+                    <i class="icon-upload"><!-- --></i>&#160;Subir actas</a>
+                </li>
+                <li>
+                    <a href="actas/list.do">
+                        <i class="icon-list"><!-- --></i>&#160;Listado de actas
+                    </a>
+                </li>
+                <!--								<li role="presentation" class="divider"></li>
+                                                <li role="presentation">
+                                                    <a href="${localResourcesURL}/static_files/Formato-acta.xls" tabindex="-1" role="menuitem" class="noAjax"><i class="icon-download-alt">&amp;nbsp;</i> Descarga formato de Acta</a>
+                                                </li>-->
+            </ul>
+        </li>
+    </c:if>
+    <c:if test="${reporte and usuario.coTipoEntidad != '10'}">
+        <li>
+            <a  class="dropdown-toggle" href="reporte/reporte_panel.do" role="button">
+                <i class="icon-signal icon-white"><!-- --></i>&#160;Reportes</a>
+            <!--<ul role="menu" class="dropdown-menu">
+                <li role="presentation">
+                    <a href="reporte/cantidades_departamentos_total.do" tabindex="-1" role="menuitem"><i
+                            class="icon-flag">&lt;!&ndash; &ndash;&gt;</i>&#160;Total registros por ubigeo</a></li>
+
+                <li role="presentation">
+                    <a href="reporte/padron_entidad.do" tabindex="-1" role="menuitem"><i
+                            class="icon-edit">&lt;!&ndash; &ndash;&gt;</i>&#160;Por municipalidad</a></li>
+
+                <li role="presentation">
+                    <a href="reporte/padron_altas_bajas.do" tabindex="-1" role="menuitem"><i
+                            class="icon-resize-small">&lt;!&ndash; &ndash;&gt;</i>&#160;Consultas altas/bajas de menores</a></li>
+
+                <li role="presentation">
+                    <a href="reporte/form_listado_edades.do" tabindex="-1" role="menuitem"><i
+                            class="icon-info-sign">&lt;!&ndash; &ndash;&gt;</i>&#160;Registros por rango de edades</a></li>
+
+                <li role="presentation"><a href="reporte/padron_establecimiento_salud.do" tabindex="-1" role="menuitem"><i
+                        class="icon-home">&lt;!&ndash; &ndash;&gt;</i>&#160;Establecimiento de salud</a></li>
+
+                <li role="presentation">
+                    <a href="reporte/padron_programa_social.do" tabindex="-1" role="menuitem"><i
+                            class="icon-tasks">&lt;!&ndash; &ndash;&gt;</i>&#160;Registros por programas sociales</a></li>
+
+                <li role="presentation">
+                    <a href="reporte/padron_ubigeo.do" tabindex="-1" role="menuitem"><i
+                            class="icon-calendar">&lt;!&ndash; &ndash;&gt;</i>&#160;Registros por rango de fechas</a></li>
+
+                <li role="presentation">
+                    <a href="reporte/padron_sin_docu.do" tabindex="-1" role="menuitem"><i
+                            class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;Menores de 6 años sin DNI</a></li>
+
+
+                <li role="presentation">
+                    <a href="minsa_reporte/padron_movimientos.do" tabindex="-1" role="menuitem"><i
+                            class="icon-random">&lt;!&ndash; &ndash;&gt;</i>&#160;Movimientos ubigeo del menor</a></li>
+
+
+                <li role="presentation"><a href="minsa_reporte/padron_observados.do" tabindex="-1" role="menuitem"><i
+                        class="icon-question-sign">&lt;!&ndash; &ndash;&gt;</i>&#160;Registros con restricción/observación</a></li>
+
+                <li role="presentation"><a href="minsa_reporte/reporte_usuarios_minsa.do" tabindex="-1" role="menuitem"><i
+                        class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;Relación de usuario</a></li>
+
+                <li role="presentation">
+                    <a href="minsa_reporte/padron_actas.do" tabindex="-1" role="menuitem"><i
+                            class="icon-certificate">&lt;!&ndash; &ndash;&gt;</i>&#160;Actas por municipalidad</a></li>
+
+                <li role="presentation">
+                    <a href="minsa_reporte/padron_actas_todos.do" tabindex="-1" role="menuitem"><i
+                            class="icon-certificate">&lt;!&ndash; &ndash;&gt;</i>&#160;Total actas enviadas</a></li>
+
+
+                <li role="presentation">
+                    <a href="reporte/reporte_europan.do" tabindex="-1" role="menuitem"><i
+                            class="icon-book">&lt;!&ndash; &ndash;&gt;</i>&#160;Por Europan</a></li>
+            </ul>-->
+        </li>
+    </c:if>
+    <c:if test="${signup}">
+        <li class="dropdown">
+            <!--href="mantenimiento/maestros.do" tabindex="-1"-->
+            <a class="dropdown-toggle" href="mantenimiento/maestros.do" role="button"><i class="icon-briefcase icon-white">&#160;</i>&#160;Usuarios</a>
+            <!--<ul role="menu" class="dropdown-menu">
+                <li class=""><a href="mantenimiento/maestros.do"><i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;Administrar Usuarios</a>
+                </li>
+                &lt;!&ndash;<li class=""><a href="signup/lista_usuarios.do">Lista de usuarios</a></li>
+                <li class=""><a href="signup/nuevo_usuario.do">Nuevo usuario</a></li>&ndash;&gt;
+
+                <li class="divider">&lt;!&ndash; &ndash;&gt;</li>
+                <li class=""><a href="signup/lista_grupos.do"><i class="icon-ok-sign">&lt;!&ndash; &ndash;&gt;</i>&#160;Roles</a></li>
+                <li class=""><a href="signup/lista_permisos.do"><i class="icon-remove-sign">&lt;!&ndash; &ndash;&gt;</i>&#160;Permisos</a>
+                </li>
+            </ul>-->
+        </li>
+    </c:if>
+    <c:if test="${grias}">
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="#" class="dropdown-toggle" role="button"><i class="icon-ok-sign icon-white"><!-- --></i>&#160;Grias&#160;<b class="caret"><!-- --></b></a>
+            <ul role="menu" class="dropdown-menu">
+                <li class=""><a href="grias/consolidadoGrias.do"><i class="icon-signal"><!-- --></i>&#160;Estadisticas</a></li>
+                <li class=""><a href="grias/form_listar_menores.do"><i class="icon-user"><!-- --></i>&#160;Consulta por ubigeo</a></li>
+                <li class=""><a href="grias/form_buscar_menor_grias.do"><i class="icon-search"><!-- --></i>&#160;Por Datos del Niño/a</a></li>
+                <li class=""><a href="grias/form_buscar_madre_grias.do"><i class="icon-user"><!-- --></i>&#160;Por Datos de la Madre</a></li>
+            </ul>
+        </li>
+        <!--<li class="">
+            <a href="grias/form_listar_menores.do" class=""><i class="icon-user icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Consulta por ubigeo</a>
+        </li>
+        <li class="">
+        <a href="grias/form_buscar_menor_grias.do" class=""><i class="icon-search icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Busqueda por Datos del Menor</a>
+        </li>
+        <li class="">
+            <a href="grias/form_buscar_madre_grias.do" class=""><i class="icon-search icon-white">&lt;!&ndash; &ndash;&gt;</i>&#160;Busqueda por Datos de Madre</a>
+        </li>-->
+    </c:if>
+    <c:if test="${midis}">
+<li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle" role="button"><i class="icon-ok-sign icon-white"><!-- --></i>&#160;MIDIS&#160;<b class="caret"><!-- --></b></a>
+    <ul role="menu" class="dropdown-menu">
+        <li class=""><a href="reporte_midis/consolidado.do"><i class="icon-signal"><!-- --></i>&#160;Estadisticas</a></li>
+        <li class=""><a href="reporte_midis/consulta_ubigeo_form.do"><i class="icon-filter"><!-- --></i>&#160;Consulta por ubigeo</a></li>
+        <li class=""><a href="reporte_midis/form_buscar_menor.do"><i class="icon-search"><!-- --></i>&#160;Por Datos del Niño/a</a></li>
+        <li class=""><a href="reporte_midis/form_buscar_madre.do"><i class="icon-search"><!-- --></i>&#160;Por Datos de la Madre</a></li>
+        <!--<li class=""><a href="reporte/reporte_europan.do"><i class="icon-user">&lt;!&ndash; &ndash;&gt;</i>&#160;EUROPAN</a></li>-->
+        <li class=""><a href="reporte_midis/padron_movimientos.do"><i class="icon-globe"><!-- --></i>&#160;Movimientos del Niño/a</a></li>
+    </ul>
+</li>
+</c:if>
+<!--
+                        <c:if test="${maestros}">
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="maestros/index.do"><i class="icon-signal icon-white">&#160;</i>&#160;Maestros</a>
+                            </li>
+                        </c:if>
+-->
+<!--<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#"><i class="icon-signal icon-white">&#160;</i> Admin <b class="caret">&#160;</b></a>
+      <ul role="menu" class="dropdown-menu">
+            <li class="dropdown-submenu"><a href="#" tabindex="-1">Maestros</a>
+                 <ul class="dropdown-menu">
+                      <li><a href="#" tabindex="-1">Roles</a></li>
+                      <li><a href="#" tabindex="-1">Usuarios</a></li>
+                 </ul>
+            </li>
+            <li class=""><a href="#" tabindex="-1">Permisos</a></li>
+      </ul>
+</li>-->
+<!--<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#"><i class="icon-signal icon-white">&#160;</i> Admin <b class="caret">&#160;</b></a>
+      <ul role="menu" class="dropdown-menu">
+            <li class="dropdown-submenu"><a href="#" tabindex="-1">Maestros</a>
+                 <ul class="dropdown-menu">
+                      <li><a href="#" tabindex="-1">Roles</a></li>
+                      <li><a href="#" tabindex="-1">Usuarios</a></li>
+                 </ul>
+            </li>
+            <li class=""><a href="#" tabindex="-1">Permisos</a></li>
+      </ul>
+ </li>-->
+<!--<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#"><i class="icon-question-sign icon-white">&#160;</i> Ayuda <b class="caret">&#160;</b></a>
+      <ul role="menu" class="dropdown-menu">
+            <li role="presentation"><a href="#" tabindex="-1" role="menuitem">Temas de ayuda</a></li>
+      </ul>
+ </li>-->
+<!--<li><a href="mantenimiento/maestros.do" tabindex="-1"> Cambiar contraseña</a></li>-->
+
+</ul>
+
+<ul class="nav pull-right">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">${usuario.login}
+            <b class="caret">&#160;</b></a>
+        <ul class="dropdown-menu menu-usuario">
+            <li>
+                <div class="image-usuario">
+                    <img style="width: 72px; height: 98px; display: inline-block;" src="data:image/png;base64,${img}"/>
+                </div>
+                <div class="info-usuario">
+                    <p>${usuario.paterno} ${usuario.materno}, ${usuario.nombres}</p>
+
+                    <p>${usuario.deEntidad}</p>
+                    <!--<pre>${usuario}</pre>-->
+                    <div class= "clearfix" style="padding-right:5px;">
+                        <span class="pull-left"><a class="btn btn-mini btn-success btn-primary" href="cambio_password/index.do">Cambiar Contraseña</a></span>
+                        <span class="pull-right"><a class="btn btn-mini btn-danger btn-primary" href="logout.do#wrap">Cerrar Sesión</a></span>
+                    </div>
+                </div>
+            </li>
+            <!--<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#"><i class="icon-signal icon-white">&#160;</i> Admin <b class="caret">&#160;</b></a>
+                 <ul role="menu" class="dropdown-menu">
+                      <li class="dropdown-submenu"><a href="#" tabindex="-1">Maestros</a>
+                            <ul class="dropdown-menu">
+                                 <li><a href="#" tabindex="-1">Roles</a></li>
+                                 <li><a href="#" tabindex="-1">Usuarios</a></li>
+                            </ul>
+                      </li>
+                      <li class=""><a href="#" tabindex="-1">Permisos</a></li>
+                 </ul>
+            </li>-->
+            <!--<li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#"><i class="icon-question-sign icon-white">&#160;</i> Ayuda <b class="caret">&#160;</b></a>
+                 <ul role="menu" class="dropdown-menu">
+                      <li class="dropdown-submenu"><a href="#" tabindex="-1">Mantenimiento</a>
+                            <ul class="dropdown-menu">
+                                 <li><a href="mantenimiento/maestros.do" tabindex="-1">Maestros</a></li>
+                                 <li><a href="mantenimiento/configuracion.do" tabindex="-1">Configuración</a></li>
+                            </ul>
+                      </li>
+                      <li role="presentation"><a href="#" tabindex="-1" role="menuitem">Temas de ayuda</a></li>
+                 </ul>
+            </li>-->
+        </ul>
+    </li>
+</ul>
+
+</div>
+<!--</div>-->
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    function Session() {}
+    Session.prototype.init = function() {
+      //  console.log('Iniciando... Session.init()');
+        Timeout();
+        document.addEventListener('touchstart',Timeout,false);
+        document.addEventListener('click',Timeout,false);
+        document.addEventListener('keypress', Timeout, false);
+
+        function _timeout(){
+            return function() {
+                $.ajax({
+                    url : 'close_window.do',
+                    type: 'POST',
+                    success: function(rpta){
+                        var urlApp = window.location.href;
+                        if (urlApp.charAt(urlApp.length - 1) != "/") {
+                            urlApp = urlApp + "/";
+                        }
+
+                        alert('Su sesión expiró, vuelva a ingresar nuevamente al sistema.');
+                        window.location.href = urlApp;
+                    },
+                    error: function(){
+                        console.log('Error');
+                    }
+                });
+            }
+        }
+        function Timeout() {
+            if(typeof(timer) != 'undefined') {
+                timer = clearTimeout(timer);
+            }
+            timer = setTimeout(_timeout(), 1800000);//30 minutos
+         //   timer = setTimeout(_timeout(), 9000);//7 segundos
+        }
+    }
+    var sessionTimeout = new Session();
+    sessionTimeout.init();
+
+</script>
+</jsp:root>
+
+

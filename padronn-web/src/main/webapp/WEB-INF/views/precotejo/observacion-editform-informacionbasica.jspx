@@ -1,0 +1,160 @@
+<!--
+ * Archivo precotejoform-upload.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 02/08/13 04:15 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!--
+	<div class="row-fluid">
+		<div class="span6">
+	-->
+			<h4>Información Básica del Niño/a</h4>
+			<hr/>
+
+			<div id="obsedit-form-message-menor"></div>
+
+			<spring:bind path="precotejoRegistro.nuDniMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorNuDniMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorNuDniMenor}">
+				<label class="control-label" for="nuDniMenor" title="requerido">DNI <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<div class="input-append">
+						<!--<form:input path="nuDniMenor" id="nuDniMenor" placeholder="Número de DNI" data-inputmask="'mask': '99999999'" href="registromanual/buscarMenorPorDni.do#obsedit-form-message-menor"/>-->
+						<form:input path="nuDniMenor" id="nuDniMenor" placeholder="Número de DNI" data-inputmask="'mask': '99999999'"/>
+						<button type="button" id="nuDniMenor-button" class="btn" href="registromanual/buscarMenorPorDni.do?nuDniMenor#obsedit-form-message-menor"><i class="icon-white icon-search">&#160;</i></button>
+					</div>
+					&#160;<util:btn-restablecer selector="#nuDniMenor" val="${precotejoRegistro.nuDniMenor}"/>
+					<form:errors path="nuDniMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+
+			<spring:bind path="precotejoRegistro.apPrimerMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorApPrimerMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorApPrimerMenor}">
+				<label class="control-label" for="apPrimerMenor" title="requerido">Primer Apellido <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<form:input path="apPrimerMenor" id="apPrimerMenor" placeholder="Primer Apellido" maxlength="25"/>
+					&#160;<util:btn-restablecer selector="#apPrimerMenor" val="${precotejoRegistro.apPrimerMenor}"/>
+					<form:errors path="apPrimerMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+
+			<spring:bind path="precotejoRegistro.apSegundoMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorApSegundoMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorApSegundoMenor}">
+				<label class="control-label" for="apSegundoMenor" title="requerido">Segundo Apellido <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<form:input path="apSegundoMenor" id="apSegundoMenor" placeholder="Segundo Apellido" maxlength="25"/>
+					&#160;<util:btn-restablecer selector="#apSegundoMenor" val="${precotejoRegistro.apSegundoMenor}"/>
+					<form:errors path="apSegundoMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+
+			<spring:bind path="precotejoRegistro.prenombreMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorPrenombreMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorPrenombreMenor}">
+				<label class="control-label" for="prenombreMenor" title="requerido">Nombres <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<form:input path="prenombreMenor" id="prenombreMenor" placeholder="Nombres" maxlength="35"/>
+					&#160;<util:btn-restablecer selector="#prenombreMenor" val="${precotejoRegistro.prenombreMenor}"/>
+					<form:errors path="prenombreMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+
+			<spring:bind path="precotejoRegistro.feNacMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorFeNacMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorFeNacMenor}">
+				<label class="control-label" for="feNacMenor" title="requerido">Fecha Nacimiento <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<div class="input-append date" id="feNacMenor-date" data-date="${padronNominal.feNacMenor}" data-date-format="dd/mm/yyyy">
+						<form:input path="feNacMenor" id="feNacMenor"/>
+						<button type="button" id="feNacMenor-button" class="btn add-on"><i class="icon-white icon-calendar"><!-- --></i></button>
+					</div>
+					&#160;<util:btn-restablecer selector="#feNacMenor" val="${precotejoRegistro.feNacMenor}"/>
+					<form:errors path="feNacMenor" cssClass="text-error" element="div"/>
+				</div>
+			</div>
+
+			<spring:bind path="precotejoRegistro.coGeneroMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorCoGeneroMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorCoGeneroMenor}">
+				<label class="control-label" title="requerido">Sexo <span class="text-error required" title="requerido">*</span></label>
+				<div class="controls">
+					<label class="radio inline"><form:radiobutton path="coGeneroMenor" value="1"/>Masculino</label>
+					<label class="radio inline"><form:radiobutton path="coGeneroMenor" value="2"/>Femenino</label>
+					<form:errors path="coGeneroMenor" cssClass="text-error" element="div"/>
+					<!--&#160;<util:btn-restablecer selector="#coGeneroMenor" val="${precotejoRegistro.coGeneroMenor}"/>-->
+				</div>
+			</div>
+
+			<spring:bind path="precotejoRegistro.coUbigeoInei">
+				<c:if test="${status.error}">
+					<c:set var="errorCoUbigeoInei" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorCoUbigeoInei}">
+				<label class="control-label" for="coUbigeoInei" title="requerido">Ubigeo <span class="text-error required" title="requerido">*</span></label>
+				<!--<div class="controls">-->
+				<span class="span6">&#160;</span>
+				<form:hidden path="coUbigeoInei" id="coUbigeoInei" cssClass="span11" cssStyle="margin-left: 0px;"/>
+				<form:errors path="coUbigeoInei" cssClass="text-error" element="div" style="clear:both;"/>
+					<!--&#160;<util:btn-restablecer selector="#coUbigeoInei" val="${precotejoRegistro.coUbigeoInei}"/>-->
+				<!--</div>-->
+			</div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="coCentroPoblado">Centro poblado</label>
+                <span class="span6">&#160;</span>
+                <!--<div class="controls">-->
+                    <form:hidden path="coCentroPoblado" id="coCentroPoblado" cssClass="span11" cssStyle="margin-left: 0px;" />
+                    <!--<span data-trigger="tooltip" data-content="Centro poblado del menor, campo no obligatorio" data-position="sw" class="label label-info">?</span>-->
+                    <form:errors path="coCentroPoblado" cssClass="text-error" element="div" style="clear:both;" />
+                <!--</div>-->
+            </div>
+
+
+    <spring:bind path="precotejoRegistro.deDireccion">
+				<c:if test="${status.error}">
+					<c:set var="errorDeDireccion" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorDeDireccion}">
+				<label class="control-label" for="deDireccion" title="requerido">Dirección <span class="text-error required" title="requerido">*</span></label>
+				<!--<div class="controls">-->
+				<span class="span6">&#160;</span>
+				<form:textarea path="deDireccion" id="deDireccion" cssClass="span11" cssStyle="height: 50px;" maxlength="100"/>
+				<form:errors path="deDireccion" cssClass="text-error" element="div"/>
+					<!--&#160;<util:btn-restablecer selector="#deDireccion" val="${precotejoRegistro.deDireccion}"/>-->
+				<!--</div>-->
+			</div>
+
+	<!--
+		</div>
+	</div>
+	-->
+
+</jsp:root>

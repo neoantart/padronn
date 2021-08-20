@@ -1,0 +1,47 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<div class="row">
+    <div class="span12">
+        <h1>Reportes graficos por ubigeo</h1>
+        <div class="span3 content-controles"></div>
+        <div class="span8 content-grafico"></div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    var Graficos = {
+        dataBase:{},
+        $contenedorControles:$('.content-controles'),
+        $contenedorGrafico:$('.content-grafico'),
+        init: function(){
+            Util.ajax('reportegrafico/get_data_reporte',{}, function(data){
+                Graficos.dataBase = data;
+            });
+            this.showControls();
+        },
+        showControls:function(){
+            /*console.log(Graficos.dataBase.departamentos);
+            console.log(Graficos.dataBase.provincias);*/
+            var $form=$(document.createElement('form')).attr({method:"post", action:"", class:"form-inline"});
+            $departamentos = Util.getHTMLFormElement({
+                tipo:'select',
+                label:'Departamentos: ',
+                nombre:'departamento',
+                opciones:Graficos.dataBase.departamentos
+            }).appendTo($form),
+            $pronvincias = Util.getHTMLFormElement({
+                tipo:'select',
+                label:'Provincias: ',
+                nombre:'provincias',
+                opciones:Graficos.dataBase.provincias
+            }).appendTo($form);
+            Graficos.$contenedorControles.html($form);
+        },
+        showGraficos:function() {
+
+        }
+    };
+    Graficos.init();
+});
+</script>
+</jsp:root>

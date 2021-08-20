@@ -1,0 +1,61 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: mfigueroa
+  Date: 02/06/2014
+  Time: 10:37 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:tags="urn:jsptagdir:/WEB-INF/tags">
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="page-header clearfix">
+        <div class="pull-right ">
+            <a href="reporte/reporte_panel.do" class="btn button-back"><i class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+        </div>
+        <div class="pull-left">
+            <h1><span class="icon-user"><!-- --></span>&#160;Reporte de Usuarios</h1>
+        </div>
+    </div>
+
+
+
+
+    <div>
+        <div class="alert alert-success">
+            <p>
+                Descargar listado de usuarios <a href="minsa_reporte/reporte_usuarios_xls.do" class="btn btn-success noAjax"><i class="icon-download icon-white"><!-- --></i>Listado de Usuarios</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- de aqui en adelante-->
+
+    <!--<form id="registromanual/consulta_padron_municipio.do" class="form-horizontal"
+          action="reporte/consulta_padron_entidad.do" method="get">
+        &lt;!&ndash;<form:form action="registromanual/consulta_padron_municipio.do" method="get" class="form-horizontal" modelAttribute="reportePadronEntidad">&ndash;&gt;
+        <div class="panel panel-primary">
+            <div class="panel-heading"><span>Formulario de consulta</span></div>
+
+            <div class="control-group"><label title="requerido" class="control-label">Municipalidad: <span
+                    class="text-error required" title="requerido">*</span></label>
+
+            </div>
+
+            <div class="control-group"><label title="requerido" class="control-label">Ubigeo: <span
+                    class="text-error required" title="requerido">*</span></label></div>
+
+
+            <div class="control-group"><label class="control-label">Estado de registros: <span
+                    class="text-error required">*</span></label></div>
+
+
+            <div class="control-group"><label title="requerido" class="control-label">Perfil del Usuario: <span
+                    class="text-error required" title="requerido">*</span></label></div>
+
+
+        </div>
+
+    </form>-->
+</jsp:root>

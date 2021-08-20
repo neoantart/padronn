@@ -1,0 +1,79 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 01/02/14
+  Time: 04:58 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function(){
+            $.ajax({
+                url : 'reporte/get_distritos_europan.do',
+                type : 'GET',
+                dataType : 'json',
+                success : function(response) {
+                    $('#entidades')
+                            .select2({
+                                multiple: false,
+                                data: response
+                            })
+                    $('.select2-input').inputmask('ubigeo');
+                }
+            });
+            var $deEdad = $('#deEdad'),
+                    $hastaEdad = $('#hastaEdad');
+            var previous, previousHasta;
+            $($deEdad).focus(function () {
+                previous = this.value;
+            }).change(function() {
+                        if($hastaEdad.val() != '') {
+                            if($deEdad.val()> $hastaEdad.val()){
+                                $deEdad.val(previous);
+
+                            }
+                        }
+                    });
+            $($hastaEdad).focus(function () {
+                previousHasta = this.value;
+            }).change(function() {
+                        if($hastaEdad.val() != '') {
+                            if($deEdad.val()> $hastaEdad.val()){
+                                $hastaEdad.val(previousHasta);
+                            }
+                        }
+                    });
+
+                var ua = window.navigator.userAgent;
+                var listDistritosDownload = document.getElementById('listDistritosDownload');
+                function changeURL() {
+                    listDistritosDownload.removeAttribute("download");
+                    var link = listDistritosDownload.href;
+                    link = link.slice(0, -1);
+                    listDistritosDownload.setAttribute('href', link);
+                }
+
+                var msie = ua.indexOf('MSIE ');
+                if (msie > 0) {
+                    // IE 10 or older => return version number
+                    changeURL();
+                }
+
+                var trident = ua.indexOf('Trident/');
+                if (trident > 0) {
+                    // IE 11 => return version number
+                    changeURL();
+                }
+
+                var edge = ua.indexOf('Edge/');
+                if (edge > 0) {
+                    // Edge (IE 12+) => return version number
+                    changeURL();
+                }
+
+        })
+        ]]>
+    </script>
+</jsp:root>

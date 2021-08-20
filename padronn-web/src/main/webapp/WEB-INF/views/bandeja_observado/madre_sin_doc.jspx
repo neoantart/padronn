@@ -1,0 +1,43 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="row">
+        <div class="span12">
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h1><span class="icon-th-large"></span>&#160;Rectificar Datos de la madre</h1>
+                </div>
+                <div class="pull-right"><a
+                        href="bandeja_observado/bandeja_observados.do?coTipoObservacion=1&amp;nuPagina=${nuPagina}"
+                        class="btn button-back"><i
+                        class="icon-arrow-left icon-white"></i>&#160;Volver</a></div>
+            </div>
+            <div class="text-info">
+                <h4> <strong>${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor} ${padronNominal.prenombreMenor}</strong> (DNI:
+                    <c:choose>
+                        <c:when test="${not empty padronNominal.nuDniMenor}">
+                            ${padronNominal.nuDniMenor}
+                        </c:when>
+                        <c:otherwise>
+                            <span>Niño/a Sin DNI</span>
+                        </c:otherwise>
+                    </c:choose>
+                    )</h4>
+            </div>
+        </div>
+        <div class="span6">
+            <p class="text-info">Datos de la Madre:</p>
+            <div id="form_madre_sin_doc">
+                <jsp:include page="form_madre_sin_doc.jspx" />
+            </div>
+        </div>
+        <div class="span6">
+            <div id="datos-ani-madre"></div>
+        </div>
+    </div>
+
+
+
+</jsp:root>

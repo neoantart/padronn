@@ -1,0 +1,193 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+		  xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+		  xmlns:form="http://www.springframework.org/tags/form"
+		  xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:input="http://www.springframework.org/tags/form"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+<div id="formulario-registro">
+        <div class="row">
+            <div class="span8">
+                <h1>Registro de Información del Niño/a</h1>
+                <span class="text-error" style="padding-left: 10px; font-size: 12px;">La información marcada con (<strong class="text-error required" title="requerido">*</strong>) es requerida</span>
+            </div>
+            <div style="margin-top: 15px;" class="span3 pull-right">
+            <c:if test="${not empty nuEnvio and not empty nuPagina}">
+                <a class="btn" href="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=${nuPagina}#precarga-modulo-div"><i class="icon-arrow-left icon-white">&#32;</i>&#32;Volver</a>
+            </c:if>
+            </div>
+        </div>
+        <!-->>-->
+        <hr/>
+		<c:set var="badge1Class" value="badge-info"/>
+		<c:set var="badge2Class" value="badge-info"/>
+		<c:set var="badge3Class" value="badge-info"/>
+		<c:set var="tab1Active" value=""/>
+		<c:set var="tab2Active" value=""/>
+		<c:set var="tab3Active" value=""/>
+		<c:set var="tabPane1Active" value=""/>
+		<c:set var="tabPane2Active" value=""/>
+		<c:set var="tabPane3Active" value=""/>
+
+		<c:if test="${grupo1Errors}">
+			<c:set var="badge1Class" value="badge-important"/>
+		</c:if>
+		<c:if test="${grupo2Errors}">
+			<c:set var="badge2Class" value="badge-important"/>
+		</c:if>
+		<c:if test="${grupo3Errors}">
+			<c:set var="badge3Class" value="badge-important"/>
+		</c:if>
+		<c:choose>
+			<c:when test="${grupo1Errors}">
+				<c:set var="tab1Active" value="active"/>
+				<c:set var="tabPane1Active" value=" in active"/>
+			</c:when>
+			<c:when test="${grupo2Errors}">
+				<c:set var="tab2Active" value="active"/>
+				<c:set var="tabPane2Active" value=" in active"/>
+			</c:when>
+			<c:when test="${grupo3Errors}">
+				<c:set var="tab3Active" value="active"/>
+				<c:set var="tabPane3Active" value=" in active"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="tab1Active" value="active"/>
+				<c:set var="tabPane1Active" value=" in active"/>
+			</c:otherwise>
+		</c:choose>
+<!--**********************Inicializamos el formulario***********************-->
+		<form:form commandName="padronNominal" id="padronNominal" class="form-horizontal" action="registromanual/guardar.do">
+            <c:if test="${not empty mensajeErrorDni}">
+                <div class="alert alert-danger">
+                    <p><strong>${mensajeErrorDni}</strong> <a href="registromanual/formulario.do?coPadronNominal=${coPadronNominal}" class="btn btn-warning btn-mini"><i class="icon-edit icon-white">&#160;</i>&#160;Ver registro registro del niño/a</a></p>
+                </div>
+            </c:if>
+
+            <c:if test="${not empty mensajeErrorCui}">
+                <div class="alert alert-danger">
+                    <p><strong>${mensajeErrorCui}</strong>- <a href="registromanual/formulario.do?coPadronNominal=${coPadronNominal}" class="btn btn-warning btn-mini"><i class="icon-edit icon-white">&#160;</i>&#160;Ver registro del niño/a</a></p>
+                </div>
+            </c:if>
+			<form:errors path="*">
+				<div class="alert alert-error">Se ha encontrado errores en
+					<c:if test="${grupo1Errors}">
+						<a href="#" class="noAjax" onclick="$('#regman-form-tab-informacionBasica').tab('show');">la información básica del niño/a</a>
+						<c:set var="coma" value=", "/>
+					</c:if>
+					<c:if test="${grupo2Errors}">
+						${coma}<a href="#" class="noAjax" onclick="$('#regman-form-tab-informacionAdicional').tab('show');">la información adicional del niño/a</a>
+						<c:set var="coma" value=", "/>
+					</c:if>
+					<c:if test="${grupo3Errors}">
+						${coma}<a href="#" class="noAjax" onclick="$('#regman-form-tab-informacionApoderados').tab('show');">la información de los apoderados del niño/a</a>
+					</c:if>
+				</div>
+			</form:errors>
+			<c:if test="${baseDatosOrigen=='PN' and existenDatos and ubigeoUsuario!=padronNominal.coUbigeoInei}">
+				<p class="alert alert-error">
+					<strong>Advertencia: </strong>
+					El menor ${padronNominal.prenombreMenor} ${padronNominal.apPrimerMenor} ${padronNominal.apSegundoMenor},
+					ya se encuentra registrado en el distrito de ${ubigeoMenor.deDistrito}, provincia de ${ubigeoMenor.deProvincia}, departamento de ${ubigeoMenor.deDepartamento}.
+				</p>
+			</c:if>
+
+			<div>
+				<ul class="nav nav-tabs" id="regman-form-tabs">
+					<li class="${tab1Active}" id="tab1Formulario">
+						<a href="#regman-form-tabpane-informacionBasica" id="regman-form-tab-informacionBasica" class="noAjax" data-toggle="tab">
+							<span class="badge ${badge1Class} uno">1</span> Información Básica del Niño/a
+						</a>
+					</li>
+					<li class="${tab2Active}" id="tab2Formulario">
+						<a href="#regman-form-tabpane-informacionAdicional" id="regman-form-tab-informacionAdicional" class="noAjax" data-toggle="tab">
+							<span class="badge ${badge2Class} dos">2</span> Información Adicional del Niño/a
+						</a>
+					</li>
+					<li class="${tab3Active}" id="tab3Formulario">
+						<a href="#regman-form-tabpane-informacionApoderados" id="regman-form-tab-informacionApoderados" class="noAjax" data-toggle="tab">
+							<span class="badge ${badge3Class} tres">3</span> Información de los Apoderados
+						</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane${tabPane1Active} fade" id="regman-form-tabpane-informacionBasica">
+						<c:choose>
+							<c:when test="${not existenDatos}">
+								<jsp:include page="formulario-informacionBasica.jspx"/>
+							</c:when>
+                            <c:when test="${existenDatos and existenDatosSoloCNV}"> <!--para edicion de CNVs en padron nominal-->
+                                <jsp:include page="formulario-informacionBasica-readOnlyCnv.jspx"/>
+                            </c:when>
+							<c:when test="${existenDatos and not existenDatosSoloCNV}">
+								<jsp:include page="formulario-informacionBasica-readOnly.jspx"/>
+							</c:when>
+						</c:choose>
+
+						<input type="hidden" name="existenDatosForm" id="existenDatosForm" value="${existenDatos}"/>
+						<hr style="clear:both;"/>
+						<div class="wizard-actions row-fluid">
+							<button type="button" id="tab1-form-next" class="btn btn-primary" onclick="$('#regman-form-tab-informacionAdicional').tab('show');" style="width: 114px;">Siguiente <span class="icon-arrow-right icon-white"></span></button>
+							<button class="btn btn-success" name="foo" id="visita-form-saveButton" style="width: 108px; display: none;"><span class="icon-ok icon-white" ></span> Guardar</button>
+							&#160;
+							<a href="registromanual/buscarmenorform.do" class="btn btn-danger" style="width: 78px;"><span class="icon-remove icon-white" ></span> Cancelar</a>
+						</div>
+					</div>
+					<div class="tab-pane${tabPane2Active} fade row-fluid" id="regman-form-tabpane-informacionAdicional">
+						<jsp:include page="formulario-informacionAdicional.jspx"/><!-- tipo de programas sociales-->
+						<hr/>
+						<div class="wizard-actions row-fluid">
+							<!--<p class="pull-left text-warning">La información marcada con (<strong class="text-error" title="requerido">*</strong>) es requerida</p>-->
+							<button type="button" class="btn btn-primary" onclick="$('#regman-form-tab-informacionBasica').tab('show');" style="width: 105px;"><span class="icon-arrow-left icon-white"></span> Anterior</button>
+							&#160;
+							<button type="button" class="btn btn-primary" onclick="$('#regman-form-tab-informacionApoderados').tab('show');" style="width: 115px;">Siguiente <span class="icon-arrow-right icon-white"></span></button>
+							&#160;
+							<a href="registromanual/buscarmenorform.do" class="btn btn-danger" style="width: 78px;"><span class="icon-remove icon-white" ></span> Cancelar</a>
+						</div>
+					</div>
+					<div class="tab-pane${tabPane3Active} fade row-fluid" id="regman-form-tabpane-informacionApoderados">
+						<c:if test="${not existenDatos}">
+							<jsp:include page="formulario-informacionApoderados.jspx"/>
+						</c:if>
+						<c:if test="${existenDatos}">
+							<jsp:include page="formulario-informacionApoderados-readOnly.jspx"/>
+						</c:if>
+						<hr/>
+						<div class="wizard-actions row-fluid">
+							<!--<p class="pull-left text-warning">La información marcada con (<strong class="text-error" title="requerido">*</strong>) es requerida</p>-->
+							<button type="button" class="btn btn-primary" onclick="$('#regman-form-tab-informacionAdicional').tab('show');" style="width: 105px;"><span class="icon-arrow-left icon-white"></span> Anterior</button>
+							&#160;
+							<button type="submit" class="btn btn-success" name="guardar" id="regman-form-saveButton" style="width: 108px;"><span class="icon-ok icon-white" ></span> Guardar</button>
+							&#160;
+							<a href="registromanual/buscarmenorform.do" class="btn btn-danger" style="width: 78px;"><span class="icon-remove icon-white"></span> Cancelar</a>
+						</div>
+					</div>
+					<form:hidden path="coUbigeoPad" id="coUbigeoPad" value="${ubigeoUsuario}"/>
+				</div>
+			</div>
+
+			<input:hidden path="esPadron"/>
+		<!--	<input:hidden path="coPadronNominal" val="${coPadronNominal}"/>-->
+
+
+            <c:if test="${not empty fn:trim(coRestri) }">
+                <input:hidden path="deRestri" value="${deRestri}"/>
+                <input:hidden path="coRestri" value="${coRestri}"/>
+            </c:if>
+		</form:form>
+</div>
+<div id="ficha-confirmacion"><!-- --></div>
+
+<script type="text/javascript">
+		<![CDATA[
+			$(function(){
+                $("#nuCelMadre").keypress({perm: sets.TELEFONO, func: null}, fnRestringirCaracteres);
+                $("#diCorreoMadre").keypress({perm: sets.EMAIL, func: null}, fnRestringirCaracteres);
+				RegistroManual.inicializarFormulario();
+				RegistroManual.validarMenorVisita();
+			});
+		]]>
+</script>
+
+</jsp:root>

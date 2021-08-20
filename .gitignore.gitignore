@@ -1,0 +1,8 @@
+/padronn-base-application/target/
+/padronn-logic/target/
+/padronn-web/target/
+
+padronn-base-application.iml
+padronn-logic.iml
+padronn-web.iml
+padronn.iml

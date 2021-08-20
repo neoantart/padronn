@@ -1,0 +1,132 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.attribute name="nuPaginas" type="java.lang.Integer" required="true"/>
+    <jsp:directive.attribute name="nuPagina" type="java.lang.Integer" required="true"/>
+    <jsp:directive.attribute name="urlAntesNuPagina" type="java.lang.String" required="true"/>
+    <jsp:directive.attribute name="urlDespuesNuPagina" type="java.lang.String" required="true"/>
+    <spring:eval expression="@applicationProps['APP.NUM_PER_PAGE_LI']" var="numPerPageli" scope="request"/>
+
+    <div class="">
+        <div class=" js-pager">
+            <c:if test="${nuPaginas>1}">
+                <table>
+                    <tr>
+                        <!--<td>
+                            <c:set var="urlFirst" value="#" scope="request"/>
+                            <c:if test="${nuPagina gt 1}">
+                                <c:set var="urlFirst"
+                                       value="${urlAntesNuPagina}1${urlDespuesNuPagina}"
+                                       scope="request"/>
+                            </c:if>
+                            <c:set var="cssDisable" value="" scope="request"/>
+                            <c:set var="onClick" value="" scope="request"/>
+                            <c:if test="${nuPagina eq 1}">
+                                <c:set var="cssDisable" value="disabled" scope="request"/>
+                                <c:set var="onClick" value="return false;" scope="request"/>
+                            </c:if>
+                            <ul class="pager">
+                                <li class="previous ${cssDisable}">
+                                    <a onclick="${onClick}" style="margin-top: 6px;margin-right: 28px;"
+                                       href="${urlFirst}">&#8592; Primera pagina</a>
+                                </li>
+                            </ul>
+                        </td>-->
+                        <td>
+                            <p style="padding-left: 15px;">
+                                <a href="#" style="color: #333;" onclick="return false;">
+                                    <strong>&#160;Página ${nuPagina} de ${nuPaginas}</strong>
+                                </a>
+                            </p>
+
+                            <div class="pagination" style="margin-top: 0px;">
+                                <ul class="ul-paginate">
+                                    <c:set var="currentPageli" value="${(nuPagina - 1) / numPerPageli}"
+                                           scope="request"/>
+                                    <c:set var="currentPageli" value="${currentPageli - ( currentPageli % 1 ) }"
+                                           scope="request"/>
+                                    <c:set var="urlAnt" value="#" scope="request"/>
+                                    <c:if test="${currentPageli gt 0}">
+                                        <fmt:formatNumber type="number" maxFractionDigits="0"
+                                                          value="${numPerPageli * currentPageli}" var="pagNumAnt"
+                                                          groupingUsed=""/>
+                                        <c:set var="urlAnt"
+                                               value="${urlAntesNuPagina}${pagNumAnt}${urlDespuesNuPagina}"
+                                               scope="request"/>
+                                    </c:if>
+                                    <c:set var="cssDisable" value="" scope="request"/>
+                                    <c:set var="onClick" value="" scope="request"/>
+                                    <c:if test="${currentPageli eq 0}">
+                                        <c:set var="cssDisable" value="disabled" scope="request"/>
+                                        <c:set var="onClick" value="return false;" scope="request"/>
+                                    </c:if>
+                                    <li class="${cssDisable}">
+                                        <a href="${urlAnt}" onclick="${onClick}">&#171;</a>
+                                    </li>
+                                    <c:forEach var="nuPaginaVar" begin="${numPerPageli * (currentPageli) + 1}"
+                                               end="${numPerPageli * (currentPageli + 1)}" step="1">
+                                        <c:set var="cssActive" value="" scope="request"/>
+                                        <c:set var="onClick" value="" scope="request"/>
+                                        <c:if test="${nuPaginaVar le nuPaginas}">
+                                            <c:set var="url"
+                                                   value="${urlAntesNuPagina}${nuPaginaVar}${urlDespuesNuPagina}"
+                                                   scope="request"/>
+                                            <c:if test="${nuPaginaVar eq nuPagina}">
+                                                <c:set var="cssActive" value="active" scope="request"/>
+                                                <c:set var="onClick" value="return false;" scope="request"/>
+                                                <c:set var="url" value="#" scope="request"/>
+                                            </c:if>
+                                            <li class="page-number ${cssActive}">
+                                                <a href="${url}" onclick="${onClick}">${nuPaginaVar}</a>
+                                            </li>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:set var="urlSig" value="#" scope="request"/>
+                                    <c:set var="tmp" value="${nuPaginas / numPerPageli}" scope="request"/>
+                                    <c:set var="tmp" value="${tmp - ( tmp % 1 ) }" scope="request"/>
+                                    <c:if test="${currentPageli le (tmp -1)}">
+                                        <fmt:formatNumber type="number" maxFractionDigits="0"
+                                                          value="${numPerPageli * (currentPageli + 1) + 1}"
+                                                          var="pagNumSig" groupingUsed=""/>
+                                        <c:set var="urlSig"
+                                               value="${urlAntesNuPagina}${pagNumSig}${urlDespuesNuPagina}"
+                                               scope="request"/>
+                                    </c:if>
+                                    <c:set var="cssDisable" value="" scope="request"/>
+                                    <c:set var="onClick" value="" scope="request"/>
+                                    <c:if test="${currentPageli ge (tmp -1)}">
+                                        <c:set var="cssDisable" value="disabled" scope="request"/>
+                                        <c:set var="onClick" value="return false;" scope="request"/>
+                                    </c:if>
+                                    <li class="${cssDisable}">
+                                        <a href="${urlSig}" onclick="${onClick}">&#187;</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <!--<td>
+                            <ul class="pager">
+                                <c:set var="urlLast" value="#" scope="request"/>
+                                <c:if test="${nuPagina lt nuPaginas}">
+                                    <c:set var="urlLast"
+                                           value="${urlAntesNuPagina}${nuPaginas}${urlDespuesNuPagina}"
+                                           scope="request"/>
+                                </c:if>
+                                <c:set var="cssDisable" value="" scope="request"/>
+                                <c:set var="onClick" value="" scope="request"/>
+                                <c:if test="${nuPagina eq nuPaginas}">
+                                    <c:set var="cssDisable" value="disabled" scope="request"/>
+                                    <c:set var="onClick" value="return false;" scope="request"/>
+                                </c:if>
+                                <li class="previous ${cssDisable}">
+                                    <a onclick="${onClick}" style="margin-top: 6px;margin-left: 28px;"
+                                       href="${urlLast}">Ultima pagina &#8594;</a>
+                                </li>
+                            </ul>
+                        </td>-->
+                    </tr>
+                </table>
+            </c:if>
+        </div>
+    </div>
+</jsp:root>

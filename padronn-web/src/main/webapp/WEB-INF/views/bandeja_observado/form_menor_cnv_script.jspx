@@ -1,0 +1,58 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 25/10/13
+  Time: 02:16 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function () {
+            // campo dni menor
+            $('input[name=nuDniMenor]').inputmask('dni');
+            $('input[name=nuCui]').inputmask('dni');
+
+            $('#apPrimerMenor')
+                    .on('change', function (e) {
+                        $(this).val($(this).val().trim());
+                    })
+                    //                    .inputmask('Regex', { regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/ })
+                    .inputmask('apellido');
+
+            $('#apSegundoMenor')
+                    .on('change', function (e) {
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('apellido');
+
+            $('#prenombreMenor')
+                    .on('change', function (e) {
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('nombre');
+
+            $('#deRectificacion')
+                    .on('change', function (e) {
+                        $(this).val($(this).val().trim());
+                    })
+                    .inputmask('observacion');
+
+            var fnBuscarMenorPorDni = function () {
+                Util.load('bandeja_observado/obtener_datos_menor_dni.do', {dni: $('#nuDniMenor').val()}, '#datos-ani-menor');
+            };
+            $('#nuDniMenor').keypress(function (e) {
+                e.preventDefault();
+                if (e.keyCode == 13 && $(this).val().length == 8) {
+                    fnBuscarMenorPorDni();
+                }
+            });
+            $('.btn-buscar-dni').on('click', function () {
+                if ($('#nuDniMenor').val().length == 8)
+                    fnBuscarMenorPorDni();
+            });
+        });
+        ]]>
+    </script>
+</jsp:root>

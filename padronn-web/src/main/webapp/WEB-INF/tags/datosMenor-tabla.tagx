@@ -1,0 +1,400 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <jsp:directive.attribute name="padronNominal" type="pe.gob.reniec.padronn.logic.model.PadronNominal" required="true"
+                             rtexprvalue="true" description="Padrón Nominal"/>
+    <jsp:directive.attribute name="tableClass" type="java.lang.String" required="true" rtexprvalue="true"
+                             description="Table class"/>
+
+    <table class="table table-condensed">
+        <tr>
+            <th colspan="2">Información del Menor</th>
+        </tr>
+        <c:if test="${not empty padronNominal.nuDniMenor}">
+            <tr>
+                <td>Número de DNI</td>
+                <td>${padronNominal.nuDniMenor}</td>
+            </tr>
+        </c:if>
+        <c:if test="${not empty padronNominal.nuCui}">
+            <tr>
+                <td>Número de CUI</td>
+                <td>${padronNominal.nuCui}</td>
+            </tr>
+        </c:if>
+        <c:if test="${not empty padronNominal.coPadronNominal}">
+            <tr>
+                <td>Código del Padrón Nominal</td>
+                <td>${padronNominal.coPadronNominal}</td>
+            </tr>
+        </c:if>
+        <tr>
+            <td>Apellido Paterno</td>
+            <td class="text-upper">${padronNominal.apPrimerMenor}</td>
+        </tr>
+        <tr>
+            <td>Apellido Materno</td>
+            <td class="text-upper">${padronNominal.apSegundoMenor}</td>
+        </tr>
+        <tr>
+            <td>Nombres</td>
+            <td class="text-upper">${padronNominal.prenombreMenor}</td>
+        </tr>
+        <tr>
+            <td>Fecha de nacimiento</td>
+            <td>${padronNominal.feNacMenor}</td>
+        </tr>
+        <tr>
+            <td>Sexo</td>
+            <td>${padronNominal.deGeneroMenor}</td>
+        </tr>
+        <c:if test="${padronNominal.inMenorVisitado eq '1'}">
+            <tr>
+                <td>Fecha de visita</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty padronNominal.feVisita}">
+                            ${padronNominal.feVisita}
+                        </c:when>
+                        <c:otherwise>
+                            <em>SIN DATO</em>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <tr>
+                <td>Menor </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty padronNominal.coMenorEncontrado}">
+                            <c:if test="${padronNominal.coMenorEncontrado eq '1'}">ENCONTRADO</c:if>
+                            <c:if test="${padronNominal.coMenorEncontrado eq '0'}">NO ENCONTRADO</c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <em>SIN DATO</em>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </c:if>
+        <c:if test="${padronNominal.inMenorVisitado ne '1'}">
+            <tr>
+                <td>Fuente de datos</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty padronNominal.coFuenteDatos}">
+                            ${padronNominal.deFuenteDatos}
+                        </c:when>
+                        <c:otherwise>
+                            <em>SIN DATO</em>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <tr>
+                <td>Fecha de fuente de datos</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty padronNominal.feUltimaTomaDatos}">
+                            ${padronNominal.feUltimaTomaDatos}
+                        </c:when>
+                        <c:otherwise>
+                            <em>SIN DATO</em>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </c:if>
+
+        <tr>
+            <td>Ubigeo del Menor</td>
+            <td>${padronNominal.deUbigeoInei}</td>
+
+        </tr>
+        <c:if test="${not empty padronNominal.deCentroPoblado}">
+            <tr>
+                <td>Centro Poblado</td>
+                <td>
+                    ${padronNominal.deCentroPoblado}</td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td>${padronNominal.deAreaCcpp}</td>
+            </tr>
+        </c:if>
+
+        <tr>
+            <td>Dirección Declarada</td>
+            <td class="">
+                <ul class="">
+                    <li>Eje Vial:
+                        <c:choose>
+                            <c:when test="${not empty padronNominal.deVia and not empty padronNominal.coVia}">
+                                ${padronNominal.deVia}
+                            </c:when>
+                            <c:otherwise><em>SIN DATO</em></c:otherwise>
+                        </c:choose>
+                    </li>
+                    <li>Descripción:
+                        <!--${padronNominal.deDireccion}-->
+                        <c:choose>
+                            <c:when test="${fn:length(padronNominal.deDireccion)>55}">
+                                ${fn:substring(padronNominal.deDireccion,0,54)}...
+                            </c:when>
+                            <c:otherwise>
+                                ${padronNominal.deDireccion}
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                    <li>Referecia de Dirección: <c:choose>
+                        <c:when test="${not empty padronNominal.deRefDir}">
+                            <!--${padronNominal.deRefDir}-->
+                            <c:choose>
+                                <c:when test="${fn:length(padronNominal.deRefDir)>48}">
+                                    ${fn:substring(padronNominal.deRefDir,0,47)}...
+                                </c:when>
+                                <c:otherwise>
+                                    ${padronNominal.deRefDir}
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise><em>SIN DATO</em></c:otherwise>
+                    </c:choose></li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Establecimiento de Salud de Adscripción</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.coEstSaludAds}">${padronNominal.deEstSaludAds}</c:when>
+                    <c:otherwise><em>SIN DATO</em></c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Ultimo Establecimiento de Salud de Atención</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.coEstSalud}">${padronNominal.deEstSalud}</c:when>
+                    <c:otherwise><em>SIN DATO</em></c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Frecuencia de Atención</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.coFrecAtencion}">${padronNominal.deFrecAtencion}</c:when>
+                    <c:otherwise><em>SIN DATO</em></c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Establecimiento de Salud de Nacimiento</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.coEstSaludNac}">${padronNominal.deEstSaludNac}</c:when>
+                    <c:otherwise><em>SIN DATO</em></c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Tipos de seguro</td>
+            <!--<td>${padronNominal.deSeguroMenor}</td>-->
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.padronSeguroList}">
+                        <ul>
+                            <c:forEach var="tipoSeguro" items="${padronNominal.padronSeguroList}">
+                                <li>${tipoSeguro.deDom}</li>
+                            </c:forEach>
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Programas sociales</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.padronProgramaList}">
+                        <ul>
+                            <c:forEach var="programaSocial" items="${padronNominal.padronProgramaList}">
+                                <li>${programaSocial.deDom}</li>
+                            </c:forEach>
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Institución educativa</td>
+            <c:if test="${empty padronNominal.deInstEducativa}">
+                <td><em>SIN DATO</em></td>
+            </c:if>
+            <c:if test="${not empty padronNominal.deInstEducativa}">
+                <td>${padronNominal.deInstEducativa}</td>
+            </c:if>
+        </tr>
+        <tr>
+            <th colspan="2">Información del Jefe de Familia o Titular</th>
+        </tr>
+        <tr>
+            <td>Tipo de vínculo</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.deVinculoJefe}">
+                        ${padronNominal.deVinculoJefe}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Número de DNI</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.coDniJefeFam}">
+                        ${padronNominal.coDniJefeFam}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Apellido Paterno</td>
+            <td class="text-upper">
+                <c:choose>
+                    <c:when test="${not empty padronNominal.apPrimerJefe}">
+                        ${padronNominal.apPrimerJefe}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Apellido Materno</td>
+            <td class="text-upper">
+                <c:choose>
+                    <c:when test="${not empty padronNominal.apSegundoJefe}">
+                        ${padronNominal.apSegundoJefe}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Nombres</td>
+            <td class="text-upper">
+                <c:choose>
+                    <c:when test="${not empty padronNominal.prenomJefe}">
+                        ${padronNominal.prenomJefe}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">Información de la Madre</th>
+        </tr>
+        <tr>
+            <td>Número de DNI</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.coDniMadre}">
+                        ${padronNominal.coDniMadre}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+
+            </td>
+        </tr>
+        <tr>
+            <td>Apellido Paterno</td>
+            <td class="text-upper">${padronNominal.apPrimerMadre}</td>
+        </tr>
+        <tr>
+            <td>Apellido Materno</td>
+            <td class="text-upper">${padronNominal.apSegundoMadre}</td>
+        </tr>
+        <tr>
+            <td>Nombres</td>
+            <td class="text-upper"><!--${empty padronNominal.apPrimerMadre and empty padronNominal.apSegundoMadre ? "":","}-->${padronNominal.prenomMadre}</td>
+        </tr>
+        <tr>
+            <td>Grado de instrucción</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.deGraInstMadre}">
+                        ${padronNominal.deGraInstMadre}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Celular</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.nuCelMadre}">
+                        ${padronNominal.nuCelMadre}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+
+            </td>
+        </tr>
+        <tr>
+            <td>Correo Electrónico</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.diCorreoMadre}">
+                        ${padronNominal.diCorreoMadre}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td>Lenguaje habitual</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty padronNominal.deLenMadre}">
+                        ${padronNominal.deLenMadre}
+                    </c:when>
+                    <c:otherwise>
+                        <em>SIN DATO</em>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+    </table>
+</jsp:root>

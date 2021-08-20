@@ -1,0 +1,412 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags"
+>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+    <c:set var="localResourcesURL" value="resources-${localResourcesVersion}" scope="request"/>
+    <c:set var="localResourcesImgURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+    <c:choose>
+        <c:when test="${empty persona}">
+            <p class="text-error">
+                Seleccionar otro tipo de documento o ingresar otro número de documento para realizar la búsqueda.
+            </p>
+            <a class="btn btn-info" href="busquedademenor/avanzadoform.do">Buscar datos <br/>del Niño/a</a>&#160;
+            <a class="btn btn-info" href="busquedademenor/avanzadoform.do?tipo=madre">Buscar datos <br/>de la madre</a>
+        </c:when>
+        <c:otherwise>
+            <div class="pull-right" style="padding:5px; border:1px solid #dddddd;margin-left:10px;">
+                <c:choose>
+                    <c:when test="${persona.origenFoto=='PN'}">
+                        <util:applet-image width="120" height="140" imageSource="PN" imageCode="${persona.codigoPadronNominal}"/>
+                    </c:when>
+                    <c:when test="${persona.origenFoto=='ANI'}">
+                        <!--<util:applet-image width="120" height="140" imageSource="ANI" imageCode="${persona.dni}"/>-->
+                        <!--<util:applet-image width="120" height="140" imageSource="ANI" imageCode="${persona.dni}"/>-->
+                        <img src="data:image/png;base64,${img}" width="120" height="140" />
+                    </c:when>
+                    <c:otherwise> <!--EMPTY-->
+                        <c:choose>
+                            <c:when test="${persona.genero == 'Masculino'}">
+                                <img src="${localResourcesImgURL}/img/sin_foto_masculino.jpg" width="120" height="140" />
+                            </c:when>
+                            <c:when test="${persona.genero == 'Femenino'}">
+                                <img src="${localResourcesImgURL}/img/sin_foto_femenino.jpg" width="120" height="140" />
+                            </c:when>
+                            <c:otherwise>
+                                <div style="width:120px;height:140px;text-align:center;line-height:30px;">
+                                    <em>El niño/a no <br/> tiene foto <br/>registrada</em>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <div>
+                <p>El <c:choose>
+                        <c:when test="${buscarMenorDocumento.tiDoc eq '0'}">número de DNI </c:when>
+                        <c:when test="${buscarMenorDocumento.tiDoc eq '1'}">número de CUI </c:when>
+                        <c:when test="${buscarMenorDocumento.tiDoc eq '2'}">número de CNV </c:when>
+                        <c:when test="${buscarMenorDocumento.tiDoc eq '3'}">CODIGO PADRON NOMINAL </c:when>
+                    </c:choose> <strong>${nuDoc}</strong> corresponde al niño/a:</p>
+
+                <p class="lead text-center">
+                    <strong>${persona.nombres} ${persona.primerApellido} ${persona.segundoApellido}</strong>
+                </p>
+
+                <table class="table table-striped table-hover table-condensed" style="width: 72%;">
+
+                    <tr>
+                        <td><strong style="float: right;">DNI</strong></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty persona.dni}">
+                                    ${persona.dni}
+                                </c:when>
+                                <c:otherwise>SIN DATO</c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong style="float: right;">CUI</strong></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty persona.nuCui}">${persona.nuCui}</c:when>
+                                <c:otherwise>SIN DATO</c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong style="float: right;">CNV</strong></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty persona.cnv}">${persona.cnv}</c:when>
+                                <c:otherwise>SIN DATO</c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong style="float: right;">Edad</strong></td>
+                        <td>${persona.edadEscrita}</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="float: right; text-align: right;">Fecha de nacimiento</strong></td>
+                        <td>${persona.fechaNacimiento}</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="float: right;">Sexo</strong></td>
+                        <td>${persona.genero}</td>
+                    </tr>
+
+                    <tr>
+                        <c:choose>
+                            <c:when test="${not empty persona.padreTipoVinculo and not empty persona.padrePrimerApellido}">
+                                <td><strong style="float: right;">${persona.padreTipoVinculo}</strong></td>
+                                <td>${persona.padreNombres} ${persona.padrePrimerApellido} ${persona.padreSegundoApellido}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><strong style="float: right; text-align: right;">Padre o titular</strong></td>
+                                <td><em>El niño/a no tiene registrado un padre o titular</em></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+
+                    <tr>
+                        <c:choose>
+                            <c:when test="${not empty persona.padreDni}">
+                                <c:if test="${fn:toUpperCase(persona.padreTipoVinculo) eq 'PADRE' or fn:toUpperCase(persona.padreTipoVinculo) eq 'HERMANO'}">
+                                    <td><strong style="float: right;text-align:right;">DNI del ${fn:toLowerCase(persona.padreTipoVinculo)}</strong></td>
+                                </c:if>
+                                <c:if test="${fn:toUpperCase(persona.padreTipoVinculo) ne 'PADRE' and fn:toUpperCase(persona.padreTipoVinculo) ne 'HERMANO'}">
+                                    <td><strong style="float: right;text-align:right;">DNI de ${fn:toLowerCase(persona.padreTipoVinculo)}</strong></td>
+                                </c:if>
+                                <td>${persona.padreDni}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><strong style="float: right; text-align:right;">DNI del Padre o titular</strong></td>
+                                <td><em>El padre o titular no tiene DNI</em></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+
+
+                    <tr>
+                        <c:choose>
+                            <c:when test="${not empty persona.madreTipoVinculo and not empty persona.madrePrimerApellido}">
+                                <td><strong style="float: right;">${persona.madreTipoVinculo}</strong></td>
+                                <td>${persona.madreNombres} ${persona.madrePrimerApellido} ${persona.madreSegundoApellido}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><strong style="float: right;">Madre</strong></td>
+                                <td><em>El niño/a no tiene registrado una madre</em></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+
+                    <tr>
+                        <td><strong style="float: right; text-align: right;">DNI de la Madre</strong></td>
+                        <c:choose>
+                            <c:when test="${not empty persona.madreDni}">
+                                <td>${persona.madreDni}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><em>Sin Dato</em></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+                    <tr>
+                        <c:choose>
+                            <c:when test="${persona.baseDatosOrigen=='PN'}">
+                                <td><strong
+                                        style="float: right; text-align: right;">Ubigeo de Domicilio Declarada</strong>
+                                </td>
+                            </c:when>
+                            <c:when test="${persona.baseDatosOrigen=='ANI'}">
+                                <td><strong style="float: right; text-align: right;">Ubigeo de Domicilio RENIEC</strong>
+                                </td>
+                            </c:when>
+                        </c:choose>
+                        <td>${persona.ubigeo}</td>
+                    </tr>
+
+                    <tr>
+                        <c:if test="${not empty persona.codigoCentroPoblado}">
+                            <td><strong style="float: right; text-align: right;">Centro Poblado</strong></td>
+                            <td>${persona.deCentroPoblado}</td>
+                        </c:if>
+                    </tr>
+
+                    <tr>
+                        <c:choose>
+                            <c:when test="${persona.baseDatosOrigen=='PN'}">
+                                <td><strong
+                                        style="float: right; text-align: right;">Dirección de Domicilio Declarada</strong>
+                                </td>
+                            </c:when>
+                            <c:when test="${persona.baseDatosOrigen=='ANI'}">
+                                <td><strong
+                                        style="float: right; text-align: right;">Dirección de Domicilio RENIEC</strong>
+                                </td>
+                            </c:when>
+                        </c:choose>
+
+                        <c:choose>
+                            <c:when test="${not empty persona.deAreaCcpp and persona.deAreaCcpp eq 'URBANA'}">
+                                <td class="">
+                                    <ul class="">
+                                        <li>Eje Vial:
+                                            <c:choose>
+                                                <c:when test="${not empty persona.deVia}">
+                                                    ${persona.deVia}
+                                                </c:when>
+                                                <c:otherwise><em>SIN DATO</em></c:otherwise>
+                                            </c:choose>
+                                        </li>
+                                        <li>
+                                            Descripción:
+                                            <c:choose>
+                                                <c:when test="${fn:length(persona.direccion)>25}">
+                                                    ${fn:substring(persona.direccion,0,24)}...
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${persona.direccion}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </li>
+                                        <li><span>Referecia de Dirección:
+                                            <c:choose>
+                                                <c:when test="${not empty persona.deRefDir}">
+                                                        <c:choose>
+                                                            <c:when test="${fn:length(persona.deRefDir)>25}">
+                                                                ${fn:substring(persona.deRefDir,0,24)}...
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${persona.deRefDir}
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                </c:when>
+                                                <c:otherwise><em>SIN DATO</em></c:otherwise>
+                                            </c:choose>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when test="${not empty persona.direccion}">
+                                        <td>${persona.direccion}</td>
+                                    </c:when>
+                                    <c:otherwise><td><em>SIN DATO</em></td></c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+
+                   <!-- <c:if test="${not empty persona.coRestri}">
+                        <tr>
+                            <td class="text-error">Restricción:</td>
+                            <td>${persona.deRestri}</td>
+                        </tr>
+                    </c:if>-->
+                </table>
+
+                <!--				<dl class="dl-horizontal">-->
+                <!--<dt>Edad:</dt>
+                <dd class="text-left">${persona.edadEscrita}</dd>
+                <dt>Fecha de nacimiento:</dt>
+                <dd>${persona.fechaNacimiento}</dd>
+
+                <dt>Sexo:</dt>
+                <dd>${persona.genero}</dd>
+
+                <c:choose>
+                    <c:when test="${not empty persona.padreTipoVinculo and not empty persona.padrePrimerApellido}">
+                        <dt>${persona.padreTipoVinculo}:</dt>
+                        <dd class="text-left">${persona.padreNombres} ${persona.padrePrimerApellido} ${persona.padreSegundoApellido}</dd>
+                    </c:when>
+                    <c:otherwise>
+                        <dt>Padre o titular:</dt>
+                        <dd class="text-left"><em>El menor no tiene registrado un padre o titular</em></dd>
+                    </c:otherwise>
+                </c:choose>
+
+                <dt>DNI del Padre:</dt>
+                <c:choose>
+                    <c:when test="${not empty persona.padreDni}">
+                        <dd>${persona.padreDni}</dd>
+                    </c:when>
+                    <c:otherwise>
+                        <dd class="text-left"><em>El padre o titular no tiene DNI</em></dd>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:choose>
+                    <c:when test="${not empty persona.madreTipoVinculo and not empty persona.madrePrimerApellido}">
+                        <dt>${persona.madreTipoVinculo}:</dt>
+                        <dd class="text-left">${persona.madreNombres} ${persona.madrePrimerApellido} ${persona.madreSegundoApellido}</dd>
+                    </c:when>
+                    <c:otherwise>
+                        <dt>Madre:</dt>
+                        <dd class="text-left"><em>El menor no tiene registrado una madre</em></dd>
+                    </c:otherwise>
+                </c:choose>-->
+
+                <!--<dt>DNI de la Madre:</dt>
+                <c:choose>
+                    <c:when test="${not empty persona.madreDni}">
+                        <dd>${persona.madreDni}</dd>
+                    </c:when>
+                    <c:otherwise>
+                        <dd class="text-left"><em>La madre no tiene DNI</em></dd>
+                    </c:otherwise>
+                </c:choose>
+-->
+                <!--<c:choose>
+                    <c:when test="${persona.baseDatosOrigen=='PN'}">
+                        <dt style="overflow: auto;white-space: inherit;">Ubigeo de Domicilio Declarada:</dt>
+                    </c:when>
+                    <c:when test="${persona.baseDatosOrigen=='ANI'}">
+                        <dt style="overflow: auto;white-space: inherit;">Ubigeo de Domicilio RENIEC:</dt>
+                    </c:when>
+                </c:choose>
+
+                <dd>${persona.ubigeo}</dd>-->
+
+                <!--<c:if test="${not empty persona.codigoCentroPoblado}">
+                    <dt>Centro poblado</dt>
+                    <dd class="text-left">${persona.deCentroPoblado}</dd>
+                </c:if>-->
+
+                <!--<c:choose>
+                    <c:when test="${persona.baseDatosOrigen=='PN'}">
+                        <dt style="overflow: auto;white-space: inherit;">Dirección de Domicilio Declarada:</dt>
+                    </c:when>
+                    <c:when test="${persona.baseDatosOrigen=='ANI'}">
+                        <dt style="overflow: auto;white-space: inherit;">Dirección de Domicilio RENIEC:</dt>
+                    </c:when>
+                </c:choose>
+
+                <c:choose>
+                    <c:when test="${not empty persona.direccion}">
+                        <dd class="text-left">${persona.direccion}&#160;</dd>
+                    </c:when>
+                    <c:otherwise>
+                        <dd class="text-left">No Registra Dirección&#160;</dd>
+                    </c:otherwise>
+                </c:choose>
+-->
+                <!-- <c:if test="${not empty persona.coRestri}">
+                     <dt class="text-error">Restricción:</dt>
+                     <dd class="text-left text-error">${persona.deRestri}</dd>
+                     &lt;!&ndash;<dt class="text-error">Realizar el la baja del menor.</dt>&ndash;&gt;
+                     &lt;!&ndash;<dd></dd>&ndash;&gt;
+                 </c:if>-->
+                <!--</dl>-->
+
+                <c:if test="${persona.edad ge 6}">
+                    <p class="text-left text-error">El niño/a tiene más de 6 años de edad. No se puede registrar en el Padrón Nominal.</p>
+                </c:if>
+                <c:if test="${not empty persona.coRestri }">
+                    <p class="text-left text-error">El niño/a tiene la siguiente restricción:
+                        <strong>${persona.deRestri}</strong>. <br/></p>
+                </c:if>
+                <!--<c:if test="${persona.edad lt 6 and empty persona.coRestri}">-->
+                <c:if test="${persona.edad lt 6}">
+                    <c:if test="${persona.baseDatosOrigen=='PN'}">
+                        <c:choose>
+                            <c:when test="${persona.esPadron=='1' or persona.esPadron=='2'}">
+                                <p><strong class="text-info">YA SE ENCUENTRA REGISTRADO</strong> en el Padrón Nominal.
+                                    <!-- <em class="text-info">Se actualizará la información que ya tiene registrada.</em>-->
+                                </p>
+                                <a href="registromanual/formulario.do?coPadronNominal=${persona.codigoPadronNominal}"
+                                   class="btn btn-info"><span
+                                        class="icon-pencil icon-white"></span> Actualizar en el Padrón Nominal</a>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="text-muted text-error">El registro del niño/a ha sido dado de baja del Padrón Nominal.</p>
+                            </c:otherwise>
+                        </c:choose>
+
+                    </c:if>
+                    <c:if test="${persona.baseDatosOrigen=='ANI'}">
+                        <p><strong class="text-success">NO ESTA REGISTRADO</strong> en el Padrón Nominal, se registrará como Registro
+                            <c:choose>
+                                <c:when test="${persona.coRestri eq '04' or persona.coRestri eq 'A'}">Observado.</c:when>
+                                <c:otherwise>Activo.</c:otherwise>
+                            </c:choose>
+                            <!--<em class="text-success">Se realizará un nuevo registro.</em>-->
+                        </p>
+                        <a href="registromanual/formulario.do?nuDniMenor=${persona.dni}" class="btn btn-info" style="margin-bottom: 5px;"><span class="icon-hdd icon-white"></span> Registrar en el Padrón Nominal</a>
+
+                    </c:if>
+                </c:if>
+            </div>
+            <c:if test="${not empty datosCaducidadDni}">
+                <c:if test="${datosCaducidadDni.diasParaCaducidad lt 0}">
+                    <p class="alert alert-error">
+                        El DNI nro ${datosCaducidadDni.dni} caducó el día ${datosCaducidadDni.fechaCaducidad}.
+                    </p>
+                </c:if>
+                <c:if test="${datosCaducidadDni.diasParaCaducidad ge 0 and datosCaducidadDni.mesesParaCaducidad lt 3}">
+                    <p class="alert alert-error">
+                        El DNI nro ${datosCaducidadDni.dni} caduca el día ${datosCaducidadDni.fechaCaducidad}. Faltan ${datosCaducidadDni.diasParaCaducidad} ${datosCaducidadDni.diasParaCaducidad!=1?'dias':'dia'} para que se cumpla dicha fecha.
+                    </p>
+                </c:if>
+                <c:if test="${datosCaducidadDni.mesesParaCaducidad ge 3}">
+                    <p class="alert alert-notice">
+                        El DNI nro ${datosCaducidadDni.dni} caduca el día ${datosCaducidadDni.fechaCaducidad}. Faltan ${datosCaducidadDni.mesesParaCaducidad} meses para que se cumpla dicha fecha.
+                    </p>
+                </c:if>
+            </c:if>
+        </c:otherwise>
+    </c:choose>
+</jsp:root>
+

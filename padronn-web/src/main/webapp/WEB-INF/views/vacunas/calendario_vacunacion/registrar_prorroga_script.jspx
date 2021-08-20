@@ -1,0 +1,51 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <script type="text/javascript">
+        <![CDATA[
+        $(function () {
+            var registrarProrroga = {
+                init: function () {
+                    $('#overlay').removeClass("hide");
+                    $('#modal_registar_prorroga').modal({
+                        backdrop: false,
+                        keyboard: false
+                    });
+
+                    $('.close-modal').on('click', function (e) {
+                        e.preventDefault();
+                        $('#modal_registar_prorroga').modal('hide');
+                        $('#overlay').addClass("hide");
+                    })
+
+                    $('.feProrroga').inputmask('fe_futura');
+                    $('.deProrroga').inputmask('observacion');
+
+                    var feProrrogaPicker = $('#feProrrogaButton').datepicker('setValue', '${dosis.feVacuna}')
+                            .on('changeDate', function (ev) {
+                                    if (ev.viewMode == 'days') {
+                                        feProrrogaPicker.hide();
+                                        $('.feProrroga').val($('#feProrrogaButton').data('date'));
+                                    }
+                            })
+                            .on('show', function () {
+                                var left = feProrrogaPicker.picker.position().left - $('#feProrroga').width();
+                                feProrrogaPicker.picker.css('left', left);
+
+                                // hack para interar UI calendar y modal
+                                var modal = $('#modal_registar_prorroga').closest('.modal');
+                                var datePicker = $('body').find('.datepicker');
+                                if (!modal.length) {
+                                    $(datePicker).css('z-index', 'auto');
+                                    return;
+                                }
+                                var zIndexModal = $(modal).css('z-index');
+                                $(datePicker).css('z-index', zIndexModal + 1);
+                            })
+                            .data('datepicker');
+                }
+            }
+            registrarProrroga.init();
+        });
+        ]]>
+    </script>
+</jsp:root>

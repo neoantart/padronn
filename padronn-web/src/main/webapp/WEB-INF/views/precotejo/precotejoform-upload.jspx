@@ -1,0 +1,114 @@
+<!--
+ * Archivo precotejoform-upload.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 16/05/13 05:13 PM
+ * @version 1.0.0
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<style>
+		.fs-icon{
+			width: 16px!important;
+		}
+		.fs-input{
+			margin-right: 10px;
+		}
+	</style>
+
+	<!-- ver: https://github.com/malsup/form/issues/350 apra encotnrar solucion al problema con IE<9 -->
+	<!--
+	<spring:eval expression="@applicationProps['application.resources.cdnserver']" var="cdnResourcesServer"/>
+	<spring:eval expression="@applicationProps['application.resources.cdnserver.version']" var="cdnResourcesVersion"/>
+	<c:set var="cdnResourcesURL" value="${cdnResourcesServer}/resources-${cdnResourcesVersion}" scope="request"/>
+	<script src="${cdnResourcesURL}/js/jquery-1.9.0.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${cdnResourcesURL}/js/jquery-migrate-1.2.1.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${localResourcesURL}/js/jquery.form-3.40.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${cdnResourcesURL}/js/jquery.blockUI.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${cdnResourcesURL}/js/bootstrap.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${localResourcesURL}/js/ul-paginate.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${localResourcesURL}/js/bootstrap-filestyle.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	-->
+	<!--
+	<script src="${localResourcesURL}/js/jquery.inputmask.js">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${localResourcesURL}/js/jquery.inputmask.custom.reniec.js">&lt;!&ndash; script &ndash;&gt;</script>
+	-->
+	<!--<script src="${cdnResourcesURL}/js/unobtrusiveXRequest-0.1-SNAPSHOT.min.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>-->
+	<!--
+	<script src="${localResourcesURL}/js/unobs.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${localResourcesURL}/js/cotejoregobs-editform.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	<script src="${localResourcesURL}/js/main.js" type="text/javascript">&lt;!&ndash; script &ndash;&gt;</script>
+	-->
+
+	<script type="text/javascript">
+		$(function(){
+			$(":file")
+                    .on('change', function(e){
+                        var $fileXls = $(this)
+                        extFile = $fileXls.val().split('.').pop().toLowerCase(),
+                                extenciones = ['xls', 'xlsx'];
+                        if($.inArray(extFile, extenciones) == -1) {
+                            $fileXls.val('');
+                            $('.bootstrap-filestyle').find('input').val('');
+                        }
+                    })
+                    .filestyle({input: true, icon: true, buttonText: "Seleccione Archivo ...", classButton: 'btn btn-small', classInput: 'input-large fs-input', classIcon: 'icon-folder-open fs-icon'});
+		});
+
+
+	</script>
+
+	<form:form method="post" action="precotejo/upload.do" modelAttribute="uploadForm" enctype="multipart/form-data" cssStyle="margin-bottom: 10px;">
+
+		<!--<form:errors path="*" element="div" cssClass="text-error"/>-->
+		<!-- ver http://stackoverflow.com/questions/3348857/show-binding-errors-next-to-each-input -->
+		<spring:bind path="*">
+		<c:if test="${status.errors.errorCount > 0}">
+			<div class="row-fluid">
+				<!--<div class="span7 offset2">-->
+					<div class="alert alert-block alert-danger span7 offset2">
+						<button type="button" class="close" data-dismiss="alert"><i class="icon-remove">&amp;nbsp;</i></button>
+						<h4><i class="icon-remove-circle"><!----></i> Archivos no válidos</h4>
+						<ul>
+							<c:forEach var="error" items="${status.errors.allErrors}">
+								<li><span class=""><spring:message message="${error}">&amp;nbsp;</spring:message></span></li>
+							</c:forEach>
+						</ul>
+					</div>
+				<!--</div>-->
+			</div>
+		</c:if>
+		</spring:bind>
+
+		<div class="row-fluid">
+			<label>
+				Seleccione el archivo <i>.xls</i> o <i>.csv</i> para subirlo y programarlo para cotejo masivo
+				<span data-trigger="tooltip" data-content="El proceso de cotejo masivo verificará la información registrada con la base de datos del RENIEC, este proceso puede tomar entre 10 minutos y 1 hora." data-position="e" class="label label-info">?</span>
+			</label>
+
+			<table id="fileTable" class="table table-hover fixed-width-table">
+				<tr>
+					<!--
+					<td style="width: 40px;">
+						<div class="form-inline">
+							<a id="add-file" href="#" class="btn btn-small btn-success"><i class="icon-plus icon-white">&amp;nbsp;</i></a>
+						</div>
+					</td>
+					-->
+					<td>
+						<div class="form-inline">
+							<!--<a href="#" class="noAjax del-file first btn btn-small" style="background: #d15b47!important; margin-right: 10px; border:4px solid #d15b47;"><i class="icon-remove">&amp;nbsp;</i></a>-->
+							<input type="file" name="files[0]" accept=".xls,.csv"/>
+							<button type="submit" class="btn btn-success" style="margin-left:10px;"><i class="icon-upload icon-white">&amp;nbsp;</i>&amp;nbsp;Subir Archivos</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<input type="hidden" value="1" name="minimalCheck"/>
+		</div>
+	</form:form>
+
+</jsp:root>

@@ -1,0 +1,54 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jmartinezb
+  Date: 16/06/2014
+  Time: 03:20 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags">
+    <jsp:output doctype-root-element="HTML" doctype-system=""/>
+    <spring:eval expression="@applicationProps['application.html.title']" var="title"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request" />
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+     <jsp:useBean id="now" class="java.util.Date"/>
+
+     <html>
+     <body  onload="setTimeout('self.close()', 180000)"><!-- ventana se cierra el 3 minutos-->
+       <div style="background: url('${localResourcesURL}/img/background-huella.jpg')no-repeat bottom">
+          <div style="width: 488px">
+           <h3 style="color: blue"> Videoconferencias para el fortalecimiento de capacidades en el marco del Plan de Incentivos-Meta Padrón Nominal</h3>
+          </div>
+             <div class="controls"  style="font-size: 15px; width: 488px"  >
+                 <ul style="margin-top: 1px">
+                  <li> <p style="background-color: #d3d3d3" align="justify"><u>La agenda de trabajo es la siguiente:</u> </p>
+                      <ol>
+                          <li >Exposición de acciones clave para el cumplimiento de meta.</li>
+                          <li>Análisis de fortalezas y debilidades para el cumplimiento de la meta.</li>
+                          <li>Preguntas y respuestas de los participantes.</li>
+                      </ol>
+                  </li>
+                  </ul>
+                 <ul><li > <p style="background-color: #d3d3d3" align="justify"><u>Para mayor información descargar los siguientes formatos:</u> </p></li></ul>
+                 <table width="80%" >
+                 <tr><td align="center">&#160;&#160;&#187;&#160;Pasos para ingresar a videoconferencia.</td>
+                     <td ><a href="${localResourcesURL}/static_files/Pasos_ingresar_videoconferencia.pdf" target="_blank" >&#160;Abrir PDF</a></td>
+                 </tr>
+                     <tr ><td align="center" >&#160;&#160;&#187;&#160;Cronograma de videoconferencia.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                         <td ><a href="${localResourcesURL}/static_files/cronograma_videoconferencias.pdf" target="_blank" >&#160;Abir PDF</a></td>
+                     </tr>
+                </table>
+
+                 <p style="color: blue">Para participar en el evento hacer
+                   <a href="https://ca-sas.bbcollab.com/m.jnlp?password=M.368F92A982831F4A826482C7F25C74&amp;sid=2012761" target="_blank">Click Aqui</a></p>
+              <div>
+               <p style="background-color: #d3bd50">Ante cualquier duda sobre la videoconferencia coordinar con: <strong>Sr.</strong> James Fritz Santiago Gonzales.
+                <strong>Telf. </strong> 315-6600 anexos 2341 – 2386 <strong>correo electrónico:</strong> estadistica@minsa.gob.pe.</p>
+             </div>
+          </div>
+         </div>
+     </body>
+     </html>
+ </jsp:root>

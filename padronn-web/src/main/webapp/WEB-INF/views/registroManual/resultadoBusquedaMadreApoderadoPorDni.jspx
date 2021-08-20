@@ -1,0 +1,99 @@
+<!--
+  Creado por: Victor Dino Flores Belizario
+  vflores@reniec.gob.pe
+  victordino.fb@gmail.com
+  Date: 30/04/13
+  Time: 05:57 PM
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<c:if test="${empty persona}">
+		<p class="text-warning" id="mensaje_busqueda_madre">${mensaje}</p>
+		<script type="text/javascript">
+			$(function () {
+				$('#coDniMadre').val("");
+				$('#apPrimerMadre').val("");
+				$('#apSegundoMadre').val("");
+				$('#prenomMadre').val("");
+				$('#coGraInstMadre').val("");
+                $('#coLenMadre').val("");
+                $('#nuCelMadre').val("");
+                $('#diCorreoMadre').val("");
+			});
+		</script>
+	</c:if>
+	<c:if test="${not empty persona}">
+		<!--<p class="text-success">${mensaje}</p>-->
+		<script type="text/javascript">
+			$(function () {
+				$('#apPrimerMadre').val("${persona.primerApellido}");
+				$('#apSegundoMadre').val("${persona.segundoApellido}");
+				$('#prenomMadre').val("${persona.nombres}");
+				$('#coGraInstMadre').val("${persona.codigoGradoInstruccion}");
+                $('#coLenMadre').val("");
+                $('#nuCelMadre').val("${persona.nuTelefono}");
+                $('#diCorreoMadre').val("${persona.deEmail}");
+
+                $('label[for=coGraInstMadre]')
+                        .find('span')
+                        .remove();
+
+                $('label[for=coGraInstMadre]').append(
+                        $(document.createElement('span'))
+                                .addClass('text-error required')
+                                .text('*')
+                                .attr('title', 'requerido'));
+
+                $('label[for=coLenMadre]')
+                        .find('span')
+                        .remove();
+                $('label[for=coLenMadre]').append(
+                        $(document.createElement('span'))
+                                .addClass('text-error required')
+                                .text('*')
+                                .attr('title', 'requerido'));
+
+                /*$('.label-grado-instruccion').html(
+                        $(document.createElement('span'))
+                                .text('*')
+                                .addClass('text-error required')
+                                .attr({title: 'requerido'})
+                );
+                $('.label-lengua-habitual').html(
+                        $(document.createElement('span'))
+                                .text('*')
+                                .addClass('text-error required')
+                                .attr({title: 'requerido'})
+                );*/
+
+                /*var contentLabel = $('#coGraInstMadre')
+                        .parent()
+                        .prev()
+                        .text();
+
+                $('#coGraInstMadre')
+                        .parent()
+                        .prev()
+
+                        .append(
+                            contentLabel,
+                            $(document.createElement('span'))
+                                .text('*')
+                                .addClass('text-error required')
+                                .attr({title: 'requerido'})
+                        );                                 */
+
+                /*$('#coLenMadre')
+                        .parent()
+                        .prev()
+                        .append(
+                                $(document.createElement('span'))
+                                        .text('*')
+                                        .addClass('text-error required')
+                                        .attr({title: 'requerido'})
+                        );*/
+                return false;
+			});
+		</script>
+	</c:if>
+</jsp:root>

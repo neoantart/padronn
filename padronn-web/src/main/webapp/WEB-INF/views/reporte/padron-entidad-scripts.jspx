@@ -1,0 +1,216 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 23/08/13
+  Time: 05:36 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <script type='text/javascript'>
+        <![CDATA[
+        $(function(){
+            //entidades
+            $('#coEntidad').select2({
+                //multiple: true,
+                //data: data.entidades,
+                placeholder: 'Buscar entidad',
+                minimumInputLength: 2,
+                //allowClear: true,
+                ajax: {
+                    url: 'reporte/buscar_entidad.do',
+                    dataType: 'json',
+                    data: function (term, page) {
+                        return {
+                            deEntidad: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //return {results:data}
+                        return {results: data};
+                    }
+                },
+                formatResult: function (item) {
+                    if(item.text){
+                        return "<div>"+item.text+" (<em>"+item.children.length+" resultados</em>)</div>";
+                    }else{
+                        return '<div class="title"><strong>' + item.deLugar + '</strong> (Cod. Ubigeo ' + item.coUbigeo + ')</div>' +
+                                '<div class="body">' +
+                                '<div><strong>' + item.deUbigeo + '</strong></div>' +
+                                '</div>';
+                    }
+                },
+/*                formatResult: function (item) {
+                    return '<div class="title"><strong>' + item.deLugar + '</div></strong></div>';
+                },*/
+                formatSelection: function (item) {
+                    $('#deEntidad').val(item.deLugar);
+                    return item.deLugar;
+                },
+                id: function (object) {
+                    return object.coLugar;
+                },
+                initSelection: function (element, callback) {
+                    var codigo = $(element).val();
+                    //console.log(codigo);
+                    if (codigo !== "") {
+                        $.ajax("reporte/get_entidad.do", {
+                            data: {
+                                coEntidad: codigo
+                            },
+                            dataType: "json"
+                        }).done(function (res) {
+                                    var data = [];
+                                    data.push({coLugar: res.coLugar, deLugar: res.deLugar});
+                                    $('#s2id_coEntidad >a span').text(res.deLugar);
+                                    $('#deEntidad').val(res.deLugar);
+                                    //callback(data);
+                                });
+                    }
+                }
+            });
+            $('.select2-input').inputmask('nombre');
+
+            /*var nowTemp = new Date(),
+                    startDate,
+                    endDate;
+            if($('#feIni').val() != ''){
+                var split =$('#feIni').val().split('/');
+                startDate = new Date(parseInt(split[2]), parseInt(split[1])-1, split[0]);
+                $('#feIniText').text($('#feIni').val());
+            }
+            else
+                startDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+            if($('#feFin').val() != ''){
+                var split =$('#feFin').val().split('/');
+                endDate = new Date(parseInt(split[2]), parseInt(split[1])-1, parseInt(split[0]));
+                $('#feFinText').text($('#feFin').val());
+            }
+            else
+                endDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate());
+
+            $('#feIni-date').datepicker()
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() > endDate.valueOf()){
+                            $('#alert').show().find('strong').text('La Fecha Inicial no puede ser mayor que la fecha final');
+                        } else {
+                            $('#alert').hide();
+                            startDate = new Date(ev.date);
+                            $('#feIniText').text($('#feIni-date').data('date'));
+                            $('#feIni').val($('#feIni-date').data('date'));
+                        }
+                        $('#feIni-date').datepicker('hide');
+                    });
+
+            $('#feFin-date').datepicker()
+                    .on('changeDate', function(ev){
+                        if (ev.date.valueOf() < startDate.valueOf()){
+                            $('#alert').show().find('strong').text('La Fecha Final no puede ser menor que la fecha inicial');
+                        } else {
+                            $('#alert').hide();
+                            endDate = new Date(ev.date);
+                            $('#feFinText').text($('#feFin-date').data('date'));
+                            $('#feFin').val($('#feFin-date').data('date'));
+                        }
+                        $('#feFin-date').datepicker('hide');
+                    });*/
+
+
+            /*var feIniPicker = $('#feIni-date')
+                    .datepicker()
+                    .on('changeDate', function (ev) {
+                        if (ev.viewMode == 'days') {
+                            feIniPicker.hide();
+                            $('#feIni').change();
+                        }
+                    })
+                    .on('show', function(ev){
+                        var left=feIniPicker.picker.position().left-$('#feIniActa').width();
+                        feIniPicker.picker.css('left', left);
+                    })
+                    .data('datepicker');
+
+            var feFinPicker = $('#feFin-date')
+                    .datepicker()
+                    .on('changeDate', function (ev) {
+                        if (ev.viewMode == 'days') {
+                            feFinPicker.hide();
+                            $('#feFin').change();
+                        }
+                    })
+                    .on('show', function(ev){
+                        var left=feFinPicker.picker.position().left-$('#feFin').width();
+                        feFinPicker.picker.css('left', left);
+                    })
+                    .data('datepicker');
+
+            $("#feIni").inputmask('dd/mm/yyyy');
+            $("#feFin").inputmask('dd/mm/yyyy');*/
+
+           /* $('#feIni')
+                    .keypress(function(e){
+                        if (event.which == 13) {
+                            e.preventDefault();
+                        }
+                    })
+                    .datepicker({format: 'dd/mm/yyyy'})
+                    .on('changeDate', function(e){
+                        $('#feIni').datepicker('hide');
+                    })
+                    .inputmask("dd/mm/yyyy")
+
+
+            $('#feFin')
+                    .keypress(function(e){
+                        if (event.which == 13) {
+                            e.preventDefault();
+                        }
+                    })
+                    .datepicker({format: 'dd/mm/yyyy'})
+                    .on('changeDate', function(e){
+                        $('#feFin').datepicker('hide');
+                    })
+                    .inputmask("dd/mm/yyyy")*/
+
+
+
+
+            $('#reset').click(function(e){
+                e.preventDefault();
+                $('#coEntidad').val('');
+                $('#deEntidad').val('');
+                $('#feIni').val('');
+                $('#feFin').val('');
+                $('.alert').hide();
+
+                $('#s2id_coEntidad >a span').text('');
+            });
+
+           /* $('#esPadron')
+                    .hide()
+                    .after(
+                            $(document.createElement('input'))
+                                    .attr({type: "checkbox", checked: ($('#esPadron').val() == 1) ? true : false})
+                                    .change(function (e) {
+                                        if($('#esPadron').val() == ''){
+                                            $('#esPadron').val('0');
+                                        }
+                                        $('#esPadron').val(this.checked ? '1' : '0');
+                                    })
+                    );*/
+
+           var municipioReadOnly = '${municipioReadOnly}';
+           if (municipioReadOnly==='true'){
+               $('#s2id_coEntidad').hide();
+               $('#forCoEntidad')
+                   .find('span')
+                   .remove();
+               document.getElementById("coEntidad").parentNode.style.marginTop = "4px";
+           }
+        });
+        ]]>
+    </script>
+</jsp:root>

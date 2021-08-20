@@ -1,0 +1,71 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 09/08/13
+  Time: 09:49 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <c:choose>
+        <c:when test="${not empty usuariosList}">
+            <h4>Resultados de la busqueda</h4>
+            <table class="table table-bordered table-hover">
+                <thead class="table-header">
+                <!--u.de_email deEmail, u.es_usuario esUsuario, u.fe_last_login feLastLogin-->
+                <tr>
+                    <th>DNI</th>
+                    <th>Ap. Paterno</th>
+                    <th>Ap. Materno</th>
+                    <th>Nombres</th>
+                    <th>Email</th>
+                    <th>Estado</th>
+                    <th>Detalle</th>
+                    <!--<th>Ultimo acceso</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="usuario" items="${usuariosList}" varStatus="loop">
+                        <tr>
+                            <td>${usuario.coUsuario}</td>
+                            <td>${usuario.apPrimer}</td>
+                            <td>${usuario.apSegundo}</td>
+                            <td>${usuario.prenombres}</td>
+                            <td>${usuario.deEmail}</td>
+                            <c:choose>
+                                <c:when test="${fn:startsWith(usuario.esUsuario, '1')}">
+                                    <td class="text-success">Activo</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="text-error">Inactivo</td>
+                                </c:otherwise>
+                            </c:choose>
+                            <td>
+                                <!--<a class="btn btn-mini editar-usuario" data-toggle="tooltip" title="Editar usuario">
+                                    <i class="icon-th-list icon-white"></i>
+                                </a>-->
+                                <!--<a class="btn btn-mini btn-info" title="Editar usuario" href="signup/get_usuario.do?coUsuario=${usuario.coUsuario}#result-form-busqueda-nombres">
+                                    <i class="icon-th-list icon-white">&#32;</i>&#32;Detalle
+                                </a>-->
+                                <a class="btn btn-mini btn-info" title="Editar usuario" href="signup/get_usuario.do?coUsuario=${usuario.coUsuario}&amp;buscar=${buscar}&amp;resetear=${resetear}#mantenimiento-modulo-div">
+                                    <i class="icon-th-list icon-white">&#32;</i>&#32;Detalle
+                                </a>
+                            </td>
+                            <!--<c:choose>
+                                <c:when test="${not empty usuario.feLastLogin}">
+                                    <td><small><fmt:formatDate pattern="dd/MM/yy HH:mm" value="${usuario.feLastLogin}"/></small></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="text-error">No ingreso al sistema</td>
+                                </c:otherwise>
+                            </c:choose>-->
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-danger"><p>No existe usuario, <strong>intente nuevamente</strong></p></div>
+        </c:otherwise>
+    </c:choose>
+</jsp:root>

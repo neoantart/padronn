@@ -1,0 +1,111 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<div id="application-content">
+		<div class="row">
+
+			<h1>Cambio de Contraseña por Primer Ingreso a la Cuenta</h1>
+			<hr/>
+
+			<div class="span12">
+
+				<div class="row-fluid">
+
+					<c:choose>
+					<c:when test="${success}">
+						<div class="span8">
+							<div class="alert">
+								<p class="text-success">
+									Sr(a). ${cambioCredencial.fullName} (${cambioCredencial.coUsuario}), su contraseña ha sido actualizada.
+									<a href="${loginUrl}" class="noAjax" style="font-weight: bold;">Haga click aquí para redirigirse a la página de inicio...</a>
+								</p>
+							</div>
+						</div>
+					</c:when>
+
+					<c:otherwise>
+
+						<div class="span12">
+							<p>
+								Sr(a). ${cambioCredencial.fullName} (${cambioCredencial.coUsuario}), por ser la primera vez que ingresa a su cuenta es necesario:
+							</p>
+
+							<ul>
+								<li>Cambiar su contraseña (*)</li>
+								<ul>
+									<li><small>Esta pantalla también puede aparecer si se considera que la contraseña elegida no es lo suficientemente compleja.</small></li>
+								</ul>
+							</ul>
+
+							<form:form commandName="cambioCredencial" id="cambioCredencial" cssClass="form-horizontal" action="cambioCredencial.do" method="post">
+
+								<div class="row-fluid">
+									<div class="span6 offset1">
+
+										<form:hidden path="fullName" id="fullName"/>
+										<form:hidden path="coUsuario" id="coUsuario"/>
+
+										<div class="control-group">
+											<label class="control-label" for="dePassword" title="requerido">Contraseña actual <span class="text-error required" title="requerido">*</span></label>
+											<div class="controls">
+												<form:password path="dePassword" id="dePassword" placeholder="Contraseña actual" maxlength="20"/>
+												<span class="help-inline"><form:errors path="dePassword" cssClass="text-error"/></span>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="dePasswordNuevo" title="requerido">Nueva contraseña <span class="text-error required" title="requerido">*</span></label>
+											<div class="controls">
+												<form:password path="dePasswordNuevo" id="dePasswordNuevo" placeholder="Nueva contraseña" maxlength="20"/>
+												<!--<form:input path="dePasswordNuevo" id="dePasswordNuevo" placeholder="Nueva contraseña" maxlength="20"/>-->
+												<span class="help-inline"><form:errors path="dePasswordNuevo" cssClass="text-error"/></span>
+												<c:if test="${errorPassEqual}">
+												    <span class="help-inline"><span class="text-error">${errorPassEqualMessage}</span></span>
+												</c:if>
+
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="dePasswordNuevoRepetido" title="requerido">Repita la contraseña <span class="text-error required" title="requerido">*</span></label>
+											<div class="controls">
+												<form:password path="dePasswordNuevoRepetido" id="dePasswordNuevoRepetido" placeholder="Repita nueva contraseña" maxlength="20"/>
+												<!--<form:input path="dePasswordNuevoRepetido" id="dePasswordNuevoRepetido" placeholder="Repita nueva contraseña" maxlength="20"/>-->
+												<span class="help-inline"><form:errors path="dePasswordNuevoRepetido" cssClass="text-error"/></span>
+                                                <c:if test="${errorPassEqual}">
+                                                    <span class="help-inline"><span class="text-error">${errorPassEqualMessage}</span></span>
+                                                </c:if>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<div class="controls">
+												<button type="submit" class="btn btn-success"><i class="icon-ok icon-white">&amp;nbsp;</i> Guardar</button>&#160;&#160;
+												<a href="#" onclick="location.reload(true);" class="btn btn-danger"><i class="icon-remove icon-white">&amp;nbsp;</i> Cancelar</a>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							</form:form>
+
+							<div class="row-fluid">
+								<div class="span12">
+									<label>Reglas de Nueva Contraseña</label>
+									<ul>
+										<li>Debe tener entre 8 y 15 caracteres.</li>
+										<li>No debe tener caracteres o secuencias predecibles (1234, abcd, asdf, 1111, etc.)</li>
+									</ul>
+								</div>
+							</div>
+
+						</div>
+
+					</c:otherwise>
+					</c:choose>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</jsp:root>

@@ -1,0 +1,30 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jllamas
+  Date: 12/07/13
+  Time: 05:52 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:include page="actasform-scripts.jspx"/>
+    <h1>Acta de Verificación</h1>
+    <hr/>
+    <div class="span8">
+        (<strong class="text-error" title="requerido">*</strong>) Solo en Formato PDF
+    </div>
+
+    <div class="span12">
+        <div class="row-fluid">
+            <jsp:include page="actasform-upload.jspx"/>
+        </div>
+        <div class="row-fluid">
+            <div class="span12" id="precarga-modulo-div">
+                <!--Archivo subidos-->
+                <c:if test="${not empty uploadModulo}">
+                    <jsp:include page="actasform-upload-registros.jspx"/>
+                </c:if>
+            </div>
+        </div>
+    </div>
+</jsp:root>

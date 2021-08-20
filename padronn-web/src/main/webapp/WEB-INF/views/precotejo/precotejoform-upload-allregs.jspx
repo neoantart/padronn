@@ -1,0 +1,213 @@
+<!--
+ * Archivo precotejoform-upload.
+ * 
+ * @author lmamani[at]reniec.gob.pe 
+ *         lmiguelmh[at]gmail[dot]com 
+ * @since 16/05/13 05:13 PM
+ * @version 1.0.0
+-->
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<script type="text/javascript">
+		$(function(){
+			$(".btn-popover").popover();
+			$(".warning").hover(
+				function() {
+					$(this).find(".btn-popover").popover('show');
+				},function() {
+					$(this).find(".btn-popover").popover('hide');
+				}
+			);
+		});
+	</script>
+
+	<div class="row-fluid">
+    <div class="span9">
+        <h2 class="header smaller lighter blue">Detalle del Envío <strong>#<fmt:formatNumber type="number" pattern="00000" value="${nuEnvio}" /></strong></h2>
+    </div>
+    <div class="span3" style="margin-top: 15px;">
+			<a href="precotejo/registros.do?nuPagina=${nuPaginaAnterior}#precarga-modulo-div" class="btn"><i class="icon-arrow-left icon-white">&amp;nbsp;</i>&amp;nbsp;Volver a Listado</a>
+    </div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span12">
+			<!--<div class="well well-large" style="background-color: transparent; padding-top: 6px; padding-left: 6px; padding-right: 6px; padding-bottom: 6px;">-->
+				<table class="table table-bordered table-hover table-condensed" style="margin-bottom: 6px;">
+					<thead>
+					<tr>
+						<th style="width: 20px; text-align: center;">&#35;</th>
+						<th>Código</th>
+						<th>DNI</th>
+						<th>Primer Apellido</th>
+						<th>Segundo Apellido</th>
+						<th>Nombres</th>
+						<th>Nacimiento</th>
+						<!--
+						<th style="width: 20px; text-align: center;">*</th>
+						<th>Resultado</th>
+						-->
+						<th>Resultado</th>
+					</tr>
+					</thead>
+					<tbody>
+					<c:choose>
+
+						<c:when test="${empty precotejoCotejoRegistrosList}">
+							<tr>
+								<td colspan="9">No existen registros.</td>
+							</tr>
+						</c:when>
+
+						<c:otherwise>
+							<c:forEach var="registro" items="${precotejoCotejoRegistrosList}" varStatus="loop">
+								<c:set var="rowCss" value=""/>
+								<c:if test="${registro.esRegistro == '12'}">
+									<c:set var="rowCss" value="warning" />
+								</c:if>
+								<c:if test="${fn:startsWith(registro.esRegistro,'4')==true or fn:startsWith(registro.esRegistro,'5')==true}">
+									<c:set var="rowCss" value="error" />
+								</c:if>
+
+								<tr class="${rowCss}">
+									<td style="text-align: center;">${registro.nuRegistro}</td>
+									<!--https://lmamani.reniec.gob.pe:8443/padronn/registromanual/formulario.do?coPadronNominal=70000399-->
+									<!--<td><a href="registromanual/formulario.do?coPadronNominal=${precotejoRegistro.nuDniMenor}">${precotejoRegistro.nuDniMenor}</a></td>-->
+									<td style="text-align: center;">
+										<span><small>${registro.coPadronNominal}</small></span>
+									</td>
+									<td style="text-align: center;">
+										<span><small>${registro.nuDniMenor}</small></span>
+									</td>
+									<td>${registro.apPrimerMenor}</td>
+									<td>${registro.apSegundoMenor}</td>
+									<td>${registro.prenombreMenor}</td>
+									<td style="text-align: center;">
+										<small>${registro.feNacMenor}</small>
+									</td>
+									<!--
+									<td style="text-align: center;">
+										<c:if test="${registro.esRegistro!='12' and registro.esRegistro!='10'}">
+											<i class="icon-ok-sign">&amp;nbsp;</i>
+										</c:if>
+										<c:if test="${registro.esRegistro=='12'}">
+											&lt;!&ndash;<i class="icon-remove-circle">&amp;nbsp;</i>&ndash;&gt;
+											&lt;!&ndash;
+											<a href="#" title="${registro.deObservacion} no válido(s).">
+												<i class="icon-remove-circle">&amp;nbsp;</i>
+											</a>
+											&ndash;&gt;
+											&lt;!&ndash;
+											<a href="#" onclick="$(this).popover({placement:'bottom', html:'true', title:'', content: '${registro.deObservacion}'})" onmouseout="$(this).popover('hide')">
+												<i class="icon-remove-circle">&amp;nbsp;</i>
+											</a>
+											&ndash;&gt;
+											<a href="#" class="btn-popover" rel="popover" data-content="${registro.deObservacion}${fn:length(registro.deObservacion)>=499?'...':''}" data-original-title="Observaciones" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true">
+												<i class="icon-remove-circle">&amp;nbsp;</i>
+											</a>
+										</c:if>
+									</td>
+									-->
+									<td>
+
+										<c:choose>
+
+											<c:when test="${fn:startsWith(registro.esRegistro,'1')==true}">
+
+												<c:if test="${registro.esRegistro=='12'}">
+													<a href="precotejo/precotejoregobs.do?nuEnvio=${registro.nuEnvio}&amp;nuPagina=${nuPagina}&amp;nuRegistro=${registro.nuRegistro}#precarga-modulo-div" class="btn btn-mini btn-yellow btn-popover" rel="popover" data-content="${registro.deObservacion}${fn:length(registro.deObservacion)>=499?'...':''}" data-original-title="Observaciones" data-toggle="popover" data-placement="left" data-trigger="click" data-html="true">
+														<!--<i class="icon-remove-circle">&amp;nbsp;</i>-->
+														Error de Validación
+													</a>
+												</c:if>
+
+											</c:when>
+
+											<!-- todo obtener los códigos del properties -->
+											<c:when test="${fn:startsWith(registro.esRegistro,'2')==true}">
+
+												<a href="registromanual/detalle.do?codigo=${registro.coPadronNominal}&amp;nuEnvio=${nuEnvio}&amp;nuPagina=${nuPagina}#precarga-modulo-div" class="btn btn-mini btn-success" title="Ver Registro Actualizado">
+													<!--<i class="icon-white icon-info-sign">&amp;nbsp;</i> -->
+													Actualizado correctamente
+												</a>
+
+												<!--
+												&lt;!&ndash;<a href="#" class="btn btn-small tooltip-btn" style="font-family:monospace;" data-toggle="tooltip" title="Ver registro del menor"><i class="icon-ok-sign">&amp;nbsp;</i>&amp;nbsp;Actualizado</a>&ndash;&gt;
+												<a href="registromanual/formulario.do?coPadronNominal=${registro.coPadronNominal}" class="btn btn-mini btn-success tooltip-btn" style=";" data-toggle="tooltip" title="Ver registro del menor" data-content="REGISTRO ACTUALIZADO CORRECTAMENTE EN EL Padrón Nominal" data-trigger="tooltip" data-position="w">
+													&lt;!&ndash;<i class="icon-white icon-info-sign">&amp;nbsp;</i>&amp;nbsp;&ndash;&gt;&lt;!&ndash;&amp;nbsp;&ndash;&gt;Actualizado
+												</a>
+												-->
+											</c:when>
+
+											<c:when test="${fn:startsWith(registro.esRegistro,'3')==true}">
+
+												<a href="registromanual/detalle.do?codigo=${registro.coPadronNominal}&amp;nuEnvio=${nuEnvio}&amp;nuPagina=${nuPagina}#precarga-modulo-div" class="btn btn-mini btn-success" title="Ver Registro Insertado">
+													<!--<i class="icon-white icon-info-sign">&amp;nbsp;</i> -->
+													Insertado correctamente
+												</a>
+
+												<!--
+												&lt;!&ndash;<i class="icon-ok-sign">&amp;nbsp;</i>&ndash;&gt;
+												&lt;!&ndash;<a title="Ver registro del menor" data-toggle="tooltip" style="font-family:monospace;" class="btn btn-mini btn-success tooltip-btn" href="#">Insertado <i class="icon-white icon-info-sign">&nbsp;</i></a>&ndash;&gt;
+												<a href="registromanual/formulario.do?coPadronNominal=${registro.coPadronNominal}" class="btn btn-mini btn-success tooltip-btn" data-toggle="tooltip" title="Ver registro del menor" data-trigger="tooltip" data-content="REGISTRO INSERTADO CORRECTAMENTE EN EL Padrón Nominal" data-position="w">
+													&lt;!&ndash;<i class="icon-white icon-info-sign">&amp;nbsp;</i>&ndash;&gt;Registrado
+												</a>
+												-->
+											</c:when>
+
+											<c:when test="${fn:startsWith(registro.esRegistro,'4')==true or fn:startsWith(registro.esRegistro,'5')==true}">
+
+												<a href="precotejo/cotejoregobs.do?nuEnvio=${registro.nuEnvio}&amp;nuPagina=${nuPagina}&amp;nuRegistro=${registro.nuRegistro}#precarga-modulo-div" class="btn btn-mini btn-danger" title="${registro.deObservacion}">
+													<!--<i class="icon-white icon-remove-circle">&amp;nbsp;</i> -->
+													Error de Cotejo
+												</a>
+
+												<!--
+												&lt;!&ndash;<i class="icon-remove-circle">&amp;nbsp;</i>&amp;nbsp;Error&ndash;&gt;
+												&lt;!&ndash;<a href="#" class="btn btn-mini btn-danger tooltip-btn" data-toggle="tooltip" title="${registro.deObservacion}">&ndash;&gt;
+												<a href="precotejo/observacion_precotejo_registro.do?coEntidad=${registro.coEntidad}&amp;nuEnvio=${registro.nuEnvio}&amp;nuRegistro=${registro.nuRegistro}" class="btn btn-mini btn-danger tooltip-btn" data-toggle="tooltip" title="${registro.deObservacion}" data-content="${registro.deObservacion}" data-trigger="tooltip" data-position="w">
+													&lt;!&ndash;<i class="icon-white icon-remove-circle"></i>&amp;nbsp;&ndash;&gt;&lt;!&ndash;&amp;nbsp;&ndash;&gt;Error
+												</a>
+												-->
+											</c:when>
+
+											<c:otherwise>
+												&amp;nbsp;
+											</c:otherwise>
+										</c:choose>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+
+					</c:choose>
+					</tbody>
+				</table>
+
+				<div class="row-fluid" style="margin-bottom: 5px;">
+					<div class="span5 pull-left" style="font-size: small;">
+						<div class="btn-group dropup">
+							<a data-toggle="dropdown" class="btn btn-small btn-info dropdown-toggle" title="Filtrar Resultados" style="border-width: 4px!important; padding-left: 5px!important; padding-right: 5px!important;"><i class="icon-zoom-in">&amp;nbsp;</i> Filtrar Registros</a>
+							<ul class="dropdown-menu">
+								<li><a href="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=1&amp;tipoRegistro=0#precarga-modulo-div" class="text-success">... todos</a></li>
+								<li><a href="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=1&amp;tipoRegistro=1#precarga-modulo-div" class="text-success">... sólo correctos</a></li>
+								<li><a href="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=1&amp;tipoRegistro=2#precarga-modulo-div" class="text-warning">... sólo errores de validación</a></li>
+								<li><a href="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=1&amp;tipoRegistro=3#precarga-modulo-div" class="text-error">... sólo errores de cotejo</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="pull-right" style="font-size: small;">
+						<!--<a href="precotejo/precotejoobs.do?nuEnvio=${nuEnvio}" class="btn btn-small btn-yellow noAjax" style="padding-left: 5px; padding-right: 5px;" title="Descargar Observaciones"><i class="icon-download-alt">&amp;nbsp;</i> Descargar Observados</a>-->
+						<a href="precotejo/allobs.do?nuEnvio=${nuEnvio}" class="btn btn-small btn-yellow noAjax" style="padding-left: 5px; padding-right: 5px;" title="Descargar Observaciones"><i class="icon-download-alt">&amp;nbsp;</i> Descargar Observados</a>
+					</div>
+				</div>
+
+			<!--</div>-->
+		</div>
+	</div>
+
+	<util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="precotejo/allregs.do?nuEnvio=${nuEnvio}&amp;nuPagina=" urlDespuesNuPagina="&amp;tipoRegistro=${tipoRegistro}#precarga-modulo-div"/>
+
+</jsp:root>

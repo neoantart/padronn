@@ -1,0 +1,97 @@
+<!--
+ * Archivo precotejoform-upload.
+ *
+ * @author lmamani[at]reniec.gob.pe
+ *         lmiguelmh[at]gmail[dot]com
+ * @since 02/08/13 04:15 PM
+ * @version 1.0.0
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+	<!--
+	<div class="row-fluid">
+		<div class="span6">
+	-->
+
+			<h4>Información Adicional del Niño/a</h4>
+			<hr/>
+
+			<spring:bind path="precotejoRegistro.coEstSalud">
+				<c:if test="${status.error}">
+					<c:set var="errorCoEstSalud" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorCoEstSalud}">
+				<label for="coEstSalud" class="control-label" title="requerido" style="width: auto;">Establecimiento de Salud <span class="text-error required" title="requerido">*</span></label>
+				<!--<div class="controls">-->
+					<span class="span6">&#160;</span>
+					<form:hidden path="coEstSalud" id="coEstSalud" class="span11"/>
+					<!--<span data-trigger="tooltip" data-content="Ingrese el nombre del establecimiento de salud, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info">?</span>-->
+					<form:errors path="coEstSalud" cssClass="text-error select2-text-error" element="div"/>
+					<!--&#160;<util:btn-restablecer selector="#coEstSalud" val="${precotejoRegistro.coEstSalud}"/>-->
+				<!--</div>-->
+			</div>
+
+			<spring:bind path="precotejoRegistro.tiSeguroMenor">
+				<c:if test="${status.error}">
+					<c:set var="errorTiSeguroMenor" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorTiSeguroMenor}">
+				<label for="tiSeguroMenor" class="control-label" title="requerido" style="width: auto;">Tipo de Seguro <span class="text-error required" title="requerido">*</span></label>
+				<!--<div class="controls">-->
+					<span class="span6">&#160;</span>
+					<form:select path="tiSeguroMenor" id="tiSeguroMenor" cssClass="span11">
+						<form:option value="" label="Seleccione..."/>
+						<form:options itemLabel="deDom" itemValue="coDominio" items="${tipoSeguroItems}"/>
+					</form:select>
+					<form:errors path="tiSeguroMenor" cssClass="text-error" element="div"/>
+					<!--&#160;<util:btn-restablecer selector="#tiSeguroMenor" val="${precotejoRegistro.tiSeguroMenor}"/>-->
+				<!--</div>-->
+			</div>
+
+			<!-- este caso es especial porque en la base de datos se almacena un string separado por comas -->
+			<spring:bind path="precotejoRegistro.tiProSocialList">
+				<c:if test="${status.error}">
+					<c:set var="errorTiProSocialList" value="error"/>
+				</c:if>
+			</spring:bind>
+			<spring:bind path="precotejoRegistro.tiProSocial">
+				<c:if test="${status.error}">
+					<c:set var="errorTiProSocialList" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorTiProSocialList}">
+				<label for="tiProSocialList">Programas Sociales</label>
+				<!--<span class="span6">&#160;</span>-->
+				<form:select path="tiProSocialList" id="tiProSocialList" cssClass="span11 selectpicker bootstrap-select" multiple="multiple" data-selected-text-format="count>5" title="Seleccione...">
+					<form:options itemLabel="deDom" itemValue="coDominio" items="${tipoProgramaSocialItems}"/>
+				</form:select>
+				<!--<span data-trigger="tooltip" data-content="Seleccione uno o mas programas sociales a los cuales pertenece el menor" data-position="sw" class="label label-info">?</span>-->
+				<form:errors path="tiProSocialList" cssClass="text-error" element="div"/>
+				<!--&#160;<util:btn-restablecer selector="#tiProSocialList" val="${precotejoRegistro.tiProSocial}"/>-->
+			</div>
+
+			<spring:bind path="precotejoRegistro.coInstEducativa">
+				<c:if test="${status.error}">
+					<c:set var="errorCoInstEducativa" value="error"/>
+				</c:if>
+			</spring:bind>
+			<div class="control-group ${errorCoInstEducativa}">
+				<label for="coInstEducativa">Institución Educativa</label>
+				<!--<div class="controls">-->
+					<!--<span class="span6">&#160;</span>-->
+					<form:hidden path="coInstEducativa" id="coInstEducativa" class="span11"/>
+					<!--<span data-trigger="tooltip" data-content="Ingrese el nombre de la institución educativa, o el nombre del departamento, o el nombre de la provincia o el nombre del distrito al que pertenece" data-position="sw" class="label label-info">?</span>-->
+					<form:errors path="coInstEducativa" cssClass="text-error select2-text-error" element="div"/>
+					<!--&#160;<util:btn-restablecer selector="#coInstEducativa" val="${precotejoRegistro.coInstEducativa}"/>-->
+				<!--</div>-->
+			</div>
+
+	<!--
+		</div>
+	</div>
+	-->
+
+</jsp:root>

@@ -1,0 +1,139 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: aquispej
+  Date: 20/11/2018
+  Time: 02:06 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" version="2.0" xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:output doctype-root-element="HTML" doctype-system=""/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div class="row" style="text-align:left;">
+        <h4>Bienvenido(a) ${usuario.fullName}</h4>
+    </div>
+    <div class="row-fluid">
+        <div class="span5">
+            <c:choose>
+                <c:when test="${not empty entidades}">
+                    <form  class="form-signin" id="form-signin" action="loginLast.do#wrap" method="post" autocomplete="off">
+                    <!--<form  class="noAjax form-signin" id="form-signin" action="loginLast.do" method="post" autocomplete="off">-->
+                        <div class="control-group error">
+                            <c:if test="${errorMessage!=null or not empty errorMessage}">
+                                <div class="alert alert-error" style="padding: 5px;">
+                                    <p class="text-error" style="font-size:13px; margin-bottom:0px;">
+                                        ${errorMessage}
+                                    </p>
+                                </div>
+                            </c:if>
+
+                            <label class="control-label" style="margin-bottom:20px; margin-top:20px; color:#333333;" for="entidad">Seleccione la entidad a la que desea ingresar.</label>
+                            <div class="controls">
+                                <util:simpleSelect selectorId="entidad" selectorName="entidad" selectorClass="input-block-level"
+                                                   textoPorDefecto="Seleccione una entidad ..." valorPorDefecto="0"
+                                                   items="${entidades}" nombreVarItem="deEntidad" nombreVarValue="coEntidad"/>
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="span5">
+                                <button class="btn btn-primary input-block-level" type="submit">
+                                    <span class="icon-ok-sign icon-white"><!-- --></span>&#160;Continuar
+                                </button>
+                            </div>
+                            <div class="span5 offset1">
+                                <a class="btn btn-primary btn-danger"
+                                   href="logout.do#wrap"><span class="icon-remove-sign icon-white"><!-- --></span>&#160;Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    </form>
+                </c:when>
+                <c:otherwise>
+
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+    <c:if test="${usuario.reload}">
+        <script>
+            location.reload();
+        </script>
+    </c:if>
+    <script type="text/javascript">
+        function Session(){}
+        Session.prototype.init = function () {
+            Timeout();
+            document.addEventListener('touchstart', Timeout, false);
+            document.addEventListener('click', Timeout, false);
+            document.addEventListener('keypress', Timeout, false);
+
+            function _timeout() {
+                return function () {
+                    $.ajax({
+                        url: 'close_window.do',
+                        type: 'POST',
+                        success: function (rpta) {
+                            var urlApp = window.location.href;
+                            if (urlApp.charAt(urlApp.length - 1) != "/") {
+                                urlApp = urlApp + "/";
+                            }
+
+                            alert('Su sesión expiró, vuelva a ingresar nuevamente al sistema.');
+                            window.location.href = urlApp;
+                        },
+                        error: function () {
+                            console.log('Error');
+                        }
+                    });
+                }
+            }
+
+            function Timeout() {
+                //console.log('inside goTimeout()');
+                if (typeof(timer) != 'undefined') {
+                    timer = clearTimeout(timer);
+                }
+                timer = setTimeout(_timeout(), 1800000);//30 minutos
+                //timer = setTimeout(_timeout(), 9000);//7 segundos
+            }
+        }
+        var sessionTimeout = new Session();
+        sessionTimeout.init();
+
+        /*function checkEntidad(){
+            $('#entidad').on('change', function(e) {
+                return  this.value!='0';
+            });
+        }
+
+        var formEntity = {
+            sendEntity:function(e){
+                var entidad = $('#entidad').val();
+                if(entidad=='0'){
+                    alert('Seleccione una entidad');
+                    e.preventDefault();
+                    return false;
+                }else{
+                    $('#form-signin').ajaxSubmit({
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        type: 'post',
+                        beforeSubmit: function(){},
+                        success: function (result) {
+                            $('#wrap').html(result);
+                        }
+                    });
+                }
+            },
+            closeSession: function(){
+
+            }
+        }
+
+        $('#sendEntity').click(function(){
+           formEntity.sendEntity();
+        });
+*/
+    </script>
+
+</jsp:root>

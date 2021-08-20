@@ -1,0 +1,216 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: JFLORESH
+  Date: 01/02/14
+  Time: 12:19 PM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1><span class="icon-book"></span>&#160;Por&#160;europan</h1>
+<!--            <h1  class="icon-book">&#160;&#160;&#160;Por&#160;europan</h1><br/>-->
+            <span class="ml0_left">Los campos con asterisco <span class="text-error required">(*)</span> son obligatorios y deben llenarse</span>
+        </div>
+        <div class="pull-right">
+            <a href="reporte/reporte_panel.do" class="btn button-back"><i
+                    class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span>Formulario de consulta de menores activos</span>
+                </div>
+                <form:form action="reporte/consulta_reporte_europan.do" modelAttribute="reporteEuropan" method="get"
+                           cssClass="form-horizontal">
+
+                    <div class="panel-body">
+                        <div class="alert alert-block">
+                            <ul>
+                                <li>Para seleccionar todos los distritos de EUROPAN seleccione
+                                    <strong>TODOS LOS DISTRITOS DE EUROPAN</strong></li>
+                                <li>Descargar listado de los distritos de EUROPAN <a id="listDistritosDownload"
+                                        href="${localResourcesURL}/static_files/120_distritos_europan.xlsx"
+                                        class="btn-small noAjax" download=""><span
+                                        class="icon-download "></span>&#160;Descargar listado</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <form:errors path="*" element="div" cssClass="alert alert-error"/>
+
+                        <spring:bind path="reporteEuropan.entidades">
+                            <c:if test="${status.error}">
+                                <c:set var="entidadesError" value="has-error"/>
+                            </c:if>
+                        </spring:bind>
+
+                        <div class="control-group ${entidadesError}" style="margin-bottom: 20px">
+                            <label for="entidades" class="control-label">Distritos EUROPAN <span title="requerido"
+                                                                                                 class="text-error required">*</span></label>
+
+                            <div class="controls clearfix">
+                                <div class="span7">
+                                    <form:input path="entidades" id="entidades" cssStyle="width: 500px;"/>
+                                    <form:errors path="entidades" cssClass="text-error clearfix" element="div"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Tipo de registro: <span title="requerido" class="text-error required">*</span></label>
+                            <div class="controls">
+                                <form:select path="tiRegFecha" id="tiRegFecha" cssClass="span2" cssStyle="margin-left: 20px;">
+                                    <form:option value="" label="Seleccione..." />
+                                    <form:option value="T" label="Todos" />
+                                    <form:option value="N" label="Nuevo" />
+                                    <form:option value="U" label="Actualizado"/>
+                                </form:select>
+                                <form:errors path="tiRegFecha" cssClass="text-error " element="div" cssStyle="margin-left: 20px;"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group clearfix" style="margin-bottom: 20px;">
+                            <label class="control-label" style="margin-top: 18px;">Periodo de registro: <span
+                                    title="requerido" class="text-error required">*</span></label>
+
+                            <div class="controls">
+                                <div class="span3">
+                                    <span class="text-info">Fecha inicial</span><br/>
+
+                                    <div class="input-append">
+                                        <form:input path="feIni" id="feIni" cssStyle="width: 150px;"/>
+                                        <button id="feIniButton" type="button" class="btn" data-date=""
+                                                data-date-format="dd/mm/yyyy"><i
+                                                class="icon-calendar icon-white"><!-- --></i>&#160;</button>
+                                    </div>
+                                    <form:errors path="feIni" cssClass="text-error " element="div"/>
+                                </div>
+                                <div class="span3">
+                                    <span class="text-info">Fecha final</span><br/>
+
+                                    <div class="input-append">
+                                        <form:input path="feFin" id="feFin" cssStyle="width: 150px;"/>
+                                        <button id="feFinButton" type="button" class="btn" data-date=""
+                                                data-date-format="dd/mm/yyyy"><i
+                                                class="icon-calendar icon-white"><!-- --></i>&#160;</button>
+                                    </div>
+                                    <form:errors path="feFin" cssClass="text-error " element="div"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Rango de edades <span title="requerido" class="text-error required">*</span></label>
+
+                            <div class="controls">
+                                <div class="span2">
+                                    <span class="text-info">De:</span>
+                                    <form:select path="deEdad" id="deEdad" cssClass="span2">
+                                        <form:option value="" label="Años"/>
+                                        <form:options items="${edadAnios}"/>
+                                    </form:select>
+                                    <form:errors path="deEdad" cssClass="text-error" element="div"/>
+                                </div>
+                                &#160;&#160;
+                                <div class="span2">
+                                    <span class="text-info">Hasta</span>
+                                    <form:select path="hastaEdad" id="hastaEdad" cssClass="span2">
+                                        <form:option value="" label="Años"/>
+                                        <form:options items="${edadAnios}"/>
+                                    </form:select>
+                                    <form:errors path="hastaEdad" cssClass="text-error" element="div"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i>Consultar
+                            </button>
+                            &#160;&#160;
+                            <a href="reporte/reporte_europan.do" class="btn"><span class="icon-trash icon-white"></span>&#160;Limpiar</a>
+                            &#160;&#160;
+                            <a class="btn btn-danger" href="reporte/reporte_panel.do"><i
+                                    class="icon-remove icon-white"></i>&#160;Cerrar</a>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+
+
+    <c:choose>
+        <c:when test="${not empty totalDistritos}">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="page-header" style="margin-bottom: 15px">
+                        <h2 style="font-size: 19px; margin-bottom: 0">Resultados de consulta por Europan del <code style="font-size: 18px;">${reporteEuropan.feIni}</code> al <code style="font-size: 18px;"> ${reporteEuropan.feFin}</code></h2>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <p><span
+                            class="label label-info">Ver detalle de los registros a través de la opción Descargar</span>
+                    </p>
+                    <div class="alert">
+
+                        <p><strong>Descargar reporte en formato Excel.</strong>&#160;&#160;&#160;<a
+                                href="reporte/padron_total_distritos_europan_xls.do?entidades=${reporteEuropan.sEntidades}&amp;feIni=${reporteEuropan.feIni}&amp;feFin=${reporteEuropan.feFin}&amp;deEdad=${reporteEuropan.deEdad}&amp;hastaEdad=${reporteEuropan.hastaEdad}&amp;tiRegFecha=${reporteEuropan.tiRegFecha}"
+                                class="noAjax btn btn-success"><i
+                                class="icon-download icon-white">&#160;</i>Descargar consolidado</a>&#160;&#160;
+                            <c:if test="${filas gt 1}"><c:set value="s" var="plural"></c:set></c:if>
+                            <span class="p_numRegFound">Se encontró <strong><span class="s_size14">${filas}</span></strong> Registro${plural}</span></p>
+
+                    </div>
+                    <table class="table table-striped table-condensed table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Nro</th>
+                            <th>Cod. ubigeo</th>
+                            <th>Departamento</th>
+                            <th>Provincia</th>
+                            <th>Distrito</th>
+                            <th>Sin dni</th>
+                            <th>Con dni</th>
+                            <th>Total</th>
+                            <th>Descargar listado</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${totalDistritos}" var="totalDistrito" varStatus="item">
+                            <tr>
+                                <td>${item.count}</td>
+                                <td>${totalDistrito.coUbigeoInei}</td>
+                                <td>${totalDistrito.deDepartamento}</td>
+                                <td>${totalDistrito.deProvincia}</td>
+                                <td>${totalDistrito.deDistrito}</td>
+                                <td>${totalDistrito.nuSinDni}</td>
+                                <td>${totalDistrito.nuConDni}</td>
+                                <td>${totalDistrito.nuTotal}</td>
+                                <td>
+                                    <a href="reporte/padron_europan_xls.do?coUbigeoInei=${totalDistrito.coUbigeoInei}&amp;feIni=${reporteEuropan.feIni}&amp;feFin=${reporteEuropan.feFin}&amp;deEdad=${reporteEuropan.deEdad}&amp;hastaEdad=${reporteEuropan.hastaEdad}&amp;tiRegFecha=${reporteEuropan.tiRegFecha}"
+                                       class="noAjax btn btn-small btn-success"><span
+                                            class="icon-download icon-white"></span>&#160;Descargar</a></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </c:when>
+    </c:choose>
+
+    <jsp:include page="consulta_europan_script.jspx"/>
+    <jsp:include page="fechas_periodo_script.jspx"/>
+</jsp:root>

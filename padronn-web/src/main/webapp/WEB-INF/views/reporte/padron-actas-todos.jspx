@@ -1,0 +1,208 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 19/08/13
+  Time: 12:00 PM
+  To change this template use File | Settings | File Templates.
+-->
+
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="row-fluid">
+        <div class="span12">
+
+            <div class="page-header clearfix">
+                <div class="pull-left">
+                    <h1><span class="icon-certificate"></span>&#160;Total&#160;actas&#160;enviadas</h1>
+<!--                    <h1  class="icon-certificate">&#160;&#160;&#160;Total&#160;actas&#160;enviadas.</h1><br/>-->
+                    <span class="ml0_left">Los campos con asterisco <span class="text-error required">(*)</span> son obligatorios y deben llenarse</span>
+                </div>
+                <div class="pull-right">
+                    <a href="reporte/reporte_panel.do" class="btn button-back"><i
+                            class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span>Formulario de consulta</span>
+                </div>
+
+                <form:form action="reporte/consulta_padron_actas_todos.do" method="get" class="form-horizontal"
+                           modelAttribute="reportePadronActasTodos">
+                    <div class="panel-body">
+                        <!--<div class="alert no-remove">
+                            Ingresar y/o seleccionar el rango de fechas, de la siguiente forma:
+                            <strong>01/02/2010  hasta  31/03/2013 </strong><br/>
+                        </div>-->
+                    <!--<form:errors path="*" element="div" cssClass="alert alert-error"/>-->
+                    <div class="control-group" style="margin-bottom: 20px;">
+                        <label class="control-label" id="forCoUbigeo" title="requerido">Ubigeo: <!--<span title="requerido"
+                                                                                                      class="text-error required">*</span>--></label>
+
+                        <div class="controls">
+                            <div class="span6 clearfix">
+                                <c:choose>
+                                    <c:when test="${ubigeoReadOnly}">
+                                        ${deUbigeoReadOnly}
+                                        <form:hidden path="coUbigeo" value="${coUbigeoReadOnly}" id="coUbigeo" cssStyle="width: 400px;"/>
+                                        <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form:input path="coUbigeo" id="coUbigeo" cssStyle="width: 400px;"/>
+                                        <form:errors path="coUbigeo" cssClass="text-error clearfix" element="div"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group clearfix" style="margin-bottom: 20px;">
+                        <label class="control-label" style="margin-top: 18px;">Periodo de envíos: <span
+                                title="requerido" class="text-error required">*</span></label>
+
+                        <div class="controls">
+                            <div class="span4">
+                                <span class="text-info">Fecha inicial</span><br/>
+
+                                <div class="input-append">
+                                    <form:input path="feIni" id="feIni" cssStyle="width: 150px;"/>
+                                    <button id="feIniButton" type="button" class="btn" data-date=""
+                                            data-date-format="dd/mm/yyyy"><i
+                                            class="icon-calendar icon-white"><!-- --></i>&#160;
+                                    </button>
+                                </div>
+                                <form:errors path="feIni" cssClass="text-error " element="div"/>
+                            </div>
+                            <div class="span4">
+                                <span class="text-info">Fecha final</span><br/>
+
+                                <div class="input-append">
+                                    <form:input path="feFin" id="feFin" cssStyle="width: 150px;"/>
+                                    <button id="feFinButton" type="button" class="btn" data-date=""
+                                            data-date-format="dd/mm/yyyy"><i
+                                            class="icon-calendar icon-white"><!-- --></i>&#160;
+                                    </button>
+                                </div>
+                                <form:errors path="feFin" cssClass="text-error " element="div"/>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="panel-footer clearfix">
+                        <div class="pull-right">
+                            <button class="btn btn-success" id="submit" value="Consultar" type="submit">
+                                <i class="icon-ok icon-white">&#160;</i>Consultar
+                            </button>
+                            &#160;&#160;
+                            <a href="minsa_reporte/padron_actas_todos.do" class="btn"><span class="icon-trash icon-white"></span>&#160;Limpiar</a>
+                            &#160;&#160;
+                            <a href="reporte/reporte_panel.do" class="btn btn-danger"><i
+                                    class="icon-remove icon-white"></i>&#160;Cerrar</a>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+
+    <c:if test="${not empty feIni and not empty feFin }">
+
+        <c:choose>
+            <c:when test="${not empty actas}">
+                <div id="resultadoReporteActas">
+                    <h2 style="font-size: 19px;">Resultado del total de actas enviadas del <code style="font-size: 18px;">${feIni}</code> al <code style="font-size: 18px;">${feFin}</code></h2>
+                    <br/>
+
+                    <div class="alert">
+                        <!--<div>Número de registros encontrados: <strong>${filas}</strong></div>-->
+                        <p><strong>Descargar reporte en formato Excel : <a href="reporte/consula_padron_actas_todos_xls.do?coUbigeo=${coUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}"
+                                class="noAjax btn btn-success"><i class="icon-download icon-white"></i>&#160;Descargar</a></strong>&#160;&#160;
+                            <c:if test="${filas gt 1}"><c:set value="s" var="plural"></c:set></c:if>
+                            <span class="p_numRegFound">Se encontró <strong><span class="s_size14">${filas}</span></strong> Registro${plural}</span>
+                        </p>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <c:choose>
+                                <c:when test="${not empty actas}">
+                                    <table  class="table" >
+                                        <thead>
+                                        <tr>
+                                            <!--<th style="width: 50px;">Código</th>-->
+                                            <th>#</th>
+                                            <th style="width: 200px;">Periodo de envío</th>
+                                            <th style="width: 120px">Fecha de subida</th>
+                                            <th>Usuario</th>
+                                            <th>Entidad</th>
+                                            <!--<th>Archivos subidos</th>-->
+                                            <th>Detalle</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!--<c:forEach items="${actas}" var="acta">-->
+                                        <c:set var="count" value="${contador}" scope="page"/>
+                                        <c:forEach items="${actas}" var="acta" varStatus="actaLoop">
+                                            <tr>
+                                                <td>${count}</td>
+                                                <c:set var="count" value="${count + 1}" scope="page"/>
+
+                                                <!--<td>${acta.coActa}</td>-->
+                                                <!--<fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feIni}" var="feIniDate" />
+                                                <fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feFin}" var="feFinDate" />-->
+                                                <td><span class="text-info"> Del ${acta.feIni} al ${acta.feFin} </span>
+                                                </td>
+                                                <!--<fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feCreaAudi}" var="feCreaAudiDate" />-->
+                                                <td>${acta.feCreaAudi}</td>
+                                                <td>${acta.apPrimer} ${acta.apSegundo}, ${acta.prenombres}
+                                                    <br/> (DNI: ${acta.usCreaAudi})
+                                                </td>
+                                                <td>${acta.deEntidad}</td>
+                                                <!--                                            <td>
+                                                                                                <c:forEach items="${acta.actaArchivos}" var="actaArchivo">
+                                                                                                    <a class="noAjax" href="actas/download.do?coActaArchivo=${actaArchivo.coActaArchivo}">
+                                                                                                    <span class="badge badge-info" style="margin-right: 5px;">
+                                                                                                        <i class="icon-file icon-white"></i>&#160;${actaArchivo.noActaArchivo}
+                                                                                                    </span>
+                                                                                                    </a>
+                                                                                                </c:forEach>
+                                                                                            </td>-->
+                                                <td>
+                                                    <a href="reporte/acta_detalle.do?coActa=${acta.coActa}&amp;volver=1&amp;nuPagina=${nuPagina}&amp;coEntidad=${coEntidad}&amp;feIni=${feIni}&amp;feFin=${feFin}&amp;enlace=consulta_padron_actas_todos.do"
+                                                       class="btn btn-mini"><i
+                                                            class="icon-file icon-white">&#160;</i></a>&#160;
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                    <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}"
+                                                    urlAntesNuPagina="reporte/consulta_padron_actas_todos.do?nuPagina="
+                                                    urlDespuesNuPagina="&amp;coUbigeo=${coUbigeo}&amp;feIni=${feIni}&amp;feFin=${feFin}"></util:paginador>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="alert alert-info">No existen actas registradas en periodo seleccionado</div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="clearfix"></div>
+                <div class="alert alert-danger"><strong>No existen registros</strong> para la consulta realizada.</div>
+<!--                <div class="alert alert-danger">No hay registros.</div>-->
+            </c:otherwise>
+        </c:choose>
+
+    </c:if>
+
+    <jsp:include page="padron_ubigeo_scripts.jspx"/>
+    <jsp:include page="padron-actas-scripts.jspx"/>
+    <jsp:include page="fechas_periodo_script.jspx"/>
+</jsp:root>

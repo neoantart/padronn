@@ -1,0 +1,158 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+		xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<div id="ficha-confirmacion">
+		<script type="text/javascript">
+			$(function(){
+				RegistroManual.mostrarFichaConfirmacion();
+			});
+		</script>
+		<h1>Confirmar Información de Niño/a</h1>
+		<hr/>
+
+		<div class="row-fluid">
+			<div class="span10 offset1">
+				<div class="alert alert-block" style="padding-right: 14px;">
+					<c:if test="${empty personaListCoincidencias}">
+						<!--<h2>Confirmar  Información de Menor</h2>-->
+						<form action="registromanual/guardarconfirmado.do" style="margin-bottom: 0px;" method="post">
+						<h4>
+							<span>Antes de confirmar debe verificar lo siguiente:</span>
+<!--
+							<a href="#" class="btn btn-medium btn-danger pull-right" onclick="RegistroManual.corregirInformacion()"><span class="icon icon-remove icon-white">&#160;</span> Corregir</a>
+							&lt;!&ndash;<a href="registromanual/guardarconfirmado.do" class="btn btn-medium btn-warning pull-right" style="margin-right: 10px;"><span class="icon-ok icon-white"></span> Confirmar</a>&ndash;&gt;
+							<button class="btn btn-medium btn-success pull-right" style="margin-right: 10px;"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>
+-->
+						</h4>
+						<!--<p style="margin-bottom: 0px;margin-top: 10px">
+							&lt;!&ndash;<label class="checkbox"><input type="checkbox"/>&ndash;&gt;
+							La información ingresada corresponde a un niño/a que <strong>NO TIENE NINGÚN REGISTRO</strong>
+							en la base de datos del <strong>PADRÓN NOMINAL</strong> ni del <strong>RENIEC</strong>.
+							<br/>
+							Al hacer clic en el botón de <strong>CONFIRMAR,</strong> expresa su consentimiento para dar <strong>ALTA DE UN NUEVO REGISTRO</strong>.
+							&lt;!&ndash;</label>&ndash;&gt;
+						</p>-->
+						<!--<ul class="listaguion" style="margin-bottom: 0px;margin-top: 10px">
+							<li>La información ingresada corresponde a un niño/a que <strong>NO TIENE NINGÚN REGISTRO</strong>
+								en la base de datos del <strong>PADRÓN NOMINAL</strong> ni del <strong>RENIEC</strong>.</li>
+							<li>Al hacer clic en el botón de <strong>CONFIRMAR,</strong> expresa su consentimiento para dar <strong>ALTA DE UN NUEVO REGISTRO</strong>.</li>
+						</ul>-->
+							<div class="row" style="margin-bottom: 0px;margin-top: 10px; margin-left: 0px">
+								<div class="span8">
+									<ul class="listaguion" style="margin-bottom: 0px;margin-top: 0px">
+										<li>La información ingresada corresponde a un niño/a que <strong>NO TIENE NINGÚN REGISTRO</strong>
+											en la base de datos del <strong>PADRÓN NOMINAL</strong> ni del <strong>RENIEC</strong>.</li>
+										<li>Al hacer clic en el botón de <strong>CONFIRMAR,</strong> expresa su consentimiento para dar <strong>ALTA DE UN NUEVO REGISTRO</strong>.</li>
+									</ul>
+								</div>
+								<div class="span4">
+									<a href="#" style="margin-top: 40px;" class="btn btn-medium btn-danger pull-right" onclick="RegistroManual.corregirInformacion()"><span class="icon icon-remove icon-white">&#160;</span> Corregir</a>
+									<button class="btn btn-medium btn-success pull-right" style="margin-right: 10px; margin-top: 40px;"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>
+								</div>
+							</div>
+						</form>
+					</c:if>
+
+					<c:if test="${not empty personaListCoincidencias}">
+						<form action="registromanual/guardarconfirmado.do" method="post">
+						<h4>
+							<span>Verifique y confirme la información registrada</span>
+<!--							<a href="#" class="btn btn-medium btn-danger pull-right" onclick="RegistroManual.corregirInformacion()"><span class="icon icon-remove icon-white">&#160;</span> Corregir</a>
+							&lt;!&ndash;<a href="registromanual/guardarconfirmado.do" class="btn btn-medium btn-warning pull-right" style="margin-right: 10px;"><span class="icon-ok icon-white"></span> Confirmar</a>&ndash;&gt;
+							<button class="btn btn-medium btn-success pull-right" style="margin-right: 10px;"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>-->
+						</h4>
+						<!--<p style="margin-bottom: 0px;margin-top: 10px">
+							&lt;!&ndash;<label class="checkbox"><input type="checkbox"/>&ndash;&gt;
+							La información ingresada corresponde a un niño/a que
+							ya se encuentra registrado en la base de datos
+								del <strong>Padrón Nominal</strong> o del <strong>RENIEC</strong>&lt;!&ndash;, o finalmente un menor indocumentado.&ndash;&gt;
+							&lt;!&ndash;</label>&ndash;&gt;
+						</p>-->
+							<div class="row" style="margin-bottom: 0px;margin-top: 10px; margin-left: 0px">
+								<div class="span8">
+									<ul class="listaguion" style="margin-bottom: 0px;margin-top: 0px">
+										<li>La información ingresada corresponde a un niño/a que ya se encuentra registrado en la base de datos
+											del <strong>Padrón Nominal</strong> o del <strong>RENIEC</strong>.</li> <!--, o finalmente un menor indocumentado.-->
+										<li>Al hacer clic en el botón de <strong>CONFIRMAR,</strong> expresa su consentimiento para dar <strong>ALTA DE UN NUEVO REGISTRO</strong>.</li>
+									</ul>
+								</div>
+								<div class="span4">
+									<a href="#" style="margin-top: 40px;" class="btn btn-medium btn-danger pull-right" onclick="RegistroManual.corregirInformacion()"><span class="icon icon-remove icon-white">&#160;</span> Corregir</a>
+									<!--<a href="registromanual/guardarconfirmado.do" class="btn btn-medium btn-warning pull-right" style="margin-right: 10px;"><span class="icon-ok icon-white"></span> Confirmar</a>-->
+									<button class="btn btn-medium btn-success pull-right" style="margin-right: 10px; margin-top: 40px;"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>
+								</div>
+							</div>
+						</form>
+					</c:if>
+				</div>
+			</div>
+		</div>
+
+		<c:if test="${not empty personaListCoincidencias}">
+			<div class="row-fluid">
+				<form action="registromanual/seleccionarnuevomenor.do" id="regmen-fichaeleccion">
+					<div class="span7">
+							<!--<h2>Coincidencias encontradas</h2>-->
+							<h4 class="text-error">Posibles coincidencias encontradas en el Padron Nominal</h4>
+							<p style="margin-bottom: 0px;margin-top: 10px">
+								Verifique si una de estas coincidencias corresponde al niño/a:
+								<!--Seleccione una de las personas indicadas a continuación-->
+							</p>
+							<ul class="unstyled">
+								<c:forEach var="persona" items="${personaListCoincidencias}">
+									<c:if test="${persona.baseDatosOrigen=='PN'}">
+										<li>
+											<label class="radio">
+												<!-- TODO verificar que "pn=${persona.dni}" era correcto! -->
+												<input type="radio" name="codigoMenorCoincidente" value="pn=${persona.codigoPadronNominal}"/>
+												<util:persona
+														codpadron="${persona.codigoPadronNominal}"
+														nombres="${persona.nombres}" primerApellido="${persona.primerApellido}" segundoApellido="${persona.segundoApellido}"
+														fenac="${persona.fechaNacimiento}"/>
+											</label>
+										</li>
+									</c:if>
+									<c:if test="${persona.baseDatosOrigen=='ANI'}">
+										<li>
+											<label class="radio">
+												<!-- TODO verificar que "dni=${persona.codigoPadronNominal}" es correcto! -->
+												<input type="radio" name="codigoMenorCoincidente" value="dni=${persona.codigoPadronNominal}"/>
+												<util:persona
+														dni="${persona.dni}"
+														nombres="${persona.nombres}" primerApellido="${persona.primerApellido}" segundoApellido="${persona.segundoApellido}"
+														fenac="${persona.fechaNacimiento}"/>
+											</label>
+										</li>
+									</c:if>
+								</c:forEach>
+							</ul>
+							<!--<p class="text-center">-->
+							<!--<button class="btn btn-medium btn-success pull-left" type="button" onclick="RegistroManual.seleccionarCoincidenciaMenor()"><span class="icon icon-ok icon-white">&#160;</span> Usar niño/a  seleccionado</button>-->
+							<!--</p>-->
+
+					</div>
+					<div class="span5" style="margin-top: 60px;">
+						<button class="btn btn-medium btn-success center-block" type="button" onclick="RegistroManual.seleccionarCoincidenciaMenor()"><span class="icon icon-ok icon-white">&#160;</span> Usar niño/a  seleccionado</button>
+					</div>
+				</form>
+
+				<!--<div class="span6">
+					<form action="registromanual/guardarconfirmado.do" method="post">
+						<h4>Confirmar Información de Niño/a</h4>
+						<p  style="margin-bottom: 10px;margin-top: 10px">
+							Al hacer clic en el botón de confirmación expresa su consentimiento para dar <strong>ALTA
+							DE UN NUEVO REGISTRO</strong>.
+						</p>
+						&lt;!&ndash;<p class="text-center" accesskey="">&ndash;&gt;
+						<button class="btn btn-medium btn-success pull-right"><span class="icon icon-ok icon-white">&#160;</span> Confirmar</button>
+						&lt;!&ndash;</p>&ndash;&gt;
+					</form>
+				</div>-->
+			</div>
+			<br/><br/>
+		</c:if>
+
+		<util:datosMenor-tabla padronNominal="${padronNominal}" tableClass="table table-condensed"/>
+
+	</div>
+</jsp:root>

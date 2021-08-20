@@ -1,0 +1,77 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <div id="modal_baja_multiple" class="modal" style="width: 450px;">
+        <div class="modal-header">
+            <a type="button" class="close"
+               href="bandeja_observado/mostrar_detalle.do?coPadronNominal=${coPadronNominal}&amp;coTipoObservacion=${coTipoObservacion}&amp;nuPagina=${nuPagina}">×</a>
+            <h3><span class="icon-edit"></span>&#160;Confirmar baja del registro del niño/a</h3>
+        </div>
+        <form:form modelAttribute="padronNominalBaja" action="bandeja_observado/send_multiple_inscripcion_baja.do#modal"
+                   method="post">
+            <div class="modal-body">
+                <form:hidden path="coPadronNominal"/>
+                <form:hidden path="nuPagina" value="${nuPagina}"/>
+                <spring:bind path="padronNominalBaja.coMotivoBaja">
+                    <c:if test="${status.error}">
+                        <c:set var="coMotivoBajaError" value="error"/>
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${coMotivoBajaError}">
+                    <fieldset disabled="disabled">
+                        <label for="coMotivoBaja" class="input-block-level control-label"
+                               style="min-height: 12px;font-weight: normal;">
+                            <strong>Motivo de baja del registro</strong>
+                        </label>
+                        <div class="controls">
+                            <form:select path="coMotivoBaja" cssClass="hide">
+                                <option value="">Seleccione...</option>
+                                <form:options items="${motivoBajaList}" itemValue="coDominio" itemLabel="deDom"/>
+                            </form:select>
+                            <input value="MULTIPLE INSCRIPCION/IDENTIDAD" type="text" style="color:black!important; width: 266px;"/>
+                            <form:errors path="coMotivoBaja" cssClass="text-error" element="div"/>
+                        </div>
+                    </fieldset>
+                </div>
+                <spring:bind path="padronNominalBaja.deObservacion">
+                    <c:if test="${status.error}">
+                        <c:set var="deObservacionError" value="error"/>
+                    </c:if>
+                </spring:bind>
+                <div class="control-group ${deObservacionError}">
+                    <label for="deObservacion" class="input-block-level control-label"
+                           style="min-height: 12px;font-weight: normal;">
+                        <strong>Detalle el motivo</strong>
+                    </label>
+                    <div class="controls">
+                        <form:input path="deObservacion" cssClass="input-block-level" maxlength="100"/>
+                        <form:errors path="deObservacion" cssClass="text-error" element="div"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button class="btn btn-primary"><span class="icon-check icon-white"></span>&#160;Dar De Baja</button>
+                <a class="btn btn-danger btn-small"
+                   href="bandeja_observado/mostrar_detalle.do?coPadronNominal=${coPadronNominal}&amp;coTipoObservacion=${coTipoObservacion}&amp;nuPagina=${nuPagina}"><span
+                        class="icon-remove icon-white"></span>&#160;Cancelar</a>
+            </div>
+        </form:form>
+    </div>
+
+    <script>
+        <![CDATA[
+        $(function () {
+
+            $('#deObservacion').inputmask('observacion');
+
+            // muestra ventana modal
+            $('#overlay').removeClass("hide");
+            $('#modal_baja_multiple').modal({
+                backdrop: false
+            });
+        });
+        ]]>
+    </script>
+</jsp:root>

@@ -1,0 +1,92 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: jfloresh
+  Date: 19/08/13
+  Time: 12:00 PM
+  To change this template use File | Settings | File Templates.
+-->
+
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:util="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <div class="page-header clearfix">
+        <div class="pull-left">
+            <h1>Lista de Actas</h1>
+        </div>
+        <div class="pull-right">
+            <a href="home.do#main-content" class="btn button-back"><i class="icon-arrow-left icon-white"><!-- --></i>&#160;Volver</a>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <c:if test="${not empty mensajeSuccess}">
+                <div class="alert alert-success">${mensajeSuccess}</div>
+            </c:if>
+            <c:choose>
+                <c:when test="${not empty actas}">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <!--<th style="width: 50px;">Código</th>-->
+                                <th style="width: 200px;">Periodo de conciliacion</th>
+                                <th>Fecha de subida</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <!--<th>Archivos subidos</th>-->
+                                <th style="width: 150px;">Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${actas}" var="acta">
+                                <tr>
+                                    <!--<td>${acta.coActa}</td>-->
+                                    <!--<fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feIni}" var="feIniDate" />
+                                    <fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feFin}" var="feFinDate" />-->
+
+                                    <td><span class="text-info"> Del ${acta.feIni} al ${acta.feFin} </span></td>
+
+                                    <!--<fmt:parseDate pattern="yyyy-MM-dd" value="${acta.feCreaAudi}" var="feCreaAudiDate" />-->
+
+                                    <td>${acta.feCreaAudi}</td>
+                                    <td>${acta.apPrimer} ${acta.apSegundo}, ${acta.prenombres} <br/> (DNI: ${acta.usCreaAudi})</td>
+<!--                                    <td>
+                                        <c:forEach items="${acta.actaArchivos}" var="actaArchivo">
+                                            <a class="noAjax" href="actas/download.do?coActaArchivo=${actaArchivo.coActaArchivo}">
+                                                <span class="badge badge-info" style="margin-right: 5px;">
+                                                    <i class="icon-file icon-white"></i>&#160;${actaArchivo.noActaArchivo}
+                                                </span>
+                                            </a>
+                                        </c:forEach>
+                                    </td>-->
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${acta.esActa eq '0'}">
+                                                <span class="label label-important">Dado de baja [no Publicado]</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="label label-info">Publicado</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:if test="${acta.esActa != '0'}">
+                                            <a href="actas/detalle.do?coActa=${acta.coActa}&amp;volver=1&amp;nuPagina=${nuPagina}" class="btn btn-small"><i class="icon-file icon-white"><!-- --></i>&#160;Ver archivos</a>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <br />
+                    <util:paginador nuPagina="${nuPagina}" nuPaginas="${nuPaginas}" urlAntesNuPagina="actas/list.do?nuPagina=" urlDespuesNuPagina=""></util:paginador>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-info">No existen actas registradas</div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+
+</jsp:root>

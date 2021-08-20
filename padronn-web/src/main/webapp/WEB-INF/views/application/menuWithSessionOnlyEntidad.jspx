@@ -1,0 +1,95 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags" xmlns:base64="http://www.reniec.gob.pe/Tlds">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <spring:eval expression="@applicationProps['application.resources.local.version']" var="localResourcesVersion"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+    <c:set var="localResourcesURL" value="${ctx}/resources-${localResourcesVersion}" scope="request"/>
+
+
+    <div id="nav">
+        <div id="menu" class="navbar">
+            <div id="menu-content">
+                <!--<div class="container">-->
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+
+                    </ul>
+
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">${usuario.login}
+                                <b class="caret">&#160;</b></a>
+                            <ul class="dropdown-menu menu-usuario">
+                                <li>
+                                    <div class="image-usuario">
+                                        <img style="width: 72px; height: 98px; display: inline-block;"
+                                             src="data:image/png;base64,${img}"/>
+                                    </div>
+                                    <div class="info-usuario">
+                                        <p>${usuario.paterno} ${usuario.materno}, ${usuario.nombres}</p>
+
+                                        <p>${usuario.deEntidad}</p>
+                                        <!--<pre>${usuario}</pre>-->
+                                        <div class="clearfix"  style="padding-right:5px;">
+                                            <span class="pull-left"><a class="btn btn-mini btn-success btn-primary"
+                                                                       href="cambio_password/index.do">Cambiar Contraseña</a></span>
+                                            <span class="pull-right"><a class="btn btn-mini btn-danger btn-primary"
+                                                                        href="logout.do#wrap">Cerrar Sesión</a></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- <script type="text/javascript">
+        function Session() {
+        }
+
+        Session.prototype.init = function () {
+            //  console.log('Iniciando... Session.init()');
+            Timeout();
+            document.addEventListener('touchstart', Timeout, false);
+            document.addEventListener('click', Timeout, false);
+            document.addEventListener('keypress', Timeout, false);
+
+            function _timeout() {
+                return function () {
+                    $.ajax({
+                        url: 'close_window.do',
+                        type: 'POST',
+                        success: function (rpta) {
+                            var urlApp = window.location.href;
+                            if (urlApp.charAt(urlApp.length - 1) != "/") {
+                                urlApp = urlApp + "/";
+                            }
+
+                            alert('Su sesión expiró, vuelva a ingresar nuevamente al sistema.');
+                            window.location.href = urlApp;
+                        },
+                        error: function () {
+                            console.log('Error');
+                        }
+                    });
+                }
+            }
+
+            function Timeout() {
+                //console.log('inside goTimeout()');
+                if (typeof(timer) != 'undefined') {
+                    timer = clearTimeout(timer);
+                }
+                //timer = setTimeout(_timeout(), 1800000);//30 minutos
+                timer = setTimeout(_timeout(), 9000);//7 segundos
+            }
+        }
+        var sessionTimeout = new Session();
+        sessionTimeout.init();
+
+    </script>-->
+</jsp:root>
